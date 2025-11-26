@@ -336,6 +336,13 @@ const ProductDetail: React.FC = () => {
                     ADD TO QUOTE LIST
                   </button>
 
+                  <button 
+                    onClick={() => handleDownloadClick({ title: product.downloads[0].title, type: product.downloads[0].type })}
+                    className="w-full mt-3 border border-white/10 text-gray-400 font-bold py-3 rounded-lg hover:bg-white/5 hover:text-white hover:border-white/30 transition-all text-xs uppercase tracking-wide flex items-center justify-center"
+                  >
+                    <Download size={14} className="mr-2" /> Download Datasheet
+                  </button>
+
                   <p className="text-[10px] text-gray-500 text-center mt-4">
                     Bulk pricing applied automatically for orders &gt; 50 units.
                   </p>
