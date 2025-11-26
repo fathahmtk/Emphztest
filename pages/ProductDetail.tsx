@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Check, FileText, Shield, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../constants';
-import { useRFQ } from '../App';
+import { useRFQ } from '../contexts/RFQContext';
 import ThreeProductViewer from '../components/ThreeProductViewer';
 import { ProductCategory } from '../types';
 import GatedDownloadModal from '../components/GatedDownloadModal';

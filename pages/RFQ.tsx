@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Trash2, Send, CheckCircle, MapPin, AlertCircle, Briefcase, Clock } from 'lucide-react';
-import { useRFQ } from '../App';
+import { useRFQ } from '../contexts/RFQContext';
 import { Link } from 'react-router-dom';
 
 const RFQ: React.FC = () => {

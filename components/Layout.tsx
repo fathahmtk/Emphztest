@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ShoppingCart, Phone, Mail, MapPin, ChevronRight, MessageCircle, FileText } from 'lucide-react';
 import { NAV_LINKS } from '../constants';
-import { useRFQ } from '../App';
+import { useRFQ } from '../contexts/RFQContext';
 import LiveChatWidget from './LiveChatWidget';
 import Logo from './Logo';
 
