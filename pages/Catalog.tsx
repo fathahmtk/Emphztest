@@ -278,7 +278,7 @@ const Catalog: React.FC = () => {
                 {filteredProducts.map((product) => {
                   const isComparing = compareList.includes(product.id);
                   return (
-                    <article key={product.id} className="glass-panel glass-card-hover rounded-2xl overflow-hidden flex flex-col h-[450px] group relative">
+                    <article key={product.id} className="glass-panel rounded-2xl overflow-hidden flex flex-col h-[450px] group relative transition-all duration-300 hover:scale-[1.02] hover:border-emphz-orange/50 hover:shadow-2xl hover:bg-white/10">
                       <div className="relative h-3/5 overflow-hidden">
                         <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                         <div className="absolute inset-0 bg-gradient-to-t from-emphz-navy via-transparent to-transparent"></div>
