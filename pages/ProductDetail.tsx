@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Check, FileText, Shield, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon } from 'lucide-react';
+import { Check, FileText, Shield, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon, Camera } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../constants';
 import { useRFQ } from '../contexts/RFQContext';
 import ThreeProductViewer from '../components/ThreeProductViewer';
@@ -14,8 +14,15 @@ const ProductDetail: React.FC = () => {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<'desc' | 'specs' | 'downloads'>('desc');
   const [viewMode, setViewMode] = useState<'3D' | 'IMAGE'>('3D');
+  const [activeImage, setActiveImage] = useState<string>('');
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
   const [fileToDownload, setFileToDownload] = useState<{ title: string; type: string } | null>(null);
+
+  useEffect(() => {
+    if (product) {
+      setActiveImage(product.imageUrl);
+    }
+  }, [product]);
 
   if (!product) {
     return <div className="p-20 text-center text-white">Product not found. <Link to="/products" className="text-emphz-orange">Go back</Link></div>;
@@ -44,6 +51,15 @@ const ProductDetail: React.FC = () => {
     return 'DEFAULT';
   };
 
+  // Generate placeholder gallery images
+  const galleryImages = [
+    product.imageUrl,
+    `https://picsum.photos/seed/${product.id}-detail1/800/600`,
+    `https://picsum.photos/seed/${product.id}-detail2/800/600`,
+    `https://picsum.photos/seed/${product.id}-detail3/800/600`,
+    `https://picsum.photos/seed/${product.id}-detail4/800/600`,
+  ];
+
   return (
     <>
       <div className="bg-emphz-navy min-h-screen text-white pb-24">
@@ -67,11 +83,11 @@ const ProductDetail: React.FC = () => {
 
           {viewMode === 'IMAGE' ? (
             <>
-              <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover opacity-50 animate-fade-up" />
+              <img src={activeImage} alt={product.name} className="w-full h-full object-cover opacity-50 animate-fade-in transition-opacity duration-500" key={activeImage} />
               <div className="absolute inset-0 bg-gradient-to-t from-emphz-navy via-transparent to-transparent"></div>
             </>
           ) : (
-            <div className="w-full h-full absolute inset-0 z-10">
+            <div className="w-full h-full absolute inset-0 z-10 animate-fade-in">
                <ThreeProductViewer productType={get3DType()} />
                <div className="absolute inset-0 bg-gradient-to-t from-emphz-navy via-transparent to-transparent pointer-events-none"></div>
             </div>
@@ -94,6 +110,36 @@ const ProductDetail: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             
             <div className="lg:col-span-2">
+               {/* Gallery Carousel */}
+               <div className="mb-10">
+                  <h3 className="text-xs font-bold text-gray-400 uppercase mb-4 tracking-widest flex items-center">
+                    <Camera size={14} className="mr-2" /> Gallery
+                  </h3>
+                  <div className="flex gap-4 overflow-x-auto pb-4 snap-x scrollbar-hide">
+                      {galleryImages.map((img, idx) => (
+                          <button 
+                            key={idx}
+                            onClick={() => { setActiveImage(img); setViewMode('IMAGE'); }}
+                            className={`relative w-28 h-28 md:w-36 md:h-36 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-300 snap-start group ${
+                                activeImage === img && viewMode === 'IMAGE' 
+                                ? 'border-emphz-orange shadow-[0_0_20px_rgba(14,165,233,0.3)] scale-105 z-10' 
+                                : 'border-white/10 hover:border-white/30 hover:scale-105'
+                            }`}
+                          >
+                             <img src={img} alt={`View ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                             {/* Overlay for inactive state */}
+                             {!(activeImage === img && viewMode === 'IMAGE') && (
+                                 <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-300"></div>
+                             )}
+                             {/* Active Indicator */}
+                             {activeImage === img && viewMode === 'IMAGE' && (
+                                <div className="absolute bottom-0 left-0 w-full h-1 bg-emphz-orange"></div>
+                             )}
+                          </button>
+                      ))}
+                  </div>
+               </div>
+
                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                  {product.specs.slice(0,4).map((s, i) => (
                    <div key={i} className="glass-panel p-4 rounded-xl">

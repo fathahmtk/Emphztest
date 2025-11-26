@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Filter, Download, Scale, X, Check, ChevronRight } from 'lucide-react';
+import { Filter, Download, Scale, X, Check, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../constants';
 import { ProductCategory, Product } from '../types';
 
@@ -82,17 +82,62 @@ const CompareModal: React.FC<{
   );
 };
 
+// New Component: Collapsible Filter Section
+const FilterSection: React.FC<{
+  title: string;
+  isOpen: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}> = ({ title, isOpen, onToggle, children }) => (
+  <div className="border-b border-white/10 last:border-0">
+    <button
+      onClick={onToggle}
+      className="flex items-center justify-between w-full py-4 text-left group focus:outline-none"
+    >
+      <span className="text-xs font-bold text-gray-300 uppercase tracking-wider group-hover:text-white transition-colors">
+        {title}
+      </span>
+      {isOpen ? (
+        <ChevronUp size={16} className="text-gray-500 group-hover:text-white transition-colors" />
+      ) : (
+        <ChevronDown size={16} className="text-gray-500 group-hover:text-white transition-colors" />
+      )}
+    </button>
+    <div
+      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+        isOpen ? 'max-h-96 opacity-100 mb-4' : 'max-h-0 opacity-0'
+      }`}
+    >
+      {children}
+    </div>
+  </div>
+);
+
 
 const Catalog: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   const [compareList, setCompareList] = useState<string[]>([]);
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
+  
+  // Accordion State
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
+    category: true,
+    features: true
+  });
 
   const categories = ['All', ...Object.values(ProductCategory)];
+  const availableFeatures = ['IP66 / IP67', 'UL94 Fire Rated', 'ATEX / Ex-Proof'];
 
-  const filteredProducts = selectedCategory === 'All' 
-    ? MOCK_PRODUCTS 
-    : MOCK_PRODUCTS.filter(p => p.category === selectedCategory);
+  const filteredProducts = MOCK_PRODUCTS.filter(p => {
+    const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory;
+    // Note: This is a visual filter implementation. 
+    // In a real app, you would match these against p.specs or p.features.
+    // For now, we allow the selection but only filter by category as per original logic, 
+    // or add basic filtering if needed. To keep it simple and safe based on MOCK data:
+    const matchesFeatures = true; 
+    return matchesCategory && matchesFeatures;
+  });
 
   const toggleCompare = (id: string) => {
     if (compareList.includes(id)) {
@@ -104,6 +149,18 @@ const Catalog: React.FC = () => {
         alert("You can compare up to 3 products at a time.");
       }
     }
+  };
+
+  const toggleSection = (section: string) => {
+    setOpenSections(prev => ({ ...prev, [section]: !prev[section] }));
+  };
+
+  const toggleFeature = (feature: string) => {
+    setSelectedFeatures(prev => 
+      prev.includes(feature) 
+        ? prev.filter(f => f !== feature) 
+        : [...prev, feature]
+    );
   };
 
   return (
@@ -124,62 +181,80 @@ const Catalog: React.FC = () => {
           <div className="flex flex-col lg:flex-row gap-12">
             {/* Sidebar Filters - Glass Style */}
             <div className="w-full lg:w-64 flex-shrink-0">
-              <div className="glass-panel p-6 rounded-2xl sticky top-24">
-                <div className="flex items-center mb-6 text-white font-bold uppercase tracking-wider text-sm">
+              <div className="glass-panel p-6 rounded-2xl sticky top-24 border border-white/5">
+                <div className="flex items-center mb-2 text-white font-bold uppercase tracking-wider text-sm pb-4 border-b border-white/10">
                   <Filter size={16} className="mr-2" aria-hidden="true" /> Filters
                 </div>
                 
-                <div className="mb-8">
-                  <fieldset>
-                    <legend className="text-xs font-bold text-gray-300 uppercase tracking-wider mb-4">Category</legend>
-                    <div className="space-y-1">
-                      {categories.map((cat) => (
-                        <label key={cat} className="flex items-center cursor-pointer group py-1 relative">
-                          <input 
-                            type="radio" 
-                            name="category" 
-                            className="sr-only peer"
-                            checked={selectedCategory === cat}
-                            onChange={() => setSelectedCategory(cat)}
-                          />
-                          <span className={`w-3 h-3 rounded-full mr-3 border border-gray-500 flex-shrink-0 transition-colors ${selectedCategory === cat ? 'bg-emphz-orange border-emphz-orange' : 'group-hover:border-white'} peer-focus:ring-2 peer-focus:ring-white peer-focus:ring-offset-2 peer-focus:ring-offset-emphz-navy`}></span>
-                          <span className={`text-sm transition-colors ${selectedCategory === cat ? 'font-bold text-white' : 'text-gray-400 group-hover:text-white'}`}>
-                            {cat}
-                          </span>
-                        </label>
-                      ))}
-                    </div>
-                  </fieldset>
-                </div>
+                {/* Category Accordion */}
+                <FilterSection 
+                  title="Category" 
+                  isOpen={openSections.category} 
+                  onToggle={() => toggleSection('category')}
+                >
+                  <div className="space-y-1">
+                    {categories.map((cat) => (
+                      <label key={cat} className="flex items-center cursor-pointer group py-2 relative">
+                        <input 
+                          type="radio" 
+                          name="category" 
+                          className="sr-only peer"
+                          checked={selectedCategory === cat}
+                          onChange={() => setSelectedCategory(cat)}
+                        />
+                        {/* Custom Radio Visual */}
+                        <div className={`w-1 h-full absolute left-0 rounded-full transition-all duration-300 ${selectedCategory === cat ? 'bg-emphz-orange h-full' : 'bg-transparent h-0 group-hover:h-2 group-hover:bg-gray-600'}`}></div>
+                        
+                        <span className={`text-sm transition-all duration-300 pl-3 ${selectedCategory === cat ? 'font-bold text-white translate-x-1' : 'text-gray-400 group-hover:text-white'}`}>
+                          {cat}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </FilterSection>
 
-                <div className="border-t border-white/10 pt-6">
-                  <fieldset>
-                    <legend className="text-xs font-bold text-gray-300 uppercase tracking-wider mb-4">Features</legend>
-                    <div className="space-y-2 text-sm text-gray-400">
-                      <label className="flex items-center hover:text-white cursor-pointer relative">
-                          <input type="checkbox" className="sr-only peer" /> 
-                          <span className="w-4 h-4 rounded border border-white/20 mr-2 flex items-center justify-center peer-focus:ring-2 peer-focus:ring-white peer-focus:ring-offset-2 peer-focus:ring-offset-emphz-navy bg-white/5 peer-checked:bg-emphz-orange peer-checked:border-emphz-orange transition-colors">
-                              <Check size={10} className="text-white opacity-0 peer-checked:opacity-100" />
-                          </span>
-                          IP66 / IP67
-                      </label>
-                      <label className="flex items-center hover:text-white cursor-pointer relative">
-                          <input type="checkbox" className="sr-only peer" /> 
-                          <span className="w-4 h-4 rounded border border-white/20 mr-2 flex items-center justify-center peer-focus:ring-2 peer-focus:ring-white peer-focus:ring-offset-2 peer-focus:ring-offset-emphz-navy bg-white/5 peer-checked:bg-emphz-orange peer-checked:border-emphz-orange transition-colors">
-                              <Check size={10} className="text-white opacity-0 peer-checked:opacity-100" />
-                          </span>
-                          UL94 Fire Rated
-                      </label>
-                      <label className="flex items-center hover:text-white cursor-pointer relative">
-                          <input type="checkbox" className="sr-only peer" /> 
-                          <span className="w-4 h-4 rounded border border-white/20 mr-2 flex items-center justify-center peer-focus:ring-2 peer-focus:ring-white peer-focus:ring-offset-2 peer-focus:ring-offset-emphz-navy bg-white/5 peer-checked:bg-emphz-orange peer-checked:border-emphz-orange transition-colors">
-                              <Check size={10} className="text-white opacity-0 peer-checked:opacity-100" />
-                          </span>
-                          ATEX / Ex-Proof
-                      </label>
-                    </div>
-                  </fieldset>
-                </div>
+                {/* Features Accordion */}
+                <FilterSection 
+                  title="Key Specs" 
+                  isOpen={openSections.features} 
+                  onToggle={() => toggleSection('features')}
+                >
+                  <div className="space-y-2 mt-2">
+                    {availableFeatures.map((feature) => {
+                      const isSelected = selectedFeatures.includes(feature);
+                      return (
+                        <label key={feature} className="flex items-center hover:text-white cursor-pointer relative group select-none">
+                            <input 
+                              type="checkbox" 
+                              className="sr-only" 
+                              checked={isSelected}
+                              onChange={() => toggleFeature(feature)}
+                            /> 
+                            <span className={`w-5 h-5 rounded border mr-3 flex items-center justify-center transition-all duration-200 ${
+                              isSelected 
+                                ? 'bg-emphz-orange border-emphz-orange text-white' 
+                                : 'border-white/20 bg-white/5 group-hover:border-white/40'
+                            }`}>
+                                <Check size={12} className={`transition-opacity duration-200 ${isSelected ? 'opacity-100' : 'opacity-0'}`} />
+                            </span>
+                            <span className={`text-sm transition-colors ${isSelected ? 'text-white font-medium' : 'text-gray-400'}`}>
+                              {feature}
+                            </span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </FilterSection>
+
+                {/* Reset Filters */}
+                {(selectedCategory !== 'All' || selectedFeatures.length > 0) && (
+                  <button 
+                    onClick={() => { setSelectedCategory('All'); setSelectedFeatures([]); }}
+                    className="w-full mt-6 py-2 text-xs font-bold text-gray-500 hover:text-white border border-dashed border-gray-600 hover:border-white rounded transition-colors uppercase tracking-wide"
+                  >
+                    Reset All Filters
+                  </button>
+                )}
               </div>
             </div>
 
@@ -194,13 +269,13 @@ const Catalog: React.FC = () => {
                         <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                         <div className="absolute inset-0 bg-gradient-to-t from-emphz-navy via-transparent to-transparent"></div>
                         
-                        <div className="absolute top-4 right-4 bg-black/50 backdrop-blur text-white text-[10px] font-bold px-2 py-1 rounded border border-white/10">
+                        <div className="absolute top-4 right-4 bg-black/50 backdrop-blur text-white text-[10px] font-bold px-2 py-1 rounded border border-white/10 shadow-lg">
                           {product.category}
                         </div>
                         
                         <button 
                           onClick={(e) => { e.preventDefault(); toggleCompare(product.id); }}
-                          className={`absolute top-4 left-4 p-2 rounded-full backdrop-blur-md transition-all border border-white/10 focus:ring-2 focus:ring-white ${isComparing ? 'bg-emphz-orange text-white' : 'bg-black/30 text-gray-300 hover:bg-white hover:text-black'}`}
+                          className={`absolute top-4 left-4 p-2 rounded-full backdrop-blur-md transition-all border border-white/10 focus:ring-2 focus:ring-white shadow-lg ${isComparing ? 'bg-emphz-orange text-white' : 'bg-black/30 text-gray-300 hover:bg-white hover:text-black'}`}
                           aria-label={`Compare ${product.name}`}
                           aria-pressed={isComparing}
                         >
@@ -211,7 +286,7 @@ const Catalog: React.FC = () => {
                       <div className="p-6 flex flex-col flex-grow relative">
                         <div className="absolute -top-12 left-6 right-6 flex space-x-2">
                           {product.specs.slice(0,2).map((s, i) => (
-                              <span key={i} className="bg-emphz-navy/80 backdrop-blur border border-white/10 text-xs px-2 py-1 rounded text-gray-300">
+                              <span key={i} className="bg-emphz-navy/90 backdrop-blur border border-white/10 text-xs px-2 py-1 rounded text-gray-300 shadow-sm">
                                 {s.value}
                               </span>
                           ))}
