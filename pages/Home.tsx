@@ -11,14 +11,26 @@ const Home: React.FC = () => {
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
         {/* Background Image & Overlays */}
         <div className="absolute inset-0 z-0">
-           <img 
-            src="https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0"
-            alt="Emphz Industrial GRP Manufacturing"
-            className="w-full h-full object-cover"
-           />
-           {/* Brand Gradient Overlay for text readability - Lightened for Full Image Visibility */}
-           <div className="absolute inset-0 bg-black/20"></div>
-           <div className="absolute inset-0 bg-gradient-to-r from-emphz-navy/95 via-emphz-navy/40 to-transparent"></div>
+           {/* Video Background */}
+           <video 
+             autoPlay 
+             muted 
+             loop 
+             playsInline
+             className="w-full h-full object-cover"
+           >
+             <source src="https://videos.pexels.com/video-files/5045353/5045353-uhd_2560_1440_30fps.mp4" type="video/mp4" />
+             {/* Fallback image if video fails or loads slowly */}
+             <img 
+              src="https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0"
+              alt="Emphz Industrial GRP Manufacturing"
+              className="w-full h-full object-cover"
+             />
+           </video>
+           
+           {/* Brand Gradient Overlay for text readability - Adjusted for video */}
+           <div className="absolute inset-0 bg-black/40"></div>
+           <div className="absolute inset-0 bg-gradient-to-r from-emphz-navy/90 via-emphz-navy/50 to-transparent"></div>
            <div className="absolute inset-0 bg-gradient-to-t from-emphz-navy via-transparent to-transparent"></div>
         </div>
 
@@ -29,10 +41,10 @@ const Home: React.FC = () => {
         {/* Grid Pattern Overlay */}
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay z-0"></div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full grid lg:grid-cols-2 gap-12 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full grid lg:grid-cols-1 gap-12 items-center text-center lg:text-left">
           
-          {/* Text Content */}
-          <div className="space-y-8 motion-safe:animate-fade-up">
+          {/* Text Content - Centered Layout for Video Focus */}
+          <div className="space-y-8 motion-safe:animate-fade-up max-w-3xl mx-auto lg:mx-0">
             <div className="inline-flex items-center px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md shadow-lg">
               <span className="w-2 h-2 bg-emphz-orange rounded-full mr-3 motion-safe:animate-pulse"></span>
               <span className="text-xs font-bold tracking-widest uppercase text-emphz-beige">Molded in Mysore. Built for Kerala.</span>
@@ -44,17 +56,17 @@ const Home: React.FC = () => {
               <span className="text-emphz-orange">REIMAGINED.</span>
             </h1>
             
-            <p className="text-lg text-gray-300 max-w-md leading-relaxed border-l-2 border-emphz-orange pl-6 bg-black/40 p-2 rounded-r-lg backdrop-blur-sm">
+            <p className="text-lg text-gray-300 max-w-md leading-relaxed border-l-2 border-emphz-orange pl-6 bg-black/40 p-2 rounded-r-lg backdrop-blur-sm mx-auto lg:mx-0 text-left">
               Advanced GRP composites that replace steel and concrete. 
               Engineered for zero corrosion, rapid deployment, and 25+ year lifespan.
             </p>
 
-            <div className="flex flex-wrap gap-4 pt-4">
+            <div className="flex flex-wrap gap-4 pt-4 justify-center lg:justify-start">
               <Link to="/products" className="group bg-white text-emphz-navy px-8 py-4 rounded-full font-bold text-sm hover:bg-emphz-orange hover:text-white transition-all duration-300 flex items-center shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:shadow-[0_0_40px_rgba(190,34,34,0.4)] focus:ring-2 focus:ring-white">
                 VIEW PRODUCTS <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} aria-hidden="true" />
               </Link>
               
-              <Link to="/technical" className="group px-8 py-4 rounded-full border border-emphz-orange text-emphz-orange font-bold text-sm hover:bg-emphz-orange hover:text-white transition-all duration-300 flex items-center backdrop-blur-md bg-black/20 focus:ring-2 focus:ring-emphz-orange shadow-[0_0_20px_rgba(190,34,34,0.1)] hover:shadow-[0_0_30px_rgba(190,34,34,0.3)]">
+              <Link to="/technical" className="group px-8 py-4 rounded-full border-2 border-emphz-orange text-emphz-orange font-bold text-sm hover:bg-emphz-orange hover:text-white transition-all duration-300 flex items-center backdrop-blur-md bg-black/30 focus:ring-2 focus:ring-emphz-orange shadow-[0_0_20px_rgba(190,34,34,0.1)] hover:shadow-[0_0_30px_rgba(190,34,34,0.3)]">
                 TECHNICAL CENTER <FileText className="ml-2 opacity-80 group-hover:scale-110 transition-transform" size={18} aria-hidden="true" />
               </Link>
 
@@ -62,33 +74,6 @@ const Home: React.FC = () => {
                 CASE STUDIES
               </Link>
             </div>
-          </div>
-
-          {/* 3D Visual Representation (CSS Only) */}
-          <div className="relative h-[500px] w-full flex items-center justify-center lg:justify-end motion-safe:animate-float" aria-hidden="true">
-             {/* Glass Panels Layout simulating a product */}
-             <div className="relative w-80 h-96 bg-gradient-to-br from-white/10 to-transparent rounded-2xl border border-white/20 backdrop-blur-xl shadow-2xl transform rotate-y-12 rotate-z-6 z-20 flex flex-col p-6 justify-between group hover:rotate-0 transition-transform duration-700">
-                <div className="flex justify-between items-start">
-                   <Shield className="text-emphz-orange w-10 h-10" />
-                   <span className="text-[10px] font-mono text-gray-400">IP66 RATED</span>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-black text-white mb-1">SERIES-E</h3>
-                  <p className="text-xs text-gray-400">Smart Enclosure System</p>
-                </div>
-                {/* Internal glowing core */}
-                <div className="absolute inset-0 bg-emphz-orange/5 rounded-2xl z-[-1] group-hover:bg-emphz-orange/10 transition-colors"></div>
-             </div>
-
-             <div className="absolute top-20 right-20 w-64 h-64 bg-black/40 rounded-2xl border border-white/5 backdrop-blur-md z-10 transform -rotate-y-12 -translate-x-12"></div>
-             
-             {/* Floating Specs */}
-             <div className="absolute -right-4 top-1/4 bg-emphz-beige text-emphz-navy px-4 py-2 rounded-lg font-bold text-xs shadow-xl motion-safe:animate-pulse">
-               ZERO CORROSION
-             </div>
-             <div className="absolute left-10 bottom-1/4 bg-gray-800 text-white px-4 py-2 rounded-lg font-bold text-xs border border-gray-700 shadow-xl">
-               IK10 IMPACT
-             </div>
           </div>
         </div>
         
@@ -113,7 +98,7 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. Bento Grid Features */}
+      {/* 3. Feature Highlights (Formerly Bento Grid) */}
       <section className="py-32 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-20">
@@ -121,44 +106,48 @@ const Home: React.FC = () => {
              <h3 className="text-4xl md:text-5xl font-bold text-white">Why Engineers Choose GRP.</h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 grid-rows-2 gap-6 h-auto lg:h-[600px]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             
-            {/* Large Card - Made interactive via Link */}
-            <Link to="/technical" className="lg:col-span-2 lg:row-span-2 glass-panel rounded-3xl p-10 flex flex-col justify-between relative overflow-hidden group focus:ring-2 focus:ring-white">
-               <div className="absolute inset-0 bg-gradient-to-br from-emphz-orange/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-               <div className="relative z-10">
-                 <div className="bg-emphz-orange w-12 h-12 rounded-xl flex items-center justify-center mb-6">
-                    <Droplet className="text-white" aria-hidden="true" />
-                 </div>
-                 <h4 className="text-3xl font-bold mb-4">100% Corrosion Immunity</h4>
-                 <p className="text-gray-400 leading-relaxed max-w-sm">
-                   Designed specifically for Kerala's saline coastal air. Unlike steel that rusts or wood that rots, our GRP formulation is chemically inert to salt spray and humidity.
-                 </p>
+            {/* Feature 1: Corrosion */}
+            <div className="glass-panel p-8 rounded-2xl group hover:bg-white/5 transition-all duration-300 border border-white/5 hover:border-emphz-orange/30 relative overflow-hidden flex flex-col">
+               <div className="absolute -right-6 -top-6 p-4 opacity-5 group-hover:opacity-10 transition-opacity rotate-12">
+                 <Droplet size={180} />
                </div>
-               <img src="https://picsum.photos/600/400?random=1" alt="Corrosion testing demonstration" className="absolute bottom-0 right-0 w-2/3 opacity-40 grayscale group-hover:grayscale-0 transition-all duration-500 rounded-tl-3xl border-t border-l border-white/10" />
-            </Link>
-
-            {/* Standard Card */}
-            <div className="glass-panel rounded-3xl p-8 hover:bg-white/5 transition-colors group">
-               <Zap className="text-yellow-400 w-8 h-8 mb-4 group-hover:scale-110 transition-transform" aria-hidden="true" />
-               <h4 className="text-xl font-bold mb-2">Electrical Safety</h4>
-               <p className="text-sm text-gray-400">Naturally non-conductive. Eliminates shock hazards without extra earthing.</p>
+               <div className="bg-emphz-orange/10 w-16 h-16 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform border border-emphz-orange/20">
+                 <Droplet className="text-emphz-orange" size={32} aria-hidden="true" />
+               </div>
+               <h4 className="text-2xl font-bold text-white mb-4">Corrosion Immunity</h4>
+               <p className="text-gray-400 leading-relaxed">
+                 Designed for high-salinity coastal air. Unlike steel, our GRP formulation is chemically inert to salt spray, ensuring a 25+ year lifespan without maintenance.
+               </p>
             </div>
 
-            {/* Standard Card */}
-            <div className="glass-panel rounded-3xl p-8 hover:bg-white/5 transition-colors group">
-               <Layers className="text-blue-400 w-8 h-8 mb-4 group-hover:scale-110 transition-transform" aria-hidden="true" />
-               <h4 className="text-xl font-bold mb-2">Modular Design</h4>
-               <p className="text-sm text-gray-400">Flat-pack capability for Kiosks. Assemble on-site in difficult terrain.</p>
+            {/* Feature 2: Safety */}
+            <div className="glass-panel p-8 rounded-2xl group hover:bg-white/5 transition-all duration-300 border border-white/5 hover:border-yellow-400/30 relative overflow-hidden flex flex-col">
+               <div className="absolute -right-6 -top-6 p-4 opacity-5 group-hover:opacity-10 transition-opacity rotate-12">
+                 <Zap size={180} />
+               </div>
+               <div className="bg-yellow-400/10 w-16 h-16 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform border border-yellow-400/20">
+                 <Zap className="text-yellow-400" size={32} aria-hidden="true" />
+               </div>
+               <h4 className="text-2xl font-bold text-white mb-4">Electrical Safety</h4>
+               <p className="text-gray-400 leading-relaxed">
+                 Naturally non-conductive and insulating material. Eliminates shock hazards, reduces earthing requirements, and protects sensitive equipment.
+               </p>
             </div>
 
-            {/* Wide Short Card */}
-            <div className="md:col-span-2 glass-panel rounded-3xl p-8 flex items-center justify-between group hover:bg-white/5 transition-colors">
-               <div>
-                 <h4 className="text-xl font-bold mb-2">Precision Molded in Mysore</h4>
-                 <p className="text-sm text-gray-400 max-w-xs">State-of-the-art Hot Press Molding technology ensures consistent wall thickness and high strength.</p>
+            {/* Feature 3: Modular */}
+            <div className="glass-panel p-8 rounded-2xl group hover:bg-white/5 transition-all duration-300 border border-white/5 hover:border-blue-400/30 relative overflow-hidden flex flex-col">
+               <div className="absolute -right-6 -top-6 p-4 opacity-5 group-hover:opacity-10 transition-opacity rotate-12">
+                 <Layers size={180} />
                </div>
-               <PenTool className="text-gray-600 w-16 h-16 group-hover:text-white transition-colors opacity-20 group-hover:opacity-100" aria-hidden="true" />
+               <div className="bg-blue-400/10 w-16 h-16 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform border border-blue-400/20">
+                 <Layers className="text-blue-400" size={32} aria-hidden="true" />
+               </div>
+               <h4 className="text-2xl font-bold text-white mb-4">Modular Design</h4>
+               <p className="text-gray-400 leading-relaxed">
+                 Lightweight, flat-packable panels allow for rapid assembly in difficult terrain or rooftops where heavy lifting equipment cannot reach.
+               </p>
             </div>
 
           </div>
