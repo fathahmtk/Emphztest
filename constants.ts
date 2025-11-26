@@ -13,6 +13,28 @@ export const WHATSAPP_LINK = "https://wa.me/919037874080";
 
 export const MOCK_PRODUCTS: Product[] = [
   {
+    id: 'emp-xpod-x7',
+    name: 'Xpod X7 Smart Cabin',
+    category: ProductCategory.SMART_CABIN,
+    shortDescription: 'Futuristic GRP monocoque living pod with integrated voice automation and panoramic smart glass.',
+    fullDescription: 'The Xpod X7 redefines modular luxury. Built on a high-strength GRP monocoque chassis, this plug-and-play living unit is designed for rapid deployment in resorts, rooftops, and remote locations. It features floor-to-ceiling smart privacy glass, voice-controlled lighting and curtains, and a complete suite of integrated entertainment systems. The seamless white GRP shell reflects solar heat, keeping the interior cool even in tropical climates.',
+    imageUrl: 'https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0',
+    specs: [
+      { label: 'Structure', value: 'Monocoque GRP Shell' },
+      { label: 'Dimensions', value: '6.5m x 3.2m x 3.0m' },
+      { label: 'Glazing', value: 'Switchable Smart Glass' },
+      { label: 'Power', value: 'Hybrid (Grid + Solar)' },
+      { label: 'Weight', value: '3200 kg (Crane Liftable)' },
+    ],
+    features: ['Voice Controlled Automation', 'Projector & Surround Sound', 'Smart Privacy Glass', 'Zero Maintenance Exterior', 'Rot-Proof Construction'],
+    downloads: [
+      { title: 'Xpod X7 Brochure', type: 'PDF' },
+      { title: 'Site Prep Guide', type: 'PDF' },
+      { title: 'Electrical Schematics', type: 'CAD' }
+    ],
+    accessories: ['Solar Roof Package', 'Bio-Digester Tank', 'External Decking Module', 'Star-Gazing Skylight']
+  },
+  {
     id: 'emp-enc-001',
     name: 'E-Series IP66 Coastal Enclosure',
     category: ProductCategory.ENCLOSURE,

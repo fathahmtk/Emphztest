@@ -1,4 +1,5 @@
 export enum ProductCategory {
+  SMART_CABIN = 'Smart Living Pods',
   ENCLOSURE = 'Electrical Enclosures',
   KIOSK = 'Modular Kiosks',
   CABIN = 'Security Cabins',
