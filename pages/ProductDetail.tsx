@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Check, FileText, Shield, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon, Camera } from 'lucide-react';
+import { Check, FileText, Shield, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon, Camera, ArrowRight } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../constants';
 import { useRFQ } from '../contexts/RFQContext';
 import ThreeProductViewer from '../components/ThreeProductViewer';
@@ -18,9 +18,28 @@ const ProductDetail: React.FC = () => {
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
   const [fileToDownload, setFileToDownload] = useState<{ title: string; type: string } | null>(null);
 
+  // Determine related products based on category
+  const relatedProducts = useMemo(() => {
+    if (!product) return [];
+    // Prioritize same category, exclude current product
+    const sameCategory = MOCK_PRODUCTS.filter(p => p.category === product.category && p.id !== product.id);
+    
+    // If we have at least 3, take top 3
+    if (sameCategory.length >= 3) {
+      return sameCategory.slice(0, 3);
+    }
+    
+    // Otherwise fill with other products
+    const others = MOCK_PRODUCTS.filter(p => p.category !== product.category && p.id !== product.id);
+    return [...sameCategory, ...others].slice(0, 3);
+  }, [product]);
+
   useEffect(() => {
     if (product) {
       setActiveImage(product.imageUrl);
+      // Reset view mode when product changes (e.g. clicking related product)
+      setViewMode('3D');
+      window.scrollTo(0, 0);
     }
   }, [product]);
 
@@ -306,8 +325,35 @@ const ProductDetail: React.FC = () => {
                 </div>
               </div>
             </div>
-
           </div>
+          
+          {/* Related Solutions Section */}
+          {relatedProducts.length > 0 && (
+            <div className="mt-24 border-t border-white/10 pt-12 animate-fade-in">
+                <h3 className="text-2xl font-bold text-white mb-8">Related Solutions</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {relatedProducts.map(rp => (
+                         <Link key={rp.id} to={`/products/${rp.id}`} className="group glass-panel border border-white/5 rounded-2xl overflow-hidden hover:border-emphz-orange/50 transition-all duration-300">
+                            <div className="relative h-48 overflow-hidden">
+                                <img src={rp.imageUrl} alt={rp.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-emphz-navy/80 to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
+                                <div className="absolute bottom-4 left-4">
+                                     <div className="text-[10px] font-bold text-emphz-orange uppercase tracking-wider mb-1 bg-black/50 backdrop-blur px-2 py-1 rounded inline-block">{rp.category}</div>
+                                </div>
+                            </div>
+                            <div className="p-5">
+                                <h4 className="font-bold text-white text-lg group-hover:text-emphz-orange transition-colors mb-2">{rp.name}</h4>
+                                <p className="text-gray-400 text-xs line-clamp-2 leading-relaxed">{rp.shortDescription}</p>
+                                <div className="mt-4 flex items-center text-xs font-bold text-white group-hover:underline decoration-emphz-orange underline-offset-4">
+                                    View Specs <ArrowRight size={12} className="ml-1" />
+                                </div>
+                            </div>
+                         </Link>
+                    ))}
+                </div>
+            </div>
+          )}
+
         </div>
 
         <div className="fixed bottom-0 left-0 w-full bg-emphz-navy/90 backdrop-blur-xl border-t border-white/10 p-4 lg:hidden z-40 flex items-center gap-4">
