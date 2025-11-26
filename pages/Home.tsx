@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Shield, Droplet, Zap, Box, Anchor, PenTool, Layers, Maximize } from 'lucide-react';
+import { ArrowRight, Shield, Droplet, Zap, Box, Anchor, PenTool, Layers, Maximize, FileText } from 'lucide-react';
 import { INDUSTRIES, MOCK_PRODUCTS } from '../constants';
 
 const Home: React.FC = () => {
@@ -53,6 +53,11 @@ const Home: React.FC = () => {
               <Link to="/products" className="group bg-white text-emphz-navy px-8 py-4 rounded-full font-bold text-sm hover:bg-emphz-orange hover:text-white transition-all duration-300 flex items-center shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:shadow-[0_0_40px_rgba(190,34,34,0.4)] focus:ring-2 focus:ring-white">
                 VIEW PRODUCTS <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} aria-hidden="true" />
               </Link>
+              
+              <Link to="/technical" className="group px-8 py-4 rounded-full border border-emphz-orange text-emphz-orange font-bold text-sm hover:bg-emphz-orange hover:text-white transition-all duration-300 flex items-center backdrop-blur-md bg-black/20 focus:ring-2 focus:ring-emphz-orange shadow-[0_0_20px_rgba(190,34,34,0.1)] hover:shadow-[0_0_30px_rgba(190,34,34,0.3)]">
+                TECHNICAL CENTER <FileText className="ml-2 opacity-80 group-hover:scale-110 transition-transform" size={18} aria-hidden="true" />
+              </Link>
+
               <Link to="/case-studies" className="group px-8 py-4 rounded-full border border-white/20 font-bold text-sm hover:bg-white/10 transition-all flex items-center backdrop-blur-md bg-black/30 focus:ring-2 focus:ring-white">
                 CASE STUDIES
               </Link>
