@@ -1,104 +1,170 @@
 import React from 'react';
-import { MapPin, Shield, PenTool, Truck } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Target, Gem, Users, Anchor, Lightbulb, Zap, CheckCircle, MapPin, PenTool, Calendar, Award, Rocket } from 'lucide-react';
 
 const About: React.FC = () => {
+
+  const values = [
+    { icon: <Anchor className="w-8 h-8 text-emphz-orange" />, title: "Uncompromising Durability", description: "We build solutions engineered to last for a generation, not just a season. Every product is a testament to our commitment to long-term performance." },
+    { icon: <Lightbulb className="w-8 h-8 text-emphz-orange" />, title: "Material Innovation", description: "We are relentless in our pursuit of the most advanced GRP composites, constantly pushing the boundaries of what's possible in strength, resilience, and design." },
+    { icon: <Users className="w-8 h-8 text-emphz-orange" />, title: "Collaborative Partnership", description: "Your project is our project. We function as an extension of your engineering team, providing expert consultation and bespoke solutions from start to finish." },
+  ];
+
+  const timelineEvents = [
+    { year: "2018", title: "The Spark", description: "Observing the rapid corrosion of steel in Kerala's coastal infrastructure, our founders identified a critical need for a superior material solution.", icon: <Zap /> },
+    { year: "2020", title: "The Foundation", description: "Emphz was born. We established our state-of-the-art manufacturing hub in Mysore, investing in advanced Hot Press Molding technology.", icon: <PenTool /> },
+    { year: "2023", title: "Major Project Milestone", description: "Successfully deployed over 200 custom IP66 enclosures for a major coastal resort, proving our GRP's performance in high-salinity environments.", icon: <Award /> },
+    { year: "2025", title: "The Future", description: "Expanding our product line into renewable energy sectors, designing specialized enclosures for solar and wind farm infrastructure.", icon: <Rocket /> },
+  ];
+
   return (
-    <div className="bg-white">
+    <div className="bg-white text-emphz-navy">
       {/* Hero Section */}
-      <section className="bg-emphz-navy text-white py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <span className="text-emphz-orange font-bold uppercase tracking-widest text-sm mb-4 block">The Emphz Standard</span>
-          <h1 className="text-4xl md:text-6xl font-black mb-6">Unapologetically <br/>High Quality</h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed font-light">
-            We apologize for raising the bar. By engineering GRP solutions that don't rust, don't fade, and don't fail, we've made "standard" quality obsolete.
+      <section className="bg-emphz-navy text-white py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{backgroundImage: "url('https://picsum.photos/1600/900?random=30')"}}></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-emphz-navy via-emphz-navy/70 to-transparent"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <h1 className="text-5xl md:text-7xl font-black mb-6 max-w-3xl">Engineering a Corrosion-Free Future.</h1>
+          <p className="text-xl text-gray-300 max-w-2xl leading-relaxed font-light border-l-4 border-emphz-orange pl-6">
+            We are a team of material scientists and engineers dedicated to solving India's toughest infrastructure challenges with advanced GRP composites.
           </p>
         </div>
       </section>
 
-      {/* Locations Grid */}
+      {/* Mission & Vision Section */}
       <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Manufacturing */}
-            <div className="bg-white p-8 rounded-xl shadow-lg border-t-4 border-emphz-orange hover:transform hover:-translate-y-1 transition-all">
-               <div className="flex items-center mb-6">
-                 <div className="bg-emphz-navy p-3 rounded-full mr-4">
-                   <PenTool className="text-white w-6 h-6" />
-                 </div>
-                 <div>
-                   <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Manufacturing Hub</h3>
-                   <h2 className="text-2xl font-bold text-emphz-navy">Mysore Factory</h2>
-                 </div>
-               </div>
-               <p className="text-gray-600 mb-6 leading-relaxed">
-                 Our state-of-the-art facility in KIADB Industrial Area, Mysore, is equipped with advanced hot-press molding and RTM technology. This is where raw glass fiber and resin are transformed into the toughest enclosures in the market.
-               </p>
-               <div className="bg-gray-100 p-4 rounded text-sm text-gray-700">
-                 <strong>Capabilities:</strong> <br/>
-                 • SMC / DMC Molding<br/>
-                 • Custom Fabrication<br/>
-                 • IP Testing Lab
-               </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center">
+          <div className="pr-8">
+            <h2 className="text-sm font-bold text-emphz-orange tracking-widest uppercase mb-4">Our Mission</h2>
+            <h3 className="text-4xl font-bold text-emphz-navy mb-6">To Replace Obsolete Materials.</h3>
+            <p className="text-gray-600 leading-relaxed">
+              Our mission is to systematically replace traditional materials like steel, concrete, and wood with superior, high-performance GRP solutions in critical infrastructure. We aim to eradicate the costs and dangers associated with corrosion and degradation, ensuring longevity and safety for a modern India.
+            </p>
+          </div>
+          <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-200 space-y-6">
+            <div className="flex items-start">
+              <div className="bg-emphz-orange/10 p-3 rounded-full mr-4"><Target className="w-6 h-6 text-emphz-orange" /></div>
+              <div>
+                <h4 className="font-bold text-lg">Engineer for Environment</h4>
+                <p className="text-gray-500 text-sm">Create products perfectly suited for their intended environment, from saline coasts to harsh industrial zones.</p>
+              </div>
             </div>
-
-            {/* Operations */}
-            <div className="bg-white p-8 rounded-xl shadow-lg border-t-4 border-emphz-navy hover:transform hover:-translate-y-1 transition-all">
-               <div className="flex items-center mb-6">
-                 <div className="bg-emphz-orange p-3 rounded-full mr-4">
-                   <MapPin className="text-white w-6 h-6" />
-                 </div>
-                 <div>
-                   <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Operations & Sales</h3>
-                   <h2 className="text-2xl font-bold text-emphz-navy">Kerala Headquarters</h2>
-                 </div>
-               </div>
-               <p className="text-gray-600 mb-6 leading-relaxed">
-                 Based in Vadakara, our operations team understands the unique challenges of the coastal climate. We provide rapid support, site consultations, and logistics management for the entire Kerala and Karnataka region.
-               </p>
-               <div className="bg-gray-100 p-4 rounded text-sm text-gray-700">
-                 <strong>Services:</strong> <br/>
-                 • Site Feasibility Studies<br/>
-                 • Rapid Logistics<br/>
-                 • Installation Support
-               </div>
+            <div className="flex items-start">
+              <div className="bg-emphz-orange/10 p-3 rounded-full mr-4"><Gem className="w-6 h-6 text-emphz-orange" /></div>
+              <div>
+                <h4 className="font-bold text-lg">Deliver Unmatched Quality</h4>
+                <p className="text-gray-500 text-sm">Utilize precision manufacturing and the highest-grade materials to deliver products that exceed international standards.</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Value Props */}
-      <section className="py-24 bg-emphz-navy text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">Why Emphz GRP?</h2>
-            <p className="text-gray-400">Engineered to replace steel, wood, and concrete.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-            <div>
-              <Shield className="w-16 h-16 text-emphz-orange mx-auto mb-6" />
-              <h3 className="text-xl font-bold mb-4">Zero Corrosion</h3>
-              <p className="text-gray-400 leading-relaxed">
-                Salt spray, humidity, and industrial chemicals have no effect on our GRP composites. Guaranteed for 25+ years.
-              </p>
+      
+      {/* Our Values Section */}
+       <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-sm font-bold text-emphz-orange tracking-widest uppercase mb-4">Our Core Values</h2>
+            <h3 className="text-4xl font-bold text-emphz-navy mb-12">The Principles That Guide Us.</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {values.map((value, i) => (
+                    <div key={i} className="bg-gray-50 p-8 rounded-xl border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                        {value.icon}
+                        <h4 className="text-xl font-bold my-4">{value.title}</h4>
+                        <p className="text-gray-600 text-sm leading-relaxed">{value.description}</p>
+                    </div>
+                ))}
             </div>
-            <div>
-              <Truck className="w-16 h-16 text-emphz-orange mx-auto mb-6" />
-              <h3 className="text-xl font-bold mb-4">Rapid Deployment</h3>
-              <p className="text-gray-400 leading-relaxed">
-                Modular designs mean we can install a security cabin or villa in days, not weeks. No heavy cranes required.
-              </p>
+        </div>
+       </section>
+      
+      {/* Timeline Section */}
+      <section className="py-20 bg-emphz-cream">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+                 <h2 className="text-sm font-bold text-emphz-orange tracking-widest uppercase mb-4">Our Journey</h2>
+                 <h3 className="text-4xl font-bold text-emphz-navy">From Concept to Coastline.</h3>
             </div>
-            <div>
-              <PenTool className="w-16 h-16 text-emphz-orange mx-auto mb-6" />
-              <h3 className="text-xl font-bold mb-4">Custom Engineering</h3>
-              <p className="text-gray-400 leading-relaxed">
-                We don't just sell boxes. We design bespoke enclosures with precise cutouts, mounting plates, and ventilation.
-              </p>
+            <div className="relative">
+                 {/* The vertical line */}
+                <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-emphz-orange/20 hidden md:block"></div>
+                {timelineEvents.map((event, i) => (
+                    <div key={i} className={`mb-12 flex items-center w-full ${i % 2 === 0 ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
+                        <div className="hidden md:block w-5/12"></div>
+                        <div className="z-10 relative">
+                             <div className="w-12 h-12 bg-emphz-navy rounded-full shadow-lg flex items-center justify-center text-white">
+                                {event.icon}
+                             </div>
+                        </div>
+                        <div className={`bg-white p-6 rounded-xl shadow-lg border border-gray-200 w-full md:w-5/12 ${i % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
+                            <p className="text-emphz-orange font-black text-2xl mb-2">{event.year}</p>
+                            <h4 className="font-bold text-lg mb-2">{event.title}</h4>
+                            <p className="text-sm text-gray-500">{event.description}</p>
+                        </div>
+                    </div>
+                ))}
             </div>
-          </div>
         </div>
       </section>
+
+      {/* Team Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-sm font-bold text-emphz-orange tracking-widest uppercase mb-4">Our Experts</h2>
+            <h3 className="text-4xl font-bold text-emphz-navy mb-6">The Minds Behind the Material.</h3>
+            <p className="text-gray-600 max-w-3xl mx-auto mb-12">
+                Emphz is powered by a dedicated team of material scientists, process engineers, and project managers. We bring decades of combined experience in industrial composites and a shared passion for solving complex engineering problems.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                {/* Team Member Card */}
+                <div className="text-center group">
+                    <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-emphz-orange transition-colors">
+                        <img src="https://picsum.photos/200/200?random=40" alt="Team member" className="w-full h-full object-cover"/>
+                    </div>
+                    <h4 className="font-bold text-lg mt-4">Rajesh Nair</h4>
+                    <p className="text-emphz-orange text-sm font-medium">Founder & Chief Engineer</p>
+                </div>
+                <div className="text-center group">
+                    <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-emphz-orange transition-colors">
+                        <img src="https://picsum.photos/200/200?random=41" alt="Team member" className="w-full h-full object-cover"/>
+                    </div>
+                    <h4 className="font-bold text-lg mt-4">Anjali Kumar</h4>
+                    <p className="text-emphz-orange text-sm font-medium">Head of Operations</p>
+                </div>
+                <div className="text-center group">
+                    <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-emphz-orange transition-colors">
+                        <img src="https://picsum.photos/200/200?random=42" alt="Team member" className="w-full h-full object-cover"/>
+                    </div>
+                    <h4 className="font-bold text-lg mt-4">Vikram Singh</h4>
+                    <p className="text-emphz-orange text-sm font-medium">Lead, Material Science</p>
+                </div>
+                <div className="text-center group">
+                    <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-emphz-orange transition-colors">
+                        <img src="https://picsum.photos/200/200?random=43" alt="Team member" className="w-full h-full object-cover"/>
+                    </div>
+                    <h4 className="font-bold text-lg mt-4">Priya Menon</h4>
+                    <p className="text-emphz-orange text-sm font-medium">Project Management</p>
+                </div>
+            </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+       <section className="bg-emphz-navy">
+            <div className="max-w-5xl mx-auto px-4 py-20 text-center">
+                <h2 className="text-3xl md:text-4xl font-black text-white mb-6">Ready to Build with Confidence?</h2>
+                <p className="text-lg text-white/80 mb-10 max-w-2xl mx-auto">
+                    Partner with us to leverage the power of GRP for your next project. Let's create infrastructure that lasts.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                    <Link to="/rfq" className="bg-emphz-orange text-white px-8 py-4 rounded-full font-bold text-base shadow-2xl hover:scale-105 transition-transform">
+                        Request a Consultation
+                    </Link>
+                    <Link to="/case-studies" className="bg-white/10 border border-white/20 text-white px-8 py-4 rounded-full font-bold text-base hover:bg-white/20 transition-all">
+                        See Our Work
+                    </Link>
+                </div>
+            </div>
+       </section>
     </div>
   );
 };

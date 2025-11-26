@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Box, ShoppingCart, Phone, Mail, MapPin, ChevronRight, MessageCircle, FileText } from 'lucide-react';
+import { Menu, X, ShoppingCart, Phone, Mail, MapPin, ChevronRight, MessageCircle, FileText } from 'lucide-react';
 import { NAV_LINKS } from '../constants';
 import { useRFQ } from '../App';
+import LiveChatWidget from './LiveChatWidget';
+import Logo from './Logo';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -21,7 +23,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Initial check in case page loads scrolled down
+    handleScroll();
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -49,15 +55,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
           scrolled ? 'bg-emphz-navy/90 backdrop-blur-lg border-b border-white/5 shadow-lg py-2' : 'bg-transparent py-4'
         }`}
+        aria-label="Site Header"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <Link to="/" className="flex items-center space-x-3 group z-50" aria-label="Emphz Home">
-              <div className="bg-gradient-to-br from-emphz-orange to-red-700 p-2 rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300">
-                <Box className="text-white h-6 w-6" aria-hidden="true" />
-              </div>
-              <span className="text-2xl font-black tracking-tighter text-white">EMPHZ<span className="text-emphz-orange">.</span></span>
+            <Link to="/" className="group z-50" aria-label="Emphz Home">
+              <Logo className="h-10 w-auto transition-transform duration-300 group-hover:scale-105" variant="light" />
             </Link>
 
             {/* Desktop Nav */}
@@ -163,6 +167,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </Link>
       </div>
 
+      <LiveChatWidget />
+
       {/* Footer - Immersive */}
       <footer className="bg-black text-white pt-24 pb-12 border-t border-white/10 relative overflow-hidden" role="contentinfo">
         {/* Background Abstract */}
@@ -173,9 +179,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
             <div className="col-span-1 md:col-span-2">
-              <div className="flex items-center space-x-3 mb-8">
-                 <Box className="text-emphz-orange h-8 w-8" aria-hidden="true" />
-                 <span className="text-3xl font-black tracking-tighter">EMPHZ.</span>
+              <div className="mb-8">
+                <Link to="/" aria-label="Emphz Home">
+                  <Logo className="h-12 w-auto" variant="light" />
+                </Link>
               </div>
               <h3 className="text-2xl font-bold mb-6 leading-tight max-w-md">
                 Replace steel. <br/>

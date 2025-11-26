@@ -8,6 +8,7 @@ import TechnicalCenter from './pages/TechnicalCenter';
 import CaseStudies from './pages/CaseStudies';
 import About from './pages/About';
 import RFQ from './pages/RFQ';
+import Sitemap from './pages/Sitemap';
 import { RFQItem } from './types';
 
 // RFQ Context Setup
@@ -67,6 +68,7 @@ const App: React.FC = () => {
             <Route path="/technical" element={<TechnicalCenter />} />
             <Route path="/about" element={<About />} />
             <Route path="/rfq" element={<RFQ />} />
+            <Route path="/sitemap" element={<Sitemap />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Layout>
