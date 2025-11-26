@@ -35,6 +35,26 @@ export const MOCK_PRODUCTS: Product[] = [
     accessories: ['Solar Roof Package', 'Bio-Digester Tank', 'External Decking Module', 'Star-Gazing Skylight']
   },
   {
+    id: 'emp-auto-ev1',
+    name: 'EV Battery Pack Shield',
+    category: ProductCategory.AUTOMOBILE,
+    shortDescription: 'Lightweight fire-retardant GRP composite cover for EV battery modules.',
+    fullDescription: 'Engineered for the next generation of electric mobility, this GRP battery shield offers a 40% weight reduction compared to steel equivalents while maintaining superior impact resistance. It is rigorously tested for fire retardancy (UL94 V-0) and provides excellent thermal insulation to manage battery temperatures effectively.',
+    imageUrl: 'https://picsum.photos/600/600?random=50',
+    specs: [
+      { label: 'Material', value: 'Fire Retardant GRP' },
+      { label: 'Fire Rating', value: 'UL94 V-0' },
+      { label: 'Weight', value: '12 kg/sqm' },
+      { label: 'Impact Strength', value: 'High Energy Absorption' },
+    ],
+    features: ['Lightweight Construction', 'Thermal Insulation', 'Corrosion Free', 'Electrically Non-Conductive'],
+    downloads: [
+      { title: 'Automotive Datasheet', type: 'PDF' },
+      { title: 'Crash Test Report', type: 'PDF' }
+    ],
+    accessories: ['Mounting Brackets', 'Thermal Paste Kit', 'Sealant Gasket']
+  },
+  {
     id: 'emp-enc-001',
     name: 'E-Series IP66 Coastal Enclosure',
     category: ProductCategory.ENCLOSURE,
@@ -150,6 +170,7 @@ export const MOCK_CASE_STUDIES: CaseStudy[] = [
 export const INDUSTRIES = [
   { title: 'Utilities', icon: 'Zap' },
   { title: 'Rail', icon: 'Train' },
+  { title: 'Automotive', icon: 'Car' },
   { title: 'Water', icon: 'Droplet' },
   { title: 'Telecom', icon: 'Wifi' },
   { title: 'Oil & Gas', icon: 'Flame' },

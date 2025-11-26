@@ -40,6 +40,7 @@ const ProductDetail: React.FC = () => {
     if (product.category === ProductCategory.KIOSK) return 'KIOSK';
     if (product.category === ProductCategory.CABIN) return 'KIOSK'; // Fallback similar shape
     if (product.category === ProductCategory.SMART_CABIN) return 'SMART_CABIN';
+    if (product.category === ProductCategory.AUTOMOBILE) return 'AUTOMOBILE';
     return 'DEFAULT';
   };
 

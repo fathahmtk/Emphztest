@@ -1,7 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Shield, Droplet, Zap, Box, Anchor, PenTool, Layers, Maximize, FileText } from 'lucide-react';
 import { INDUSTRIES, MOCK_PRODUCTS } from '../constants';
+
+const ScrollRevealIcon: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-1000 ease-out transform ${
+        isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-75'
+      }`}
+    >
+      {children}
+    </div>
+  );
+};
 
 const Home: React.FC = () => {
   return (
@@ -117,9 +151,11 @@ const Home: React.FC = () => {
                 <div className="absolute -right-8 -bottom-8 text-gray-700 opacity-5 group-hover:opacity-10 transition-opacity transform rotate-12">
                    <Droplet size={180} strokeWidth={1} />
                 </div>
-                <div className="w-16 h-16 bg-emphz-orange/20 rounded-2xl flex items-center justify-center mb-8 text-emphz-orange group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-emphz-orange/10">
-                   <Droplet size={36} />
-                </div>
+                <ScrollRevealIcon>
+                  <div className="w-16 h-16 bg-emphz-orange/20 rounded-2xl flex items-center justify-center mb-8 text-emphz-orange group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-emphz-orange/10">
+                    <Droplet size={36} />
+                  </div>
+                </ScrollRevealIcon>
                 <h4 className="text-2xl font-black mb-4 text-white">Corrosion Immunity</h4>
                 <p className="text-gray-400 leading-relaxed text-sm font-medium">
                    Engineered specifically for high-salinity coastal environments. Our GRP composites are chemically inert, offering a 25+ year lifespan where traditional steel enclosures fail within months.
@@ -131,9 +167,11 @@ const Home: React.FC = () => {
                 <div className="absolute -right-8 -bottom-8 text-gray-700 opacity-5 group-hover:opacity-10 transition-opacity transform rotate-12">
                    <Zap size={180} strokeWidth={1} />
                 </div>
-                <div className="w-16 h-16 bg-yellow-500/20 rounded-2xl flex items-center justify-center mb-8 text-yellow-400 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-yellow-500/10">
-                   <Zap size={36} />
-                </div>
+                <ScrollRevealIcon>
+                  <div className="w-16 h-16 bg-yellow-500/20 rounded-2xl flex items-center justify-center mb-8 text-yellow-400 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-yellow-500/10">
+                    <Zap size={36} />
+                  </div>
+                </ScrollRevealIcon>
                 <h4 className="text-2xl font-black mb-4 text-white">Electrical Safety</h4>
                 <p className="text-gray-400 leading-relaxed text-sm font-medium">
                    Naturally non-conductive and electrically insulating material. It completely eliminates shock hazards for personnel and often removes the need for expensive additional earthing systems.
@@ -145,9 +183,11 @@ const Home: React.FC = () => {
                 <div className="absolute -right-8 -bottom-8 text-gray-700 opacity-5 group-hover:opacity-10 transition-opacity transform rotate-12">
                    <Layers size={180} strokeWidth={1} />
                 </div>
-                <div className="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-8 text-blue-400 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-blue-500/10">
-                   <Layers size={36} />
-                </div>
+                <ScrollRevealIcon>
+                  <div className="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-8 text-blue-400 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-blue-500/10">
+                    <Layers size={36} />
+                  </div>
+                </ScrollRevealIcon>
                 <h4 className="text-2xl font-black mb-4 text-white">Modular Design</h4>
                 <p className="text-gray-400 leading-relaxed text-sm font-medium">
                    Smart flat-pack capability allows for rapid deployment in difficult terrain. Our precision modular connections ensure IP66/67 ratings are rigorously maintained after assembly.

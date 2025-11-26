@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Target, Gem, Users, Anchor, Lightbulb, Zap, CheckCircle, MapPin, PenTool, Calendar, Award, Rocket } from 'lucide-react';
+import { Target, Gem, Users, Anchor, Lightbulb, Zap, CheckCircle, MapPin, PenTool, Calendar, Award, Rocket, Shield, FileCheck } from 'lucide-react';
 
 const About: React.FC = () => {
 
@@ -144,6 +144,52 @@ const About: React.FC = () => {
                     <h4 className="font-bold text-lg mt-4">Priya Menon</h4>
                     <p className="text-emphz-orange text-sm font-medium">Project Management</p>
                 </div>
+            </div>
+        </div>
+      </section>
+
+      {/* Warranty Section (NEW) */}
+      <section className="py-20 bg-gray-50 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mb-12 text-center">
+                 <h2 className="text-sm font-bold text-emphz-orange tracking-widest uppercase mb-4">Peace of Mind</h2>
+                 <h3 className="text-4xl font-bold text-emphz-navy">Industry-Leading Warranty.</h3>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+                <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center transform hover:-translate-y-1 transition-transform">
+                    <div className="w-20 h-20 bg-emphz-navy text-white rounded-full flex items-center justify-center font-black text-3xl mb-6 shadow-lg shadow-emphz-navy/20">10</div>
+                    <h4 className="font-bold text-lg mb-3">10-Year Structural Warranty</h4>
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                        We guarantee our GRP molded components against structural failure, chemical corrosion, and UV-induced degradation for a full decade from installation.
+                    </p>
+                </div>
+
+                <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center transform hover:-translate-y-1 transition-transform">
+                    <div className="w-20 h-20 bg-emphz-orange/10 text-emphz-orange rounded-full flex items-center justify-center mb-6">
+                        <Shield className="w-10 h-10" />
+                    </div>
+                    <h4 className="font-bold text-lg mb-3">Coverage Details</h4>
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                        Includes protection against manufacturing defects, IP rating failures (water ingress), and hardware mechanical faults. Excludes damage from vandalism or natural disasters.
+                    </p>
+                </div>
+
+                <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center transform hover:-translate-y-1 transition-transform">
+                     <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-6">
+                        <FileCheck className="w-10 h-10" />
+                    </div>
+                    <h4 className="font-bold text-lg mb-3">Seamless Claims</h4>
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                        Experiencing an issue? Simply submit your invoice and photos to our support team. We commit to a 48-hour assessment turnaround and expedited replacement parts.
+                    </p>
+                </div>
+            </div>
+            
+             <div className="mt-12 text-center bg-white border border-gray-200 p-4 rounded-lg inline-block mx-auto w-full max-w-2xl">
+                <p className="text-xs text-gray-500 italic">
+                    * Terms and conditions apply. Warranty is valid only when installation guidelines are followed. For full documentation, please visit our <Link to="/technical" className="text-emphz-orange font-bold hover:underline">Technical Center</Link>.
+                </p>
             </div>
         </div>
       </section>

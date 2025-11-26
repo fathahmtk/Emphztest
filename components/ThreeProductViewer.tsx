@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 interface ThreeProductViewerProps {
-  productType: 'ENCLOSURE' | 'KIOSK' | 'SMART_CABIN' | 'DEFAULT';
+  productType: 'ENCLOSURE' | 'KIOSK' | 'SMART_CABIN' | 'AUTOMOBILE' | 'DEFAULT';
 }
 
 const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) => {
@@ -195,6 +195,32 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
       const sidePanel = new THREE.Mesh(sidePanelGeo, darkRubberMaterial);
       sidePanel.position.set(-2.01, 0, 0);
       productGroup.add(sidePanel);
+
+    } else if (productType === 'AUTOMOBILE') {
+      // EV Battery Shield Style
+      
+      // 1. Main Shield Panel (Wide, low profile)
+      const panelGeo = new THREE.BoxGeometry(3.5, 0.15, 2.2);
+      const panelMesh = new THREE.Mesh(panelGeo, darkRubberMaterial);
+      productGroup.add(panelMesh);
+      
+      // 2. Reinforcement Ribs (Orange for highlight)
+      for (let i = -0.8; i <= 0.8; i += 0.4) {
+          const ribGeo = new THREE.BoxGeometry(3.5, 0.05, 0.1);
+          const rib = new THREE.Mesh(ribGeo, orangeMaterial);
+          rib.position.set(0, 0.1, i);
+          productGroup.add(rib);
+      }
+
+      // 3. Mounting Flanges
+      const flangeGeo = new THREE.BoxGeometry(0.2, 0.05, 2.4);
+      const flangeLeft = new THREE.Mesh(flangeGeo, greyGrpMaterial);
+      flangeLeft.position.set(-1.85, 0, 0);
+      productGroup.add(flangeLeft);
+      
+      const flangeRight = new THREE.Mesh(flangeGeo, greyGrpMaterial);
+      flangeRight.position.set(1.85, 0, 0);
+      productGroup.add(flangeRight);
 
     } else {
       // Default Cube

@@ -4,7 +4,8 @@ export enum ProductCategory {
   KIOSK = 'Modular Kiosks',
   CABIN = 'Security Cabins',
   JUNCTION_BOX = 'Junction Boxes',
-  CUSTOM = 'Custom Structures'
+  CUSTOM = 'Custom Structures',
+  AUTOMOBILE = 'Automobile Components'
 }
 
 export interface ProductSpec {
