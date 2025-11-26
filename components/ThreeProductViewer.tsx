@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 interface ThreeProductViewerProps {
   productType: 'ENCLOSURE' | 'KIOSK' | 'SMART_CABIN' | 'DEFAULT';
