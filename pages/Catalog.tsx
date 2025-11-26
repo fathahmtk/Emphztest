@@ -105,7 +105,7 @@ const FilterSection: React.FC<{
     </button>
     <div
       className={`overflow-hidden transition-all duration-300 ease-in-out ${
-        isOpen ? 'max-h-96 opacity-100 mb-4' : 'max-h-0 opacity-0'
+        isOpen ? 'max-h-[600px] opacity-100 mb-4' : 'max-h-0 opacity-0'
       }`}
     >
       {children}
@@ -131,11 +131,25 @@ const Catalog: React.FC = () => {
 
   const filteredProducts = MOCK_PRODUCTS.filter(p => {
     const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory;
-    // Note: This is a visual filter implementation. 
-    // In a real app, you would match these against p.specs or p.features.
-    // For now, we allow the selection but only filter by category as per original logic, 
-    // or add basic filtering if needed. To keep it simple and safe based on MOCK data:
-    const matchesFeatures = true; 
+    
+    let matchesFeatures = true;
+    if (selectedFeatures.length > 0) {
+      // Basic string matching against product data to simulate feature filtering
+      const productSearchString = (
+        p.features.join(' ') + 
+        p.specs.map(s => s.value).join(' ') + 
+        p.name + 
+        p.shortDescription
+      ).toLowerCase();
+
+      matchesFeatures = selectedFeatures.every(feature => {
+        if (feature === 'IP66 / IP67') return productSearchString.includes('ip66') || productSearchString.includes('ip67');
+        if (feature === 'UL94 Fire Rated') return productSearchString.includes('ul94') || productSearchString.includes('fire');
+        if (feature === 'ATEX / Ex-Proof') return productSearchString.includes('atex') || productSearchString.includes('proof') || productSearchString.includes('explosion');
+        return false;
+      });
+    }
+
     return matchesCategory && matchesFeatures;
   });
 
@@ -312,8 +326,8 @@ const Catalog: React.FC = () => {
               
               {filteredProducts.length === 0 && (
                 <div className="text-center py-20 glass-panel rounded-2xl">
-                  <h3 className="text-xl text-gray-400">No products found.</h3>
-                  <button onClick={() => setSelectedCategory('All')} className="mt-4 text-emphz-orange font-bold hover:underline focus:ring-2 focus:ring-white rounded">Clear Filters</button>
+                  <h3 className="text-xl text-gray-400">No products match your filters.</h3>
+                  <button onClick={() => { setSelectedCategory('All'); setSelectedFeatures([]); }} className="mt-4 text-emphz-orange font-bold hover:underline focus:ring-2 focus:ring-white rounded">Clear Filters</button>
                 </div>
               )}
             </div>

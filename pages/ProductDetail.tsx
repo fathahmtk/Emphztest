@@ -18,6 +18,18 @@ const ProductDetail: React.FC = () => {
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
   const [fileToDownload, setFileToDownload] = useState<{ title: string; type: string } | null>(null);
 
+  // Check if this product has a 3D model implementation
+  const is3DAvailable = useMemo(() => {
+    if (!product) return false;
+    return [
+      ProductCategory.SMART_CABIN,
+      ProductCategory.ENCLOSURE,
+      ProductCategory.KIOSK,
+      ProductCategory.CABIN,
+      ProductCategory.AUTOMOBILE
+    ].includes(product.category);
+  }, [product]);
+
   // Determine related products based on category
   const relatedProducts = useMemo(() => {
     if (!product) return [];
@@ -37,11 +49,11 @@ const ProductDetail: React.FC = () => {
   useEffect(() => {
     if (product) {
       setActiveImage(product.imageUrl);
-      // Reset view mode when product changes (e.g. clicking related product)
-      setViewMode('3D');
+      // Default to 3D if available, else Image
+      setViewMode(is3DAvailable ? '3D' : 'IMAGE');
       window.scrollTo(0, 0);
     }
-  }, [product]);
+  }, [product, is3DAvailable]);
 
   if (!product) {
     return <div className="p-20 text-center text-white">Product not found. <Link to="/products" className="text-emphz-orange">Go back</Link></div>;
@@ -85,20 +97,25 @@ const ProductDetail: React.FC = () => {
         {/* Header / Hero for Product */}
         <div className="relative h-[500px] lg:h-[600px] bg-gradient-to-b from-gray-900 to-emphz-navy overflow-hidden">
           
-          <div className="absolute top-24 right-8 z-30 flex bg-white/10 backdrop-blur-md rounded-full p-1 border border-white/20">
-             <button 
-               onClick={() => setViewMode('3D')}
-               className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 transition-all ${viewMode === '3D' ? 'bg-emphz-orange text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
-             >
-               <Box size={14} /> 3D View
-             </button>
-             <button 
-               onClick={() => setViewMode('IMAGE')}
-               className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 transition-all ${viewMode === 'IMAGE' ? 'bg-emphz-orange text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
-             >
-               <ImageIcon size={14} /> Photos
-             </button>
-          </div>
+          {/* View Toggle - Only shown if 3D model is available */}
+          {is3DAvailable && (
+            <div className="absolute top-24 right-4 md:right-8 z-30 flex bg-white/10 backdrop-blur-md rounded-full p-1 border border-white/20 shadow-xl">
+               <button 
+                 onClick={() => setViewMode('3D')}
+                 className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 transition-all duration-300 ${viewMode === '3D' ? 'bg-emphz-orange text-white shadow-lg transform scale-105' : 'text-gray-400 hover:text-white'}`}
+               >
+                 <Box size={14} /> <span className="hidden sm:inline">3D View</span>
+                 <span className="sm:hidden">3D</span>
+               </button>
+               <button 
+                 onClick={() => setViewMode('IMAGE')}
+                 className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 transition-all duration-300 ${viewMode === 'IMAGE' ? 'bg-emphz-orange text-white shadow-lg transform scale-105' : 'text-gray-400 hover:text-white'}`}
+               >
+                 <ImageIcon size={14} /> <span className="hidden sm:inline">Photos</span>
+                 <span className="sm:hidden">img</span>
+               </button>
+            </div>
+          )}
 
           {viewMode === 'IMAGE' ? (
             <>
