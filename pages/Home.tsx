@@ -11,14 +11,25 @@ const Home: React.FC = () => {
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
         {/* Background Image & Overlays */}
         <div className="absolute inset-0 z-0">
-           <img 
-            src="https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0"
-            alt="Emphz Industrial GRP Manufacturing"
+           <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline
             className="w-full h-full object-cover"
-           />
-           {/* Brand Gradient Overlay for text readability - Lightened for Full Image Visibility */}
-           <div className="absolute inset-0 bg-black/20"></div>
-           <div className="absolute inset-0 bg-gradient-to-r from-emphz-navy/95 via-emphz-navy/40 to-transparent"></div>
+           >
+             <source src="https://cdn.pixabay.com/video/2024/05/05/210747_large.mp4" type="video/mp4" />
+             {/* Fallback image if video fails to load */}
+             <img 
+              src="https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0"
+              alt="Emphz Industrial GRP Manufacturing"
+              className="w-full h-full object-cover"
+             />
+           </video>
+           
+           {/* Brand Gradient Overlay for text readability - Enhanced for Video */}
+           <div className="absolute inset-0 bg-black/40"></div>
+           <div className="absolute inset-0 bg-gradient-to-r from-emphz-navy via-emphz-navy/60 to-transparent"></div>
            <div className="absolute inset-0 bg-gradient-to-t from-emphz-navy via-transparent to-transparent"></div>
         </div>
 
@@ -29,10 +40,10 @@ const Home: React.FC = () => {
         {/* Grid Pattern Overlay */}
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay z-0"></div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full grid lg:grid-cols-2 gap-12 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full grid lg:grid-cols-1 gap-12 items-center">
           
-          {/* Text Content */}
-          <div className="space-y-8 motion-safe:animate-fade-up">
+          {/* Text Content - Centered/Focal for Video */}
+          <div className="space-y-8 motion-safe:animate-fade-up max-w-4xl">
             <div className="flex flex-wrap items-center gap-4">
               <div className="inline-flex items-center px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md shadow-lg">
                 <span className="w-2 h-2 bg-emphz-orange rounded-full mr-3 motion-safe:animate-pulse"></span>
@@ -49,7 +60,7 @@ const Home: React.FC = () => {
               <span className="text-emphz-orange">REIMAGINED.</span>
             </h1>
             
-            <p className="text-lg text-gray-300 max-w-md leading-relaxed border-l-2 border-emphz-orange pl-6 bg-black/40 p-2 rounded-r-lg backdrop-blur-sm">
+            <p className="text-lg text-gray-300 max-w-xl leading-relaxed border-l-2 border-emphz-orange pl-6 bg-black/40 p-2 rounded-r-lg backdrop-blur-sm">
               Advanced GRP composites that replace steel and concrete. 
               Engineered for zero corrosion, rapid deployment, and 25+ year lifespan.
             </p>
@@ -69,32 +80,6 @@ const Home: React.FC = () => {
             </div>
           </div>
 
-          {/* 3D Visual Representation (CSS Only) */}
-          <div className="relative h-[500px] w-full flex items-center justify-center lg:justify-end motion-safe:animate-float" aria-hidden="true">
-             {/* Glass Panels Layout simulating a product */}
-             <div className="relative w-80 h-96 bg-gradient-to-br from-white/10 to-transparent rounded-2xl border border-white/20 backdrop-blur-xl shadow-2xl transform rotate-y-12 rotate-z-6 z-20 flex flex-col p-6 justify-between group hover:rotate-0 transition-transform duration-700">
-                <div className="flex justify-between items-start">
-                   <Shield className="text-emphz-orange w-10 h-10" />
-                   <span className="text-[10px] font-mono text-gray-400">IP66 RATED</span>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-black text-white mb-1">SERIES-E</h3>
-                  <p className="text-xs text-gray-400">Smart Enclosure System</p>
-                </div>
-                {/* Internal glowing core */}
-                <div className="absolute inset-0 bg-emphz-orange/5 rounded-2xl z-[-1] group-hover:bg-emphz-orange/10 transition-colors"></div>
-             </div>
-
-             <div className="absolute top-20 right-20 w-64 h-64 bg-black/40 rounded-2xl border border-white/5 backdrop-blur-md z-10 transform -rotate-y-12 -translate-x-12"></div>
-             
-             {/* Floating Specs */}
-             <div className="absolute -right-4 top-1/4 bg-emphz-beige text-emphz-navy px-4 py-2 rounded-lg font-bold text-xs shadow-xl motion-safe:animate-pulse">
-               ZERO CORROSION
-             </div>
-             <div className="absolute left-10 bottom-1/4 bg-gray-800 text-white px-4 py-2 rounded-lg font-bold text-xs border border-gray-700 shadow-xl">
-               IK10 IMPACT
-             </div>
-          </div>
         </div>
         
         {/* Scroll Indicator */}
@@ -118,8 +103,8 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. Bento Grid Features */}
-      <section className="py-32 relative">
+      {/* 3. Key Features Grid */}
+      <section className="py-32 relative bg-emphz-navy">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-20 text-center md:text-left">
              <h2 className="text-sm font-bold text-emphz-orange tracking-widest uppercase mb-4">The Emphz Advantage</h2>
@@ -127,45 +112,45 @@ const Home: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-             {/* Feature 1: Corrosion */}
-             <div className="glass-panel p-8 rounded-3xl relative overflow-hidden group hover:bg-white/5 transition-colors">
-                <div className="absolute -right-10 -bottom-10 text-gray-700 opacity-10 group-hover:opacity-20 transition-opacity">
-                   <Droplet size={200} strokeWidth={0.5} />
+             {/* Feature 1: Corrosion Immunity */}
+             <div className="glass-panel p-10 rounded-3xl relative overflow-hidden group hover:bg-white/5 transition-colors border border-white/5">
+                <div className="absolute -right-8 -bottom-8 text-gray-700 opacity-5 group-hover:opacity-10 transition-opacity transform rotate-12">
+                   <Droplet size={180} strokeWidth={1} />
                 </div>
-                <div className="w-14 h-14 bg-emphz-orange/20 rounded-2xl flex items-center justify-center mb-6 text-emphz-orange group-hover:scale-110 transition-transform duration-300">
-                   <Droplet size={32} />
+                <div className="w-16 h-16 bg-emphz-orange/20 rounded-2xl flex items-center justify-center mb-8 text-emphz-orange group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-emphz-orange/10">
+                   <Droplet size={36} />
                 </div>
-                <h4 className="text-2xl font-bold mb-4">Corrosion Immunity</h4>
-                <p className="text-gray-400 leading-relaxed text-sm">
-                   Engineered for high-salinity coastal environments. Our GRP composites are chemically inert, offering a 25+ year lifespan where steel fails in months.
+                <h4 className="text-2xl font-black mb-4 text-white">Corrosion Immunity</h4>
+                <p className="text-gray-400 leading-relaxed text-sm font-medium">
+                   Engineered specifically for high-salinity coastal environments. Our GRP composites are chemically inert, offering a 25+ year lifespan where traditional steel enclosures fail within months.
                 </p>
              </div>
 
-             {/* Feature 2: Safety */}
-             <div className="glass-panel p-8 rounded-3xl relative overflow-hidden group hover:bg-white/5 transition-colors">
-                <div className="absolute -right-10 -bottom-10 text-gray-700 opacity-10 group-hover:opacity-20 transition-opacity">
-                   <Zap size={200} strokeWidth={0.5} />
+             {/* Feature 2: Electrical Safety */}
+             <div className="glass-panel p-10 rounded-3xl relative overflow-hidden group hover:bg-white/5 transition-colors border border-white/5">
+                <div className="absolute -right-8 -bottom-8 text-gray-700 opacity-5 group-hover:opacity-10 transition-opacity transform rotate-12">
+                   <Zap size={180} strokeWidth={1} />
                 </div>
-                <div className="w-14 h-14 bg-yellow-500/20 rounded-2xl flex items-center justify-center mb-6 text-yellow-400 group-hover:scale-110 transition-transform duration-300">
-                   <Zap size={32} />
+                <div className="w-16 h-16 bg-yellow-500/20 rounded-2xl flex items-center justify-center mb-8 text-yellow-400 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-yellow-500/10">
+                   <Zap size={36} />
                 </div>
-                <h4 className="text-2xl font-bold mb-4">Electrical Safety</h4>
-                <p className="text-gray-400 leading-relaxed text-sm">
-                   Naturally non-conductive and electrically insulating. Eliminates shock hazards and often removes the need for expensive additional earthing systems.
+                <h4 className="text-2xl font-black mb-4 text-white">Electrical Safety</h4>
+                <p className="text-gray-400 leading-relaxed text-sm font-medium">
+                   Naturally non-conductive and electrically insulating material. It completely eliminates shock hazards for personnel and often removes the need for expensive additional earthing systems.
                 </p>
              </div>
 
-             {/* Feature 3: Modular */}
-             <div className="glass-panel p-8 rounded-3xl relative overflow-hidden group hover:bg-white/5 transition-colors">
-                <div className="absolute -right-10 -bottom-10 text-gray-700 opacity-10 group-hover:opacity-20 transition-opacity">
-                   <Layers size={200} strokeWidth={0.5} />
+             {/* Feature 3: Modular Design */}
+             <div className="glass-panel p-10 rounded-3xl relative overflow-hidden group hover:bg-white/5 transition-colors border border-white/5">
+                <div className="absolute -right-8 -bottom-8 text-gray-700 opacity-5 group-hover:opacity-10 transition-opacity transform rotate-12">
+                   <Layers size={180} strokeWidth={1} />
                 </div>
-                <div className="w-14 h-14 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-6 text-blue-400 group-hover:scale-110 transition-transform duration-300">
-                   <Layers size={32} />
+                <div className="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-8 text-blue-400 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-blue-500/10">
+                   <Layers size={36} />
                 </div>
-                <h4 className="text-2xl font-bold mb-4">Modular Design</h4>
-                <p className="text-gray-400 leading-relaxed text-sm">
-                   Flat-pack capability allows for rapid deployment in difficult terrain. Smart modular connections ensure IP ratings are maintained after assembly.
+                <h4 className="text-2xl font-black mb-4 text-white">Modular Design</h4>
+                <p className="text-gray-400 leading-relaxed text-sm font-medium">
+                   Smart flat-pack capability allows for rapid deployment in difficult terrain. Our precision modular connections ensure IP66/67 ratings are rigorously maintained after assembly.
                 </p>
              </div>
           </div>
@@ -198,6 +183,50 @@ const Home: React.FC = () => {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* 4.5. Company Overview / Mission Section */}
+      <section className="py-24 bg-emphz-navy relative overflow-hidden">
+         {/* Decorative Background */}
+         <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-white/5 rounded-full blur-[100px] transform -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+         
+         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
+               <div className="lg:w-1/2">
+                  <h2 className="text-sm font-bold text-emphz-orange tracking-widest uppercase mb-4">Engineering Excellence</h2>
+                  <h3 className="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">
+                     Pioneering the Future of <br/>
+                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">Industrial Infrastructure.</span>
+                  </h3>
+                  <p className="text-lg text-gray-400 leading-relaxed mb-8">
+                     Emphz GRP Solutions is dedicated to solving India's toughest engineering challenges. By systematically replacing corrosion-prone steel with advanced Glass Reinforced Plastic composites, we deliver infrastructure that withstands the harshest coastal and industrial environments for decades.
+                  </p>
+                  <Link to="/about" className="inline-flex items-center text-white font-bold text-sm tracking-wide border-b-2 border-emphz-orange pb-1 hover:text-emphz-orange transition-colors group">
+                     LEARN MORE ABOUT OUR MISSION <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={16} />
+                  </Link>
+               </div>
+               
+               {/* Stats Grid */}
+               <div className="lg:w-1/2 grid grid-cols-2 gap-4 w-full">
+                  <div className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10 flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300">
+                     <div className="text-4xl font-black text-white mb-2">25+</div>
+                     <div className="text-xs text-gray-400 uppercase tracking-widest font-bold">Years Lifespan</div>
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10 flex flex-col items-center text-center mt-8 transform hover:scale-105 transition-transform duration-300">
+                     <div className="text-4xl font-black text-white mb-2">0%</div>
+                     <div className="text-xs text-gray-400 uppercase tracking-widest font-bold">Corrosion</div>
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10 flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300">
+                     <div className="text-4xl font-black text-white mb-2">IP66</div>
+                     <div className="text-xs text-gray-400 uppercase tracking-widest font-bold">Certified</div>
+                  </div>
+                  <div className="bg-emphz-orange p-8 rounded-2xl border border-emphz-orange shadow-[0_0_30px_rgba(190,34,34,0.3)] flex flex-col items-center text-center mt-8 transform hover:scale-105 transition-transform duration-300">
+                     <div className="text-4xl font-black text-white mb-2">100%</div>
+                     <div className="text-xs text-white/90 uppercase tracking-widest font-bold">Maintenance Free</div>
+                  </div>
+               </div>
+            </div>
+         </div>
       </section>
 
       {/* 5. CTA Section */}
