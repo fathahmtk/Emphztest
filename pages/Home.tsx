@@ -42,7 +42,7 @@ const Home: React.FC = () => {
     <div className="flex flex-col bg-white text-emphz-navy overflow-x-hidden motion-safe:scroll-smooth">
       
       {/* 1. Immersive Hero Section - FULL WIDE & FULL SCREEN */}
-      <section className="relative h-screen min-h-[700px] flex items-center overflow-hidden bg-emphz-navy">
+      <section className="relative h-screen min-h-[600px] flex items-center overflow-hidden bg-emphz-navy">
         {/* Background Image & Overlays */}
         <div className="absolute inset-0 z-0">
            {/* 
@@ -79,37 +79,37 @@ const Home: React.FC = () => {
         {/* Content Container - Expanded for Full Wide Effect */}
         <div className="w-full px-6 md:px-12 lg:px-24 relative z-10 grid lg:grid-cols-12 gap-12 items-center h-full">
           
-          <div className="lg:col-span-9 space-y-8 motion-safe:animate-fade-up">
+          <div className="lg:col-span-9 space-y-6 md:space-y-8 motion-safe:animate-fade-up">
             <div className="flex flex-wrap items-center gap-4">
               <div className="inline-flex items-center px-4 py-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-md shadow-2xl ring-1 ring-white/10">
                 <span className="w-2 h-2 bg-emphz-orange rounded-full mr-3 motion-safe:animate-pulse shadow-[0_0_10px_#00ADB5]"></span>
-                <span className="text-xs font-bold tracking-[0.2em] uppercase text-white font-display">Next-Gen Composites</span>
+                <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase text-white font-display">Next-Gen Composites</span>
               </div>
             </div>
             
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black font-display leading-[0.85] tracking-tighter text-white drop-shadow-2xl">
+            <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black font-display leading-[0.95] md:leading-[0.85] tracking-tighter text-white drop-shadow-2xl">
               ONE ENCLOSURE. <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-orange to-cyan-300 filter drop-shadow-[0_0_20px_rgba(0,173,181,0.5)]">
                 INFINITE WORLDS.
               </span>
             </h1>
             
-            <div className="flex flex-col md:flex-row gap-6 border-l-4 border-emphz-orange pl-8 bg-black/20 backdrop-blur-sm p-6 rounded-r-2xl max-w-3xl border-t border-r border-b border-white/5">
-               <p className="text-lg md:text-xl text-gray-100 leading-relaxed font-sans font-light">
+            <div className="flex flex-col md:flex-row gap-6 border-l-4 border-emphz-orange pl-6 md:pl-8 bg-black/20 backdrop-blur-sm p-4 md:p-6 rounded-r-2xl max-w-3xl border-t border-r border-b border-white/5">
+               <p className="text-base md:text-xl text-gray-100 leading-relaxed font-sans font-light">
                 Domestic. Commercial. Industrial. <br/>
-                <span className="text-gray-400 text-base">
+                <span className="text-gray-400 text-sm md:text-base">
                   Experience the dynamic versatility of Emphz GRP. Glossy, high-impact shells protecting stylized micro-environments across every sector.
                 </span>
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-4 pt-8">
-              <Link to="/products" className="group bg-white text-emphz-navy px-10 py-5 rounded-full font-black text-sm tracking-widest uppercase font-display hover:bg-emphz-orange hover:text-white transition-all duration-300 flex items-center shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:shadow-[0_0_40px_rgba(0,173,181,0.6)] hover:scale-105">
-                EXPLORE PRODUCT LINE <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} aria-hidden="true" />
+            <div className="flex flex-wrap gap-4 pt-4 md:pt-8">
+              <Link to="/products" className="group bg-white text-emphz-navy px-6 py-3 md:px-10 md:py-5 rounded-full font-black text-xs md:text-sm tracking-widest uppercase font-display hover:bg-emphz-orange hover:text-white transition-all duration-300 flex items-center shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:shadow-[0_0_40px_rgba(0,173,181,0.6)] hover:scale-105">
+                EXPLORE PRODUCT LINE <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={16} aria-hidden="true" />
               </Link>
               
-              <Link to="/technical" className="group px-10 py-5 rounded-full border border-emphz-orange text-emphz-orange font-black text-sm tracking-widest uppercase font-display hover:bg-emphz-orange hover:text-white transition-all duration-300 flex items-center backdrop-blur-md bg-black/40 hover:scale-105 hover:shadow-[0_0_20px_rgba(0,173,181,0.3)]">
-                VIEW 3D SPECS <Box className="ml-2 opacity-80 group-hover:scale-110 transition-transform" size={18} aria-hidden="true" />
+              <Link to="/technical" className="group px-6 py-3 md:px-10 md:py-5 rounded-full border border-emphz-orange text-emphz-orange font-black text-xs md:text-sm tracking-widest uppercase font-display hover:bg-emphz-orange hover:text-white transition-all duration-300 flex items-center backdrop-blur-md bg-black/40 hover:scale-105 hover:shadow-[0_0_20px_rgba(0,173,181,0.3)]">
+                VIEW 3D SPECS <Box className="ml-2 opacity-80 group-hover:scale-110 transition-transform" size={16} aria-hidden="true" />
               </Link>
             </div>
           </div>

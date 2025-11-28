@@ -331,7 +331,7 @@ const Catalog: React.FC = () => {
                 {filteredProducts.map((product) => {
                   const isComparing = compareList.includes(product.id);
                   return (
-                    <article key={product.id} className="bg-white rounded-2xl overflow-hidden flex flex-col h-[450px] group relative transition-all duration-300 hover:scale-[1.03] border border-gray-200 hover:border-emphz-orange hover:shadow-[0_0_25px_rgba(0,112,243,0.25)]">
+                    <article key={product.id} className="bg-white rounded-2xl overflow-hidden flex flex-col h-[450px] group relative transition-all duration-500 ease-out hover:scale-[1.02] hover:-translate-y-2 border border-gray-200 hover:border-emphz-orange hover:shadow-[0_20px_50px_-5px_rgba(0,173,181,0.25)]">
                       <div className="relative h-3/5 overflow-hidden">
                         <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
