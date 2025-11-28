@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, Chat } from "@google/genai";
 
 export const askTechnicalAssistant = async (query: string): Promise<string> => {
   if (!process.env.API_KEY) {
@@ -39,5 +39,40 @@ export const askTechnicalAssistant = async (query: string): Promise<string> => {
   } catch (error) {
     console.error("Gemini API Error:", error);
     return "System Error: Unable to contact the technical knowledge base.";
+  }
+};
+
+export const createSupportChat = (): Chat | null => {
+  if (!process.env.API_KEY) {
+    console.warn("Gemini API Key missing for Live Chat");
+    return null;
+  }
+
+  try {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    return ai.chats.create({
+      model: 'gemini-2.5-flash',
+      config: {
+        systemInstruction: `You are Priya, a friendly and knowledgeable Customer Support Specialist for Emphz GRP Solutions.
+        
+        Your Goal:
+        - Assist visitors in navigating the website.
+        - Briefly explain product benefits (Corrosion resistance, Waterproof IP66, Maintenance-free).
+        - Guide users to the 'Products' page for browsing or 'RFQ' page for quotes.
+        
+        Tone:
+        - Warm, professional, and helpful.
+        - Keep responses short (2-3 sentences) suitable for a small chat widget.
+        
+        Key Info:
+        - We manufacture in Mysore, India.
+        - We specialize in GRP (Glass Reinforced Plastic) enclosures and kiosks.
+        - If you don't know an answer, suggest checking the Technical Center or emailing info@emphz.in.`,
+        temperature: 0.7, // Slightly higher for conversation
+      }
+    });
+  } catch (error) {
+    console.error("Failed to create chat session:", error);
+    return null;
   }
 };

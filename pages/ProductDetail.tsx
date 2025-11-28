@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Check, FileText, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon, Camera, ArrowRight, Loader2, Share2, CheckCircle } from 'lucide-react';
+import { Check, FileText, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon, Camera, ArrowRight, Loader2, Share2, CheckCircle, ChevronLeft, ChevronRight, Maximize, X } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../constants';
 import { useRFQ } from '../contexts/RFQContext';
 import { ProductCategory } from '../types';
@@ -18,6 +18,7 @@ const ProductDetail: React.FC = () => {
   const [viewMode, setViewMode] = useState<'3D' | 'IMAGE'>('3D');
   const [activeImage, setActiveImage] = useState<string>('');
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [fileToDownload, setFileToDownload] = useState<{ title: string; type: string } | null>(null);
 
   const is3DAvailable = useMemo(() => {
@@ -41,6 +42,19 @@ const ProductDetail: React.FC = () => {
     return [...sameCategory, ...others].slice(0, 3);
   }, [product]);
 
+  const galleryImages = useMemo(() => {
+    if (!product) return [];
+    return (product.gallery && product.gallery.length > 0) 
+      ? product.gallery 
+      : [
+          product.imageUrl,
+          `https://picsum.photos/seed/${product.id}-detail1/800/600`,
+          `https://picsum.photos/seed/${product.id}-detail2/800/600`,
+          `https://picsum.photos/seed/${product.id}-detail3/800/600`,
+          `https://picsum.photos/seed/${product.id}-detail4/800/600`,
+        ];
+  }, [product]);
+
   useEffect(() => {
     if (product) {
       setActiveImage(product.imageUrl);
@@ -48,6 +62,22 @@ const ProductDetail: React.FC = () => {
       window.scrollTo(0, 0);
     }
   }, [product, is3DAvailable]);
+
+  const activeIndex = galleryImages.indexOf(activeImage) !== -1 ? galleryImages.indexOf(activeImage) : 0;
+
+  const handleNextImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    const nextIndex = (activeIndex + 1) % galleryImages.length;
+    setActiveImage(galleryImages[nextIndex]);
+    setViewMode('IMAGE');
+  };
+
+  const handlePrevImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    const prevIndex = (activeIndex - 1 + galleryImages.length) % galleryImages.length;
+    setActiveImage(galleryImages[prevIndex]);
+    setViewMode('IMAGE');
+  };
 
   if (!product) {
     return <div className="p-20 text-center text-slate-800">Product not found. <Link to="/products" className="text-emphz-orange font-bold">Go back</Link></div>;
@@ -77,27 +107,18 @@ const ProductDetail: React.FC = () => {
     return 'DEFAULT';
   };
 
-  const galleryImages = (product.gallery && product.gallery.length > 0) 
-    ? product.gallery 
-    : [
-        product.imageUrl,
-        `https://picsum.photos/seed/${product.id}-detail1/800/600`,
-        `https://picsum.photos/seed/${product.id}-detail2/800/600`,
-        `https://picsum.photos/seed/${product.id}-detail3/800/600`,
-        `https://picsum.photos/seed/${product.id}-detail4/800/600`,
-      ];
-
   return (
     <>
       <div className="bg-white min-h-screen text-slate-900 pb-24">
         {/* Hero for Product - Keep Dark for Impact */}
         <div className="relative h-[500px] lg:h-[700px] bg-[#050A14] overflow-hidden group">
           
-          {is3DAvailable && (
-            <div className="absolute top-24 right-4 md:right-8 z-30 flex flex-col gap-3">
+          <div className="absolute top-24 right-4 md:right-8 z-30 flex flex-col gap-3">
+              {is3DAvailable && (
                <button 
                  onClick={() => setViewMode(prev => prev === '3D' ? 'IMAGE' : '3D')}
                  className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-5 py-2.5 rounded-full font-bold text-xs hover:bg-emphz-orange hover:border-emphz-orange transition-all shadow-xl flex items-center justify-center gap-2 group/toggle uppercase tracking-wide"
+                 title="Toggle 3D/Photo"
                >
                  {viewMode === '3D' ? (
                    <>
@@ -111,17 +132,43 @@ const ProductDetail: React.FC = () => {
                    </>
                  )}
                </button>
-               <button className="bg-white/5 backdrop-blur-md border border-white/10 text-white p-2.5 rounded-full hover:bg-white/20 transition-all shadow-lg">
+              )}
+               <button onClick={() => setIsLightboxOpen(true)} className="bg-white/5 backdrop-blur-md border border-white/10 text-white p-2.5 rounded-full hover:bg-white/20 transition-all shadow-lg" title="Fullscreen">
+                  <Maximize size={18} />
+               </button>
+               <button className="bg-white/5 backdrop-blur-md border border-white/10 text-white p-2.5 rounded-full hover:bg-white/20 transition-all shadow-lg" title="Share">
                   <Share2 size={18} />
                </button>
-            </div>
-          )}
+          </div>
 
           {viewMode === 'IMAGE' ? (
             <>
-              <img src={activeImage} alt={product.name} className="w-full h-full object-cover opacity-80 animate-fade-in transition-opacity duration-500 scale-105" key={activeImage} />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#050A14] via-transparent to-transparent"></div>
-              <div className="absolute inset-0 bg-gradient-to-r from-[#050A14]/80 via-transparent to-transparent"></div>
+              <div className="absolute inset-0 transition-opacity duration-500 bg-[#0B1120]">
+                <img src={activeImage} alt={product.name} className="w-full h-full object-cover opacity-100 group-hover:scale-105 transition-transform duration-[2s]" key={activeImage} />
+              </div>
+              
+              {galleryImages.length > 1 && (
+                <>
+                  <button 
+                    onClick={handlePrevImage}
+                    className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/60 text-white p-3 rounded-full backdrop-blur-md border border-white/10 transition-all hover:scale-110 z-30 group/nav"
+                    aria-label="Previous image"
+                  >
+                    <ChevronLeft size={32} className="group-hover/nav:-translate-x-1 transition-transform" />
+                  </button>
+                  <button 
+                    onClick={handleNextImage}
+                    className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/60 text-white p-3 rounded-full backdrop-blur-md border border-white/10 transition-all hover:scale-110 z-30 group/nav"
+                    aria-label="Next image"
+                  >
+                    <ChevronRight size={32} className="group-hover/nav:translate-x-1 transition-transform" />
+                  </button>
+                </>
+              )}
+
+              {/* Improved Gradients for Readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050A14] via-transparent to-[#050A14]/30 pointer-events-none"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#050A14]/60 via-transparent to-transparent pointer-events-none"></div>
             </>
           ) : (
             <div className="w-full h-full absolute inset-0 z-10 animate-fade-in">
@@ -179,7 +226,9 @@ const ProductDetail: React.FC = () => {
                     <h3 className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em] font-display">
                       Media Gallery
                     </h3>
-                    <span className="text-[10px] font-mono text-gray-400">01 / 0{galleryImages.length}</span>
+                    <span className="text-[10px] font-mono text-gray-400">
+                      {String(activeIndex + 1).padStart(2, '0')} / {String(galleryImages.length).padStart(2, '0')}
+                    </span>
                   </div>
                   <div className="flex gap-4 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-300">
                       {galleryImages.map((img, idx) => (
@@ -435,6 +484,45 @@ const ProductDetail: React.FC = () => {
            </button>
         </div>
       </div>
+      
+      {/* Lightbox Modal */}
+      {isLightboxOpen && (
+        <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 animate-fade-in backdrop-blur-sm">
+            <button 
+                onClick={() => setIsLightboxOpen(false)} 
+                className="absolute top-6 right-6 text-white/50 hover:text-white p-3 rounded-full hover:bg-white/10 transition-colors z-50"
+            >
+                <X size={32}/>
+            </button>
+            
+            <div className="relative w-full h-full flex items-center justify-center">
+                 {galleryImages.length > 1 && (
+                    <button 
+                        onClick={handlePrevImage} 
+                        className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-4 rounded-full hover:bg-white/10 transition-colors"
+                    > 
+                        <ChevronLeft size={48} /> 
+                    </button>
+                 )}
+                 
+                 <img src={activeImage} className="max-w-full max-h-full object-contain shadow-2xl" alt="Fullscreen Product" />
+                 
+                 {galleryImages.length > 1 && (
+                    <button 
+                        onClick={handleNextImage} 
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-4 rounded-full hover:bg-white/10 transition-colors"
+                    > 
+                        <ChevronRight size={48} /> 
+                    </button>
+                 )}
+                 
+                 <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 font-mono text-sm bg-black/50 px-4 py-2 rounded-full backdrop-blur-md border border-white/10">
+                    {activeIndex + 1} / {galleryImages.length}
+                 </div>
+            </div>
+        </div>
+      )}
+
       <GatedDownloadModal 
         isOpen={isDownloadModalOpen}
         onClose={() => setIsDownloadModalOpen(false)}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Droplet, Zap, Box, Layers, Maximize, FileText, Sun, Train, Wifi, Flame, CloudRain, Factory, Shield, CheckCircle, Award } from 'lucide-react';
+import { ArrowRight, Droplet, Zap, Box, Layers, Maximize, FileText, Sun, Train, Wifi, Flame, CloudRain, Factory, Shield, CheckCircle, Award, Play, ShieldCheck, Cpu, Globe, ChevronRight } from 'lucide-react';
 import { INDUSTRIES, MOCK_PRODUCTS } from '../constants';
 
 const ScrollRevealIcon: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -44,13 +44,24 @@ const TESTIMONIALS = [
   { company: "Kochi Metro", text: "Safe, lightweight, and aesthetically perfect for public infrastructure." }
 ];
 
+const ROTATING_WORDS = ["POSSIBILITIES", "ENVIRONMENTS", "SOLUTIONS", "FUTURES"];
+
 const Home: React.FC = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTestimonial((prev) => (prev + 1) % TESTIMONIALS.length);
     }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentWordIndex((prev) => (prev + 1) % ROTATING_WORDS.length);
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -66,97 +77,138 @@ const Home: React.FC = () => {
   return (
     <div className="flex flex-col bg-white text-emphz-navy overflow-x-hidden motion-safe:scroll-smooth">
       
-      {/* 1. Immersive Hero Section - FULL WIDE & FULL SCREEN */}
-      <section className="relative h-screen min-h-[700px] flex items-center overflow-hidden bg-emphz-navy group">
-        {/* Background Image & Overlays */}
+      {/* 1. Enhanced Split Layout Hero Section */}
+      <section className="relative min-h-screen flex items-center pt-20 pb-10 overflow-hidden bg-[#050A14] group">
+        
+        {/* Animated Background */}
         <div className="absolute inset-0 z-0 overflow-hidden">
            <video 
             autoPlay 
             loop 
             muted 
             playsInline
-            className="w-full h-full object-cover object-center animate-ken-burns transition-opacity duration-1000 opacity-60"
-            poster="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2301&auto=format&fit=crop"
+            poster="https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0"
+            onLoadedData={() => setIsVideoLoaded(true)}
+            className={`w-full h-full object-cover object-center transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-40' : 'opacity-0'}`}
            >
-             <source src="https://photos.app.goo.gl/cjnhX613fug9KF8W7" type="video/mp4" />
-             <img 
-              src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2301&auto=format&fit=crop"
-              alt="Futuristic GRP Enclosures - Glossy Industrial Texture"
-              className="w-full h-full object-cover"
-             />
+             {/* Reliable Abstract Tech Background */}
+             <source src="https://cdn.pixabay.com/video/2020/03/30/34976-411333333_large.mp4" type="video/mp4" />
            </video>
-           
+           <div className={`absolute inset-0 bg-[#050A14] transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-0' : 'opacity-100'}`}></div>
+
            {/* Cinematic Gradients */}
-           <div className="absolute inset-0 bg-gradient-to-r from-[#0B1120] via-[#0B1120]/80 to-transparent"></div>
-           <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent opacity-90"></div>
-           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay"></div>
+           <div className="absolute inset-0 bg-gradient-to-r from-[#050A14] via-[#050A14]/80 to-[#050A14]/30"></div>
+           <div className="absolute inset-0 bg-gradient-to-t from-[#050A14] via-transparent to-transparent opacity-90"></div>
+           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 mix-blend-overlay"></div>
         </div>
 
-        <div className="w-full px-4 md:px-12 lg:px-24 relative z-10 grid lg:grid-cols-12 gap-8 md:gap-12 items-center h-full">
-          
-          <div className="lg:col-span-9 space-y-6 md:space-y-8 motion-safe:animate-fade-up pt-20 md:pt-0">
-            <div className="flex flex-wrap items-center gap-4">
-              <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-emphz-orange/30 bg-emphz-navy/40 backdrop-blur-md shadow-[0_0_20px_rgba(0,173,181,0.2)]">
-                <span className="w-2 h-2 bg-emphz-orange rounded-full mr-3 motion-safe:animate-pulse shadow-[0_0_10px_#00ADB5]"></span>
-                <span className="text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase text-emphz-orange font-display">Next-Gen Composites</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            
+            {/* Left Column: Text Content */}
+            <div className="space-y-8 md:space-y-10 motion-safe:animate-fade-up">
+              <div className="flex flex-wrap items-center gap-4">
+                <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-emphz-orange/30 bg-emphz-navy/40 backdrop-blur-md shadow-[0_0_20px_rgba(0,173,181,0.2)]">
+                  <span className="w-2 h-2 bg-emphz-orange rounded-full mr-3 motion-safe:animate-pulse shadow-[0_0_10px_#00ADB5]"></span>
+                  <span className="text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase text-emphz-orange font-display">Next-Gen GRP Composites</span>
+                </div>
               </div>
-            </div>
-            
-            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black font-display leading-[1.0] md:leading-[0.9] tracking-tighter text-white drop-shadow-2xl">
-              ONE ENCLOSURE. <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-orange via-cyan-300 to-white filter drop-shadow-[0_0_25px_rgba(0,173,181,0.4)]">
-                INFINITE WORLDS.
-              </span>
-            </h1>
-            
-            <div className="flex flex-col md:flex-row gap-6 border-l-[3px] border-emphz-orange pl-6 md:pl-8 bg-gradient-to-r from-white/5 to-transparent backdrop-blur-[2px] p-4 md:p-6 rounded-r-xl max-w-3xl">
-               <p className="text-sm md:text-xl text-gray-200 leading-relaxed font-sans font-light tracking-wide">
-                Domestic. Commercial. Industrial. <br/>
-                <span className="text-gray-400 text-xs md:text-base block mt-2 font-medium">
-                  Experience the dynamic versatility of Emphz GRP. Glossy, high-impact shells protecting stylized micro-environments across every sector.
-                </span>
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-5 pt-4 md:pt-8 pb-8 md:pb-0">
-              <Link to="/products" className="group bg-white text-emphz-navy px-8 py-4 md:px-10 md:py-5 rounded-full font-black text-xs md:text-sm tracking-[0.15em] uppercase font-display hover:bg-emphz-orange hover:text-white transition-all duration-300 flex items-center shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:shadow-[0_0_50px_rgba(0,173,181,0.6)] hover:-translate-y-1 active:scale-95">
-                EXPLORE CATALOG <ArrowRight className="ml-3 group-hover:translate-x-1 transition-transform" size={18} aria-hidden="true" />
-              </Link>
               
-              <Link to="/technical" className="group px-8 py-4 md:px-10 md:py-5 rounded-full border border-white/20 text-white font-black text-xs md:text-sm tracking-[0.15em] uppercase font-display hover:bg-white/10 hover:border-white/40 transition-all duration-300 flex items-center backdrop-blur-md bg-black/20 hover:-translate-y-1 active:scale-95">
-                3D SPECS <Box className="ml-3 text-emphz-orange group-hover:scale-110 transition-transform" size={18} aria-hidden="true" />
-              </Link>
+              <h1 className="text-4xl sm:text-5xl md:text-7xl font-black font-display leading-[1.0] md:leading-[0.9] tracking-tighter text-white drop-shadow-2xl">
+                ONE ENCLOSURE. <br/>
+                <span className="block mt-2 h-[1.2em] overflow-hidden text-transparent bg-clip-text bg-gradient-to-r from-emphz-orange via-cyan-300 to-white filter drop-shadow-[0_0_25px_rgba(0,173,181,0.4)]">
+                   INFINITE <br className="md:hidden" />
+                   <span className="inline-block transition-transform duration-500 ease-in-out" style={{ transform: `translateY(-${currentWordIndex * 100}%)` }}>
+                    {ROTATING_WORDS.map((word, i) => (
+                      <span key={i} className="block">{word}.</span>
+                    ))}
+                   </span>
+                </span>
+              </h1>
+              
+              <div className="border-l-[3px] border-emphz-orange pl-6 md:pl-8 bg-gradient-to-r from-white/5 to-transparent backdrop-blur-[2px] p-4 md:p-6 rounded-r-xl max-w-2xl">
+                  <p className="text-sm md:text-lg text-gray-200 leading-relaxed font-sans font-light tracking-wide">
+                  Domestic. Commercial. Industrial. <br/>
+                  <span className="text-gray-400 text-xs md:text-base block mt-2 font-medium">
+                    Experience the versatility of Emphz GRP. Glossy, high-impact shells protecting stylized micro-environments against the harshest elements.
+                  </span>
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-5">
+                <Link to="/products" className="group bg-white text-emphz-navy px-8 py-4 rounded-full font-black text-xs md:text-sm tracking-[0.15em] uppercase font-display hover:bg-emphz-orange hover:text-white transition-all duration-300 flex items-center shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:shadow-[0_0_50px_rgba(0,173,181,0.6)] hover:-translate-y-1 active:scale-95">
+                  EXPLORE CATALOG <ArrowRight className="ml-3 group-hover:translate-x-1 transition-transform" size={18} aria-hidden="true" />
+                </Link>
+                
+                <Link to="/technical" className="group px-8 py-4 rounded-full border border-white/20 text-white font-black text-xs md:text-sm tracking-[0.15em] uppercase font-display hover:bg-white/10 hover:border-white/40 transition-all duration-300 flex items-center backdrop-blur-md bg-black/20 hover:-translate-y-1 active:scale-95">
+                  3D SPECS <Box className="ml-3 text-emphz-orange group-hover:scale-110 transition-transform" size={18} aria-hidden="true" />
+                </Link>
+              </div>
+
+              {/* Trust Indicators */}
+              <div className="pt-8 border-t border-white/10 flex flex-wrap gap-x-8 gap-y-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest font-display">
+                 <div className="flex items-center gap-2">
+                    <ShieldCheck size={14} className="text-emphz-orange" /> Lifetime Warranty
+                 </div>
+                 <div className="flex items-center gap-2">
+                    <Cpu size={14} className="text-emphz-orange" /> Smart Integration
+                 </div>
+                 <div className="flex items-center gap-2">
+                    <Globe size={14} className="text-emphz-orange" /> Global Export
+                 </div>
+              </div>
             </div>
 
-            <div className="mt-8 md:mt-12 pt-8 border-t border-white/5 max-w-xl hidden sm:block">
-              <p className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-4 font-display">Trusted By Engineering Leaders</p>
-              <div className="relative h-20">
-                {TESTIMONIALS.map((t, i) => (
-                  <div 
-                    key={i} 
-                    className={`absolute top-0 left-0 w-full transition-all duration-1000 ease-in-out ${
-                      i === currentTestimonial 
-                        ? 'opacity-100 translate-y-0' 
-                        : 'opacity-0 translate-y-4'
-                    }`}
-                  >
-                    <p className="text-sm md:text-base text-gray-300 font-sans font-light italic leading-relaxed">"{t.text}"</p>
-                    <div className="flex items-center mt-3">
-                       <span className="w-6 h-[1px] bg-emphz-orange mr-3"></span>
-                       <span className="text-emphz-orange font-bold text-xs font-display tracking-widest uppercase">{t.company}</span>
-                    </div>
+            {/* Right Column: Hero Visual (Desktop Only) */}
+            <div className="hidden lg:block relative perspective-1000 group/visual">
+               {/* Background Glow */}
+               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emphz-orange/20 rounded-full blur-[100px] animate-pulse"></div>
+               
+               {/* Main Product Card */}
+               <div className="relative z-10 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 p-4 shadow-2xl transform rotate-y-[-5deg] group-hover/visual:rotate-y-0 transition-transform duration-700 ease-out">
+                  <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-gradient-to-br from-gray-800 to-black">
+                     <img 
+                        src="https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0" 
+                        alt="Xpod X7 Smart Cabin" 
+                        className="w-full h-full object-cover opacity-90 group-hover/visual:scale-105 transition-transform duration-700"
+                     />
+                     
+                     {/* Overlay Grid */}
+                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/grid-me.png')] opacity-20"></div>
+                     
+                     {/* Floating Spec Tags */}
+                     <div className="absolute top-6 left-6 bg-black/60 backdrop-blur px-3 py-1.5 rounded border border-white/10 text-[10px] font-mono text-white">
+                        MODEL: XPOD-X7
+                     </div>
+                     <div className="absolute bottom-6 left-6 text-white">
+                        <div className="text-2xl font-black font-display uppercase italic">Smart Living Pod</div>
+                        <div className="text-xs font-mono text-emphz-orange">Voice Activated / Solar Ready</div>
+                     </div>
                   </div>
-                ))}
-              </div>
+
+                  {/* Tech Decoration Lines */}
+                  <div className="absolute -right-12 top-20 flex items-center">
+                     <div className="w-12 h-px bg-emphz-orange/50"></div>
+                     <div className="bg-black/80 backdrop-blur border border-emphz-orange/50 px-3 py-1 text-[10px] font-bold text-emphz-orange rounded-r font-mono">
+                        GRP MONOCOQUE
+                     </div>
+                  </div>
+                  <div className="absolute -left-12 bottom-20 flex items-center flex-row-reverse">
+                     <div className="w-12 h-px bg-cyan-400/50"></div>
+                     <div className="bg-black/80 backdrop-blur border border-cyan-400/50 px-3 py-1 text-[10px] font-bold text-cyan-400 rounded-l font-mono">
+                        IP66 CERTIFIED
+                     </div>
+                  </div>
+               </div>
             </div>
 
           </div>
-
-        </div>
-        
-        <div className="absolute bottom-6 md:bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-60 motion-safe:animate-bounce z-20 pointer-events-none">
-          <span className="text-[8px] md:text-[10px] tracking-[0.3em] uppercase mb-3 text-white font-display">Scroll to Explore</span>
-          <div className="w-[1px] h-10 md:h-16 bg-gradient-to-b from-emphz-orange to-transparent"></div>
+          
+          {/* Scroll Indicator */}
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-60 motion-safe:animate-bounce z-20 pointer-events-none">
+            <span className="text-[8px] md:text-[10px] tracking-[0.3em] uppercase mb-3 text-white font-display">Scroll to Explore</span>
+            <div className="w-[1px] h-10 md:h-16 bg-gradient-to-b from-emphz-orange to-transparent"></div>
+          </div>
         </div>
       </section>
 
