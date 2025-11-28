@@ -88,6 +88,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-emphz-navy font-sans selection:bg-emphz-orange selection:text-white">
+      {/* Global Style Injection for Smooth Scrolling and Header Offset */}
+      <style>{`
+        html {
+          scroll-behavior: smooth;
+          scroll-padding-top: 80px; /* Offset for fixed header */
+        }
+      `}</style>
+      
       <a href="#main-content" className="skip-link">Skip to main content</a>
       
       {/* Main Header */}
