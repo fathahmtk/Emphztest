@@ -12,25 +12,30 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
   useEffect(() => {
     if (!mountRef.current) return;
 
+    // Capture current ref for cleanup
+    const container = mountRef.current;
+    let animationId: number;
+
     // Scene Setup
     const scene = new THREE.Scene();
     scene.background = null; // Transparent background
 
     // Camera Setup
-    const camera = new THREE.PerspectiveCamera(45, mountRef.current.clientWidth / mountRef.current.clientHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
     camera.position.set(6, 4, 8);
 
     // Renderer Setup
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
+    renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    mountRef.current.appendChild(renderer.domElement);
+    container.appendChild(renderer.domElement);
 
     // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.enableZoom = true;
+    controls.enablePan = true;
     controls.autoRotate = true;
     controls.autoRotateSpeed = 1.5;
 
@@ -234,18 +239,42 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
 
     // Animation Loop
     const animate = () => {
-      requestAnimationFrame(animate);
+      animationId = requestAnimationFrame(animate);
       controls.update();
       renderer.render(scene, camera);
     };
     animate();
 
+    // Resize Handler
+    const handleResize = () => {
+      if (!container) return;
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    };
+    window.addEventListener('resize', handleResize);
+
     // Cleanup
     return () => {
-      if (mountRef.current) {
-        mountRef.current.removeChild(renderer.domElement);
+      window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(animationId);
+      
+      if (container) {
+        container.removeChild(renderer.domElement);
       }
       renderer.dispose();
+      
+      // Dispose Geometries and Materials to prevent memory leaks
+      scene.traverse((object) => {
+        if (object instanceof THREE.Mesh) {
+           object.geometry.dispose();
+           if (object.material instanceof THREE.Material) {
+               object.material.dispose();
+           } else if (Array.isArray(object.material)) {
+               object.material.forEach((m: THREE.Material) => m.dispose());
+           }
+        }
+      });
     };
   }, [productType]);
 

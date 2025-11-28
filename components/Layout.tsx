@@ -64,26 +64,26 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   
   // Transition from transparent to Deep Navy with Teal Border glow
   const headerBgClass = isHeaderTransparent 
-    ? 'bg-transparent py-4' 
+    ? 'bg-transparent py-6' 
     : 'bg-emphz-navy/95 backdrop-blur-md border-b border-emphz-orange/30 shadow-lg shadow-emphz-orange/5 py-3';
   
   // Links are always light based now since header is always dark (transparent-on-dark or navy)
   const navLinkClass = isHeaderTransparent 
-    ? 'text-gray-200 hover:text-white' 
+    ? 'text-gray-100 hover:text-white font-medium shadow-black/50 drop-shadow-md' 
     : 'text-gray-300 font-medium hover:text-emphz-orange';
     
-  const activeLinkClass = 'text-emphz-orange font-bold';
+  const activeLinkClass = 'text-emphz-orange font-bold drop-shadow-md';
   
   // Logo is always light variant
   const logoVariant = 'light';
   
   const iconColorClass = isHeaderTransparent 
-    ? 'text-gray-200 hover:text-emphz-orange' 
+    ? 'text-gray-100 hover:text-emphz-orange drop-shadow-md' 
     : 'text-gray-300 hover:text-emphz-orange';
 
   // Inner Nav Pill container
   const navPillClass = isHeaderTransparent 
-    ? 'bg-white/5 border border-white/10 backdrop-blur-md' 
+    ? 'bg-white/5 border border-white/10 backdrop-blur-md shadow-xl' 
     : 'bg-black/20 border border-white/5';
 
   return (
@@ -95,7 +95,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${headerBgClass}`}
         aria-label="Site Header"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-6 md:px-12">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link to="/" className="group z-50" aria-label="Emphz Home">
@@ -174,8 +174,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         )}
       </header>
 
-      {/* Main Content */}
-      <main id="main-content" className="flex-grow relative pt-20 min-h-[calc(100vh-400px)]" role="main" tabIndex={-1}>
+      {/* Main Content - Remove top padding for Home to allow full bleed hero */}
+      <main id="main-content" className={`flex-grow relative min-h-[calc(100vh-400px)] ${isHome ? '' : 'pt-24'}`} role="main" tabIndex={-1}>
         {children}
       </main>
 
