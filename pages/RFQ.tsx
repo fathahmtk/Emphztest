@@ -54,20 +54,20 @@ const RFQ: React.FC = () => {
 
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center bg-emphz-cream px-4" role="alert">
-        <div className="bg-white p-10 rounded-2xl shadow-xl text-center max-w-lg border-t-4 border-green-500">
-          <CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-6" aria-hidden="true" />
-          <h2 className="text-3xl font-bold text-emphz-navy mb-2">Quote Request Received</h2>
+        <div className="bg-white p-6 md:p-10 rounded-2xl shadow-xl text-center max-w-lg border-t-4 border-green-500">
+          <CheckCircle className="w-16 h-16 md:w-20 md:h-20 text-green-500 mx-auto mb-6" aria-hidden="true" />
+          <h2 className="text-2xl md:text-3xl font-bold text-emphz-navy mb-2">Quote Request Received</h2>
           <div className={`inline-block px-4 py-1 rounded-full text-xs font-bold border mb-6 ${priorityColor}`}>
              STATUS: {priorityLevel} LEAD
           </div>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-600 mb-6 text-sm md:text-base">
             Thank you for choosing Emphz. <br/>
             <span className="font-bold text-emphz-navy">{routingMessage}</span>
           </p>
-          <p className="text-sm text-gray-500 mb-8 bg-gray-50 p-4 rounded">
+          <p className="text-xs md:text-sm text-gray-500 mb-8 bg-gray-50 p-4 rounded">
             An automated confirmation email with our latest product brochure has been sent to {formData.email}.
           </p>
-          <Link to="/" className="inline-block bg-emphz-navy text-white px-8 py-3 rounded-md font-bold hover:bg-emphz-orange transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-emphz-navy">
+          <Link to="/" className="inline-block bg-emphz-navy text-white px-8 py-3 rounded-md font-bold hover:bg-emphz-orange transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-emphz-navy text-sm uppercase tracking-wide">
             Return to Home
           </Link>
         </div>
@@ -76,33 +76,33 @@ const RFQ: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-gray-50 py-12 md:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-emphz-navy mb-2">Request for Quotation</h1>
-        <p className="text-gray-600 mb-8">Get factory-direct pricing from Mysore with local support in Kerala.</p>
+        <h1 className="text-2xl md:text-3xl font-bold text-emphz-navy mb-2">Request for Quotation</h1>
+        <p className="text-sm md:text-base text-gray-600 mb-8">Get factory-direct pricing from Mysore with local support in Kerala.</p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
           {/* Cart Items */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-8">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6 md:mb-8">
               <div className="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
-                <h2 className="font-bold text-gray-700">Selected Products ({items.length})</h2>
+                <h2 className="font-bold text-gray-700 text-sm md:text-base">Selected Products ({items.length})</h2>
                 <Link to="/products" className="text-xs font-bold text-emphz-orange hover:underline">Add More +</Link>
               </div>
               
               {items.length === 0 ? (
                 <div className="p-12 text-center text-gray-500">
-                  <div className="mb-4">Your quote list is empty.</div>
-                  <Link to="/products" className="bg-gray-100 text-emphz-navy px-4 py-2 rounded font-bold hover:bg-emphz-navy hover:text-white transition-colors">
+                  <div className="mb-4 text-sm">Your quote list is empty.</div>
+                  <Link to="/products" className="bg-gray-100 text-emphz-navy px-4 py-2 rounded font-bold hover:bg-emphz-navy hover:text-white transition-colors text-xs uppercase tracking-wide">
                     Browse Catalog
                   </Link>
                 </div>
               ) : (
                 <div className="divide-y divide-gray-100">
                   {items.map((item, idx) => (
-                    <div key={idx} className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div key={idx} className="p-4 md:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       <div>
-                        <h3 className="font-bold text-emphz-navy text-lg">{item.productName}</h3>
+                        <h3 className="font-bold text-emphz-navy text-base md:text-lg">{item.productName}</h3>
                         <p className="text-xs text-gray-400 font-mono">ID: {item.productId}</p>
                       </div>
                       <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-8">
@@ -155,7 +155,7 @@ const RFQ: React.FC = () => {
                         name="industry" 
                         value={formData.industry}
                         onChange={handleChange}
-                        className="w-full rounded border-gray-300 text-sm p-2 border bg-white"
+                        className="w-full rounded border-gray-300 text-base md:text-sm p-2 border bg-white"
                       >
                         <option value="Construction">Construction</option>
                         <option value="Utilities">Utilities / Power</option>
@@ -171,7 +171,7 @@ const RFQ: React.FC = () => {
                         name="urgency" 
                         value={formData.urgency}
                         onChange={handleChange}
-                        className="w-full rounded border-gray-300 text-sm p-2 border bg-white"
+                        className="w-full rounded border-gray-300 text-base md:text-sm p-2 border bg-white"
                       >
                         <option value="Standard">Standard (4 wks)</option>
                         <option value="Immediate">Immediate / Rush</option>
@@ -189,7 +189,7 @@ const RFQ: React.FC = () => {
                     name="region" 
                     value={formData.region}
                     onChange={handleChange}
-                    className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-sm p-2 border bg-gray-50 font-medium"
+                    className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-base md:text-sm p-2 border bg-gray-50 font-medium"
                   >
                     <option value="Kerala">Kerala (Vadakara Ops)</option>
                     <option value="Karnataka">Karnataka (Mysore Ops)</option>
@@ -206,31 +206,31 @@ const RFQ: React.FC = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="name" className="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
-                    <input id="name" required aria-required="true" name="name" onChange={handleChange} type="text" autoComplete="name" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-sm p-2 border" />
+                    <input id="name" required aria-required="true" name="name" onChange={handleChange} type="text" autoComplete="name" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-base md:text-sm p-3 md:p-2 border" />
                   </div>
                   <div>
                     <label htmlFor="company" className="block text-xs font-bold text-gray-500 uppercase mb-1">Company</label>
-                    <input id="company" required aria-required="true" name="company" onChange={handleChange} type="text" autoComplete="organization" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-sm p-2 border" />
+                    <input id="company" required aria-required="true" name="company" onChange={handleChange} type="text" autoComplete="organization" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-base md:text-sm p-3 md:p-2 border" />
                   </div>
                 </div>
 
                 <div>
                   <label htmlFor="email" className="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
-                  <input id="email" required aria-required="true" name="email" onChange={handleChange} type="email" autoComplete="email" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-sm p-2 border" />
+                  <input id="email" required aria-required="true" name="email" onChange={handleChange} type="email" autoComplete="email" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-base md:text-sm p-3 md:p-2 border" />
                 </div>
                 <div>
                   <label htmlFor="phone" className="block text-xs font-bold text-gray-500 uppercase mb-1">Phone / WhatsApp</label>
-                  <input id="phone" required aria-required="true" name="phone" onChange={handleChange} type="tel" autoComplete="tel" inputMode="tel" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-sm p-2 border" />
+                  <input id="phone" required aria-required="true" name="phone" onChange={handleChange} type="tel" autoComplete="tel" inputMode="tel" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-base md:text-sm p-3 md:p-2 border" />
                 </div>
                 
                 <div>
                   <label htmlFor="message" className="block text-xs font-bold text-gray-500 uppercase mb-1">Specific Requirements</label>
-                  <textarea id="message" name="message" onChange={handleChange} rows={3} placeholder="Dimensions, IP rating, delivery location..." className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-sm p-2 border"></textarea>
+                  <textarea id="message" name="message" onChange={handleChange} rows={3} placeholder="Dimensions, IP rating, delivery location..." className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-base md:text-sm p-3 md:p-2 border"></textarea>
                 </div>
                 
                 <button 
                   type="submit" 
-                  className="w-full bg-emphz-navy text-white font-bold py-4 rounded-lg hover:bg-emphz-orange transition-colors flex justify-center items-center shadow-lg transform active:scale-95 focus:ring-2 focus:ring-offset-2 focus:ring-emphz-navy"
+                  className="w-full bg-emphz-navy text-white font-bold py-4 rounded-lg hover:bg-emphz-orange transition-colors flex justify-center items-center shadow-lg transform active:scale-95 focus:ring-2 focus:ring-offset-2 focus:ring-emphz-navy text-sm uppercase tracking-wide"
                 >
                   <Send size={18} className="mr-2" aria-hidden="true" /> SUBMIT QUOTE REQUEST
                 </button>
