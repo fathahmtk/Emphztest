@@ -119,8 +119,13 @@ const ProductDetail: React.FC = () => {
           ) : (
             <div className="w-full h-full absolute inset-0 z-10 animate-fade-in">
                <Suspense fallback={
-                 <div className="w-full h-full flex items-center justify-center text-white bg-slate-900/50">
-                    <Loader2 className="animate-spin mr-2" /> Loading 3D Engine...
+                 <div className="w-full h-full flex flex-col items-center justify-center bg-slate-900 relative overflow-hidden">
+                    {/* Skeleton Pulse Background */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 animate-pulse"></div>
+                    <div className="relative z-10 flex flex-col items-center">
+                        <Loader2 className="w-10 h-10 text-emphz-orange animate-spin mb-4" />
+                        <span className="text-white font-bold text-sm tracking-widest font-display">LOADING 3D ENGINE</span>
+                    </div>
                  </div>
                }>
                   <ThreeProductViewer productType={get3DType()} />
@@ -336,7 +341,7 @@ const ProductDetail: React.FC = () => {
                   </button>
 
                   <p className="text-[10px] text-gray-500 text-center mt-4 font-mono">
-                    Bulk pricing applies for orders &gt; 50 units.
+                    Bulk pricing applies for orders > 50 units.
                   </p>
                 </div>
               </div>

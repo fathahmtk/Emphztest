@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
@@ -8,6 +8,27 @@ interface ThreeProductViewerProps {
 
 const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) => {
   const mountRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
+
+  // Effect for simulating loading progress
+  useEffect(() => {
+    let currentProgress = 0;
+    // Simulate a loading duration of ~1.2 seconds for realistic "initialization" feel
+    const interval = setInterval(() => {
+      currentProgress += Math.random() * 15;
+      if (currentProgress > 100) currentProgress = 100;
+      
+      setProgress(Math.floor(currentProgress));
+
+      if (currentProgress >= 100) {
+        clearInterval(interval);
+        setTimeout(() => setIsLoading(false), 300); // Short delay at 100% before hiding
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -279,12 +300,36 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
   }, [productType]);
 
   return (
-    <div className="w-full h-full relative group cursor-move touch-action-none">
+    <div className="w-full h-full relative group cursor-move touch-action-none bg-slate-900/20">
        <div ref={mountRef} className="w-full h-full" />
-       <div className="absolute bottom-4 right-4 bg-black/50 text-white text-[10px] px-2 py-1 rounded backdrop-blur pointer-events-none flex items-center gap-2">
-         <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-         Interactive 3D • Drag to Rotate
-       </div>
+       
+       {/* Internal Loading Overlay */}
+       {isLoading && (
+         <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-900/80 backdrop-blur-sm transition-opacity duration-500">
+            <div className="w-64 space-y-4">
+                <div className="flex justify-between text-xs font-bold text-emphz-orange font-display tracking-widest">
+                    <span>INITIALIZING MODEL</span>
+                    <span>{progress}%</span>
+                </div>
+                <div className="h-1 bg-gray-700 rounded-full overflow-hidden">
+                    <div 
+                        className="h-full bg-emphz-orange transition-all duration-100 ease-out"
+                        style={{ width: `${progress}%` }}
+                    />
+                </div>
+                <div className="text-[10px] text-gray-500 text-center font-mono">
+                    Generating geometry & shaders...
+                </div>
+            </div>
+         </div>
+       )}
+
+       {!isLoading && (
+        <div className="absolute bottom-4 right-4 bg-black/50 text-white text-[10px] px-2 py-1 rounded backdrop-blur pointer-events-none flex items-center gap-2 animate-fade-in">
+          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          Interactive 3D • Drag to Rotate
+        </div>
+       )}
     </div>
   );
 };
