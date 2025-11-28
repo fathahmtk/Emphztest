@@ -89,20 +89,22 @@ const ProductDetail: React.FC = () => {
         <div className="relative h-[500px] lg:h-[600px] bg-gradient-to-b from-slate-900 to-emphz-navy overflow-hidden">
           
           {is3DAvailable && (
-            <div className="absolute top-24 right-4 md:right-8 z-30 flex bg-white/10 backdrop-blur-md rounded-full p-1 border border-white/20 shadow-xl">
+            <div className="absolute top-24 right-4 md:right-8 z-30">
                <button 
-                 onClick={() => setViewMode('3D')}
-                 className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 transition-all duration-300 ${viewMode === '3D' ? 'bg-emphz-orange text-white shadow-lg transform scale-105' : 'text-gray-300 hover:text-white'}`}
+                 onClick={() => setViewMode(prev => prev === '3D' ? 'IMAGE' : '3D')}
+                 className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-5 py-2.5 rounded-full font-bold text-xs sm:text-sm hover:bg-emphz-orange hover:border-emphz-orange transition-all shadow-xl flex items-center gap-2 group"
                >
-                 <Box size={14} /> <span className="hidden sm:inline">3D View</span>
-                 <span className="sm:hidden">3D</span>
-               </button>
-               <button 
-                 onClick={() => setViewMode('IMAGE')}
-                 className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 transition-all duration-300 ${viewMode === 'IMAGE' ? 'bg-emphz-orange text-white shadow-lg transform scale-105' : 'text-gray-300 hover:text-white'}`}
-               >
-                 <ImageIcon size={14} /> <span className="hidden sm:inline">Photos</span>
-                 <span className="sm:hidden">img</span>
+                 {viewMode === '3D' ? (
+                   <>
+                     <ImageIcon size={16} className="group-hover:scale-110 transition-transform"/> 
+                     <span>View Photos</span>
+                   </>
+                 ) : (
+                   <>
+                     <Box size={16} className="group-hover:scale-110 transition-transform"/> 
+                     <span>View 3D Model</span>
+                   </>
+                 )}
                </button>
             </div>
           )}

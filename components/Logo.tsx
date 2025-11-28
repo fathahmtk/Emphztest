@@ -1,13 +1,13 @@
 import React from 'react';
 
 const Logo: React.FC<{ className?: string; variant?: 'light' | 'dark' }> = ({ className, variant = 'light' }) => {
-  const eColor = variant === 'light' ? '#64748B' : '#475569'; // slate-500, slate-600
-  const boltColor = '#0EA5E9'; // sky-500
-  const textColor = variant === 'light' ? '#F1F5F9' : '#1E293B'; // slate-100, slate-800
+  const eColor = variant === 'light' ? '#64748B' : '#334155'; // slate-500, slate-700
+  const boltColor = '#0088EE'; // New Azure Blue
+  const textColor = variant === 'light' ? '#F8FAFC' : '#0B1121'; // slate-50, Midnight Slate
 
   return (
     <svg 
-      viewBox="0 0 180 50" // Adjusted for better aspect ratio
+      viewBox="0 0 180 50" 
       className={className} 
       aria-labelledby="logo-title" 
       role="img"
@@ -37,9 +37,9 @@ const Logo: React.FC<{ className?: string; variant?: 'light' | 'dark' }> = ({ cl
         <text 
           x="22" 
           y="19" 
-          fontFamily="Roboto, sans-serif" 
+          fontFamily="'Montserrat', sans-serif" 
           fontSize="24" 
-          fontWeight="900" 
+          fontWeight="800" 
           fill={textColor}
           letterSpacing="-0.5"
         >

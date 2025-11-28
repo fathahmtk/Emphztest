@@ -45,17 +45,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   }, []);
 
   // Header State Logic
-  // On Home: Transparent (Light Text) -> Scrolled (White Bg, Dark Text)
-  // Other Pages: White Bg, Dark Text always (or Scrolled logic if desired, but simplifying for light theme consistency)
   const isHeaderTransparent = isHome && !scrolled;
-  const headerBgClass = isHeaderTransparent ? 'bg-transparent py-4' : 'bg-white/90 backdrop-blur-lg border-b border-gray-200 shadow-sm py-2';
-  const navLinkClass = isHeaderTransparent ? 'text-gray-300 hover:text-white' : 'text-slate-600 hover:text-emphz-orange';
-  const activeLinkClass = 'text-emphz-orange';
+  const headerBgClass = isHeaderTransparent ? 'bg-transparent py-4' : 'bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm py-2';
+  
+  // Updated text color for better contrast with Azure theme
+  const navLinkClass = isHeaderTransparent ? 'text-gray-200 hover:text-white' : 'text-emphz-navy font-medium hover:text-emphz-orange';
+  const activeLinkClass = 'text-emphz-orange font-bold';
   const logoVariant = isHeaderTransparent ? 'light' : 'dark';
-  const iconColorClass = isHeaderTransparent ? 'text-gray-300 hover:text-emphz-orange' : 'text-slate-600 hover:text-emphz-orange';
+  const iconColorClass = isHeaderTransparent ? 'text-gray-200 hover:text-emphz-orange' : 'text-emphz-navy hover:text-emphz-orange';
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-emphz-orange selection:text-white">
+    <div className="min-h-screen flex flex-col bg-white text-emphz-navy font-sans selection:bg-emphz-orange selection:text-white">
       <a href="#main-content" className="skip-link">Skip to main content</a>
       
       {/* Main Header */}
@@ -71,12 +71,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </Link>
 
             {/* Desktop Nav */}
-            <nav className={`hidden md:flex items-center space-x-8 px-8 py-3 rounded-full transition-all duration-300 ${isHeaderTransparent ? 'bg-white/5 border border-white/10 backdrop-blur-md' : 'bg-slate-100/50'}`} aria-label="Main Navigation">
+            <nav className={`hidden md:flex items-center space-x-8 px-8 py-3 rounded-full transition-all duration-300 ${isHeaderTransparent ? 'bg-white/5 border border-white/10 backdrop-blur-md' : 'bg-slate-50 border border-slate-100'}`} aria-label="Main Navigation">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`text-xs font-bold tracking-widest uppercase transition-all duration-300 ${
+                  className={`text-xs tracking-widest uppercase transition-all duration-300 font-display ${
                     isActive(link.path) ? activeLinkClass : navLinkClass
                   }`}
                   aria-current={isActive(link.path) ? 'page' : undefined}
@@ -96,7 +96,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   </span>
                 )}
               </Link>
-              <Link to="/rfq" className="bg-emphz-orange text-white px-6 py-2.5 rounded-full font-bold text-sm hover:bg-sky-600 transition-all shadow-lg shadow-emphz-orange/20 hover:shadow-emphz-orange/40">
+              <Link to="/rfq" className="bg-emphz-orange text-white px-6 py-2.5 rounded-full font-bold text-sm hover:bg-sky-500 transition-all shadow-lg shadow-emphz-orange/20 hover:shadow-emphz-orange/40 font-display tracking-wide">
                 GET QUOTE
               </Link>
             </div>
@@ -105,7 +105,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="md:hidden flex items-center z-50">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`p-2 focus:outline-none ${isHeaderTransparent ? 'text-white' : 'text-slate-900'}`}
+                className={`p-2 focus:outline-none ${isHeaderTransparent ? 'text-white' : 'text-emphz-navy'}`}
                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={isMenuOpen}
               >
@@ -124,15 +124,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   key={link.path}
                   to={link.path}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`block text-3xl font-black tracking-tight transition-colors ${
-                    isActive(link.path) ? 'text-emphz-orange' : 'text-white hover:text-emphz-beige'
+                  className={`block text-3xl font-black tracking-tight transition-colors font-display ${
+                    isActive(link.path) ? 'text-emphz-orange' : 'text-white hover:text-gray-300'
                   }`}
                 >
                   {link.label}
                 </Link>
               ))}
               <div className="pt-8 border-t border-white/10">
-                 <Link to="/rfq" onClick={() => setIsMenuOpen(false)} className="flex items-center justify-between w-full bg-emphz-orange text-white px-6 py-4 rounded-xl font-bold text-lg">
+                 <Link to="/rfq" onClick={() => setIsMenuOpen(false)} className="flex items-center justify-between w-full bg-emphz-orange text-white px-6 py-4 rounded-xl font-bold text-lg font-display">
                     <span>Review Quote Cart</span>
                     <span className="bg-black/20 px-3 py-1 rounded-full text-sm">{items.length}</span>
                   </Link>
@@ -157,7 +157,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           aria-label="Chat on WhatsApp"
         >
           <MessageCircle size={24} fill="white" />
-          <span className="absolute right-full mr-3 bg-white text-slate-900 text-xs font-bold px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+          <span className="absolute right-full mr-3 bg-white text-slate-900 text-xs font-bold px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none font-sans">
             Chat with Expert
           </span>
         </a>
@@ -167,7 +167,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           aria-label="Technical Specs"
         >
           <FileText size={24} />
-           <span className="absolute right-full mr-3 bg-white text-slate-900 text-xs font-bold px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+           <span className="absolute right-full mr-3 bg-white text-slate-900 text-xs font-bold px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none font-sans">
             Datasheets
           </span>
         </Link>
@@ -175,10 +175,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
       <LiveChatWidget />
 
-      {/* Footer - Immersive Dark */}
-      <footer className="bg-emphz-dark text-white pt-24 pb-12 border-t border-white/5 relative overflow-hidden" role="contentinfo">
+      {/* Footer - Immersive Midnight Slate */}
+      <footer className="bg-emphz-navy text-white pt-24 pb-12 border-t border-white/5 relative overflow-hidden" role="contentinfo">
         {/* Background Abstract */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
            <div className="absolute right-0 bottom-0 w-[500px] h-[500px] bg-emphz-orange rounded-full blur-[150px]"></div>
         </div>
 
@@ -190,18 +190,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   <Logo className="h-12 w-auto" variant="light" />
                 </Link>
               </div>
-              <h3 className="text-2xl font-bold mb-6 leading-tight max-w-md">
+              <h3 className="text-3xl font-display font-bold mb-6 leading-tight max-w-md">
                 Replace steel. <br/>
                 <span className="text-gray-500">Ignore corrosion.</span><br/>
                 Build for the future.
               </h3>
-              <p className="text-gray-400 text-sm leading-relaxed max-w-md mb-8">
+              <p className="text-gray-400 text-sm leading-relaxed max-w-md mb-8 font-sans">
                 Manufacturing India's most durable GRP infrastructure solutions. From Mysore's precision molding to Kerala's coastal resilience.
               </p>
             </div>
 
             <div>
-              <h4 className="text-xs font-bold text-emphz-orange uppercase tracking-widest mb-8">Products</h4>
+              <h4 className="text-xs font-bold text-emphz-orange uppercase tracking-widest mb-8 font-display">Products</h4>
               <ul className="space-y-4 text-sm font-medium text-gray-400">
                 <li><Link to="/products" className="hover:text-white transition-colors flex items-center group"><ChevronRight size={14} className="mr-2 opacity-0 group-hover:opacity-100 transition-opacity text-emphz-orange"/> Enclosures</Link></li>
                 <li><Link to="/products" className="hover:text-white transition-colors flex items-center group"><ChevronRight size={14} className="mr-2 opacity-0 group-hover:opacity-100 transition-opacity text-emphz-orange"/> Modular Kiosks</Link></li>
@@ -211,7 +211,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </div>
 
             <div>
-              <h4 className="text-xs font-bold text-emphz-orange uppercase tracking-widest mb-8">Connect</h4>
+              <h4 className="text-xs font-bold text-emphz-orange uppercase tracking-widest mb-8 font-display">Connect</h4>
               <ul className="space-y-4 text-sm font-medium text-gray-400">
                 <li className="flex items-start group">
                   <MapPin size={16} className="mr-3 mt-0.5 text-emphz-navy bg-white rounded-full p-0.5 group-hover:scale-110 transition-transform" />
@@ -227,7 +227,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </div>
           </div>
           
-          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600">
+          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 font-sans">
             <p>&copy; 2025 Emphz Engineering Pvt Ltd. Precision Molded in India.</p>
             <div className="flex space-x-8 mt-4 md:mt-0 font-bold uppercase tracking-wider">
               <Link to="#" className="hover:text-white transition-colors">Privacy</Link>
