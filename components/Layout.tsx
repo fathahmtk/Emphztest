@@ -102,14 +102,29 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     : 'bg-black/20 border border-white/5';
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-emphz-navy font-sans selection:bg-emphz-orange selection:text-white">
+    <div className="min-h-screen flex flex-col bg-white text-emphz-navy font-sans selection:bg-emphz-orange selection:text-white relative">
       {/* Global Style Injection for Smooth Scrolling and Header Offset */}
       <style>{`
         html {
           scroll-behavior: smooth;
           scroll-padding-top: 80px; 
         }
+        /* Global Noise Texture */
+        .global-noise {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+          z-index: 9999;
+          opacity: 0.03;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
       `}</style>
+
+      {/* Noise Overlay */}
+      <div className="global-noise"></div>
       
       <a href="#main-content" className="skip-link">Skip to main content</a>
       
@@ -145,7 +160,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   aria-current={isActive(link.path) ? 'page' : undefined}
                 >
                   {link.label}
-                  <span className={`absolute -bottom-1 left-0 w-full h-0.5 bg-emphz-orange transform origin-left transition-transform duration-300 ${isActive(link.path) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
+                  <span className={`absolute -bottom-1 left-0 w-full h-0.5 bg-emphz-orange transform origin-left transition-transform duration-300 ${isActive(link.path) ? 'scale-x-100 shadow-[0_0_10px_#00ADB5]' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
                 </Link>
               ))}
             </nav>

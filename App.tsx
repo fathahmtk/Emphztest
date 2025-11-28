@@ -13,6 +13,7 @@ const CaseStudies = lazy(() => import('./pages/CaseStudies'));
 const About = lazy(() => import('./pages/About'));
 const RFQ = lazy(() => import('./pages/RFQ'));
 const Sitemap = lazy(() => import('./pages/Sitemap'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 const PageLoader: React.FC = () => (
   <div className="min-h-[60vh] flex items-center justify-center text-emphz-navy w-full">
@@ -38,7 +39,7 @@ const App: React.FC = () => {
               <Route path="/about" element={<About />} />
               <Route path="/rfq" element={<RFQ />} />
               <Route path="/sitemap" element={<Sitemap />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
         </Layout>

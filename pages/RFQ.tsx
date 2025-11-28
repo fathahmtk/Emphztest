@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { Trash2, Send, CheckCircle, MapPin, AlertCircle, Briefcase, Clock } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Trash2, Send, CheckCircle, MapPin, AlertCircle, Briefcase, Clock, ShieldCheck, Zap, Globe, Cpu } from 'lucide-react';
 import { useRFQ } from '../contexts/RFQContext';
 import { Link } from 'react-router-dom';
 
 const RFQ: React.FC = () => {
   const { items, removeItem, clearCart } = useRFQ();
   const [submitted, setSubmitted] = useState(false);
-  const [routingMessage, setRoutingMessage] = useState('');
   const [leadScore, setLeadScore] = useState(0);
   const [formData, setFormData] = useState({
     name: '',
@@ -16,9 +15,19 @@ const RFQ: React.FC = () => {
     region: 'Kerala',
     industry: 'Construction',
     urgency: 'Standard',
-    project: '',
     message: ''
   });
+
+  // Calculate Lead Score dynamically
+  useEffect(() => {
+    let score = 10;
+    if (formData.urgency === 'Immediate') score += 40;
+    if (formData.urgency === 'OneMonth') score += 20;
+    if (formData.industry === 'Utilities' || formData.industry === 'OilGas') score += 30;
+    if (formData.email.includes('.com') && !formData.email.includes('gmail') && !formData.email.includes('yahoo')) score += 15;
+    if (items.length > 2) score += 20;
+    setLeadScore(Math.min(score, 100));
+  }, [formData, items]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,49 +35,53 @@ const RFQ: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Regional Routing Logic
-    const isKerala = formData.region === 'Kerala';
-    const assignedTeam = isKerala ? 'Kerala Operations (Vadakara)' : 'Mysore Factory HQ';
-    setRoutingMessage(`Your request has been routed to our ${assignedTeam} team.`);
-
-    // Lead Scoring Logic
-    let score = 10; // Base score
-    if (formData.urgency === 'Immediate') score += 40;
-    if (formData.urgency === 'OneMonth') score += 20;
-    if (formData.industry === 'Utilities' || formData.industry === 'Telecom') score += 30;
-    if (formData.email.includes('.com') && !formData.email.includes('gmail')) score += 10; // Corporate email heuristic
-    
-    setLeadScore(score);
-
-    // Simulate API Call
     setTimeout(() => {
       setSubmitted(true);
       clearCart();
-    }, 1000);
+      window.scrollTo(0, 0);
+    }, 1200);
+  };
+
+  const getPriorityColor = () => {
+    if (leadScore < 40) return 'text-gray-400 bg-gray-100';
+    if (leadScore < 70) return 'text-blue-500 bg-blue-500/10';
+    return 'text-emphz-orange bg-emphz-orange/10';
   };
 
   if (submitted) {
-    const priorityLevel = leadScore > 50 ? "HIGH PRIORITY" : "STANDARD";
-    const priorityColor = leadScore > 50 ? "text-red-600 bg-red-50 border-red-200" : "text-blue-600 bg-blue-50 border-blue-200";
-
     return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center bg-emphz-cream px-4" role="alert">
-        <div className="bg-white p-6 md:p-10 rounded-2xl shadow-xl text-center max-w-lg border-t-4 border-green-500">
-          <CheckCircle className="w-16 h-16 md:w-20 md:h-20 text-green-500 mx-auto mb-6" aria-hidden="true" />
-          <h2 className="text-2xl md:text-3xl font-bold text-emphz-navy mb-2">Quote Request Received</h2>
-          <div className={`inline-block px-4 py-1 rounded-full text-xs font-bold border mb-6 ${priorityColor}`}>
-             STATUS: {priorityLevel} LEAD
+      <div className="min-h-screen bg-emphz-navy flex items-center justify-center p-4 relative overflow-hidden">
+        {/* Abstract Background */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-green-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-12 rounded-3xl max-w-lg w-full text-center relative z-10 shadow-2xl">
+          <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-8 shadow-[0_0_30px_#22c55e]">
+            <CheckCircle className="w-10 h-10 text-white" />
           </div>
-          <p className="text-gray-600 mb-6 text-sm md:text-base">
-            Thank you for choosing Emphz. <br/>
-            <span className="font-bold text-emphz-navy">{routingMessage}</span>
+          <h2 className="text-3xl font-black text-white mb-2 font-display tracking-tight">TRANSMISSION RECEIVED</h2>
+          <div className="text-green-400 font-mono text-xs uppercase tracking-[0.2em] mb-8">Ref ID: {Math.random().toString(36).substr(2, 9).toUpperCase()}</div>
+          
+          <div className="bg-white/5 rounded-xl p-6 mb-8 border border-white/5">
+             <div className="flex justify-between text-sm mb-2">
+                <span className="text-gray-400 font-mono">Routing Target:</span>
+                <span className="text-emphz-orange font-bold font-mono">
+                  {formData.region === 'Kerala' ? 'Vadakara Ops Center' : 'Mysore Factory HQ'}
+                </span>
+             </div>
+             <div className="flex justify-between text-sm">
+                <span className="text-gray-400 font-mono">Priority Level:</span>
+                <span className={`font-bold font-mono ${leadScore > 60 ? 'text-red-400' : 'text-blue-400'}`}>
+                  {leadScore > 60 ? 'HIGH VELOCITY' : 'STANDARD QUEUE'}
+                </span>
+             </div>
+          </div>
+
+          <p className="text-gray-300 text-sm mb-8 leading-relaxed font-sans">
+            Our engineering team has received your manifest. A formal quotation and technical datasheet package will be dispatched to <span className="text-white font-bold">{formData.email}</span> within 24 hours.
           </p>
-          <p className="text-xs md:text-sm text-gray-500 mb-8 bg-gray-50 p-4 rounded">
-            An automated confirmation email with our latest product brochure has been sent to {formData.email}.
-          </p>
-          <Link to="/" className="inline-block bg-emphz-navy text-white px-8 py-3 rounded-md font-bold hover:bg-emphz-orange transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-emphz-navy text-sm uppercase tracking-wide">
-            Return to Home
+
+          <Link to="/" className="inline-flex items-center justify-center w-full bg-emphz-orange text-white font-bold py-4 rounded-xl hover:bg-white hover:text-emphz-navy transition-all uppercase tracking-widest text-xs font-display">
+            Return to Command Center
           </Link>
         </div>
       </div>
@@ -76,171 +89,225 @@ const RFQ: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 md:py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-emphz-navy mb-2">Request for Quotation</h1>
-        <p className="text-sm md:text-base text-gray-600 mb-8">Get factory-direct pricing from Mysore with local support in Kerala.</p>
+    <div className="min-h-screen bg-white flex flex-col lg:flex-row font-sans">
+      
+      {/* Left Panel: The Manifest (Dark Mode) */}
+      <div className="w-full lg:w-5/12 bg-emphz-navy text-white relative overflow-hidden flex flex-col order-2 lg:order-1">
+         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+         <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-emphz-navy to-transparent"></div>
+         
+         <div className="p-8 lg:p-12 relative z-10 flex-grow flex flex-col">
+            <Link to="/products" className="inline-flex items-center text-gray-400 hover:text-white mb-8 text-xs font-bold uppercase tracking-widest font-display transition-colors">
+               ← Modify Configuration
+            </Link>
+            
+            <h1 className="text-4xl lg:text-5xl font-black font-display mb-2 text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">
+               PROJECT <br/> MANIFEST
+            </h1>
+            <p className="text-emphz-orange font-mono text-xs uppercase tracking-wider mb-10">
+               // QUANTITY_CHECK // SPEC_VALIDATION
+            </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
-          {/* Cart Items */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6 md:mb-8">
-              <div className="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
-                <h2 className="font-bold text-gray-700 text-sm md:text-base">Selected Products ({items.length})</h2>
-                <Link to="/products" className="text-xs font-bold text-emphz-orange hover:underline">Add More +</Link>
-              </div>
-              
-              {items.length === 0 ? (
-                <div className="p-12 text-center text-gray-500">
-                  <div className="mb-4 text-sm">Your quote list is empty.</div>
-                  <Link to="/products" className="bg-gray-100 text-emphz-navy px-4 py-2 rounded font-bold hover:bg-emphz-navy hover:text-white transition-colors text-xs uppercase tracking-wide">
-                    Browse Catalog
-                  </Link>
-                </div>
-              ) : (
-                <div className="divide-y divide-gray-100">
-                  {items.map((item, idx) => (
-                    <div key={idx} className="p-4 md:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                      <div>
-                        <h3 className="font-bold text-emphz-navy text-base md:text-lg">{item.productName}</h3>
-                        <p className="text-xs text-gray-400 font-mono">ID: {item.productId}</p>
-                      </div>
-                      <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-8">
-                        <div className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded">
-                          Qty: <span className="font-bold">{item.quantity}</span>
+            <div className="flex-grow space-y-4 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-700">
+               {items.length === 0 ? (
+                  <div className="p-8 border-2 border-dashed border-white/10 rounded-2xl text-center">
+                     <p className="text-gray-500 text-sm mb-4">No assets configured.</p>
+                     <Link to="/products" className="text-emphz-orange font-bold text-xs hover:underline uppercase tracking-wide">Browse Solutions</Link>
+                  </div>
+               ) : (
+                  items.map((item, i) => (
+                     <div key={i} className="bg-white/5 border border-white/10 p-4 rounded-xl flex items-center justify-between group hover:bg-white/10 transition-colors">
+                        <div>
+                           <div className="text-white font-bold font-display text-sm">{item.productName}</div>
+                           <div className="text-[10px] text-gray-500 font-mono mt-1">ID: {item.productId}</div>
                         </div>
-                        <button 
-                          onClick={() => removeItem(item.productId)}
-                          className="text-gray-400 hover:text-red-500 transition-colors focus:outline-none focus:text-red-600"
-                          aria-label={`Remove ${item.productName} from quote`}
+                        <div className="flex items-center gap-4">
+                           <div className="bg-black/40 px-3 py-1 rounded text-xs font-mono text-emphz-orange border border-white/5">
+                              x{item.quantity}
+                           </div>
+                           <button 
+                             onClick={() => removeItem(item.productId)}
+                             className="text-gray-600 hover:text-red-400 transition-colors"
+                             aria-label="Remove item"
+                           >
+                              <Trash2 size={16} />
+                           </button>
+                        </div>
+                     </div>
+                  ))
+               )}
+            </div>
+
+            <div className="mt-8 pt-8 border-t border-white/10">
+               <div className="grid grid-cols-2 gap-4 text-[10px] uppercase tracking-wider font-bold text-gray-500 mb-6 font-display">
+                  <div className="flex items-center gap-2">
+                     <ShieldCheck size={14} className="text-emphz-orange" /> Verified Specs
+                  </div>
+                  <div className="flex items-center gap-2">
+                     <Zap size={14} className="text-emphz-orange" /> Fast Track RFQ
+                  </div>
+                  <div className="flex items-center gap-2">
+                     <Globe size={14} className="text-emphz-orange" /> Global Export
+                  </div>
+                  <div className="flex items-center gap-2">
+                     <Cpu size={14} className="text-emphz-orange" /> AI Optimized
+                  </div>
+               </div>
+               
+               <div className="bg-gradient-to-r from-emphz-orange to-cyan-500 h-1 w-full rounded-full opacity-20"></div>
+            </div>
+         </div>
+      </div>
+
+      {/* Right Panel: Logistics Data (Light Mode) */}
+      <div className="w-full lg:w-7/12 bg-gray-50 p-8 lg:p-12 overflow-y-auto order-1 lg:order-2">
+         <div className="max-w-2xl mx-auto">
+            <div className="flex items-center justify-between mb-8">
+               <h2 className="text-2xl font-bold text-emphz-navy font-display">Procurement Details</h2>
+               
+               {/* Lead Score Indicator */}
+               <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-bold font-mono transition-all duration-500 ${getPriorityColor()}`}>
+                  <div className="relative w-2 h-2">
+                     <span className={`absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping ${leadScore > 60 ? 'bg-red-400' : 'bg-blue-400'}`}></span>
+                     <span className={`relative inline-flex rounded-full h-2 w-2 ${leadScore > 60 ? 'bg-red-500' : 'bg-blue-500'}`}></span>
+                  </div>
+                  <span>PRIORITY: {leadScore}%</span>
+               </div>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-8">
+               {/* Section 1: Context */}
+               <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                  <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 font-display flex items-center">
+                     <Briefcase size={14} className="mr-2" /> Project Context
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                     <div>
+                        <label className="block text-[10px] font-bold text-emphz-navy uppercase mb-1 font-mono">Industry Sector</label>
+                        <select 
+                           name="industry"
+                           value={formData.industry}
+                           onChange={handleChange}
+                           className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm text-emphz-navy font-medium focus:ring-2 focus:ring-emphz-orange focus:border-transparent outline-none transition-all"
                         >
-                          <Trash2 size={18} aria-hidden="true" />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                           <option value="Construction">Construction / Civil</option>
+                           <option value="Utilities">Power & Utilities</option>
+                           <option value="OilGas">Oil & Gas / Petrochem</option>
+                           <option value="Telecom">Telecom / Data</option>
+                           <option value="Hospitality">Hospitality / Resorts</option>
+                        </select>
+                     </div>
+                     <div>
+                        <label className="block text-[10px] font-bold text-emphz-navy uppercase mb-1 font-mono">Urgency / Timeline</label>
+                        <select 
+                           name="urgency"
+                           value={formData.urgency}
+                           onChange={handleChange}
+                           className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm text-emphz-navy font-medium focus:ring-2 focus:ring-emphz-orange focus:border-transparent outline-none transition-all"
+                        >
+                           <option value="Standard">Standard (4-6 Weeks)</option>
+                           <option value="Immediate">Immediate (Stock Check)</option>
+                           <option value="OneMonth">Project Planning (1-3 Mo)</option>
+                           <option value="Budget">Budgetary Only</option>
+                        </select>
+                     </div>
+                  </div>
+               </div>
 
-            {/* Trust Indicators */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-               <div className="bg-white p-4 rounded-lg border border-gray-100 flex items-center shadow-sm">
-                 <div className="bg-blue-50 p-2 rounded mr-3"><MapPin className="text-blue-600 w-5 h-5" aria-hidden="true"/></div>
-                 <div><h4 className="font-bold text-xs text-emphz-navy">Factory Direct</h4><p className="text-[10px] text-gray-500">Mysore Mfg. Hub</p></div>
-               </div>
-               <div className="bg-white p-4 rounded-lg border border-gray-100 flex items-center shadow-sm">
-                 <div className="bg-green-50 p-2 rounded mr-3"><CheckCircle className="text-green-600 w-5 h-5" aria-hidden="true"/></div>
-                 <div><h4 className="font-bold text-xs text-emphz-navy">ISO 9001:2015</h4><p className="text-[10px] text-gray-500">Certified Quality</p></div>
-               </div>
-               <div className="bg-white p-4 rounded-lg border border-gray-100 flex items-center shadow-sm">
-                 <div className="bg-orange-50 p-2 rounded mr-3"><Send className="text-orange-600 w-5 h-5" aria-hidden="true"/></div>
-                 <div><h4 className="font-bold text-xs text-emphz-navy">Fast Response</h4><p className="text-[10px] text-gray-500">24h Turnaround</p></div>
-               </div>
-            </div>
-          </div>
+               {/* Section 2: Contact */}
+               <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                  <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 font-display flex items-center">
+                     <MapPin size={14} className="mr-2" /> Destination & Contact
+                  </h3>
+                  
+                  <div className="mb-6">
+                     <label className="block text-[10px] font-bold text-emphz-navy uppercase mb-1 font-mono">Region / Routing</label>
+                     <div className="relative">
+                        <select 
+                           name="region"
+                           value={formData.region}
+                           onChange={handleChange}
+                           className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm text-emphz-navy font-medium focus:ring-2 focus:ring-emphz-orange focus:border-transparent outline-none transition-all appearance-none"
+                        >
+                           <option value="Kerala">Kerala (Vadakara Hub)</option>
+                           <option value="Karnataka">Karnataka (Mysore HQ)</option>
+                           <option value="TamilNadu">Tamil Nadu</option>
+                           <option value="RestOfIndia">Rest of India</option>
+                           <option value="International">International Export</option>
+                        </select>
+                        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+                           <MapPin size={16} />
+                        </div>
+                     </div>
+                     <p className="text-[10px] text-emphz-orange mt-2 font-mono">
+                        * Routing: {formData.region === 'Kerala' ? 'Direct to Kerala Ops Team' : 'Direct to Central Manufacturing'}
+                     </p>
+                  </div>
 
-          {/* RFQ Form */}
-          <div>
-            <div className="bg-white rounded-xl shadow-lg border-t-4 border-emphz-orange p-6 sticky top-24">
-              <h2 className="text-xl font-bold text-emphz-navy mb-6">Project Details</h2>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="bg-emphz-cream p-4 rounded border border-emphz-beige">
-                  <h3 className="text-xs font-bold text-emphz-navy mb-3 flex items-center"><Briefcase size={12} className="mr-1" aria-hidden="true"/> PROJECT CONTEXT</h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label htmlFor="industry" className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Industry</label>
-                      <select 
-                        id="industry"
-                        name="industry" 
-                        value={formData.industry}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                     <input 
+                        type="text" 
+                        name="name" 
+                        placeholder="Full Name *" 
+                        required 
                         onChange={handleChange}
-                        className="w-full rounded border-gray-300 text-base md:text-sm p-2 border bg-white"
-                      >
-                        <option value="Construction">Construction</option>
-                        <option value="Utilities">Utilities / Power</option>
-                        <option value="Telecom">Telecom</option>
-                        <option value="OilGas">Oil & Gas</option>
-                        <option value="Hospitality">Hospitality</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label htmlFor="urgency" className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Urgency</label>
-                      <select 
-                        id="urgency"
-                        name="urgency" 
-                        value={formData.urgency}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-orange outline-none"
+                     />
+                     <input 
+                        type="text" 
+                        name="company" 
+                        placeholder="Company Name *" 
+                        required 
                         onChange={handleChange}
-                        className="w-full rounded border-gray-300 text-base md:text-sm p-2 border bg-white"
-                      >
-                        <option value="Standard">Standard (4 wks)</option>
-                        <option value="Immediate">Immediate / Rush</option>
-                        <option value="OneMonth">1-2 Months</option>
-                        <option value="Planning">Budget Planning</option>
-                      </select>
-                    </div>
+                        className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-orange outline-none"
+                     />
                   </div>
-                </div>
-
-                <div>
-                  <label htmlFor="region" className="block text-xs font-bold text-gray-500 uppercase mb-1">Region / State</label>
-                  <select 
-                    id="region"
-                    name="region" 
-                    value={formData.region}
-                    onChange={handleChange}
-                    className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-base md:text-sm p-2 border bg-gray-50 font-medium"
-                  >
-                    <option value="Kerala">Kerala (Vadakara Ops)</option>
-                    <option value="Karnataka">Karnataka (Mysore Ops)</option>
-                    <option value="TamilNadu">Tamil Nadu</option>
-                    <option value="RestOfIndia">Rest of India</option>
-                    <option value="International">International / Export</option>
-                  </select>
-                  <p className="text-[10px] text-emphz-orange mt-1 flex items-center">
-                    <MapPin size={10} className="mr-1" aria-hidden="true" />
-                    {formData.region === 'Kerala' ? 'Direct routing to Vadakara Office' : 'Direct routing to Mysore Factory HQ'}
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="name" className="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
-                    <input id="name" required aria-required="true" name="name" onChange={handleChange} type="text" autoComplete="name" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-base md:text-sm p-3 md:p-2 border" />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                     <input 
+                        type="email" 
+                        name="email" 
+                        placeholder="Work Email *" 
+                        required 
+                        onChange={handleChange}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-orange outline-none"
+                     />
+                     <input 
+                        type="tel" 
+                        name="phone" 
+                        placeholder="Phone Number *" 
+                        required 
+                        onChange={handleChange}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-orange outline-none"
+                     />
                   </div>
-                  <div>
-                    <label htmlFor="company" className="block text-xs font-bold text-gray-500 uppercase mb-1">Company</label>
-                    <input id="company" required aria-required="true" name="company" onChange={handleChange} type="text" autoComplete="organization" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-base md:text-sm p-3 md:p-2 border" />
-                  </div>
-                </div>
+               </div>
 
-                <div>
-                  <label htmlFor="email" className="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
-                  <input id="email" required aria-required="true" name="email" onChange={handleChange} type="email" autoComplete="email" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-base md:text-sm p-3 md:p-2 border" />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-xs font-bold text-gray-500 uppercase mb-1">Phone / WhatsApp</label>
-                  <input id="phone" required aria-required="true" name="phone" onChange={handleChange} type="tel" autoComplete="tel" inputMode="tel" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-base md:text-sm p-3 md:p-2 border" />
-                </div>
-                
-                <div>
-                  <label htmlFor="message" className="block text-xs font-bold text-gray-500 uppercase mb-1">Specific Requirements</label>
-                  <textarea id="message" name="message" onChange={handleChange} rows={3} placeholder="Dimensions, IP rating, delivery location..." className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-base md:text-sm p-3 md:p-2 border"></textarea>
-                </div>
-                
-                <button 
+               {/* Section 3: Notes */}
+               <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                   <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 font-display">Custom Requirements</h3>
+                   <textarea 
+                      name="message" 
+                      rows={3}
+                      onChange={handleChange}
+                      placeholder="Enter specific dimensional constraints, IP rating requirements, or custom color codes..."
+                      className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-orange outline-none"
+                   ></textarea>
+               </div>
+
+               <button 
                   type="submit" 
-                  className="w-full bg-emphz-navy text-white font-bold py-4 rounded-lg hover:bg-emphz-orange transition-colors flex justify-center items-center shadow-lg transform active:scale-95 focus:ring-2 focus:ring-offset-2 focus:ring-emphz-navy text-sm uppercase tracking-wide"
-                >
-                  <Send size={18} className="mr-2" aria-hidden="true" /> SUBMIT QUOTE REQUEST
-                </button>
-                <p className="text-[10px] text-center text-gray-400 mt-2 leading-tight flex items-center justify-center">
-                  <AlertCircle size={10} className="mr-1" aria-hidden="true" /> High-priority requests are answered within 4 hours.
-                </p>
-              </form>
-            </div>
-          </div>
-        </div>
+                  disabled={items.length === 0}
+                  className="w-full bg-emphz-navy text-white font-black py-5 rounded-xl hover:bg-emphz-orange transition-all shadow-xl shadow-emphz-navy/20 hover:shadow-emphz-orange/40 text-sm uppercase tracking-[0.2em] font-display transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-3"
+               >
+                  <Send size={18} /> Initialize Request
+               </button>
+               
+               <p className="text-center text-[10px] text-gray-400 font-mono">
+                  <Clock size={10} className="inline mr-1" />
+                  Average response time: &lt; 4 Hours during business hours.
+               </p>
+            </form>
+         </div>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { NAV_LINKS, MOCK_PRODUCTS, MOCK_CASE_STUDIES } from '../constants';
 import { ProductCategory, Product } from '../types';
-import { Box, BookOpen, ChevronRight, FileText, Info, Send, Map } from 'lucide-react';
+import { Box, FileText, ChevronRight, Activity, Cpu, Layers, LayoutGrid, Zap } from 'lucide-react';
 
 const Sitemap: React.FC = () => {
   const productsByCategory = Object.values(ProductCategory).reduce((acc, category) => {
@@ -11,86 +11,117 @@ const Sitemap: React.FC = () => {
   }, {} as Record<ProductCategory, Product[]>);
 
   return (
-    <div className="bg-emphz-cream min-h-screen py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 text-center">
-          <Map size={40} className="text-emphz-orange mx-auto mb-4" />
-          <h1 className="text-4xl font-bold text-emphz-navy mt-2 mb-4">Site Map</h1>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Find everything you need in one place. Explore our full range of products, resources, and company information.
-          </p>
-        </div>
+    <div className="bg-[#050A14] min-h-screen py-16 text-gray-300 relative overflow-hidden font-mono">
+       {/* Blueprint Background Grid */}
+       <div className="absolute inset-0" style={{
+           backgroundImage: 'linear-gradient(rgba(0,173,181,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,173,181,0.05) 1px, transparent 1px)',
+           backgroundSize: '40px 40px'
+       }}></div>
+       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none"></div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Main Navigation */}
-          <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
-            <h2 className="text-xl font-bold text-emphz-navy mb-6">Main Pages</h2>
-            <ul className="space-y-4">
-              {NAV_LINKS.map(link => (
-                <li key={link.path}>
-                  <Link to={link.path} className="flex items-center text-gray-700 hover:text-emphz-orange font-medium transition-colors group">
-                    <ChevronRight size={16} className="mr-2 text-gray-400 group-hover:text-emphz-orange transition-colors" />
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          
-          {/* Case Studies */}
-          <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
-            <div className="flex items-center mb-6">
-                <BookOpen size={20} className="mr-3 text-emphz-orange"/>
-                <h2 className="text-xl font-bold text-emphz-navy">Case Studies</h2>
+       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="mb-12 border-b border-gray-800 pb-8 flex items-end justify-between">
+            <div>
+               <div className="text-emphz-orange font-bold text-xs uppercase tracking-[0.3em] mb-2">// SYSTEM_ARCHITECTURE</div>
+               <h1 className="text-4xl md:text-5xl font-black text-white font-display tracking-tight">SITE BLUEPRINT</h1>
             </div>
-            <ul className="space-y-4">
-              {MOCK_CASE_STUDIES.map(study => (
-                <li key={study.id}>
-                  <Link to="/case-studies" className="flex items-center text-gray-700 hover:text-emphz-orange font-medium transition-colors group">
-                    <ChevronRight size={16} className="mr-2 text-gray-400 group-hover:text-emphz-orange transition-colors" />
-                    {study.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Other Resources */}
-           <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
-            <h2 className="text-xl font-bold text-emphz-navy mb-6">Resources & Contact</h2>
-             <ul className="space-y-4">
-               <li><Link to="/technical" className="flex items-center text-gray-700 hover:text-emphz-orange font-medium transition-colors group"><FileText size={16} className="mr-2 text-gray-400 group-hover:text-emphz-orange" /> Technical Center</Link></li>
-               <li><Link to="/about" className="flex items-center text-gray-700 hover:text-emphz-orange font-medium transition-colors group"><Info size={16} className="mr-2 text-gray-400 group-hover:text-emphz-orange" /> About Us</Link></li>
-               <li><Link to="/rfq" className="flex items-center text-gray-700 hover:text-emphz-orange font-medium transition-colors group"><Send size={16} className="mr-2 text-gray-400 group-hover:text-emphz-orange" /> Request a Quote</Link></li>
-             </ul>
-          </div>
-
-          {/* Products Section */}
-          <div className="md:col-span-2 lg:col-span-3 bg-white p-8 rounded-xl shadow-lg border border-gray-100">
-             <div className="flex items-center mb-6">
-                <Box size={20} className="mr-3 text-emphz-orange"/>
-                <h2 className="text-xl font-bold text-emphz-navy">Product Catalog</h2>
+            <div className="hidden md:block text-right text-[10px] text-gray-500 font-mono">
+               <div>LAST_UPDATE: {new Date().toLocaleDateString()}</div>
+               <div>NODES: {MOCK_PRODUCTS.length + MOCK_CASE_STUDIES.length + 5}</div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
-              {Object.entries(productsByCategory).map(([category, products]) => (
-                <div key={category}>
-                  <h3 className="font-bold text-emphz-navy border-b-2 border-emphz-orange/50 pb-2 mb-4">{category}</h3>
-                  <ul className="space-y-3">
-                    {products.map(product => (
-                      <li key={product.id}>
-                        <Link to={`/products/${product.id}`} className="flex items-start text-sm text-gray-600 hover:text-emphz-orange font-medium transition-colors group">
-                           <ChevronRight size={14} className="mr-2 mt-0.5 text-gray-400 group-hover:text-emphz-orange transition-colors flex-shrink-0" />
-                           {product.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+             
+             {/* Column 1: Core Navigation */}
+             <div className="lg:col-span-1">
+                <div className="flex items-center gap-2 text-white font-bold mb-6 uppercase tracking-wider text-sm border-l-2 border-emphz-orange pl-3">
+                   <LayoutGrid size={16} className="text-emphz-orange"/> Core Modules
                 </div>
-              ))}
-            </div>
+                <div className="space-y-4 relative">
+                   {/* Vertical Connector Line */}
+                   <div className="absolute left-[7px] top-2 bottom-4 w-px bg-gray-800"></div>
+                   
+                   {NAV_LINKS.map((link, i) => (
+                      <div key={link.path} className="relative pl-6">
+                         {/* Horizontal Connector */}
+                         <div className="absolute left-[7px] top-1/2 w-4 h-px bg-gray-800"></div>
+                         <div className="absolute left-[5px] top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-gray-700 rounded-full border border-gray-900"></div>
+                         
+                         <Link to={link.path} className="block bg-gray-900/50 border border-gray-800 hover:border-emphz-orange p-3 rounded text-sm text-gray-300 hover:text-white hover:bg-gray-800 transition-all group">
+                            <span className="font-bold group-hover:text-emphz-orange transition-colors">{link.label}</span>
+                            <span className="block text-[9px] text-gray-600 font-mono mt-1 group-hover:text-gray-500">/{link.path.replace('/', '')}</span>
+                         </Link>
+                      </div>
+                   ))}
+                </div>
+             </div>
+
+             {/* Column 2 & 3: Product Matrix */}
+             <div className="lg:col-span-2">
+                <div className="flex items-center gap-2 text-white font-bold mb-6 uppercase tracking-wider text-sm border-l-2 border-emphz-orange pl-3">
+                   <Box size={16} className="text-emphz-orange"/> Product Matrix
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                   {Object.entries(productsByCategory).map(([category, products]) => (
+                      <div key={category} className="mb-4">
+                         <h3 className="text-xs font-bold text-gray-400 uppercase mb-3 flex items-center">
+                            <Layers size={12} className="mr-2"/> {category}
+                         </h3>
+                         <ul className="space-y-2 border-l border-gray-800 pl-4 ml-1">
+                            {products.map(product => (
+                               <li key={product.id}>
+                                  <Link to={`/products/${product.id}`} className="flex items-center justify-between group hover:pl-2 transition-all duration-300">
+                                     <span className="text-sm text-gray-500 group-hover:text-emphz-orange transition-colors">{product.name}</span>
+                                     <ChevronRight size={12} className="opacity-0 group-hover:opacity-100 text-emphz-orange transition-opacity" />
+                                  </Link>
+                               </li>
+                            ))}
+                         </ul>
+                      </div>
+                   ))}
+                </div>
+             </div>
+
+             {/* Column 4: Resources */}
+             <div className="lg:col-span-1">
+                <div className="flex items-center gap-2 text-white font-bold mb-6 uppercase tracking-wider text-sm border-l-2 border-emphz-orange pl-3">
+                   <Cpu size={16} className="text-emphz-orange"/> Data Nodes
+                </div>
+                
+                <div className="space-y-8">
+                   <div>
+                      <h3 className="text-[10px] font-bold text-gray-500 uppercase mb-3 tracking-widest">Case Studies</h3>
+                      <ul className="space-y-2">
+                         {MOCK_CASE_STUDIES.map(study => (
+                            <li key={study.id}>
+                               <Link to="/case-studies" className="block p-2 rounded hover:bg-white/5 border border-transparent hover:border-gray-800 transition-colors">
+                                  <div className="text-xs font-bold text-gray-300">{study.title}</div>
+                                  <div className="text-[9px] text-gray-600 font-mono mt-0.5">{study.location}</div>
+                               </Link>
+                            </li>
+                         ))}
+                      </ul>
+                   </div>
+
+                   <div>
+                      <h3 className="text-[10px] font-bold text-gray-500 uppercase mb-3 tracking-widest">Utilities</h3>
+                      <div className="grid grid-cols-2 gap-2">
+                         <Link to="/technical" className="bg-gray-900 border border-gray-800 p-3 rounded text-center hover:border-emphz-orange group transition-colors">
+                            <Zap size={16} className="mx-auto mb-2 text-gray-600 group-hover:text-emphz-orange"/>
+                            <span className="text-[10px] font-bold text-gray-400 group-hover:text-white">TECH_BOT</span>
+                         </Link>
+                         <Link to="/rfq" className="bg-gray-900 border border-gray-800 p-3 rounded text-center hover:border-emphz-orange group transition-colors">
+                            <Activity size={16} className="mx-auto mb-2 text-gray-600 group-hover:text-emphz-orange"/>
+                            <span className="text-[10px] font-bold text-gray-400 group-hover:text-white">RFQ_CART</span>
+                         </Link>
+                      </div>
+                   </div>
+                </div>
+             </div>
+
           </div>
-        </div>
-      </div>
+       </div>
     </div>
   );
 };

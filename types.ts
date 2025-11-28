@@ -27,6 +27,7 @@ export interface Product {
   specs: ProductSpec[];
   features: string[];
   imageUrl: string;
+  gallery?: string[];
   downloads: { title: string; type: 'PDF' | 'CAD' }[];
   accessories?: string[];
 }

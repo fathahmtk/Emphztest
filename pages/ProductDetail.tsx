@@ -77,13 +77,15 @@ const ProductDetail: React.FC = () => {
     return 'DEFAULT';
   };
 
-  const galleryImages = [
-    product.imageUrl,
-    `https://picsum.photos/seed/${product.id}-detail1/800/600`,
-    `https://picsum.photos/seed/${product.id}-detail2/800/600`,
-    `https://picsum.photos/seed/${product.id}-detail3/800/600`,
-    `https://picsum.photos/seed/${product.id}-detail4/800/600`,
-  ];
+  const galleryImages = (product.gallery && product.gallery.length > 0) 
+    ? product.gallery 
+    : [
+        product.imageUrl,
+        `https://picsum.photos/seed/${product.id}-detail1/800/600`,
+        `https://picsum.photos/seed/${product.id}-detail2/800/600`,
+        `https://picsum.photos/seed/${product.id}-detail3/800/600`,
+        `https://picsum.photos/seed/${product.id}-detail4/800/600`,
+      ];
 
   return (
     <>
@@ -177,7 +179,7 @@ const ProductDetail: React.FC = () => {
                     <h3 className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em] font-display">
                       Media Gallery
                     </h3>
-                    <span className="text-[10px] font-mono text-gray-400">01 / 05</span>
+                    <span className="text-[10px] font-mono text-gray-400">01 / 0{galleryImages.length}</span>
                   </div>
                   <div className="flex gap-4 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-300">
                       {galleryImages.map((img, idx) => (
