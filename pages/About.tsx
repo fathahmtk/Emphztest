@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Target, Gem, Users, Anchor, Lightbulb, Zap, CheckCircle, MapPin, PenTool, Calendar, Award, Rocket, Shield, FileCheck, XCircle, AlertTriangle, Scale, BatteryCharging } from 'lucide-react';
+import { Target, Gem, Users, Anchor, Lightbulb, Zap, CheckCircle, MapPin, PenTool, Calendar, Award, Rocket, Shield, FileCheck, XCircle, AlertTriangle, Scale, BatteryCharging, Clock, Truck } from 'lucide-react';
 
 const About: React.FC = () => {
 
@@ -77,7 +77,7 @@ const About: React.FC = () => {
         </div>
        </section>
 
-      {/* Why Choose GRP? Comparison Section (NEW) */}
+      {/* Why Choose GRP? Comparison Section */}
       <section className="py-24 bg-emphz-navy text-white relative overflow-hidden">
          {/* Background Abstract */}
          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emphz-orange rounded-full blur-[120px] opacity-10 pointer-events-none transform translate-x-1/3 -translate-y-1/3"></div>
@@ -133,40 +133,40 @@ const About: React.FC = () => {
                     <tr className="bg-black/20">
                       <th className="p-6 text-gray-400 font-display text-xs uppercase tracking-wider w-1/4">Feature Analysis</th>
                       <th className="p-6 bg-emphz-orange/20 text-emphz-orange font-bold font-display text-base w-1/4 border-t-4 border-emphz-orange">EMPHZ GRP</th>
-                      <th className="p-6 text-white font-bold font-display text-base w-1/4">Stainless Steel (316)</th>
-                      <th className="p-6 text-white font-bold font-display text-base w-1/4">Mild Steel / CRCA</th>
+                      <th className="p-6 text-white font-bold font-display text-base w-1/4">Stainless Steel</th>
+                      <th className="p-6 text-white font-bold font-display text-base w-1/4">Concrete / Civil</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5 font-sans text-sm">
                     <tr>
                       <td className="p-6 font-bold text-white">Corrosion Resistance</td>
                       <td className="p-6 bg-emphz-orange/5 text-emphz-orange font-bold flex items-center gap-2"><CheckCircle size={16}/> Unaffected</td>
-                      <td className="p-6 text-gray-300">High (Pits over time)</td>
-                      <td className="p-6 text-red-400 flex items-center gap-2"><XCircle size={16}/> Low (Rusts quickly)</td>
+                      <td className="p-6 text-yellow-500 flex items-center gap-2"><AlertTriangle size={16}/> Pits over time</td>
+                      <td className="p-6 text-red-400 flex items-center gap-2"><XCircle size={16}/> Spalls / Cracks</td>
                     </tr>
                     <tr>
                       <td className="p-6 font-bold text-white">Maintenance Cost</td>
                       <td className="p-6 bg-emphz-orange/5 text-emphz-orange font-bold flex items-center gap-2"><CheckCircle size={16}/> Zero</td>
-                      <td className="p-6 text-gray-300">Low</td>
-                      <td className="p-6 text-red-400 flex items-center gap-2"><XCircle size={16}/> High (Painting req.)</td>
+                      <td className="p-6 text-gray-300">Low to Medium</td>
+                      <td className="p-6 text-red-400 flex items-center gap-2"><XCircle size={16}/> High (Painting/Patching)</td>
                     </tr>
                      <tr>
                       <td className="p-6 font-bold text-white">Electrical Conductivity</td>
                       <td className="p-6 bg-emphz-orange/5 text-emphz-orange font-bold flex items-center gap-2"><CheckCircle size={16}/> Non-Conductive</td>
-                      <td className="p-6 text-yellow-500 flex items-center gap-2"><AlertTriangle size={16}/> Conductive</td>
-                      <td className="p-6 text-yellow-500 flex items-center gap-2"><AlertTriangle size={16}/> Conductive</td>
+                      <td className="p-6 text-red-400 flex items-center gap-2"><AlertTriangle size={16}/> Conductive</td>
+                      <td className="p-6 text-gray-300">Semi-Conductive (Damp)</td>
+                    </tr>
+                     <tr>
+                      <td className="p-6 font-bold text-white">Installation Speed</td>
+                      <td className="p-6 bg-emphz-orange/5 text-emphz-orange font-bold flex items-center gap-2"><CheckCircle size={16}/> Days (Modular)</td>
+                      <td className="p-6 text-gray-300">Weeks (Welding)</td>
+                      <td className="p-6 text-red-400 flex items-center gap-2"><XCircle size={16}/> Months (Curing)</td>
                     </tr>
                      <tr>
                       <td className="p-6 font-bold text-white">Weight Ratio</td>
                       <td className="p-6 bg-emphz-orange/5 text-emphz-orange font-bold">1.0x (Lightweight)</td>
                       <td className="p-6 text-gray-300">4.0x (Heavy)</td>
-                      <td className="p-6 text-gray-300">4.0x (Heavy)</td>
-                    </tr>
-                     <tr>
-                      <td className="p-6 font-bold text-white">Radio Transparency</td>
-                      <td className="p-6 bg-emphz-orange/5 text-emphz-orange font-bold flex items-center gap-2"><CheckCircle size={16}/> Transparent (WiFi/4G)</td>
-                      <td className="p-6 text-red-400 flex items-center gap-2"><XCircle size={16}/> Blocks Signals</td>
-                      <td className="p-6 text-red-400 flex items-center gap-2"><XCircle size={16}/> Blocks Signals</td>
+                      <td className="p-6 text-red-400">10.0x (Very Heavy)</td>
                     </tr>
                   </tbody>
                 </table>
