@@ -17,6 +17,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { items } = useRFQ();
 
   const isActive = (path: string) => location.pathname === path;
+  const isHome = location.pathname === '/';
 
   // Handle scroll effect for header transparency
   useEffect(() => {
@@ -24,10 +25,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       setScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    // Initial check in case page loads scrolled down
     handleScroll();
-
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -46,32 +44,40 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     return () => window.removeEventListener('keydown', handleEsc);
   }, []);
 
+  // Header State Logic
+  // On Home: Transparent (Light Text) -> Scrolled (White Bg, Dark Text)
+  // Other Pages: White Bg, Dark Text always (or Scrolled logic if desired, but simplifying for light theme consistency)
+  const isHeaderTransparent = isHome && !scrolled;
+  const headerBgClass = isHeaderTransparent ? 'bg-transparent py-4' : 'bg-white/90 backdrop-blur-lg border-b border-gray-200 shadow-sm py-2';
+  const navLinkClass = isHeaderTransparent ? 'text-gray-300 hover:text-white' : 'text-slate-600 hover:text-emphz-orange';
+  const activeLinkClass = 'text-emphz-orange';
+  const logoVariant = isHeaderTransparent ? 'light' : 'dark';
+  const iconColorClass = isHeaderTransparent ? 'text-gray-300 hover:text-emphz-orange' : 'text-slate-600 hover:text-emphz-orange';
+
   return (
-    <div className="min-h-screen flex flex-col bg-emphz-navy text-gray-100 font-sans selection:bg-emphz-orange selection:text-white">
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-emphz-orange selection:text-white">
       <a href="#main-content" className="skip-link">Skip to main content</a>
       
       {/* Main Header */}
       <header 
-        className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-          scrolled ? 'bg-emphz-navy/90 backdrop-blur-lg border-b border-white/5 shadow-lg py-2' : 'bg-transparent py-4'
-        }`}
+        className={`fixed top-0 w-full z-50 transition-all duration-300 ${headerBgClass}`}
         aria-label="Site Header"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link to="/" className="group z-50" aria-label="Emphz Home">
-              <Logo className="h-10 w-auto transition-transform duration-300 group-hover:scale-105" variant="light" />
+              <Logo className="h-10 w-auto transition-transform duration-300 group-hover:scale-105" variant={logoVariant} />
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center space-x-8 bg-white/5 px-8 py-3 rounded-full backdrop-blur-md border border-white/10" aria-label="Main Navigation">
+            <nav className={`hidden md:flex items-center space-x-8 px-8 py-3 rounded-full transition-all duration-300 ${isHeaderTransparent ? 'bg-white/5 border border-white/10 backdrop-blur-md' : 'bg-slate-100/50'}`} aria-label="Main Navigation">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
                   className={`text-xs font-bold tracking-widest uppercase transition-all duration-300 ${
-                    isActive(link.path) ? 'text-emphz-orange' : 'text-gray-300 hover:text-white'
+                    isActive(link.path) ? activeLinkClass : navLinkClass
                   }`}
                   aria-current={isActive(link.path) ? 'page' : undefined}
                 >
@@ -82,15 +88,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
             {/* Actions */}
             <div className="hidden md:flex items-center space-x-4">
-              <Link to="/rfq" className="relative p-2 text-gray-300 hover:text-emphz-orange transition-colors" aria-label={`View RFQ Cart, ${items.length} items`}>
+              <Link to="/rfq" className={`relative p-2 transition-colors ${iconColorClass}`} aria-label={`View RFQ Cart, ${items.length} items`}>
                 <ShoppingCart size={24} aria-hidden="true" />
                 {items.length > 0 && (
-                  <span className="absolute -top-1 -right-1 h-5 w-5 bg-emphz-orange text-white text-[10px] font-bold flex items-center justify-center rounded-full shadow-md ring-2 ring-emphz-navy">
+                  <span className="absolute -top-1 -right-1 h-5 w-5 bg-emphz-orange text-white text-[10px] font-bold flex items-center justify-center rounded-full shadow-md ring-2 ring-white">
                     {items.length}
                   </span>
                 )}
               </Link>
-              <Link to="/rfq" className="bg-white text-emphz-navy px-6 py-2.5 rounded-full font-bold text-sm hover:bg-emphz-orange hover:text-white transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_20px_rgba(190,34,34,0.4)]">
+              <Link to="/rfq" className="bg-emphz-orange text-white px-6 py-2.5 rounded-full font-bold text-sm hover:bg-sky-600 transition-all shadow-lg shadow-emphz-orange/20 hover:shadow-emphz-orange/40">
                 GET QUOTE
               </Link>
             </div>
@@ -99,7 +105,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="md:hidden flex items-center z-50">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-white p-2 focus:outline-none"
+                className={`p-2 focus:outline-none ${isHeaderTransparent ? 'text-white' : 'text-slate-900'}`}
                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={isMenuOpen}
               >
@@ -137,7 +143,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </header>
 
       {/* Main Content */}
-      <main id="main-content" className="flex-grow relative pt-20" role="main" tabIndex={-1}>
+      <main id="main-content" className="flex-grow relative pt-20 min-h-[calc(100vh-400px)]" role="main" tabIndex={-1}>
         {children}
       </main>
 
@@ -151,17 +157,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           aria-label="Chat on WhatsApp"
         >
           <MessageCircle size={24} fill="white" />
-          <span className="absolute right-full mr-3 bg-white text-black text-xs font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+          <span className="absolute right-full mr-3 bg-white text-slate-900 text-xs font-bold px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
             Chat with Expert
           </span>
         </a>
         <Link 
           to="/technical"
-          className="bg-emphz-navy border border-white/20 text-white p-4 rounded-full shadow-lg hover:scale-110 transition-transform flex items-center justify-center group relative backdrop-blur-md"
+          className="bg-white border border-gray-200 text-emphz-navy p-4 rounded-full shadow-lg hover:scale-110 transition-transform flex items-center justify-center group relative"
           aria-label="Technical Specs"
         >
           <FileText size={24} />
-           <span className="absolute right-full mr-3 bg-white text-black text-xs font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+           <span className="absolute right-full mr-3 bg-white text-slate-900 text-xs font-bold px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
             Datasheets
           </span>
         </Link>
@@ -169,8 +175,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
       <LiveChatWidget />
 
-      {/* Footer - Immersive */}
-      <footer className="bg-black text-white pt-24 pb-12 border-t border-white/10 relative overflow-hidden" role="contentinfo">
+      {/* Footer - Immersive Dark */}
+      <footer className="bg-emphz-dark text-white pt-24 pb-12 border-t border-white/5 relative overflow-hidden" role="contentinfo">
         {/* Background Abstract */}
         <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
            <div className="absolute right-0 bottom-0 w-[500px] h-[500px] bg-emphz-orange rounded-full blur-[150px]"></div>

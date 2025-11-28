@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Check, FileText, Shield, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon, Camera, ArrowRight } from 'lucide-react';
+import { Check, FileText, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon, Camera, ArrowRight } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../constants';
 import { useRFQ } from '../contexts/RFQContext';
 import ThreeProductViewer from '../components/ThreeProductViewer';
@@ -18,7 +18,6 @@ const ProductDetail: React.FC = () => {
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
   const [fileToDownload, setFileToDownload] = useState<{ title: string; type: string } | null>(null);
 
-  // Check if this product has a 3D model implementation
   const is3DAvailable = useMemo(() => {
     if (!product) return false;
     return [
@@ -30,18 +29,12 @@ const ProductDetail: React.FC = () => {
     ].includes(product.category);
   }, [product]);
 
-  // Determine related products based on category
   const relatedProducts = useMemo(() => {
     if (!product) return [];
-    // Prioritize same category, exclude current product
     const sameCategory = MOCK_PRODUCTS.filter(p => p.category === product.category && p.id !== product.id);
-    
-    // If we have at least 3, take top 3
     if (sameCategory.length >= 3) {
       return sameCategory.slice(0, 3);
     }
-    
-    // Otherwise fill with other products
     const others = MOCK_PRODUCTS.filter(p => p.category !== product.category && p.id !== product.id);
     return [...sameCategory, ...others].slice(0, 3);
   }, [product]);
@@ -49,14 +42,13 @@ const ProductDetail: React.FC = () => {
   useEffect(() => {
     if (product) {
       setActiveImage(product.imageUrl);
-      // Default to 3D if available, else Image
       setViewMode(is3DAvailable ? '3D' : 'IMAGE');
       window.scrollTo(0, 0);
     }
   }, [product, is3DAvailable]);
 
   if (!product) {
-    return <div className="p-20 text-center text-white">Product not found. <Link to="/products" className="text-emphz-orange">Go back</Link></div>;
+    return <div className="p-20 text-center text-slate-800">Product not found. <Link to="/products" className="text-emphz-orange font-bold">Go back</Link></div>;
   }
 
   const handleAddToRFQ = () => {
@@ -76,13 +68,12 @@ const ProductDetail: React.FC = () => {
   const get3DType = () => {
     if (product.category === ProductCategory.ENCLOSURE) return 'ENCLOSURE';
     if (product.category === ProductCategory.KIOSK) return 'KIOSK';
-    if (product.category === ProductCategory.CABIN) return 'KIOSK'; // Fallback similar shape
+    if (product.category === ProductCategory.CABIN) return 'KIOSK';
     if (product.category === ProductCategory.SMART_CABIN) return 'SMART_CABIN';
     if (product.category === ProductCategory.AUTOMOBILE) return 'AUTOMOBILE';
     return 'DEFAULT';
   };
 
-  // Generate placeholder gallery images
   const galleryImages = [
     product.imageUrl,
     `https://picsum.photos/seed/${product.id}-detail1/800/600`,
@@ -93,23 +84,22 @@ const ProductDetail: React.FC = () => {
 
   return (
     <>
-      <div className="bg-emphz-navy min-h-screen text-white pb-24">
-        {/* Header / Hero for Product */}
-        <div className="relative h-[500px] lg:h-[600px] bg-gradient-to-b from-gray-900 to-emphz-navy overflow-hidden">
+      <div className="bg-slate-50 min-h-screen text-slate-900 pb-24">
+        {/* Hero for Product - Keep Dark for Impact */}
+        <div className="relative h-[500px] lg:h-[600px] bg-gradient-to-b from-slate-900 to-emphz-navy overflow-hidden">
           
-          {/* View Toggle - Only shown if 3D model is available */}
           {is3DAvailable && (
             <div className="absolute top-24 right-4 md:right-8 z-30 flex bg-white/10 backdrop-blur-md rounded-full p-1 border border-white/20 shadow-xl">
                <button 
                  onClick={() => setViewMode('3D')}
-                 className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 transition-all duration-300 ${viewMode === '3D' ? 'bg-emphz-orange text-white shadow-lg transform scale-105' : 'text-gray-400 hover:text-white'}`}
+                 className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 transition-all duration-300 ${viewMode === '3D' ? 'bg-emphz-orange text-white shadow-lg transform scale-105' : 'text-gray-300 hover:text-white'}`}
                >
                  <Box size={14} /> <span className="hidden sm:inline">3D View</span>
                  <span className="sm:hidden">3D</span>
                </button>
                <button 
                  onClick={() => setViewMode('IMAGE')}
-                 className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 transition-all duration-300 ${viewMode === 'IMAGE' ? 'bg-emphz-orange text-white shadow-lg transform scale-105' : 'text-gray-400 hover:text-white'}`}
+                 className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 transition-all duration-300 ${viewMode === 'IMAGE' ? 'bg-emphz-orange text-white shadow-lg transform scale-105' : 'text-gray-300 hover:text-white'}`}
                >
                  <ImageIcon size={14} /> <span className="hidden sm:inline">Photos</span>
                  <span className="sm:hidden">img</span>
@@ -119,13 +109,13 @@ const ProductDetail: React.FC = () => {
 
           {viewMode === 'IMAGE' ? (
             <>
-              <img src={activeImage} alt={product.name} className="w-full h-full object-cover opacity-50 animate-fade-in transition-opacity duration-500" key={activeImage} />
-              <div className="absolute inset-0 bg-gradient-to-t from-emphz-navy via-transparent to-transparent"></div>
+              <img src={activeImage} alt={product.name} className="w-full h-full object-cover opacity-60 animate-fade-in transition-opacity duration-500" key={activeImage} />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
             </>
           ) : (
             <div className="w-full h-full absolute inset-0 z-10 animate-fade-in">
                <ThreeProductViewer productType={get3DType()} />
-               <div className="absolute inset-0 bg-gradient-to-t from-emphz-navy via-transparent to-transparent pointer-events-none"></div>
+               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent pointer-events-none"></div>
             </div>
           )}
 
@@ -148,7 +138,7 @@ const ProductDetail: React.FC = () => {
             <div className="lg:col-span-2">
                {/* Gallery Carousel */}
                <div className="mb-10">
-                  <h3 className="text-xs font-bold text-gray-400 uppercase mb-4 tracking-widest flex items-center">
+                  <h3 className="text-xs font-bold text-gray-500 uppercase mb-4 tracking-widest flex items-center">
                     <Camera size={14} className="mr-2" /> Gallery
                   </h3>
                   <div className="flex gap-4 overflow-x-auto pb-4 snap-x scrollbar-hide">
@@ -156,21 +146,13 @@ const ProductDetail: React.FC = () => {
                           <button 
                             key={idx}
                             onClick={() => { setActiveImage(img); setViewMode('IMAGE'); }}
-                            className={`relative w-28 h-28 md:w-36 md:h-36 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-300 snap-start group ${
+                            className={`relative w-28 h-28 md:w-36 md:h-36 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-300 snap-start group bg-white shadow-sm ${
                                 activeImage === img && viewMode === 'IMAGE' 
-                                ? 'border-emphz-orange shadow-[0_0_20px_rgba(14,165,233,0.3)] scale-105 z-10' 
-                                : 'border-white/10 hover:border-white/30 hover:scale-105'
+                                ? 'border-emphz-orange shadow-md scale-105 z-10' 
+                                : 'border-gray-200 hover:border-emphz-orange/50 hover:scale-105'
                             }`}
                           >
                              <img src={img} alt={`View ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                             {/* Overlay for inactive state */}
-                             {!(activeImage === img && viewMode === 'IMAGE') && (
-                                 <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-300"></div>
-                             )}
-                             {/* Active Indicator */}
-                             {activeImage === img && viewMode === 'IMAGE' && (
-                                <div className="absolute bottom-0 left-0 w-full h-1 bg-emphz-orange"></div>
-                             )}
                           </button>
                       ))}
                   </div>
@@ -178,25 +160,25 @@ const ProductDetail: React.FC = () => {
 
                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                  {product.specs.slice(0,4).map((s, i) => (
-                   <div key={i} className="glass-panel p-4 rounded-xl">
-                     <div className="text-xs text-gray-400 uppercase font-bold mb-1">{s.label}</div>
-                     <div className="text-sm font-bold text-white">{s.value}</div>
+                   <div key={i} className="bg-white border border-gray-200 p-4 rounded-xl shadow-sm">
+                     <div className="text-xs text-gray-500 uppercase font-bold mb-1">{s.label}</div>
+                     <div className="text-sm font-bold text-emphz-navy">{s.value}</div>
                    </div>
                  ))}
                </div>
                
-               <div className="flex flex-wrap gap-4 my-8 p-6 glass-panel rounded-2xl border-emphz-orange/20 border justify-center sm:justify-start">
-                  <button onClick={() => handleDownloadClick({ title: product.downloads[0].title, type: 'PDF' })} className="flex items-center bg-emphz-orange text-white px-6 py-3 rounded-lg font-bold text-sm hover:bg-white hover:text-emphz-orange transition-all duration-300 shadow-lg hover:shadow-emphz-orange/40 transform hover:-translate-y-1">
+               <div className="flex flex-wrap gap-4 my-8 p-6 bg-white rounded-2xl border border-blue-100 shadow-sm justify-center sm:justify-start">
+                  <button onClick={() => handleDownloadClick({ title: product.downloads[0].title, type: 'PDF' })} className="flex items-center bg-emphz-orange text-white px-6 py-3 rounded-lg font-bold text-sm hover:bg-sky-600 transition-all duration-300 shadow-lg hover:shadow-emphz-orange/40 transform hover:-translate-y-1">
                      <Download size={16} className="mr-2" />
                      Download Datasheet (PDF)
                   </button>
-                  <button onClick={() => handleDownloadClick({ title: "Engineer's Pack", type: 'ZIP' })} className="flex items-center bg-white/10 border border-white/20 text-white px-6 py-3 rounded-lg font-bold text-sm hover:bg-white hover:text-emphz-navy transition-all duration-300 transform hover:-translate-y-1">
+                  <button onClick={() => handleDownloadClick({ title: "Engineer's Pack", type: 'ZIP' })} className="flex items-center bg-white border border-gray-300 text-emphz-navy px-6 py-3 rounded-lg font-bold text-sm hover:bg-gray-50 transition-all duration-300 transform hover:-translate-y-1">
                      <Package size={16} className="mr-2" />
                      Engineer's Pack (.zip)
                   </button>
                </div>
 
-              <div className="border-b border-white/10 mb-8">
+              <div className="border-b border-gray-200 mb-8">
                 <div className="flex space-x-8" role="tablist" aria-label="Product Information">
                   {['desc', 'specs', 'downloads'].map((tab) => (
                     <button
@@ -208,8 +190,8 @@ const ProductDetail: React.FC = () => {
                       onClick={() => setActiveTab(tab as any)}
                       className={`pb-4 text-sm font-bold uppercase tracking-wide transition-colors border-b-2 focus:outline-none ${
                         activeTab === tab 
-                        ? 'border-emphz-orange text-white' 
-                        : 'border-transparent text-gray-500 hover:text-gray-300'
+                        ? 'border-emphz-orange text-emphz-navy' 
+                        : 'border-transparent text-gray-500 hover:text-gray-800'
                       }`}
                     >
                       {tab === 'desc' ? 'Description' : tab === 'specs' ? 'Specs' : 'Downloads'}
@@ -221,31 +203,31 @@ const ProductDetail: React.FC = () => {
               <div className="min-h-[300px]">
                 {activeTab === 'desc' && (
                   <div key="desc" role="tabpanel" id="panel-desc" aria-labelledby="tab-desc" className="space-y-8 animate-fade-in">
-                    <div className="prose prose-invert max-w-none">
-                      <p className="text-lg text-gray-300 leading-relaxed">{product.fullDescription}</p>
+                    <div className="prose prose-slate max-w-none">
+                      <p className="text-lg text-slate-600 leading-relaxed">{product.fullDescription}</p>
                     </div>
                     
                     <div>
-                      <h3 className="text-xl font-bold text-white mb-4">Key Features</h3>
+                      <h3 className="text-xl font-bold text-emphz-navy mb-4">Key Features</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {product.features.map((feat, i) => (
-                          <div key={i} className="flex items-center p-3 rounded-lg bg-white/5 border border-white/5">
+                          <div key={i} className="flex items-center p-3 rounded-lg bg-white border border-gray-200 shadow-sm">
                             <span className="w-2 h-2 bg-emphz-orange rounded-full mr-3 flex-shrink-0" aria-hidden="true"></span>
-                            <span className="text-sm text-gray-300">{feat}</span>
+                            <span className="text-sm text-slate-700">{feat}</span>
                           </div>
                         ))}
                       </div>
                     </div>
 
                     {product.accessories && (
-                      <div className="bg-white/5 p-6 rounded-xl border border-white/10">
+                      <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
                         <div className="flex items-center mb-4">
                            <Settings className="text-emphz-orange mr-2" size={20} aria-hidden="true" />
-                           <h3 className="font-bold text-white">Compatible Accessories</h3>
+                           <h3 className="font-bold text-emphz-navy">Compatible Accessories</h3>
                         </div>
                         <div className="flex flex-wrap gap-2">
                           {product.accessories.map((acc, i) => (
-                            <span key={i} className="inline-flex items-center text-xs font-bold text-gray-300 bg-black/30 px-3 py-2 rounded border border-white/10">
+                            <span key={i} className="inline-flex items-center text-xs font-bold text-slate-600 bg-white px-3 py-2 rounded border border-gray-200 shadow-sm">
                               <Plus size={12} className="text-emphz-orange mr-2" aria-hidden="true" /> {acc}
                             </span>
                           ))}
@@ -256,14 +238,13 @@ const ProductDetail: React.FC = () => {
                 )}
 
                 {activeTab === 'specs' && (
-                  <div key="specs" role="tabpanel" id="panel-specs" aria-labelledby="tab-specs" className="rounded-xl overflow-hidden border border-white/10 animate-fade-in">
-                    <table className="min-w-full divide-y divide-white/10">
-                      <caption className="sr-only">Technical Specifications for {product.name}</caption>
-                      <tbody className="divide-y divide-white/10">
+                  <div key="specs" role="tabpanel" id="panel-specs" aria-labelledby="tab-specs" className="rounded-xl overflow-hidden border border-gray-200 animate-fade-in">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <tbody className="divide-y divide-gray-200">
                         {product.specs.map((spec, i) => (
-                          <tr key={i} className={i % 2 === 0 ? 'bg-white/5' : 'bg-transparent'}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-400 w-1/3">{spec.label}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{spec.value}</td>
+                          <tr key={i} className={i % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-500 w-1/3">{spec.label}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-emphz-navy">{spec.value}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -275,10 +256,10 @@ const ProductDetail: React.FC = () => {
                   <div key="downloads" role="tabpanel" id="panel-downloads" aria-labelledby="tab-downloads" className="space-y-4 animate-fade-in">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {product.downloads.map((dl, i) => (
-                        <button key={i} onClick={() => handleDownloadClick(dl)} className="text-left border border-white/10 bg-white/5 rounded-lg p-4 flex items-start hover:bg-white/10 transition-colors cursor-pointer group">
-                          <FileText className="text-gray-400 group-hover:text-white w-8 h-8 mr-4 flex-shrink-0" aria-hidden="true" />
+                        <button key={i} onClick={() => handleDownloadClick(dl)} className="text-left border border-gray-200 bg-white rounded-lg p-4 flex items-start hover:border-emphz-orange hover:shadow-md transition-all cursor-pointer group">
+                          <FileText className="text-gray-400 group-hover:text-emphz-orange w-8 h-8 mr-4 flex-shrink-0" aria-hidden="true" />
                           <div>
-                            <h4 className="font-bold text-white text-sm">{dl.title}</h4>
+                            <h4 className="font-bold text-emphz-navy text-sm">{dl.title}</h4>
                             <p className="text-xs text-gray-500 mt-1">{dl.type} • 2.4 MB</p>
                           </div>
                           <Download size={16} className="ml-auto text-emphz-orange opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -291,12 +272,12 @@ const ProductDetail: React.FC = () => {
             </div>
 
             <div className="lg:col-span-1">
-              <div className="glass-panel p-6 rounded-2xl sticky top-24 border border-emphz-orange/20 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+              <div className="glass-panel p-6 rounded-2xl sticky top-24 border border-blue-100 shadow-xl bg-white">
                 <h3 className="text-sm font-bold text-gray-400 uppercase mb-4 tracking-wider">Configure Quote</h3>
                 
-                <div className="flex items-center justify-between mb-6 pb-6 border-b border-white/10">
-                   <div className="text-3xl font-black text-white">RFQ</div>
-                   <div className="text-green-400 text-xs font-bold flex items-center bg-green-400/10 px-2 py-1 rounded">
+                <div className="flex items-center justify-between mb-6 pb-6 border-b border-gray-100">
+                   <div className="text-3xl font-black text-emphz-navy">RFQ</div>
+                   <div className="text-green-600 text-xs font-bold flex items-center bg-green-50 px-2 py-1 rounded border border-green-100">
                      <Check size={12} className="mr-1" /> In Stock (Mysore)
                    </div>
                 </div>
@@ -304,10 +285,10 @@ const ProductDetail: React.FC = () => {
                 <div className="space-y-4">
                   <div>
                      <label className="text-xs text-gray-500 font-bold uppercase mb-2 block">Quantity</label>
-                     <div className="flex items-center bg-black/40 rounded-lg border border-white/10 p-1">
+                     <div className="flex items-center bg-gray-50 rounded-lg border border-gray-200 p-1">
                       <button 
                         onClick={() => setQuantity(Math.max(1, quantity - 1))} 
-                        className="p-3 hover:bg-white/10 rounded-md text-white"
+                        className="p-3 hover:bg-white hover:shadow-sm rounded-md text-slate-600 transition-all"
                         aria-label="Decrease quantity"
                       >
                         <Minus size={16} aria-hidden="true"/>
@@ -316,12 +297,12 @@ const ProductDetail: React.FC = () => {
                         type="text" 
                         readOnly 
                         value={quantity} 
-                        className="flex-1 bg-transparent text-center text-white font-bold focus:outline-none"
+                        className="flex-1 bg-transparent text-center text-emphz-navy font-bold focus:outline-none"
                         aria-label="Quantity"
                       />
                       <button 
                         onClick={() => setQuantity(quantity + 1)} 
-                        className="p-3 hover:bg-white/10 rounded-md text-white"
+                        className="p-3 hover:bg-white hover:shadow-sm rounded-md text-slate-600 transition-all"
                         aria-label="Increase quantity"
                       >
                         <Plus size={16} aria-hidden="true"/>
@@ -331,14 +312,14 @@ const ProductDetail: React.FC = () => {
 
                   <button 
                     onClick={handleAddToRFQ}
-                    className="w-full bg-white text-emphz-navy font-black py-4 rounded-lg hover:bg-emphz-orange hover:text-white transition-all shadow-lg text-sm uppercase tracking-wide"
+                    className="w-full bg-emphz-navy text-white font-black py-4 rounded-lg hover:bg-emphz-orange transition-all shadow-lg text-sm uppercase tracking-wide"
                   >
                     ADD TO QUOTE LIST
                   </button>
 
                   <button 
                     onClick={() => handleDownloadClick({ title: product.downloads[0].title, type: product.downloads[0].type })}
-                    className="w-full mt-3 border border-white/10 text-gray-400 font-bold py-3 rounded-lg hover:bg-white/5 hover:text-white hover:border-white/30 transition-all text-xs uppercase tracking-wide flex items-center justify-center"
+                    className="w-full mt-3 border border-gray-300 text-slate-600 font-bold py-3 rounded-lg hover:bg-gray-50 hover:text-emphz-navy transition-all text-xs uppercase tracking-wide flex items-center justify-center"
                   >
                     <Download size={14} className="mr-2" /> Download Datasheet
                   </button>
@@ -351,24 +332,24 @@ const ProductDetail: React.FC = () => {
             </div>
           </div>
           
-          {/* Related Solutions Section */}
+          {/* Related Solutions Section - Light */}
           {relatedProducts.length > 0 && (
-            <div className="mt-24 border-t border-white/10 pt-12 animate-fade-in">
-                <h3 className="text-2xl font-bold text-white mb-8">Related Solutions</h3>
+            <div className="mt-24 border-t border-gray-200 pt-12 animate-fade-in">
+                <h3 className="text-2xl font-bold text-emphz-navy mb-8">Related Solutions</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {relatedProducts.map(rp => (
-                         <Link key={rp.id} to={`/products/${rp.id}`} className="group glass-panel border border-white/5 rounded-2xl overflow-hidden hover:border-emphz-orange/50 transition-all duration-300">
+                         <Link key={rp.id} to={`/products/${rp.id}`} className="group bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-emphz-orange transition-all duration-300 hover:shadow-lg">
                             <div className="relative h-48 overflow-hidden">
                                 <img src={rp.imageUrl} alt={rp.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-emphz-navy/80 to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
+                                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
                                 <div className="absolute bottom-4 left-4">
-                                     <div className="text-[10px] font-bold text-emphz-orange uppercase tracking-wider mb-1 bg-black/50 backdrop-blur px-2 py-1 rounded inline-block">{rp.category}</div>
+                                     <div className="text-[10px] font-bold text-emphz-orange uppercase tracking-wider mb-1 bg-white/90 backdrop-blur px-2 py-1 rounded inline-block shadow-sm">{rp.category}</div>
                                 </div>
                             </div>
                             <div className="p-5">
-                                <h4 className="font-bold text-white text-lg group-hover:text-emphz-orange transition-colors mb-2">{rp.name}</h4>
-                                <p className="text-gray-400 text-xs line-clamp-2 leading-relaxed">{rp.shortDescription}</p>
-                                <div className="mt-4 flex items-center text-xs font-bold text-white group-hover:underline decoration-emphz-orange underline-offset-4">
+                                <h4 className="font-bold text-emphz-navy text-lg group-hover:text-emphz-orange transition-colors mb-2">{rp.name}</h4>
+                                <p className="text-gray-500 text-xs line-clamp-2 leading-relaxed">{rp.shortDescription}</p>
+                                <div className="mt-4 flex items-center text-xs font-bold text-emphz-navy group-hover:underline decoration-emphz-orange underline-offset-4">
                                     View Specs <ArrowRight size={12} className="ml-1" />
                                 </div>
                             </div>
@@ -380,14 +361,14 @@ const ProductDetail: React.FC = () => {
 
         </div>
 
-        <div className="fixed bottom-0 left-0 w-full bg-emphz-navy/90 backdrop-blur-xl border-t border-white/10 p-4 lg:hidden z-40 flex items-center gap-4">
+        <div className="fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-xl border-t border-gray-200 p-4 lg:hidden z-40 flex items-center gap-4 shadow-[0_-5px_20px_rgba(0,0,0,0.1)]">
            <div className="flex-1">
-              <div className="text-white font-bold text-sm line-clamp-1">{product.name}</div>
+              <div className="text-emphz-navy font-bold text-sm line-clamp-1">{product.name}</div>
               <div className="text-emphz-orange text-xs font-bold">Molded GRP</div>
            </div>
            <button 
              onClick={handleAddToRFQ}
-             className="bg-white text-emphz-navy font-bold px-6 py-3 rounded-lg text-sm hover:bg-emphz-orange hover:text-white transition-colors"
+             className="bg-emphz-navy text-white font-bold px-6 py-3 rounded-lg text-sm hover:bg-emphz-orange transition-colors"
            >
              ADD TO RFQ
            </button>

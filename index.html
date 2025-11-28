@@ -7,11 +7,10 @@
     <meta name="description" content="Premium B2B GRP electrical enclosures and modular structures manufacturer for industrial and coastal environments." />
     
     <!-- Generated Favicon (Emphz 'E') -->
-    <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%23003049"/><path d="M30 20 H70 M30 50 H60 M30 80 H70" stroke="white" stroke-width="12" stroke-linecap="round"/><path d="M45 20 L55 80" stroke="%23BE2222" stroke-width="8" opacity="0.8"/></svg>' />
+    <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%230F172A"/><path d="M30 20 H70 M30 50 H60 M30 80 H70" stroke="white" stroke-width="12" stroke-linecap="round"/><path d="M45 20 L55 80" stroke="%230EA5E9" stroke-width="8" opacity="0.8"/></svg>' />
 
     <script>
       // Suppress the "Tailwind CSS should not be used in production" warning
-      // This is expected behavior for the CDN version in this dev environment.
       const originalWarn = console.warn;
       console.warn = (...args) => {
         if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) return;
@@ -26,12 +25,12 @@
           extend: {
             colors: {
               emphz: {
-                navy: '#003049',
-                beige: '#EAE2B7',
-                orange: '#BE2222', 
-                cream: '#F6F6F6', // Slightly cooler cream for modern look
-                slate: '#334155',
-                dark: '#001D2D' // Darker navy for gradients
+                navy: '#0F172A',  // Slate 900 (Primary Dark Text/Elements)
+                beige: '#F1F5F9', // Slate 100 (Secondary Backgrounds)
+                orange: '#0EA5E9',// Sky 500 (Primary Brand Color - previously orange)
+                cream: '#FFFFFF', // Pure White
+                slate: '#64748B', // Slate 500 (Secondary Text)
+                dark: '#020617'   // Slate 950 (Footer/Contrast)
               }
             },
             fontFamily: {
@@ -74,35 +73,35 @@
     <style>
       body {
         font-family: 'Roboto', sans-serif;
-        background-color: #003049; /* Dark Theme Base */
-        color: #F6F6F6;
+        background-color: #F8FAFC; /* Light Theme Base */
+        color: #0F172A;
         overflow-x: hidden;
       }
       
-      /* Global Focus Styles - WCAG AA Compliance */
+      /* Global Focus Styles */
       :focus-visible {
-        outline: 2px solid #ffffff; /* High contrast white for dark bg */
+        outline: 2px solid #0EA5E9; 
         outline-offset: 2px;
-        box-shadow: 0 0 0 4px rgba(0, 48, 73, 0.8); /* Double ring effect */
+        box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.2);
       }
 
-      /* Premium Glassmorphism */
+      /* Premium Glassmorphism - Light Mode */
       .glass-panel {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(226, 232, 240, 0.8); /* Slate-200 */
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
       }
       
       .glass-card-hover {
         transition: all 0.3s ease;
       }
       .glass-card-hover:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(234, 226, 183, 0.3); /* Beige hint */
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(14, 165, 233, 0.3); /* Sky blue hint */
         transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
       }
 
       /* Skip Link */
@@ -110,7 +109,7 @@
         position: absolute;
         top: -40px;
         left: 0;
-        background: #BE2222;
+        background: #0EA5E9;
         color: white;
         padding: 8px;
         z-index: 100;
@@ -127,27 +126,27 @@
         width: 10px;
       }
       ::-webkit-scrollbar-track {
-        background: #001D2D;
+        background: #F1F5F9;
       }
       ::-webkit-scrollbar-thumb {
-        background: #334155;
+        background: #CBD5E1;
         border-radius: 5px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #BE2222;
+        background: #0EA5E9;
       }
     </style>
 <script type="importmap">
 {
   "imports": {
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
     "react": "https://aistudiocdn.com/react@^19.2.0",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
     "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
-    "three/": "https://aistudiocdn.com/three@^0.181.2/",
-    "three": "https://aistudiocdn.com/three@^0.181.2"
+    "three": "https://aistudiocdn.com/three@^0.181.2",
+    "three/": "https://aistudiocdn.com/three@^0.181.2/"
   }
 }
 </script>
