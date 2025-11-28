@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Check, FileText, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon, Camera, ArrowRight } from 'lucide-react';
+import { Check, FileText, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon, Camera, ArrowRight, Loader2 } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../constants';
 import { useRFQ } from '../contexts/RFQContext';
-import ThreeProductViewer from '../components/ThreeProductViewer';
 import { ProductCategory } from '../types';
 import GatedDownloadModal from '../components/GatedDownloadModal';
+
+// Lazy load the heavy 3D viewer component
+const ThreeProductViewer = React.lazy(() => import('../components/ThreeProductViewer'));
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -116,7 +118,13 @@ const ProductDetail: React.FC = () => {
             </>
           ) : (
             <div className="w-full h-full absolute inset-0 z-10 animate-fade-in">
-               <ThreeProductViewer productType={get3DType()} />
+               <Suspense fallback={
+                 <div className="w-full h-full flex items-center justify-center text-white bg-slate-900/50">
+                    <Loader2 className="animate-spin mr-2" /> Loading 3D Engine...
+                 </div>
+               }>
+                  <ThreeProductViewer productType={get3DType()} />
+               </Suspense>
                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent pointer-events-none"></div>
             </div>
           )}

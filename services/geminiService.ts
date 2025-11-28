@@ -1,16 +1,14 @@
 import { GoogleGenAI } from "@google/genai";
 
-// Note: In a real app, handle API keys securely via backend proxies.
-const API_KEY = process.env.API_KEY || '';
-
-const ai = new GoogleGenAI({ apiKey: API_KEY });
-
 export const askTechnicalAssistant = async (query: string): Promise<string> => {
-  if (!API_KEY) {
+  if (!process.env.API_KEY) {
     return "Error: API Key is missing. Please configure the environment variable.";
   }
 
   try {
+    // Initialize client inside the function to ensure it uses the current API key context
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: query,

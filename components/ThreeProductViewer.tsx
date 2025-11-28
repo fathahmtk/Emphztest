@@ -42,7 +42,7 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
     dirLight.position.set(5, 10, 7);
     scene.add(dirLight);
 
-    const accentLight = new THREE.PointLight(0xD62828, 1, 10);
+    const accentLight = new THREE.PointLight(0x00ADB5, 1, 10);
     accentLight.position.set(-2, 2, 2);
     scene.add(accentLight);
 
@@ -65,7 +65,7 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
     });
 
     const orangeMaterial = new THREE.MeshStandardMaterial({ 
-      color: 0xD62828, 
+      color: 0x00ADB5, // Tech Teal Accent
       roughness: 0.5 
     });
     
@@ -79,7 +79,7 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
       opacity: 0.9
     });
 
-    const interiorLightMaterial = new THREE.MeshBasicMaterial({ color: 0xFFD700 });
+    const interiorLightMaterial = new THREE.MeshBasicMaterial({ color: 0x00ADB5 });
 
     const productGroup = new THREE.Group();
 

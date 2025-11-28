@@ -16,22 +16,37 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const { items } = useRFQ();
 
-  const isActive = (path: string) => location.pathname === path;
+  // Updated logic to handle sub-routes robustly
+  const isActive = (path: string) => {
+    if (path === '/') return location.pathname === '/';
+    return location.pathname === path || location.pathname.startsWith(`${path}/`);
+  };
+
   const isHome = location.pathname === '/';
 
-  // Handle scroll effect for header transparency
+  // Handle scroll effect for header transparency and dynamic theme color
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      const isScrolled = window.scrollY > 50;
+      setScrolled(isScrolled);
+      
+      // Keep theme-color dark (#0B1120) for immersive feel in both states
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+      if (metaThemeColor) {
+        metaThemeColor.setAttribute('content', '#0B1120');
+      }
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
+    // Initial check
     handleScroll();
+    
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHome]);
 
   // Dynamic Title
   useEffect(() => {
-    const pageTitle = NAV_LINKS.find(l => l.path === location.pathname)?.label || 'Home';
+    const pageTitle = NAV_LINKS.find(l => l.path === location.pathname)?.label || 'Emphz';
     document.title = `${pageTitle} | Emphz GRP Solutions`;
   }, [location]);
 
@@ -44,15 +59,32 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     return () => window.removeEventListener('keydown', handleEsc);
   }, []);
 
-  // Header State Logic
+  // Header State Logic - PREMIUM DARK THEME
   const isHeaderTransparent = isHome && !scrolled;
-  const headerBgClass = isHeaderTransparent ? 'bg-transparent py-4' : 'bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm py-2';
   
-  // Updated text color for better contrast with Azure theme
-  const navLinkClass = isHeaderTransparent ? 'text-gray-200 hover:text-white' : 'text-emphz-navy font-medium hover:text-emphz-orange';
+  // Transition from transparent to Deep Navy with Teal Border glow
+  const headerBgClass = isHeaderTransparent 
+    ? 'bg-transparent py-4' 
+    : 'bg-emphz-navy/95 backdrop-blur-md border-b border-emphz-orange/30 shadow-lg shadow-emphz-orange/5 py-3';
+  
+  // Links are always light based now since header is always dark (transparent-on-dark or navy)
+  const navLinkClass = isHeaderTransparent 
+    ? 'text-gray-200 hover:text-white' 
+    : 'text-gray-300 font-medium hover:text-emphz-orange';
+    
   const activeLinkClass = 'text-emphz-orange font-bold';
-  const logoVariant = isHeaderTransparent ? 'light' : 'dark';
-  const iconColorClass = isHeaderTransparent ? 'text-gray-200 hover:text-emphz-orange' : 'text-emphz-navy hover:text-emphz-orange';
+  
+  // Logo is always light variant
+  const logoVariant = 'light';
+  
+  const iconColorClass = isHeaderTransparent 
+    ? 'text-gray-200 hover:text-emphz-orange' 
+    : 'text-gray-300 hover:text-emphz-orange';
+
+  // Inner Nav Pill container
+  const navPillClass = isHeaderTransparent 
+    ? 'bg-white/5 border border-white/10 backdrop-blur-md' 
+    : 'bg-black/20 border border-white/5';
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-emphz-navy font-sans selection:bg-emphz-orange selection:text-white">
@@ -71,7 +103,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </Link>
 
             {/* Desktop Nav */}
-            <nav className={`hidden md:flex items-center space-x-8 px-8 py-3 rounded-full transition-all duration-300 ${isHeaderTransparent ? 'bg-white/5 border border-white/10 backdrop-blur-md' : 'bg-slate-50 border border-slate-100'}`} aria-label="Main Navigation">
+            <nav className={`hidden md:flex items-center space-x-8 px-8 py-3 rounded-full transition-all duration-300 ${navPillClass}`} aria-label="Main Navigation">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.path}
@@ -91,7 +123,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <Link to="/rfq" className={`relative p-2 transition-colors ${iconColorClass}`} aria-label={`View RFQ Cart, ${items.length} items`}>
                 <ShoppingCart size={24} aria-hidden="true" />
                 {items.length > 0 && (
-                  <span className="absolute -top-1 -right-1 h-5 w-5 bg-emphz-orange text-white text-[10px] font-bold flex items-center justify-center rounded-full shadow-md ring-2 ring-white">
+                  <span className="absolute -top-1 -right-1 h-5 w-5 bg-emphz-orange text-white text-[10px] font-bold flex items-center justify-center rounded-full shadow-md ring-2 ring-emphz-navy">
                     {items.length}
                   </span>
                 )}
@@ -105,7 +137,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="md:hidden flex items-center z-50">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`p-2 focus:outline-none ${isHeaderTransparent ? 'text-white' : 'text-emphz-navy'}`}
+                className="p-2 focus:outline-none text-white hover:text-emphz-orange transition-colors"
                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={isMenuOpen}
               >
@@ -132,7 +164,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </Link>
               ))}
               <div className="pt-8 border-t border-white/10">
-                 <Link to="/rfq" onClick={() => setIsMenuOpen(false)} className="flex items-center justify-between w-full bg-emphz-orange text-white px-6 py-4 rounded-xl font-bold text-lg font-display">
+                 <Link to="/rfq" onClick={() => setIsMenuOpen(false)} className="flex items-center justify-between w-full bg-emphz-orange text-white px-6 py-4 rounded-xl font-bold text-lg font-display shadow-lg shadow-emphz-orange/20">
                     <span>Review Quote Cart</span>
                     <span className="bg-black/20 px-3 py-1 rounded-full text-sm">{items.length}</span>
                   </Link>
@@ -179,7 +211,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <footer className="bg-emphz-navy text-white pt-24 pb-12 border-t border-white/5 relative overflow-hidden" role="contentinfo">
         {/* Background Abstract */}
         <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
-           <div className="absolute right-0 bottom-0 w-[500px] h-[500px] bg-emphz-orange rounded-full blur-[150px]"></div>
+           <div className="absolute right-0 bottom-0 w-[500px] h-[500px] bg-emphz-orange rounded-full blur-[150px] animate-float" style={{ animationDuration: '10s' }}></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
