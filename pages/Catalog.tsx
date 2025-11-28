@@ -34,9 +34,17 @@ const CompareModal: React.FC<{
       aria-modal="true"
       aria-labelledby="compare-title"
     >
-      <div className="bg-emphz-dark rounded-2xl border border-white/10 shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col">
-        <header className="flex justify-between items-center p-6 border-b border-white/10 flex-shrink-0">
-          <h2 id="compare-title" className="text-2xl font-bold text-white">Compare Products</h2>
+      <div className="bg-emphz-dark rounded-2xl border border-white/10 shadow-2xl w-full max-w-6xl max-h-[90vh] flex flex-col">
+        <header className="flex justify-between items-center p-6 border-b border-white/10 flex-shrink-0 bg-emphz-navy/50 rounded-t-2xl">
+          <div className="flex items-center gap-3">
+             <div className="bg-emphz-orange/20 p-2 rounded-lg">
+               <Scale className="text-emphz-orange" size={24} />
+             </div>
+             <div>
+                <h2 id="compare-title" className="text-2xl font-bold text-white">Compare Products</h2>
+                <p className="text-xs text-gray-400">Side-by-side technical specification review</p>
+             </div>
+          </div>
           <button 
             ref={closeButtonRef}
             onClick={onClose} 
@@ -47,35 +55,71 @@ const CompareModal: React.FC<{
           </button>
         </header>
         
-        <div className="overflow-y-auto p-6">
-          <div className={`grid gap-4`} style={{ gridTemplateColumns: `1fr repeat(${productsToCompare.length}, 2fr)`}}>
+        <div className="overflow-y-auto p-6 scrollbar-thin scrollbar-thumb-emphz-slate scrollbar-track-transparent">
+          <div className={`grid gap-4`} style={{ gridTemplateColumns: `180px repeat(${productsToCompare.length}, 1fr)`}}>
+            
             {/* Header Row: Product Images & Names */}
-            <div className="font-bold text-gray-400 sticky top-0 bg-emphz-dark py-2">Feature</div>
+            <div className="font-bold text-gray-400 sticky top-0 bg-emphz-dark py-4 z-10 border-b border-white/10 flex items-end pb-4">
+               Product Details
+            </div>
             {productsToCompare.map(product => (
-              <div key={product.id} className="text-center sticky top-0 bg-emphz-dark py-2">
-                <img src={product.imageUrl} alt={product.name} className="w-24 h-24 object-cover mx-auto rounded-lg mb-2 border border-white/10"/>
-                <h3 className="font-bold text-white text-sm">{product.name}</h3>
+              <div key={product.id} className="text-center sticky top-0 bg-emphz-dark py-4 z-10 border-b border-white/10">
+                <div className="relative inline-block">
+                  <img src={product.imageUrl} alt={product.name} className="w-24 h-24 object-cover mx-auto rounded-lg mb-3 border border-white/10 shadow-lg"/>
+                  <div className="absolute top-0 right-0 -mt-2 -mr-2 bg-emphz-navy text-xs font-bold px-2 py-0.5 rounded border border-white/10">{product.id.split('-')[2] || 'V1'}</div>
+                </div>
+                <h3 className="font-bold text-white text-sm px-2 leading-tight min-h-[2.5em] flex items-center justify-center">{product.name}</h3>
+              </div>
+            ))}
+
+            {/* Category Row */}
+            <div className="font-bold text-gray-300 py-3 text-sm flex items-center border-b border-white/5">Category</div>
+            {productsToCompare.map(p => (
+              <div key={`cat-${p.id}`} className="text-center py-3 text-emphz-orange font-bold text-xs uppercase tracking-wide border-b border-white/5 bg-white/5 rounded-lg my-1 flex items-center justify-center">
+                {p.category}
               </div>
             ))}
 
             {/* Divider */}
-            <div className="col-span-full border-b border-white/10 -mx-6 my-4"></div>
+            <div className="col-span-full h-4"></div>
 
             {/* Spec Rows */}
             {allSpecLabels.map(label => (
               <React.Fragment key={label}>
-                <div className="font-bold text-gray-300 py-3 text-sm">{label}</div>
+                <div className="font-bold text-gray-400 py-3 text-sm flex items-center">{label}</div>
                 {productsToCompare.map(product => {
                   const spec = product.specs.find(s => s.label === label);
                   return (
-                    <div key={`${product.id}-${label}`} className="text-center py-3 text-white text-sm bg-white/5 rounded-md">
-                      {spec?.value || <span className="text-gray-500">-</span>}
+                    <div key={`${product.id}-${label}`} className="text-center py-3 text-white text-sm bg-white/5 rounded-lg my-1 flex items-center justify-center border border-white/5 hover:border-white/20 transition-colors">
+                      {spec?.value || <span className="text-gray-600">-</span>}
                     </div>
                   );
                 })}
               </React.Fragment>
             ))}
+
+            {/* Divider */}
+            <div className="col-span-full h-4 border-b border-white/10 mb-4"></div>
+
+            {/* Features Row */}
+            <div className="font-bold text-gray-300 py-3 text-sm">Key Highlights</div>
+            {productsToCompare.map(p => (
+               <div key={`feat-${p.id}`} className="py-3 text-left text-xs text-gray-300 bg-black/20 rounded-lg px-4 border border-white/5">
+                  <ul className="space-y-2">
+                    {p.features.slice(0, 4).map((f, i) => (
+                      <li key={i} className="flex items-start">
+                        <Check size={12} className="text-emphz-orange mr-2 mt-0.5 flex-shrink-0" />
+                        <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+               </div>
+            ))}
           </div>
+        </div>
+        
+        <div className="p-4 border-t border-white/10 bg-emphz-navy/30 rounded-b-2xl flex justify-end">
+             <button onClick={onClose} className="bg-white text-emphz-navy font-bold px-6 py-3 rounded-lg hover:bg-emphz-orange hover:text-white transition-colors">Close Comparison</button>
         </div>
       </div>
     </div>
@@ -105,7 +149,7 @@ const FilterSection: React.FC<{
     </button>
     <div
       className={`overflow-hidden transition-all duration-300 ease-in-out ${
-        isOpen ? 'max-h-[600px] opacity-100 mb-4' : 'max-h-0 opacity-0'
+        isOpen ? 'max-h-[1000px] opacity-100 mb-4' : 'max-h-0 opacity-0'
       }`}
     >
       {children}
@@ -134,7 +178,6 @@ const Catalog: React.FC = () => {
     
     let matchesFeatures = true;
     if (selectedFeatures.length > 0) {
-      // Basic string matching against product data to simulate feature filtering
       const productSearchString = (
         p.features.join(' ') + 
         p.specs.map(s => s.value).join(' ') + 
@@ -143,9 +186,10 @@ const Catalog: React.FC = () => {
       ).toLowerCase();
 
       matchesFeatures = selectedFeatures.every(feature => {
-        if (feature === 'IP66 / IP67') return productSearchString.includes('ip66') || productSearchString.includes('ip67');
-        if (feature === 'UL94 Fire Rated') return productSearchString.includes('ul94') || productSearchString.includes('fire');
-        if (feature === 'ATEX / Ex-Proof') return productSearchString.includes('atex') || productSearchString.includes('proof') || productSearchString.includes('explosion');
+        const f = feature.toLowerCase();
+        if (f.includes('ip66')) return productSearchString.includes('ip66') || productSearchString.includes('ip67');
+        if (f.includes('fire')) return productSearchString.includes('ul94') || productSearchString.includes('fire') || productSearchString.includes('v-0');
+        if (f.includes('atex')) return productSearchString.includes('atex') || productSearchString.includes('proof') || productSearchString.includes('explosion') || productSearchString.includes('zone');
         return false;
       });
     }
@@ -175,6 +219,11 @@ const Catalog: React.FC = () => {
         ? prev.filter(f => f !== feature) 
         : [...prev, feature]
     );
+  };
+  
+  const getCategoryCount = (cat: string) => {
+    if (cat === 'All') return MOCK_PRODUCTS.length;
+    return MOCK_PRODUCTS.filter(p => p.category === cat).length;
   };
 
   return (
@@ -208,20 +257,30 @@ const Catalog: React.FC = () => {
                 >
                   <div className="space-y-1">
                     {categories.map((cat) => (
-                      <label key={cat} className="flex items-center cursor-pointer group py-2 relative">
-                        <input 
-                          type="radio" 
-                          name="category" 
-                          className="sr-only peer"
-                          checked={selectedCategory === cat}
-                          onChange={() => setSelectedCategory(cat)}
-                        />
-                        {/* Custom Radio Visual */}
-                        <div className={`w-1 h-full absolute left-0 rounded-full transition-all duration-300 ${selectedCategory === cat ? 'bg-emphz-orange h-full' : 'bg-transparent h-0 group-hover:h-2 group-hover:bg-gray-600'}`}></div>
-                        
-                        <span className={`text-sm transition-all duration-300 pl-3 ${selectedCategory === cat ? 'font-bold text-white translate-x-1' : 'text-gray-400 group-hover:text-white'}`}>
-                          {cat}
-                        </span>
+                      <label key={cat} className={`flex items-center justify-between cursor-pointer group py-2 pl-3 pr-2 rounded-lg transition-colors relative ${selectedCategory === cat ? 'bg-white/10' : 'hover:bg-white/5'}`}>
+                         <div className="flex items-center relative z-10">
+                            <input 
+                              type="radio" 
+                              name="category" 
+                              className="sr-only peer"
+                              checked={selectedCategory === cat}
+                              onChange={() => setSelectedCategory(cat)}
+                            />
+                            {/* Indicator */}
+                            <div className={`w-1.5 h-1.5 rounded-full mr-3 transition-all duration-300 ${selectedCategory === cat ? 'bg-emphz-orange scale-125' : 'bg-gray-600 group-hover:bg-gray-400'}`}></div>
+                            
+                            <span className={`text-sm transition-all duration-300 ${selectedCategory === cat ? 'font-bold text-white' : 'text-gray-400 group-hover:text-white'}`}>
+                              {cat}
+                            </span>
+                         </div>
+                         <span className={`text-[10px] font-mono px-2 py-0.5 rounded transition-colors ${selectedCategory === cat ? 'bg-emphz-orange text-white' : 'bg-black/30 text-gray-500 group-hover:text-gray-300'}`}>
+                           {getCategoryCount(cat)}
+                         </span>
+                         
+                         {/* Selection Highlight Bar */}
+                         {selectedCategory === cat && (
+                           <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-2/3 bg-emphz-orange rounded-r-full"></div>
+                         )}
                       </label>
                     ))}
                   </div>
@@ -237,23 +296,25 @@ const Catalog: React.FC = () => {
                     {availableFeatures.map((feature) => {
                       const isSelected = selectedFeatures.includes(feature);
                       return (
-                        <label key={feature} className="flex items-center hover:text-white cursor-pointer relative group select-none">
-                            <input 
-                              type="checkbox" 
-                              className="sr-only" 
-                              checked={isSelected}
-                              onChange={() => toggleFeature(feature)}
-                            /> 
-                            <span className={`w-5 h-5 rounded border mr-3 flex items-center justify-center transition-all duration-200 ${
-                              isSelected 
-                                ? 'bg-emphz-orange border-emphz-orange text-white' 
-                                : 'border-white/20 bg-white/5 group-hover:border-white/40'
-                            }`}>
-                                <Check size={12} className={`transition-opacity duration-200 ${isSelected ? 'opacity-100' : 'opacity-0'}`} />
-                            </span>
-                            <span className={`text-sm transition-colors ${isSelected ? 'text-white font-medium' : 'text-gray-400'}`}>
-                              {feature}
-                            </span>
+                        <label key={feature} className="flex items-center justify-between hover:bg-white/5 p-2 rounded-lg cursor-pointer relative group select-none transition-colors">
+                            <div className="flex items-center">
+                              <input 
+                                type="checkbox" 
+                                className="sr-only" 
+                                checked={isSelected}
+                                onChange={() => toggleFeature(feature)}
+                              /> 
+                              <span className={`w-5 h-5 rounded border mr-3 flex items-center justify-center transition-all duration-200 ${
+                                isSelected 
+                                  ? 'bg-emphz-orange border-emphz-orange text-white' 
+                                  : 'border-white/20 bg-white/5 group-hover:border-white/40'
+                              }`}>
+                                  <Check size={12} className={`transition-opacity duration-200 ${isSelected ? 'opacity-100' : 'opacity-0'}`} />
+                              </span>
+                              <span className={`text-sm transition-colors ${isSelected ? 'text-white font-medium' : 'text-gray-400'}`}>
+                                {feature}
+                              </span>
+                            </div>
                         </label>
                       );
                     })}
@@ -289,11 +350,11 @@ const Catalog: React.FC = () => {
                         
                         <button 
                           onClick={(e) => { e.preventDefault(); toggleCompare(product.id); }}
-                          className={`absolute top-4 left-4 p-2 rounded-full backdrop-blur-md transition-all border border-white/10 focus:ring-2 focus:ring-white shadow-lg ${isComparing ? 'bg-emphz-orange text-white' : 'bg-black/30 text-gray-300 hover:bg-white hover:text-black'}`}
-                          aria-label={`Compare ${product.name}`}
+                          className={`absolute top-4 left-4 p-2 rounded-full backdrop-blur-md transition-all border border-white/10 focus:ring-2 focus:ring-white shadow-lg z-20 ${isComparing ? 'bg-emphz-orange text-white scale-110' : 'bg-black/40 text-gray-300 hover:bg-white hover:text-black hover:scale-110'}`}
+                          aria-label={isComparing ? `Remove ${product.name} from comparison` : `Add ${product.name} to comparison`}
                           aria-pressed={isComparing}
                         >
-                          {isComparing ? <Check size={14} aria-hidden="true" /> : <Scale size={14} aria-hidden="true" />}
+                          {isComparing ? <Check size={16} aria-hidden="true" /> : <Scale size={16} aria-hidden="true" />}
                         </button>
                       </div>
 
@@ -341,8 +402,11 @@ const Catalog: React.FC = () => {
               <div className="flex items-center space-x-4">
                 <div className="flex -space-x-3">
                   {compareList.map(id => (
-                    <div key={id} className="w-10 h-10 rounded-full border-2 border-black bg-gray-800 overflow-hidden">
+                    <div key={id} className="w-10 h-10 rounded-full border-2 border-black bg-gray-800 overflow-hidden relative group/thumb cursor-pointer" onClick={() => toggleCompare(id)} title="Click to remove">
                       <img src={MOCK_PRODUCTS.find(p => p.id === id)?.imageUrl} className="w-full h-full object-cover" alt="" />
+                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover/thumb:opacity-100 transition-opacity">
+                        <X size={14} />
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -354,9 +418,9 @@ const Catalog: React.FC = () => {
                 <button onClick={() => setCompareList([])} className="text-gray-400 hover:text-white text-xs uppercase font-bold tracking-wider focus:ring-2 focus:ring-white rounded px-2">Clear</button>
                 <button 
                   onClick={() => setIsCompareModalOpen(true)}
-                  className="bg-white text-black px-6 py-2 rounded-lg font-bold hover:bg-emphz-orange hover:text-white transition-colors text-sm focus:ring-2 focus:ring-white"
+                  className="bg-white text-black px-6 py-2 rounded-lg font-bold hover:bg-emphz-orange hover:text-white transition-colors text-sm focus:ring-2 focus:ring-white shadow-lg"
                 >
-                  COMPARE
+                  COMPARE NOW
                 </button>
               </div>
             </div>
