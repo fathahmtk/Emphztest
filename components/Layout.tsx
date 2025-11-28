@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ShoppingCart, Phone, Mail, MapPin, ChevronRight, MessageCircle, FileText } from 'lucide-react';
+import { Menu, X, ShoppingCart, Phone, Mail, MapPin, ChevronRight, MessageCircle, FileText, Search } from 'lucide-react';
 import { NAV_LINKS } from '../constants';
 import { useRFQ } from '../contexts/RFQContext';
 import LiveChatWidget from './LiveChatWidget';
 import Logo from './Logo';
+import CommandPalette from './CommandPalette';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -12,6 +13,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const location = useLocation();
@@ -49,6 +51,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isHome]);
+
+  // Global Keyboard Shortcut for Search (Cmd+K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsSearchOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Dynamic Title
   useEffect(() => {
@@ -167,6 +181,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
             {/* Actions */}
             <div className="hidden md:flex items-center space-x-5">
+              <button
+                 onClick={() => setIsSearchOpen(true)}
+                 className={`relative p-2 transition-colors group ${iconColorClass}`}
+                 aria-label="Search (Cmd+K)"
+                 title="Search (Cmd+K)"
+              >
+                 <Search size={22} className="group-hover:scale-110 transition-transform" />
+              </button>
+
               <Link to="/rfq" className={`relative p-2 transition-colors group ${iconColorClass}`} aria-label={`View RFQ Cart, ${items.length} items`}>
                 <ShoppingCart size={22} aria-hidden="true" className="group-hover:scale-110 transition-transform"/>
                 {items.length > 0 && (
@@ -182,6 +205,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
             {/* Mobile Menu Button */}
             <div className="md:hidden flex items-center z-50 gap-4">
+              <button
+                 onClick={() => setIsSearchOpen(true)}
+                 className={`relative p-2 transition-colors ${iconColorClass}`}
+                 aria-label="Search"
+              >
+                 <Search size={24} />
+              </button>
+              
                <Link to="/rfq" onClick={() => setIsMenuOpen(false)} className={`relative p-2 transition-colors ${iconColorClass}`} aria-label={`View RFQ Cart`}>
                 <ShoppingCart size={24} aria-hidden="true" />
                 {items.length > 0 && (
@@ -281,6 +312,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </div>
 
       <LiveChatWidget />
+      
+      {/* Global Command Palette */}
+      <CommandPalette isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
       {/* Footer - Immersive Midnight Slate */}
       <footer className="bg-emphz-navy text-white pt-20 pb-10 md:pt-28 md:pb-12 relative overflow-hidden" role="contentinfo">
