@@ -120,11 +120,18 @@ const ProductDetail: React.FC = () => {
             <div className="w-full h-full absolute inset-0 z-10 animate-fade-in">
                <Suspense fallback={
                  <div className="w-full h-full flex flex-col items-center justify-center bg-slate-900 relative overflow-hidden">
-                    {/* Skeleton Pulse Background */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 animate-pulse"></div>
+                    {/* Technical Grid Background */}
+                    <div className="absolute inset-0 opacity-10" style={{
+                       backgroundImage: 'linear-gradient(rgba(0,173,181,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(0,173,181,0.3) 1px, transparent 1px)',
+                       backgroundSize: '40px 40px'
+                    }}></div>
+                    
                     <div className="relative z-10 flex flex-col items-center">
-                        <Loader2 className="w-10 h-10 text-emphz-orange animate-spin mb-4" />
-                        <span className="text-white font-bold text-sm tracking-widest font-display">LOADING 3D ENGINE</span>
+                        <div className="relative mb-6">
+                           <div className="absolute inset-0 bg-emphz-orange/20 blur-xl rounded-full"></div>
+                           <Box className="w-12 h-12 text-emphz-orange animate-bounce relative z-10" strokeWidth={1.5} />
+                        </div>
+                        <span className="text-emphz-orange font-bold text-xs tracking-[0.3em] font-display animate-pulse">LOADING ENGINE</span>
                     </div>
                  </div>
                }>

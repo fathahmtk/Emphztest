@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { Box } from 'lucide-react';
 
 interface ThreeProductViewerProps {
   productType: 'ENCLOSURE' | 'KIOSK' | 'SMART_CABIN' | 'AUTOMOBILE' | 'DEFAULT';
@@ -23,7 +24,7 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
 
       if (currentProgress >= 100) {
         clearInterval(interval);
-        setTimeout(() => setIsLoading(false), 300); // Short delay at 100% before hiding
+        setTimeout(() => setIsLoading(false), 500); // Delay before hiding
       }
     }, 100);
 
@@ -303,31 +304,47 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
     <div className="w-full h-full relative group cursor-move touch-action-none bg-slate-900/20">
        <div ref={mountRef} className="w-full h-full" />
        
-       {/* Internal Loading Overlay */}
+       {/* Internal Loading Overlay with Skeleton/Wireframe Style */}
        {isLoading && (
-         <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-900/80 backdrop-blur-sm transition-opacity duration-500">
-            <div className="w-64 space-y-4">
-                <div className="flex justify-between text-xs font-bold text-emphz-orange font-display tracking-widest">
-                    <span>INITIALIZING MODEL</span>
-                    <span>{progress}%</span>
+         <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-900/95 backdrop-blur-md transition-opacity duration-500">
+            <div className="flex flex-col items-center w-64">
+                {/* 3D Wireframe Icon Animation */}
+                <div className="relative w-16 h-16 mb-8">
+                  <div className="absolute inset-0 border border-emphz-orange/20 rounded-lg animate-[spin_3s_linear_infinite]"></div>
+                  <div className="absolute inset-2 border border-emphz-orange/40 rounded-lg animate-[spin_4s_linear_infinite_reverse]"></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                     <Box className="w-8 h-8 text-emphz-orange animate-pulse" strokeWidth={1.5} />
+                  </div>
                 </div>
-                <div className="h-1 bg-gray-700 rounded-full overflow-hidden">
-                    <div 
-                        className="h-full bg-emphz-orange transition-all duration-100 ease-out"
-                        style={{ width: `${progress}%` }}
-                    />
-                </div>
-                <div className="text-[10px] text-gray-500 text-center font-mono">
-                    Generating geometry & shaders...
+
+                <div className="w-full space-y-3">
+                  <div className="flex justify-between items-end">
+                      <span className="text-[10px] font-bold text-emphz-orange font-display tracking-[0.2em] animate-pulse">INITIALIZING</span>
+                      <span className="text-xs font-mono text-white font-bold">{progress}%</span>
+                  </div>
+                  
+                  {/* Tech Progress Bar */}
+                  <div className="h-1 bg-gray-800 rounded-full overflow-hidden relative">
+                      <div 
+                          className="h-full bg-emphz-orange shadow-[0_0_10px_#00ADB5] transition-all duration-100 ease-out"
+                          style={{ width: `${progress}%` }}
+                      />
+                  </div>
+                  
+                  <div className="flex justify-between text-[8px] text-gray-600 font-mono uppercase">
+                      <span>Geo: Load</span>
+                      <span>Tex: Gen</span>
+                      <span>Light: Bake</span>
+                  </div>
                 </div>
             </div>
          </div>
        )}
 
        {!isLoading && (
-        <div className="absolute bottom-4 right-4 bg-black/50 text-white text-[10px] px-2 py-1 rounded backdrop-blur pointer-events-none flex items-center gap-2 animate-fade-in">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-          Interactive 3D • Drag to Rotate
+        <div className="absolute bottom-4 right-4 bg-black/50 text-white text-[10px] px-3 py-1.5 rounded-full backdrop-blur pointer-events-none flex items-center gap-2 animate-fade-in border border-white/10">
+          <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_5px_#22c55e]"></div>
+          <span className="font-mono tracking-wide">INTERACTIVE 3D</span>
         </div>
        )}
     </div>

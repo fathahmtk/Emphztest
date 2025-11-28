@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Target, Gem, Users, Anchor, Lightbulb, Zap, CheckCircle, MapPin, PenTool, Calendar, Award, Rocket, Shield, FileCheck, XCircle, AlertTriangle, Scale, BatteryCharging, Clock, Truck } from 'lucide-react';
+import { Target, Gem, Users, Anchor, Lightbulb, Zap, CheckCircle, MapPin, PenTool, Calendar, Award, Rocket, Shield, FileCheck, XCircle, AlertTriangle, Scale, BatteryCharging, Clock, Truck, Droplet, Hammer, Feather } from 'lucide-react';
 
 const About: React.FC = () => {
 
@@ -173,6 +173,90 @@ const About: React.FC = () => {
               </div>
             </div>
          </div>
+      </section>
+
+      {/* GRP vs Traditional Deep Dive */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+                 <h2 className="text-sm font-bold text-emphz-orange tracking-widest uppercase mb-4">Comparative Analysis</h2>
+                 <h3 className="text-3xl md:text-4xl font-bold text-emphz-navy mb-6">GRP vs. Traditional Materials: A Deeper Dive</h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {/* Card 1: Corrosion */}
+                <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100">
+                    <div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mb-6">
+                        <Droplet className="text-blue-600 w-6 h-6" />
+                    </div>
+                    <h4 className="font-bold text-lg text-emphz-navy mb-4">Corrosion</h4>
+                    <div className="space-y-3">
+                        <div className="flex items-start">
+                            <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
+                            <p className="text-sm text-gray-600"><span className="font-bold text-emphz-navy">GRP:</span> Chemically inert. 100% rust-proof in saline air.</p>
+                        </div>
+                        <div className="flex items-start">
+                            <XCircle className="w-5 h-5 text-red-400 mr-2 flex-shrink-0" />
+                            <p className="text-sm text-gray-600"><span className="font-bold text-emphz-navy">Steel:</span> Requires galvanizing or painting. Rusts inevitably.</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Card 2: Insulation */}
+                <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100">
+                    <div className="bg-yellow-100 w-12 h-12 rounded-full flex items-center justify-center mb-6">
+                        <BatteryCharging className="text-yellow-600 w-6 h-6" />
+                    </div>
+                    <h4 className="font-bold text-lg text-emphz-navy mb-4">Electrical Safety</h4>
+                    <div className="space-y-3">
+                        <div className="flex items-start">
+                            <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
+                            <p className="text-sm text-gray-600"><span className="font-bold text-emphz-navy">GRP:</span> Natural insulator. Zero shock hazard.</p>
+                        </div>
+                        <div className="flex items-start">
+                            <XCircle className="w-5 h-5 text-red-400 mr-2 flex-shrink-0" />
+                            <p className="text-sm text-gray-600"><span className="font-bold text-emphz-navy">Metal:</span> Highly conductive. Dangerous if earthing fails.</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Card 3: Weight */}
+                <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100">
+                    <div className="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mb-6">
+                        <Feather className="text-purple-600 w-6 h-6" />
+                    </div>
+                    <h4 className="font-bold text-lg text-emphz-navy mb-4">Weight & Install</h4>
+                    <div className="space-y-3">
+                        <div className="flex items-start">
+                            <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
+                            <p className="text-sm text-gray-600"><span className="font-bold text-emphz-navy">GRP:</span> Lightweight. Man-portable. Rapid assembly.</p>
+                        </div>
+                        <div className="flex items-start">
+                            <XCircle className="w-5 h-5 text-red-400 mr-2 flex-shrink-0" />
+                            <p className="text-sm text-gray-600"><span className="font-bold text-emphz-navy">Concrete:</span> Heavy. Requires cranes and heavy machinery.</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Card 4: Maintenance */}
+                <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100">
+                    <div className="bg-orange-100 w-12 h-12 rounded-full flex items-center justify-center mb-6">
+                        <Hammer className="text-orange-600 w-6 h-6" />
+                    </div>
+                    <h4 className="font-bold text-lg text-emphz-navy mb-4">Maintenance</h4>
+                    <div className="space-y-3">
+                        <div className="flex items-start">
+                            <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
+                            <p className="text-sm text-gray-600"><span className="font-bold text-emphz-navy">GRP:</span> Fit and forget. UV stable. No painting needed.</p>
+                        </div>
+                        <div className="flex items-start">
+                            <XCircle className="w-5 h-5 text-red-400 mr-2 flex-shrink-0" />
+                            <p className="text-sm text-gray-600"><span className="font-bold text-emphz-navy">Others:</span> Regular re-painting and anti-rust treatments.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
       </section>
       
       {/* Timeline Section */}
