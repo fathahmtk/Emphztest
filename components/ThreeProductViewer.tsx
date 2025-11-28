@@ -4,13 +4,14 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Box } from 'lucide-react';
 
 interface ThreeProductViewerProps {
-  productType: 'ENCLOSURE' | 'KIOSK' | 'SMART_CABIN' | 'AUTOMOBILE' | 'DEFAULT';
+  productType: 'ENCLOSURE' | 'KIOSK' | 'CABIN' | 'SMART_CABIN' | 'AUTOMOBILE' | 'DEFAULT';
 }
 
 const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [isInteracting, setIsInteracting] = useState(false);
 
   // Effect for simulating loading progress
   useEffect(() => {
@@ -50,6 +51,8 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
 
     // Controls
@@ -59,30 +62,43 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
     controls.enableZoom = true;
     controls.enablePan = true;
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 1.5;
+    controls.autoRotateSpeed = 2.0;
+    
+    // Limits
+    controls.minDistance = 3;
+    controls.maxDistance = 15;
+    controls.maxPolarAngle = Math.PI / 2 - 0.05; // Prevent going below ground
+
+    controls.addEventListener('start', () => setIsInteracting(true));
+    controls.addEventListener('end', () => setIsInteracting(false));
 
     // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
-    scene.add(ambientLight);
+    // Hemisphere light for natural outdoor feel (Sky color vs Ground color)
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
+    hemiLight.position.set(0, 20, 0);
+    scene.add(hemiLight);
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.0);
     dirLight.position.set(5, 10, 7);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.width = 1024;
+    dirLight.shadow.mapSize.height = 1024;
     scene.add(dirLight);
 
-    const accentLight = new THREE.PointLight(0x00ADB5, 1, 10);
+    const accentLight = new THREE.PointLight(0x00ADB5, 0.8, 20);
     accentLight.position.set(-2, 2, 2);
     scene.add(accentLight);
 
     // Materials
     const grpMaterial = new THREE.MeshStandardMaterial({ 
       color: 0xeeeeee, // White GRP
-      roughness: 0.3,
+      roughness: 0.2,
       metalness: 0.1 
     });
     
     const greyGrpMaterial = new THREE.MeshStandardMaterial({ 
       color: 0xcccccc, // RAL 7035 Grey
-      roughness: 0.4,
+      roughness: 0.3,
       metalness: 0.1 
     });
 
@@ -93,17 +109,17 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
 
     const orangeMaterial = new THREE.MeshStandardMaterial({ 
       color: 0x00ADB5, // Tech Teal Accent
-      roughness: 0.5 
+      roughness: 0.4 
     });
     
     const glassMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0x111111,
+      color: 0x88ccff,
       metalness: 0.9,
       roughness: 0.05,
-      transmission: 0.2, // Slight transparency
+      transmission: 0.6,
       thickness: 0.5,
       transparent: true,
-      opacity: 0.9
+      opacity: 0.4
     });
 
     const interiorLightMaterial = new THREE.MeshBasicMaterial({ color: 0x00ADB5 });
@@ -116,12 +132,16 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
       // 1. Main Body Box
       const bodyGeo = new THREE.BoxGeometry(2, 3, 1);
       const bodyMesh = new THREE.Mesh(bodyGeo, greyGrpMaterial);
+      bodyMesh.castShadow = true;
+      bodyMesh.receiveShadow = true;
       productGroup.add(bodyMesh);
 
       // 2. Door (slightly offset)
       const doorGeo = new THREE.BoxGeometry(1.9, 2.9, 0.1);
       const doorMesh = new THREE.Mesh(doorGeo, greyGrpMaterial);
       doorMesh.position.set(0, 0, 0.52);
+      doorMesh.castShadow = true;
+      bodyMesh.receiveShadow = true;
       productGroup.add(doorMesh);
 
       // 3. Hinges
@@ -153,6 +173,7 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
       // 1. Main Cabin Body
       const cabinGeo = new THREE.BoxGeometry(3, 2.5, 2);
       const cabinMesh = new THREE.Mesh(cabinGeo, greyGrpMaterial);
+      cabinMesh.castShadow = true;
       productGroup.add(cabinMesh);
 
       // 2. Roof (Sloped/Pyramid style for water runoff)
@@ -161,6 +182,7 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
       roofMesh.position.set(0, 1.6, 0);
       roofMesh.rotation.y = Math.PI / 4; // Align square
       roofMesh.scale.set(1, 1, 0.7); // Flatten slightly
+      roofMesh.castShadow = true;
       productGroup.add(roofMesh);
 
       // 3. Ventilation Louvers (Side)
@@ -185,12 +207,50 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
       plinthMesh.position.set(0, -1.35, 0);
       productGroup.add(plinthMesh);
 
+    } else if (productType === 'CABIN') {
+      // Security Cabin Logic - Rectangular with sliding windows
+      const cabinGeo = new THREE.BoxGeometry(3, 2.8, 3);
+      const cabinMesh = new THREE.Mesh(cabinGeo, grpMaterial);
+      cabinMesh.castShadow = true;
+      productGroup.add(cabinMesh);
+
+      // Roof - Flat with slight overhang
+      const roofGeo = new THREE.BoxGeometry(3.4, 0.2, 3.4);
+      const roofMesh = new THREE.Mesh(roofGeo, greyGrpMaterial);
+      roofMesh.position.set(0, 1.5, 0);
+      roofMesh.castShadow = true;
+      productGroup.add(roofMesh);
+
+      // Windows (3 Sides)
+      const windowGeo = new THREE.BoxGeometry(2, 1.2, 0.1);
+      
+      const frontWindow = new THREE.Mesh(windowGeo, glassMaterial);
+      frontWindow.position.set(0, 0.2, 1.51);
+      productGroup.add(frontWindow);
+
+      const leftWindow = new THREE.Mesh(windowGeo, glassMaterial);
+      leftWindow.rotation.y = Math.PI / 2;
+      leftWindow.position.set(-1.51, 0.2, 0);
+      productGroup.add(leftWindow);
+
+      const rightWindow = new THREE.Mesh(windowGeo, glassMaterial);
+      rightWindow.rotation.y = Math.PI / 2;
+      rightWindow.position.set(1.51, 0.2, 0);
+      productGroup.add(rightWindow);
+
+      // Door (Rear)
+      const doorGeo = new THREE.BoxGeometry(1.2, 2.2, 0.1);
+      const doorMesh = new THREE.Mesh(doorGeo, greyGrpMaterial);
+      doorMesh.position.set(0, -0.3, -1.51);
+      productGroup.add(doorMesh);
+
     } else if (productType === 'SMART_CABIN') {
       // Xpod Style Logic
       
       // 1. Main Shell (Rounded look via box with smaller boxes for interior)
       const shellGeo = new THREE.BoxGeometry(4, 2.2, 2);
       const shellMesh = new THREE.Mesh(shellGeo, grpMaterial);
+      shellMesh.castShadow = true;
       productGroup.add(shellMesh);
       
       // 2. Glass Front
@@ -203,12 +263,14 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
       const roofGeo = new THREE.BoxGeometry(4.2, 0.2, 2.4);
       const roofMesh = new THREE.Mesh(roofGeo, grpMaterial);
       roofMesh.position.set(0, 1.2, 0.1);
+      roofMesh.castShadow = true;
       productGroup.add(roofMesh);
 
       // 4. Floor / Deck
       const deckGeo = new THREE.BoxGeometry(4.4, 0.2, 3);
       const deckMesh = new THREE.Mesh(deckGeo, darkRubberMaterial);
       deckMesh.position.set(0, -1.2, 0.4);
+      deckMesh.receiveShadow = true;
       productGroup.add(deckMesh);
 
       // 5. Interior Glow Strip (Simulated LED)
@@ -229,6 +291,7 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
       // 1. Main Shield Panel (Wide, low profile)
       const panelGeo = new THREE.BoxGeometry(3.5, 0.15, 2.2);
       const panelMesh = new THREE.Mesh(panelGeo, darkRubberMaterial);
+      panelMesh.castShadow = true;
       productGroup.add(panelMesh);
       
       // 2. Reinforcement Ribs (Orange for highlight)
@@ -301,7 +364,7 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
   }, [productType]);
 
   return (
-    <div className="w-full h-full relative group cursor-move touch-action-none bg-slate-900/20">
+    <div className={`w-full h-full relative group ${isInteracting ? 'cursor-grabbing' : 'cursor-move'} touch-none bg-slate-900/20`}>
        <div ref={mountRef} className="w-full h-full" />
        
        {/* Internal Loading Overlay with Skeleton/Wireframe Style */}

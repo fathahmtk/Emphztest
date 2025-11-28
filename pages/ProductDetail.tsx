@@ -70,7 +70,7 @@ const ProductDetail: React.FC = () => {
   const get3DType = () => {
     if (product.category === ProductCategory.ENCLOSURE) return 'ENCLOSURE';
     if (product.category === ProductCategory.KIOSK) return 'KIOSK';
-    if (product.category === ProductCategory.CABIN) return 'KIOSK';
+    if (product.category === ProductCategory.CABIN) return 'CABIN';
     if (product.category === ProductCategory.SMART_CABIN) return 'SMART_CABIN';
     if (product.category === ProductCategory.AUTOMOBILE) return 'AUTOMOBILE';
     return 'DEFAULT';
