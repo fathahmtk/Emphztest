@@ -63,7 +63,7 @@ const CompareModal: React.FC<{
             {productsToCompare.map(product => (
               <div key={product.id} className="text-center sticky top-0 bg-white py-4 z-10 border-b border-gray-100 shadow-sm">
                 <div className="relative inline-block">
-                  <img src={product.imageUrl} alt={product.name} className="w-24 h-24 object-cover mx-auto rounded-lg mb-3 border border-gray-200 shadow-sm"/>
+                  <img src={product.imageUrl} alt={product.name} loading="lazy" decoding="async" className="w-24 h-24 object-cover mx-auto rounded-lg mb-3 border border-gray-200 shadow-sm"/>
                   <div className="absolute top-0 right-0 -mt-2 -mr-2 bg-emphz-navy text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm font-mono">{product.id.split('-')[2] || 'V1'}</div>
                 </div>
                 <h3 className="font-bold text-emphz-navy text-sm px-2 leading-tight min-h-[2.5em] flex items-center justify-center font-display">{product.name}</h3>
@@ -354,7 +354,7 @@ const Catalog: React.FC = () => {
                   return (
                     <article key={product.id} className="bg-white rounded-2xl overflow-hidden flex flex-col h-[450px] group relative transition-all duration-500 ease-out hover:scale-[1.02] hover:-translate-y-2 border border-gray-200 hover:border-emphz-orange hover:shadow-[0_20px_50px_-5px_rgba(0,173,181,0.25)]">
                       <div className="relative h-3/5 overflow-hidden">
-                        <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                        <img src={product.imageUrl} alt={product.name} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         
                         <div className="absolute top-4 right-4 bg-white/90 backdrop-blur text-emphz-navy text-[10px] font-bold px-2 py-1 rounded shadow-sm font-display tracking-wider">

@@ -206,21 +206,21 @@ const RFQ: React.FC = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="name" className="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
-                    <input id="name" required aria-required="true" name="name" onChange={handleChange} type="text" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-sm p-2 border" />
+                    <input id="name" required aria-required="true" name="name" onChange={handleChange} type="text" autoComplete="name" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-sm p-2 border" />
                   </div>
                   <div>
                     <label htmlFor="company" className="block text-xs font-bold text-gray-500 uppercase mb-1">Company</label>
-                    <input id="company" required aria-required="true" name="company" onChange={handleChange} type="text" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-sm p-2 border" />
+                    <input id="company" required aria-required="true" name="company" onChange={handleChange} type="text" autoComplete="organization" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-sm p-2 border" />
                   </div>
                 </div>
 
                 <div>
                   <label htmlFor="email" className="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
-                  <input id="email" required aria-required="true" name="email" onChange={handleChange} type="email" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-sm p-2 border" />
+                  <input id="email" required aria-required="true" name="email" onChange={handleChange} type="email" autoComplete="email" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-sm p-2 border" />
                 </div>
                 <div>
                   <label htmlFor="phone" className="block text-xs font-bold text-gray-500 uppercase mb-1">Phone / WhatsApp</label>
-                  <input id="phone" required aria-required="true" name="phone" onChange={handleChange} type="tel" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-sm p-2 border" />
+                  <input id="phone" required aria-required="true" name="phone" onChange={handleChange} type="tel" autoComplete="tel" inputMode="tel" className="w-full rounded border-gray-300 focus:ring-emphz-orange focus:border-emphz-orange text-sm p-2 border" />
                 </div>
                 
                 <div>

@@ -79,7 +79,7 @@ const Home: React.FC = () => {
         {/* Content Container - Expanded for Full Wide Effect */}
         <div className="w-full px-6 md:px-12 lg:px-24 relative z-10 grid lg:grid-cols-12 gap-12 items-center h-full">
           
-          <div className="lg:col-span-9 space-y-6 md:space-y-8 motion-safe:animate-fade-up pt-16 md:pt-0">
+          <div className="lg:col-span-9 space-y-6 md:space-y-6 motion-safe:animate-fade-up pt-16 md:pt-0">
             <div className="flex flex-wrap items-center gap-4">
               <div className="inline-flex items-center px-4 py-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-md shadow-2xl ring-1 ring-white/10">
                 <span className="w-2 h-2 bg-emphz-orange rounded-full mr-3 motion-safe:animate-pulse shadow-[0_0_10px_#00ADB5]"></span>
@@ -87,7 +87,7 @@ const Home: React.FC = () => {
               </div>
             </div>
             
-            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black font-display leading-[1.1] md:leading-[0.85] tracking-tighter text-white drop-shadow-2xl">
+            <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black font-display leading-[1.1] md:leading-[0.85] tracking-tighter text-white drop-shadow-2xl">
               ONE ENCLOSURE. <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-orange to-cyan-300 filter drop-shadow-[0_0_20px_rgba(0,173,181,0.5)]">
                 INFINITE WORLDS.
@@ -125,7 +125,7 @@ const Home: React.FC = () => {
 
       {/* 2. Infinite Marquee - Trust Signals (Light Theme) */}
       <div className="py-8 bg-white border-y border-gray-100 overflow-hidden" aria-hidden="true">
-        <div className="flex space-x-16 motion-safe:animate-scroll whitespace-nowrap w-max hover:pause">
+        <div className="flex space-x-16 motion-safe:animate-scroll whitespace-nowrap w-max hover:pause will-change-transform">
           {[...INDUSTRIES, ...INDUSTRIES, ...INDUSTRIES].map((ind, i) => (
             <div key={i} className="flex items-center space-x-4 text-gray-400 hover:text-emphz-navy transition-colors cursor-default">
               <Link to="/products" className="flex items-center gap-4 group focus:outline-none focus:text-emphz-orange">
@@ -208,7 +208,7 @@ const Home: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {MOCK_PRODUCTS.slice(0, 4).map((product, i) => (
               <Link to={`/products/${product.id}`} key={i} className="group relative h-[400px] rounded-2xl overflow-hidden border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-emphz-orange shadow-lg hover:shadow-xl transition-all">
-                <img src={product.imageUrl} alt={product.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-all duration-700" />
+                <img src={product.imageUrl} alt={product.name} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-all duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                 
                 <div className="absolute bottom-0 left-0 p-6 w-full">

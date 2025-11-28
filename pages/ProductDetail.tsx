@@ -163,7 +163,7 @@ const ProductDetail: React.FC = () => {
                                 : 'border-gray-200 hover:border-emphz-orange/50 hover:scale-105'
                             }`}
                           >
-                             <img src={img} alt={`View ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                             <img src={img} alt={`View ${idx + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                           </button>
                       ))}
                   </div>
@@ -351,7 +351,7 @@ const ProductDetail: React.FC = () => {
                     {relatedProducts.map(rp => (
                          <Link key={rp.id} to={`/products/${rp.id}`} className="group bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-emphz-orange transition-all duration-300 hover:shadow-lg">
                             <div className="relative h-48 overflow-hidden">
-                                <img src={rp.imageUrl} alt={rp.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                <img src={rp.imageUrl} alt={rp.name} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
                                 <div className="absolute bottom-4 left-4">
                                      <div className="text-[10px] font-bold text-emphz-orange uppercase tracking-wider mb-1 bg-white/90 backdrop-blur px-2 py-1 rounded inline-block shadow-sm font-display">{rp.category}</div>
@@ -372,7 +372,7 @@ const ProductDetail: React.FC = () => {
 
         </div>
 
-        <div className="fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-xl border-t border-gray-200 p-4 lg:hidden z-40 flex items-center gap-4 shadow-[0_-5px_20px_rgba(0,0,0,0.1)]">
+        <div className="fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-xl border-t border-gray-200 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] lg:hidden z-40 flex items-center gap-4 shadow-[0_-5px_20px_rgba(0,0,0,0.1)]">
            <div className="flex-1">
               <div className="text-emphz-navy font-bold text-sm line-clamp-1 font-display">{product.name}</div>
               <div className="text-emphz-orange text-xs font-bold font-mono">SKU: {product.id.toUpperCase()}</div>

@@ -22,6 +22,8 @@ const CaseStudies: React.FC = () => {
                 <img 
                   src={study.imageUrl} 
                   alt={study.title} 
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                 />
                 <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded text-xs font-bold text-emphz-navy uppercase tracking-wide">
