@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Filter, Download, Scale, X, Check, ChevronRight, ChevronDown } from 'lucide-react';
+import { Filter, Download, Scale, X, Check, ChevronRight, ChevronDown, SlidersHorizontal } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../constants';
 import { ProductCategory, Product } from '../types';
 
@@ -158,6 +158,7 @@ const Catalog: React.FC = () => {
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   const [compareList, setCompareList] = useState<string[]>([]);
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
   
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     category: true,
@@ -222,23 +223,43 @@ const Catalog: React.FC = () => {
     <>
       <div className="bg-slate-50 min-h-screen py-12 relative text-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-gray-200 pb-8">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-gray-200 pb-8">
             <div>
               <div className="text-emphz-orange font-bold tracking-widest text-xs uppercase mb-2 font-display">The Collection</div>
-              <h1 className="text-5xl font-black text-emphz-navy mb-2 font-display">PRODUCT CATALOG</h1>
-              <p className="text-slate-600 max-w-xl font-sans">Engineered GRP solutions for demanding environments. Browse our range of enclosures, kiosks, and modular cabins.</p>
+              <h1 className="text-4xl md:text-5xl font-black text-emphz-navy mb-2 font-display">PRODUCT CATALOG</h1>
+              <p className="text-slate-600 max-w-xl font-sans text-sm md:text-base">Engineered GRP solutions for demanding environments. Browse our range of enclosures, kiosks, and modular cabins.</p>
             </div>
-            <button className="flex items-center bg-white hover:bg-emphz-orange hover:text-white border border-gray-300 text-emphz-navy px-6 py-3 rounded-full text-sm font-bold transition-colors mt-6 md:mt-0 focus:ring-2 focus:ring-emphz-navy shadow-sm font-display tracking-wide">
+            <button className="hidden md:flex items-center bg-white hover:bg-emphz-orange hover:text-white border border-gray-300 text-emphz-navy px-6 py-3 rounded-full text-sm font-bold transition-colors mt-6 md:mt-0 focus:ring-2 focus:ring-emphz-navy shadow-sm font-display tracking-wide">
               <Download className="mr-2" size={18} aria-hidden="true" /> Download Price List (PDF)
             </button>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-12">
-            {/* Sidebar Filters - Light Theme */}
-            <div className="w-full lg:w-64 flex-shrink-0">
-              <div className="glass-panel p-6 rounded-2xl sticky top-24 bg-white">
-                <div className="flex items-center mb-2 text-emphz-navy font-bold uppercase tracking-wider text-sm pb-4 border-b border-gray-100 font-display">
-                  <Filter size={16} className="mr-2" aria-hidden="true" /> Filters
+          {/* Mobile Filter Toggle */}
+          <div className="lg:hidden mb-6">
+            <button 
+              onClick={() => setIsMobileFiltersOpen(!isMobileFiltersOpen)}
+              className={`w-full flex items-center justify-between px-6 py-4 rounded-xl font-bold shadow-sm border transition-all ${isMobileFiltersOpen ? 'bg-emphz-navy text-white border-emphz-navy' : 'bg-white text-emphz-navy border-gray-200'}`}
+            >
+              <span className="flex items-center uppercase text-sm tracking-wide font-display">
+                <SlidersHorizontal size={18} className="mr-3" />
+                Filter & Sort
+              </span>
+              <span className="bg-emphz-orange text-white text-[10px] px-2 py-0.5 rounded-full font-mono">{filteredProducts.length} Results</span>
+            </button>
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+            {/* Sidebar Filters - Responsive Logic */}
+            <div className={`w-full lg:w-64 flex-shrink-0 ${isMobileFiltersOpen ? 'block' : 'hidden lg:block'}`}>
+              <div className="glass-panel p-6 rounded-2xl sticky top-24 bg-white shadow-lg lg:shadow-none border border-gray-200 lg:border-white/60">
+                <div className="flex items-center justify-between mb-2 pb-4 border-b border-gray-100">
+                  <div className="text-emphz-navy font-bold uppercase tracking-wider text-sm font-display flex items-center">
+                    <Filter size={16} className="mr-2" aria-hidden="true" /> Filters
+                  </div>
+                  {/* Close button for mobile only */}
+                  <button onClick={() => setIsMobileFiltersOpen(false)} className="lg:hidden text-gray-400">
+                    <X size={20} />
+                  </button>
                 </div>
                 
                 {/* Category Accordion */}

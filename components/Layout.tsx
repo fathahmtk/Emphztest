@@ -235,36 +235,36 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div>
               <h4 className="text-xs font-bold text-emphz-orange uppercase tracking-widest mb-8 font-display">Products</h4>
               <ul className="space-y-4 text-sm font-medium text-gray-400">
-                <li><Link to="/products" className="hover:text-white transition-colors flex items-center group"><ChevronRight size={14} className="mr-2 opacity-0 group-hover:opacity-100 transition-opacity text-emphz-orange"/> Enclosures</Link></li>
-                <li><Link to="/products" className="hover:text-white transition-colors flex items-center group"><ChevronRight size={14} className="mr-2 opacity-0 group-hover:opacity-100 transition-opacity text-emphz-orange"/> Modular Kiosks</Link></li>
-                <li><Link to="/products" className="hover:text-white transition-colors flex items-center group"><ChevronRight size={14} className="mr-2 opacity-0 group-hover:opacity-100 transition-opacity text-emphz-orange"/> Security Cabins</Link></li>
-                <li><Link to="/products" className="hover:text-white transition-colors flex items-center group"><ChevronRight size={14} className="mr-2 opacity-0 group-hover:opacity-100 transition-opacity text-emphz-orange"/> Resort Villas</Link></li>
+                <li><Link to="/products" className="hover:text-white transition-colors flex items-center group py-2 md:py-0"><ChevronRight size={14} className="mr-2 opacity-0 group-hover:opacity-100 transition-opacity text-emphz-orange"/> Enclosures</Link></li>
+                <li><Link to="/products" className="hover:text-white transition-colors flex items-center group py-2 md:py-0"><ChevronRight size={14} className="mr-2 opacity-0 group-hover:opacity-100 transition-opacity text-emphz-orange"/> Modular Kiosks</Link></li>
+                <li><Link to="/products" className="hover:text-white transition-colors flex items-center group py-2 md:py-0"><ChevronRight size={14} className="mr-2 opacity-0 group-hover:opacity-100 transition-opacity text-emphz-orange"/> Security Cabins</Link></li>
+                <li><Link to="/products" className="hover:text-white transition-colors flex items-center group py-2 md:py-0"><ChevronRight size={14} className="mr-2 opacity-0 group-hover:opacity-100 transition-opacity text-emphz-orange"/> Resort Villas</Link></li>
               </ul>
             </div>
 
             <div>
               <h4 className="text-xs font-bold text-emphz-orange uppercase tracking-widest mb-8 font-display">Connect</h4>
               <ul className="space-y-4 text-sm font-medium text-gray-400">
-                <li className="flex items-start group">
+                <li className="flex items-start group py-2 md:py-0">
                   <MapPin size={16} className="mr-3 mt-0.5 text-emphz-navy bg-white rounded-full p-0.5 group-hover:scale-110 transition-transform" />
                   <span>Mysore Factory <br/><span className="text-xs opacity-50">KIADB Industrial Area</span></span>
                 </li>
-                <li className="flex items-start group">
+                <li className="flex items-start group py-2 md:py-0">
                   <MapPin size={16} className="mr-3 mt-0.5 text-emphz-orange bg-white rounded-full p-0.5 group-hover:scale-110 transition-transform" />
                   <span>Kerala Ops <br/><span className="text-xs opacity-50">Vadakara HQ</span></span>
                 </li>
-                <li className="flex items-center"><Phone size={16} className="mr-3" /> +91 9037 874 080</li>
-                <li className="flex items-center"><Mail size={16} className="mr-3" /> info@emphz.in</li>
+                <li className="flex items-center py-2 md:py-0"><Phone size={16} className="mr-3" /> +91 9037 874 080</li>
+                <li className="flex items-center py-2 md:py-0"><Mail size={16} className="mr-3" /> info@emphz.in</li>
               </ul>
             </div>
           </div>
           
-          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 font-sans">
+          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 font-sans text-center md:text-left">
             <p>&copy; 2025 Emphz Engineering Pvt Ltd. Precision Molded in India.</p>
             <div className="flex space-x-8 mt-4 md:mt-0 font-bold uppercase tracking-wider">
-              <Link to="#" className="hover:text-white transition-colors">Privacy</Link>
-              <Link to="#" className="hover:text-white transition-colors">Legal</Link>
-              <Link to="/sitemap" className="hover:text-white transition-colors">Sitemap</Link>
+              <Link to="#" className="hover:text-white transition-colors p-2 md:p-0">Privacy</Link>
+              <Link to="#" className="hover:text-white transition-colors p-2 md:p-0">Legal</Link>
+              <Link to="/sitemap" className="hover:text-white transition-colors p-2 md:p-0">Sitemap</Link>
             </div>
           </div>
         </div>

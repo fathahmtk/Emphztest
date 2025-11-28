@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Target, Gem, Users, Anchor, Lightbulb, Zap, CheckCircle, MapPin, PenTool, Calendar, Award, Rocket, Shield, FileCheck } from 'lucide-react';
+import { Target, Gem, Users, Anchor, Lightbulb, Zap, CheckCircle, MapPin, PenTool, Calendar, Award, Rocket, Shield, FileCheck, XCircle, AlertTriangle, Scale, BatteryCharging } from 'lucide-react';
 
 const About: React.FC = () => {
 
@@ -76,6 +76,104 @@ const About: React.FC = () => {
             </div>
         </div>
        </section>
+
+      {/* Why Choose GRP? Comparison Section (NEW) */}
+      <section className="py-24 bg-emphz-navy text-white relative overflow-hidden">
+         {/* Background Abstract */}
+         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emphz-orange rounded-full blur-[120px] opacity-10 pointer-events-none transform translate-x-1/3 -translate-y-1/3"></div>
+         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-600 rounded-full blur-[100px] opacity-10 pointer-events-none transform -translate-x-1/3 translate-y-1/3"></div>
+
+         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="text-center mb-16">
+                 <h2 className="text-sm font-bold text-emphz-orange tracking-widest uppercase mb-4 font-display">Material Science</h2>
+                 <h3 className="text-4xl md:text-5xl font-black text-white font-display mb-6">Why Choose GRP?</h3>
+                 <p className="text-xl text-gray-400 max-w-3xl mx-auto font-sans font-light leading-relaxed">
+                   When compared to traditional infrastructure materials, Glass Reinforced Plastic (GRP) offers a superior balance of strength, safety, and longevity.
+                 </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+                {/* Advantage Card 1 */}
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
+                    <div className="w-12 h-12 bg-emphz-orange rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <Shield className="text-white w-6 h-6" />
+                    </div>
+                    <h4 className="text-xl font-bold mb-3 font-display">Chemical Resistance</h4>
+                    <p className="text-gray-400 text-sm leading-relaxed font-sans">
+                        Unlike steel which oxidizes and concrete which spalls, GRP is chemically inert. It withstands acids, salts, and sulfates found in coastal and industrial zones.
+                    </p>
+                </div>
+                 {/* Advantage Card 2 */}
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
+                    <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <BatteryCharging className="text-white w-6 h-6" />
+                    </div>
+                    <h4 className="text-xl font-bold mb-3 font-display">Electrical Insulation</h4>
+                    <p className="text-gray-400 text-sm leading-relaxed font-sans">
+                        GRP is a natural insulator with high dielectric strength. It eliminates the risk of electrical shock and removes the need for costly earthing straps required for metal boxes.
+                    </p>
+                </div>
+                 {/* Advantage Card 3 */}
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
+                    <div className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <Scale className="text-white w-6 h-6" />
+                    </div>
+                    <h4 className="text-xl font-bold mb-3 font-display">Weight-to-Strength</h4>
+                    <p className="text-gray-400 text-sm leading-relaxed font-sans">
+                        At 25% the weight of steel, GRP is easier to transport and install, reducing labor costs while maintaining an impact rating of IK10 (similar to metal).
+                    </p>
+                </div>
+            </div>
+
+            {/* Comparison Table */}
+            <div className="bg-white/5 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse min-w-[800px]">
+                  <thead>
+                    <tr className="bg-black/20">
+                      <th className="p-6 text-gray-400 font-display text-xs uppercase tracking-wider w-1/4">Feature Analysis</th>
+                      <th className="p-6 bg-emphz-orange/20 text-emphz-orange font-bold font-display text-base w-1/4 border-t-4 border-emphz-orange">EMPHZ GRP</th>
+                      <th className="p-6 text-white font-bold font-display text-base w-1/4">Stainless Steel (316)</th>
+                      <th className="p-6 text-white font-bold font-display text-base w-1/4">Mild Steel / CRCA</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5 font-sans text-sm">
+                    <tr>
+                      <td className="p-6 font-bold text-white">Corrosion Resistance</td>
+                      <td className="p-6 bg-emphz-orange/5 text-emphz-orange font-bold flex items-center gap-2"><CheckCircle size={16}/> Unaffected</td>
+                      <td className="p-6 text-gray-300">High (Pits over time)</td>
+                      <td className="p-6 text-red-400 flex items-center gap-2"><XCircle size={16}/> Low (Rusts quickly)</td>
+                    </tr>
+                    <tr>
+                      <td className="p-6 font-bold text-white">Maintenance Cost</td>
+                      <td className="p-6 bg-emphz-orange/5 text-emphz-orange font-bold flex items-center gap-2"><CheckCircle size={16}/> Zero</td>
+                      <td className="p-6 text-gray-300">Low</td>
+                      <td className="p-6 text-red-400 flex items-center gap-2"><XCircle size={16}/> High (Painting req.)</td>
+                    </tr>
+                     <tr>
+                      <td className="p-6 font-bold text-white">Electrical Conductivity</td>
+                      <td className="p-6 bg-emphz-orange/5 text-emphz-orange font-bold flex items-center gap-2"><CheckCircle size={16}/> Non-Conductive</td>
+                      <td className="p-6 text-yellow-500 flex items-center gap-2"><AlertTriangle size={16}/> Conductive</td>
+                      <td className="p-6 text-yellow-500 flex items-center gap-2"><AlertTriangle size={16}/> Conductive</td>
+                    </tr>
+                     <tr>
+                      <td className="p-6 font-bold text-white">Weight Ratio</td>
+                      <td className="p-6 bg-emphz-orange/5 text-emphz-orange font-bold">1.0x (Lightweight)</td>
+                      <td className="p-6 text-gray-300">4.0x (Heavy)</td>
+                      <td className="p-6 text-gray-300">4.0x (Heavy)</td>
+                    </tr>
+                     <tr>
+                      <td className="p-6 font-bold text-white">Radio Transparency</td>
+                      <td className="p-6 bg-emphz-orange/5 text-emphz-orange font-bold flex items-center gap-2"><CheckCircle size={16}/> Transparent (WiFi/4G)</td>
+                      <td className="p-6 text-red-400 flex items-center gap-2"><XCircle size={16}/> Blocks Signals</td>
+                      <td className="p-6 text-red-400 flex items-center gap-2"><XCircle size={16}/> Blocks Signals</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+         </div>
+      </section>
       
       {/* Timeline Section */}
       <section className="py-20 bg-emphz-cream">

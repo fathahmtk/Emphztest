@@ -137,7 +137,7 @@ const ProductDetail: React.FC = () => {
                <div className="inline-block px-3 py-1 bg-emphz-orange text-white text-xs font-bold rounded mb-4 uppercase tracking-wide shadow-lg font-display">
                  {product.category}
                </div>
-               <h1 className="text-4xl lg:text-6xl font-black text-white mb-4 leading-tight drop-shadow-xl font-display">{product.name}</h1>
+               <h1 className="text-3xl md:text-4xl lg:text-6xl font-black text-white mb-4 leading-tight drop-shadow-xl font-display">{product.name}</h1>
                <p className="text-gray-300 font-mono text-xs opacity-70">SKU: {product.id.toUpperCase()}</p>
              </div>
           </div>
@@ -152,12 +152,12 @@ const ProductDetail: React.FC = () => {
                   <h3 className="text-xs font-bold text-gray-500 uppercase mb-4 tracking-widest flex items-center font-display">
                     <Camera size={14} className="mr-2" /> Gallery
                   </h3>
-                  <div className="flex gap-4 overflow-x-auto pb-4 snap-x scrollbar-hide">
+                  <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
                       {galleryImages.map((img, idx) => (
                           <button 
                             key={idx}
                             onClick={() => { setActiveImage(img); setViewMode('IMAGE'); }}
-                            className={`relative w-28 h-28 md:w-36 md:h-36 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-300 snap-start group bg-white shadow-sm ${
+                            className={`relative w-28 h-28 md:w-36 md:h-36 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-300 snap-center group bg-white shadow-sm ${
                                 activeImage === img && viewMode === 'IMAGE' 
                                 ? 'border-emphz-orange shadow-md scale-105 z-10' 
                                 : 'border-gray-200 hover:border-emphz-orange/50 hover:scale-105'
@@ -282,7 +282,7 @@ const ProductDetail: React.FC = () => {
               </div>
             </div>
 
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 hidden lg:block">
               <div className="glass-panel p-6 rounded-2xl sticky top-24 border border-blue-100 shadow-xl bg-white">
                 <h3 className="text-sm font-bold text-gray-400 uppercase mb-4 tracking-wider font-display">Configure Quote</h3>
                 

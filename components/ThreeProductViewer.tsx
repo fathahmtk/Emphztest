@@ -279,7 +279,7 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
   }, [productType]);
 
   return (
-    <div className="w-full h-full relative group cursor-move">
+    <div className="w-full h-full relative group cursor-move touch-action-none">
        <div ref={mountRef} className="w-full h-full" />
        <div className="absolute bottom-4 right-4 bg-black/50 text-white text-[10px] px-2 py-1 rounded backdrop-blur pointer-events-none flex items-center gap-2">
          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>

@@ -79,7 +79,7 @@ const Home: React.FC = () => {
         {/* Content Container - Expanded for Full Wide Effect */}
         <div className="w-full px-6 md:px-12 lg:px-24 relative z-10 grid lg:grid-cols-12 gap-12 items-center h-full">
           
-          <div className="lg:col-span-9 space-y-6 md:space-y-8 motion-safe:animate-fade-up">
+          <div className="lg:col-span-9 space-y-6 md:space-y-8 motion-safe:animate-fade-up pt-16 md:pt-0">
             <div className="flex flex-wrap items-center gap-4">
               <div className="inline-flex items-center px-4 py-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-md shadow-2xl ring-1 ring-white/10">
                 <span className="w-2 h-2 bg-emphz-orange rounded-full mr-3 motion-safe:animate-pulse shadow-[0_0_10px_#00ADB5]"></span>
@@ -87,7 +87,7 @@ const Home: React.FC = () => {
               </div>
             </div>
             
-            <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black font-display leading-[0.95] md:leading-[0.85] tracking-tighter text-white drop-shadow-2xl">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black font-display leading-[1.1] md:leading-[0.85] tracking-tighter text-white drop-shadow-2xl">
               ONE ENCLOSURE. <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-orange to-cyan-300 filter drop-shadow-[0_0_20px_rgba(0,173,181,0.5)]">
                 INFINITE WORLDS.
@@ -103,7 +103,7 @@ const Home: React.FC = () => {
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-4 pt-4 md:pt-8">
+            <div className="flex flex-wrap gap-4 pt-4 md:pt-8 pb-8 md:pb-0">
               <Link to="/products" className="group bg-white text-emphz-navy px-6 py-3 md:px-10 md:py-5 rounded-full font-black text-xs md:text-sm tracking-widest uppercase font-display hover:bg-emphz-orange hover:text-white transition-all duration-300 flex items-center shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:shadow-[0_0_40px_rgba(0,173,181,0.6)] hover:scale-105">
                 EXPLORE PRODUCT LINE <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={16} aria-hidden="true" />
               </Link>
@@ -116,10 +116,10 @@ const Home: React.FC = () => {
 
         </div>
         
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-70 motion-safe:animate-bounce z-20 pointer-events-none">
-          <span className="text-[10px] tracking-[0.2em] uppercase mb-2 text-white font-display">Scroll to Explore</span>
-          <div className="w-[1px] h-16 bg-gradient-to-b from-emphz-orange to-transparent"></div>
+        {/* Scroll Indicator - Adjusted for mobile position */}
+        <div className="absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-70 motion-safe:animate-bounce z-20 pointer-events-none">
+          <span className="text-[8px] md:text-[10px] tracking-[0.2em] uppercase mb-2 text-white font-display">Scroll to Explore</span>
+          <div className="w-[1px] h-8 md:h-16 bg-gradient-to-b from-emphz-orange to-transparent"></div>
         </div>
       </section>
 
@@ -138,7 +138,7 @@ const Home: React.FC = () => {
       </div>
 
       {/* 3. Key Features Grid - Enhanced with Tech Grid */}
-      <section className="py-32 relative bg-emphz-beige bg-tech-grid">
+      <section className="py-24 md:py-32 relative bg-emphz-beige bg-tech-grid">
         <div className="w-full px-6 md:px-12 lg:px-24 relative z-10">
           <div className="mb-20 text-center md:text-left">
              <h2 className="text-sm font-bold text-emphz-orange tracking-widest uppercase mb-4 font-display">The Emphz Advantage</h2>
@@ -269,7 +269,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* 5. CTA Section - Light */}
-      <section className="py-32 relative overflow-hidden bg-white">
+      <section className="py-24 md:py-32 relative overflow-hidden bg-white">
          <div className="absolute inset-0 bg-emphz-orange transform -skew-y-3 origin-bottom-left scale-110 opacity-[0.03]"></div>
          <div className="relative z-10 max-w-5xl mx-auto px-4 text-center">
            <h2 className="text-4xl md:text-6xl font-black text-emphz-navy mb-8 font-display tracking-tighter">READY TO UPGRADE?</h2>
