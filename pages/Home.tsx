@@ -45,60 +45,71 @@ const Home: React.FC = () => {
       <section className="relative h-screen min-h-[700px] flex items-center overflow-hidden bg-emphz-navy">
         {/* Background Image & Overlays */}
         <div className="absolute inset-0 z-0">
+           {/* 
+              Video/Image Description: 
+              Focus on EMPHZ GRP/FRP enclosure product line. Multiple units with doors opening dynamically 
+              to show interior versatility. Each open door reveals a stylized micro-environment — 
+              domestic, commercial, or office — represented by mini characters. 3D realism, glossy 
+              composite textures, wide hero frame, premium lighting, futuristic industrial mood.
+           */}
            <video 
             autoPlay 
             loop 
             muted 
             playsInline
             className="w-full h-full object-cover scale-105"
-            poster="https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0"
+            // Updated poster to match "Glossy 3D Industrial" mood
+            poster="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2301&auto=format&fit=crop"
            >
+             {/* Using existing video as base, overlaid with new aesthetic context */}
              <source src="https://photos.app.goo.gl/cjnhX613fug9KF8W7" type="video/mp4" />
              <img 
-              src="https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0"
-              alt="Emphz Industrial GRP Manufacturing"
+              src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2301&auto=format&fit=crop"
+              alt="Futuristic GRP Enclosures - Glossy Industrial Texture"
               className="w-full h-full object-cover"
              />
            </video>
            
-           {/* Dark Overlays for Text Readability */}
-           <div className="absolute inset-0 bg-black/40"></div>
-           <div className="absolute inset-0 bg-gradient-to-r from-emphz-navy/90 via-emphz-navy/40 to-transparent"></div>
-           <div className="absolute inset-0 bg-gradient-to-t from-emphz-navy/50 via-transparent to-transparent"></div>
+           {/* Dark Overlays for Text Readability - Enhanced for "Futuristic Mood" */}
+           <div className="absolute inset-0 bg-emphz-navy/30 mix-blend-multiply"></div>
+           <div className="absolute inset-0 bg-gradient-to-r from-emphz-navy via-emphz-navy/60 to-transparent"></div>
+           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
         </div>
 
         {/* Content Container - Expanded for Full Wide Effect */}
         <div className="w-full px-6 md:px-12 lg:px-24 relative z-10 grid lg:grid-cols-12 gap-12 items-center h-full">
           
-          <div className="lg:col-span-8 space-y-8 motion-safe:animate-fade-up">
+          <div className="lg:col-span-9 space-y-8 motion-safe:animate-fade-up">
             <div className="flex flex-wrap items-center gap-4">
-              <div className="inline-flex items-center px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md shadow-lg">
-                <span className="w-2 h-2 bg-emphz-orange rounded-full mr-3 motion-safe:animate-pulse"></span>
-                <span className="text-xs font-bold tracking-widest uppercase text-white font-display">Molded in Mysore. Built for Kerala.</span>
-              </div>
-              <div className="inline-flex items-center px-3 py-1.5 rounded border border-emphz-orange/60 bg-emphz-orange/20 text-emphz-orange text-[10px] font-bold uppercase tracking-widest backdrop-blur-md shadow-lg font-display">
-                New: Xpod X7
+              <div className="inline-flex items-center px-4 py-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-md shadow-2xl ring-1 ring-white/10">
+                <span className="w-2 h-2 bg-emphz-orange rounded-full mr-3 motion-safe:animate-pulse shadow-[0_0_10px_#00ADB5]"></span>
+                <span className="text-xs font-bold tracking-[0.2em] uppercase text-white font-display">Next-Gen Composites</span>
               </div>
             </div>
             
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black font-display leading-[0.9] tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-400 drop-shadow-2xl">
-              INFRA <br/>
-              STRUCTURE <br/>
-              <span className="text-emphz-orange">REIMAGINED.</span>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black font-display leading-[0.85] tracking-tighter text-white drop-shadow-2xl">
+              ONE ENCLOSURE. <br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-orange to-cyan-300 filter drop-shadow-[0_0_20px_rgba(0,173,181,0.5)]">
+                INFINITE WORLDS.
+              </span>
             </h1>
             
-            <p className="text-lg md:text-2xl text-gray-200 max-w-2xl leading-relaxed border-l-4 border-emphz-orange pl-8 font-sans font-light">
-              Advanced GRP composites that replace steel and concrete. 
-              Engineered for <span className="text-white font-bold">zero corrosion</span>, rapid deployment, and 25+ year lifespan in the harshest environments.
-            </p>
+            <div className="flex flex-col md:flex-row gap-6 border-l-4 border-emphz-orange pl-8 bg-black/20 backdrop-blur-sm p-6 rounded-r-2xl max-w-3xl border-t border-r border-b border-white/5">
+               <p className="text-lg md:text-xl text-gray-100 leading-relaxed font-sans font-light">
+                Domestic. Commercial. Industrial. <br/>
+                <span className="text-gray-400 text-base">
+                  Experience the dynamic versatility of Emphz GRP. Glossy, high-impact shells protecting stylized micro-environments across every sector.
+                </span>
+              </p>
+            </div>
 
             <div className="flex flex-wrap gap-4 pt-8">
               <Link to="/products" className="group bg-white text-emphz-navy px-10 py-5 rounded-full font-black text-sm tracking-widest uppercase font-display hover:bg-emphz-orange hover:text-white transition-all duration-300 flex items-center shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:shadow-[0_0_40px_rgba(0,173,181,0.6)] hover:scale-105">
-                VIEW PRODUCTS <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} aria-hidden="true" />
+                EXPLORE PRODUCT LINE <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} aria-hidden="true" />
               </Link>
               
-              <Link to="/technical" className="group px-10 py-5 rounded-full border border-emphz-orange text-emphz-orange font-black text-sm tracking-widest uppercase font-display hover:bg-emphz-orange hover:text-white transition-all duration-300 flex items-center backdrop-blur-md bg-black/20 hover:scale-105">
-                TECHNICAL CENTER <FileText className="ml-2 opacity-80 group-hover:scale-110 transition-transform" size={18} aria-hidden="true" />
+              <Link to="/technical" className="group px-10 py-5 rounded-full border border-emphz-orange text-emphz-orange font-black text-sm tracking-widest uppercase font-display hover:bg-emphz-orange hover:text-white transition-all duration-300 flex items-center backdrop-blur-md bg-black/40 hover:scale-105 hover:shadow-[0_0_20px_rgba(0,173,181,0.3)]">
+                VIEW 3D SPECS <Box className="ml-2 opacity-80 group-hover:scale-110 transition-transform" size={18} aria-hidden="true" />
               </Link>
             </div>
           </div>
@@ -108,7 +119,7 @@ const Home: React.FC = () => {
         {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-70 motion-safe:animate-bounce z-20 pointer-events-none">
           <span className="text-[10px] tracking-[0.2em] uppercase mb-2 text-white font-display">Scroll to Explore</span>
-          <div className="w-[1px] h-16 bg-gradient-to-b from-white to-transparent"></div>
+          <div className="w-[1px] h-16 bg-gradient-to-b from-emphz-orange to-transparent"></div>
         </div>
       </section>
 
