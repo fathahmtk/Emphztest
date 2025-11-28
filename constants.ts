@@ -35,6 +35,66 @@ export const MOCK_PRODUCTS: Product[] = [
     accessories: ['Solar Roof Package', 'Bio-Digester Tank', 'External Decking Module', 'Star-Gazing Skylight']
   },
   {
+    id: 'emp-fire-cab1',
+    name: 'RedGuard Fire Hose Cabinet',
+    category: ProductCategory.FIRE_SAFETY,
+    shortDescription: 'UV-stable, bright red GRP cabinet for fire hose reels and extinguishers.',
+    fullDescription: 'Designed for high-visibility and extreme durability, the RedGuard cabinet protects vital fire safety equipment from the elements. Unlike steel cabinets that rust shut in coastal areas, our GRP hinges and locks remain functional for decades. The UV-stabilized red gelcoat ensures the color does not fade even under intense direct sunlight.',
+    imageUrl: 'https://picsum.photos/600/600?random=10',
+    specs: [
+      { label: 'Color', value: 'Signal Red (RAL 3000)' },
+      { label: 'Material', value: 'Fire Retardant GRP' },
+      { label: 'Window', value: 'Acrylic / Wired Glass' },
+      { label: 'Mounting', value: 'Wall / Post / Recessed' },
+    ],
+    features: ['Corrosion Proof', 'High Visibility', 'Stainless Steel Hardware', 'Weatherproof Seal'],
+    downloads: [
+      { title: 'Fire Cabinet Specs', type: 'PDF' },
+      { title: 'Dimensions Drawing', type: 'CAD' }
+    ],
+    accessories: ['Break-Glass Key Box', 'Stand Mounting Kit', 'Internal Hose Reel']
+  },
+  {
+    id: 'emp-tank-mod',
+    name: 'Modular GRP Panel Tank',
+    category: ProductCategory.WATER_STORAGE,
+    shortDescription: 'Sectional hot-press molded water tanks for potable water storage.',
+    fullDescription: 'Our modular GRP tanks are assembled from hot-pressed SMC panels, allowing for customizable capacities from 1,000 to 1,000,000 liters. Certified for potable water storage, the smooth internal surface prevents algae growth and bacteria buildup. The modular design makes it perfect for installation in basements or rooftops with restricted access.',
+    imageUrl: 'https://picsum.photos/600/600?random=11',
+    specs: [
+      { label: 'Panel Size', value: '1m x 1m / 1m x 0.5m' },
+      { label: 'Process', value: 'SMC Hot Press' },
+      { label: 'Certification', value: 'WRAS Approved' },
+      { label: 'Insulation', value: 'Pre-insulated PU Foam' },
+    ],
+    features: ['Hygienic Storage', 'Zero Leakage', 'Easy Assembly', 'Thermal Insulation'],
+    downloads: [
+      { title: 'Tank Capacity Chart', type: 'PDF' },
+      { title: 'Assembly Manual', type: 'PDF' }
+    ],
+    accessories: ['Internal Ladder (GRP)', 'Level Indicator', 'Roof Vent', 'Manhole Cover']
+  },
+  {
+    id: 'emp-shade-s2',
+    name: 'Instrument Sunshade S2',
+    category: ProductCategory.INDUSTRIAL_PROTECTION,
+    shortDescription: 'Protective GRP canopy for field instruments and transmitters.',
+    fullDescription: 'Essential for Oil & Gas refineries, this GRP sunshade protects expensive instrumentation (pressure transmitters, gauges, analyzers) from direct solar radiation and heavy rain. The material is anti-static and fire-retardant, making it safe for hazardous zones.',
+    imageUrl: 'https://picsum.photos/600/600?random=12',
+    specs: [
+      { label: 'Material', value: 'Anti-static GRP' },
+      { label: 'Thickness', value: '4mm - 6mm' },
+      { label: 'Wind Load', value: '160 km/h' },
+      { label: 'Mounting', value: '2-inch Pipe Mount' },
+    ],
+    features: ['UV Blocking', 'Impact Resistant', 'Maintenance Free', 'Chemical Resistant'],
+    downloads: [
+      { title: 'Sunshade Datasheet', type: 'PDF' },
+      { title: 'Mounting Details', type: 'CAD' }
+    ],
+    accessories: ['SS316 Mounting Bracket', 'Side Walls', 'Rear Mounting Plate']
+  },
+  {
     id: 'emp-auto-ev1',
     name: 'EV Battery Pack Shield',
     category: ProductCategory.AUTOMOBILE,
@@ -95,6 +155,46 @@ export const MOCK_PRODUCTS: Product[] = [
       { title: 'Structural Specs', type: 'PDF' }
     ],
     accessories: ['Exhaust Fan Unit', 'LED Lighting Pack', 'Fire Extinguisher Mount', 'Anti-Vandal Lock']
+  },
+  {
+    id: 'emp-tray-hd',
+    name: 'Heavy Duty Cable Tray',
+    category: ProductCategory.CABLE_MANAGEMENT,
+    shortDescription: 'Pultruded GRP cable trays for chemical plants and offshore platforms.',
+    fullDescription: 'Manufactured using the pultrusion process, these cable trays offer the longitudinal strength of steel with the corrosion resistance of high-grade vinylester resin. Ideal for supporting heavy power cables in highly corrosive industrial atmospheres like refineries, fertilizer plants, and jetties.',
+    imageUrl: 'https://picsum.photos/600/600?random=5',
+    specs: [
+      { label: 'Process', value: 'Pultrusion' },
+      { label: 'Resin', value: 'Isophthalic / Vinylester' },
+      { label: 'Load Class', value: 'NEMA 20C' },
+      { label: 'Length', value: '3m Standard' },
+    ],
+    features: ['Zero Maintenance', 'High Load Bearing', 'UV Stabilized', 'Fire Retardant'],
+    downloads: [
+      { title: 'Load Span Tables', type: 'PDF' },
+      { title: 'Chemical Resistance Chart', type: 'PDF' }
+    ],
+    accessories: ['Coupler Plates', 'SS316 Hardware', 'Cover Clips', 'Divider Strip']
+  },
+  {
+    id: 'emp-grat-m4',
+    name: 'Anti-Slip Walkway Grating',
+    category: ProductCategory.STRUCTURAL,
+    shortDescription: 'Molded GRP grating with concave anti-slip surface for industrial safety.',
+    fullDescription: 'Our molded GRP gratings provide the ultimate safety solution for wet and oily environments. The integral concave surface ensures positive traction for footwear, significantly reducing slip-and-fall accidents. Available in various mesh sizes and resin systems (Ortho, Iso, Vinyl) to suit specific chemical exposure requirements.',
+    imageUrl: 'https://picsum.photos/600/600?random=6',
+    specs: [
+      { label: 'Mesh Size', value: '38 x 38 mm' },
+      { label: 'Thickness', value: '38 mm' },
+      { label: 'Surface', value: 'Concave / Gritted' },
+      { label: 'Color', value: 'Yellow / Grey / Green' },
+    ],
+    features: ['Anti-Slip', 'Bi-directional Strength', 'Easy Cutting on Site', 'Non-Sparking'],
+    downloads: [
+      { title: 'Grating Selection Guide', type: 'PDF' },
+      { title: 'Fixing Clip Detail', type: 'CAD' }
+    ],
+    accessories: ['M-Clips (SS316)', 'C-Clips', 'Rubber Feet', 'Pedestal Jacks']
   },
   {
     id: 'emp-jb-x5',
@@ -175,4 +275,5 @@ export const INDUSTRIES = [
   { title: 'Telecom', icon: 'Wifi' },
   { title: 'Oil & Gas', icon: 'Flame' },
   { title: 'Solar', icon: 'Sun' },
+  { title: 'Fire Safety', icon: 'Shield' },
 ];

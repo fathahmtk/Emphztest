@@ -5,7 +5,12 @@ export enum ProductCategory {
   CABIN = 'Security Cabins',
   JUNCTION_BOX = 'Junction Boxes',
   CUSTOM = 'Custom Structures',
-  AUTOMOBILE = 'Automobile Components'
+  AUTOMOBILE = 'Automobile Components',
+  STRUCTURAL = 'Structural Profiles',
+  CABLE_MANAGEMENT = 'Cable Management',
+  FIRE_SAFETY = 'Fire Safety Equipment',
+  WATER_STORAGE = 'Water Storage Solutions',
+  INDUSTRIAL_PROTECTION = 'Industrial Protection'
 }
 
 export interface ProductSpec {

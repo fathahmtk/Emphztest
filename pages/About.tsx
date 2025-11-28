@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Target, Gem, Users, Anchor, Lightbulb, Zap, CheckCircle, MapPin, PenTool, Calendar, Award, Rocket, Shield, FileCheck, XCircle, AlertTriangle, Scale, BatteryCharging, Clock, Truck, Droplet, Hammer, Feather } from 'lucide-react';
+import { Target, Gem, Users, Anchor, Lightbulb, Zap, CheckCircle, MapPin, PenTool, Calendar, Award, Rocket, Shield, FileCheck, XCircle, AlertTriangle, Scale, BatteryCharging, Clock, Truck, Droplet, Hammer, Feather, Factory, Recycle, Leaf, Microscope, Sun } from 'lucide-react';
 
 const About: React.FC = () => {
 
@@ -255,6 +255,119 @@ const About: React.FC = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+      </section>
+
+      {/* NEW: Manufacturing Excellence Section */}
+      <section className="py-24 bg-gray-50 border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col lg:flex-row gap-16 items-center">
+               <div className="lg:w-1/2">
+                   <h2 className="text-sm font-bold text-emphz-orange tracking-widest uppercase mb-4 font-display">How We Build</h2>
+                   <h3 className="text-4xl font-bold text-emphz-navy mb-6">Manufacturing Excellence.</h3>
+                   <p className="text-lg text-gray-600 mb-6 font-light">
+                      At our Mysore facility, we employ multiple advanced composite manufacturing techniques to ensure every product meets specific structural and aesthetic requirements.
+                   </p>
+                   
+                   <div className="space-y-8 mt-8">
+                      <div className="flex gap-4">
+                         <div className="flex-shrink-0 w-12 h-12 bg-emphz-navy text-white rounded-lg flex items-center justify-center font-bold font-mono">01</div>
+                         <div>
+                            <h4 className="font-bold text-xl text-emphz-navy mb-2">SMC Hot Press Molding</h4>
+                            <p className="text-sm text-gray-600">
+                               Used for our high-volume enclosures and junction boxes. Sheet Molding Compound (SMC) is placed in heated steel molds and pressed under 1000+ tons of pressure. Result: Consistent wall thickness, smooth finish on both sides, and extreme strength.
+                            </p>
+                         </div>
+                      </div>
+                      <div className="flex gap-4">
+                         <div className="flex-shrink-0 w-12 h-12 bg-emphz-navy text-white rounded-lg flex items-center justify-center font-bold font-mono">02</div>
+                         <div>
+                            <h4 className="font-bold text-xl text-emphz-navy mb-2">Pultrusion</h4>
+                            <p className="text-sm text-gray-600">
+                               A continuous process used for creating our structural profiles, cable trays, and handrails. Fibers are pulled through a resin bath and heated die, creating infinite lengths of constant cross-section with immense longitudinal strength.
+                            </p>
+                         </div>
+                      </div>
+                       <div className="flex gap-4">
+                         <div className="flex-shrink-0 w-12 h-12 bg-emphz-navy text-white rounded-lg flex items-center justify-center font-bold font-mono">03</div>
+                         <div>
+                            <h4 className="font-bold text-xl text-emphz-navy mb-2">Vacuum Infusion (RTM)</h4>
+                            <p className="text-sm text-gray-600">
+                               Used for large, complex structures like our Smart Cabins and Kiosks. This closed-mold process ensures zero void content and superior fiber-to-resin ratios compared to traditional hand lay-up.
+                            </p>
+                         </div>
+                      </div>
+                   </div>
+               </div>
+               
+               <div className="lg:w-1/2 w-full">
+                  <div className="grid grid-cols-2 gap-4">
+                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
+                        <Factory className="w-12 h-12 text-gray-400 mb-4" />
+                        <div className="font-bold text-2xl text-emphz-navy">50,000+</div>
+                        <div className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Sq. Ft. Factory</div>
+                     </div>
+                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
+                        <Users className="w-12 h-12 text-gray-400 mb-4" />
+                        <div className="font-bold text-2xl text-emphz-navy">120+</div>
+                        <div className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Skilled Technicians</div>
+                     </div>
+                     <div className="col-span-2 bg-emphz-navy text-white p-8 rounded-xl flex items-center justify-between">
+                        <div>
+                           <div className="font-bold text-2xl">ISO 9001:2015</div>
+                           <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Certified Facility</div>
+                        </div>
+                        <Award className="w-12 h-12 text-emphz-orange" />
+                     </div>
+                  </div>
+               </div>
+            </div>
+        </div>
+      </section>
+
+      {/* NEW: Quality Assurance Section */}
+      <section className="py-20 bg-white border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row items-center gap-12">
+                <div className="md:w-1/3 text-center md:text-left">
+                    <h2 className="text-sm font-bold text-emphz-orange tracking-widest uppercase mb-4">Strict Standards</h2>
+                    <h3 className="text-3xl font-bold text-emphz-navy mb-4">In-House QA Lab</h3>
+                    <p className="text-gray-600">
+                        We don't just manufacture; we test. Our Mysore facility includes a dedicated Quality Assurance lab where batches are rigorously tested against international standards.
+                    </p>
+                </div>
+                <div className="md:w-2/3 grid grid-cols-1 sm:grid-cols-3 gap-6">
+                     <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                        <Microscope className="w-8 h-8 text-emphz-navy mb-3" />
+                        <h4 className="font-bold text-emphz-navy text-sm mb-2">Hydrostatic Pressure</h4>
+                        <p className="text-xs text-gray-500">Testing water tanks and enclosures for leaks under high pressure loads.</p>
+                     </div>
+                     <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                        <Sun className="w-8 h-8 text-emphz-navy mb-3" />
+                        <h4 className="font-bold text-emphz-navy text-sm mb-2">UV Aging Chamber</h4>
+                        <p className="text-xs text-gray-500">Simulating years of solar exposure to ensure color stability and structural integrity.</p>
+                     </div>
+                     <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                        <Hammer className="w-8 h-8 text-emphz-navy mb-3" />
+                        <h4 className="font-bold text-emphz-navy text-sm mb-2">Impact Testing</h4>
+                        <p className="text-xs text-gray-500">Drop tests to verify IK10 impact resistance ratings for heavy-duty enclosures.</p>
+                     </div>
+                </div>
+            </div>
+        </div>
+      </section>
+
+      {/* NEW: Sustainability Section */}
+       <section className="py-20 bg-green-50">
+        <div className="max-w-5xl mx-auto px-4 text-center">
+            <Leaf className="w-12 h-12 text-green-600 mx-auto mb-4" />
+            <h2 className="text-3xl font-bold text-emphz-navy mb-4">Sustainable Infrastructure</h2>
+            <p className="text-lg text-gray-600 mb-8 font-light">
+               Sustainability isn't just about recycling—it's about longevity. By installing an Emphz GRP product that lasts 40 years instead of a steel one that needs replacement every 5 years, you reduce manufacturing carbon footprint by up to 600% over the asset lifecycle.
+            </p>
+            <div className="inline-flex items-center bg-white px-6 py-3 rounded-full shadow-sm border border-green-200 text-green-700 font-bold text-sm">
+               <Recycle className="mr-2 w-4 h-4" /> 100% Recyclable via Cement Kiln Processing
             </div>
         </div>
       </section>

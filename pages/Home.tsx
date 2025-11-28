@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Droplet, Zap, Box, Layers, Maximize, FileText } from 'lucide-react';
+import { ArrowRight, Droplet, Zap, Box, Layers, Maximize, FileText, Sun, Train, Wifi, Flame, CloudRain, Factory, Shield, CheckCircle, Award } from 'lucide-react';
 import { INDUSTRIES, MOCK_PRODUCTS } from '../constants';
 
 const ScrollRevealIcon: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -37,7 +37,23 @@ const ScrollRevealIcon: React.FC<{ children: React.ReactNode }> = ({ children })
   );
 };
 
+const TESTIMONIALS = [
+  { company: "Larsen & Toubro", text: "Exceptional corrosion resistance for our coastal projects." },
+  { company: "Tata Power", text: "The modularity of the Kiosks saved us weeks in deployment." },
+  { company: "Reliance Industries", text: "Standardizing on Emphz GRP has reduced our maintenance opex to zero." },
+  { company: "Kochi Metro", text: "Safe, lightweight, and aesthetically perfect for public infrastructure." }
+];
+
 const Home: React.FC = () => {
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % TESTIMONIALS.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="flex flex-col bg-white text-emphz-navy overflow-x-hidden motion-safe:scroll-smooth">
       
@@ -45,23 +61,14 @@ const Home: React.FC = () => {
       <section className="relative h-screen min-h-[600px] flex items-center overflow-hidden bg-emphz-navy">
         {/* Background Image & Overlays */}
         <div className="absolute inset-0 z-0">
-           {/* 
-              Video/Image Description: 
-              Focus on EMPHZ GRP/FRP enclosure product line. Multiple units with doors opening dynamically 
-              to show interior versatility. Each open door reveals a stylized micro-environment — 
-              domestic, commercial, or office — represented by mini characters. 3D realism, glossy 
-              composite textures, wide hero frame, premium lighting, futuristic industrial mood.
-           */}
            <video 
             autoPlay 
             loop 
             muted 
             playsInline
             className="w-full h-full object-cover scale-105"
-            // Updated poster to match "Glossy 3D Industrial" mood
             poster="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2301&auto=format&fit=crop"
            >
-             {/* Using existing video as base, overlaid with new aesthetic context */}
              <source src="https://photos.app.goo.gl/cjnhX613fug9KF8W7" type="video/mp4" />
              <img 
               src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2301&auto=format&fit=crop"
@@ -70,13 +77,11 @@ const Home: React.FC = () => {
              />
            </video>
            
-           {/* Dark Overlays for Text Readability - Enhanced for "Futuristic Mood" */}
            <div className="absolute inset-0 bg-emphz-navy/30 mix-blend-multiply"></div>
            <div className="absolute inset-0 bg-gradient-to-r from-emphz-navy via-emphz-navy/60 to-transparent"></div>
            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
         </div>
 
-        {/* Content Container - Expanded for Full Wide Effect */}
         <div className="w-full px-6 md:px-12 lg:px-24 relative z-10 grid lg:grid-cols-12 gap-12 items-center h-full">
           
           <div className="lg:col-span-9 space-y-6 md:space-y-6 motion-safe:animate-fade-up pt-16 md:pt-0">
@@ -112,18 +117,40 @@ const Home: React.FC = () => {
                 VIEW 3D SPECS <Box className="ml-2 opacity-80 group-hover:scale-110 transition-transform" size={16} aria-hidden="true" />
               </Link>
             </div>
+
+            <div className="mt-8 pt-6 border-t border-white/10 max-w-2xl">
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4 font-display">Trusted By Engineering Leaders</p>
+              <div className="relative h-20">
+                {TESTIMONIALS.map((t, i) => (
+                  <div 
+                    key={i} 
+                    className={`absolute top-0 left-0 w-full transition-all duration-1000 ease-in-out ${
+                      i === currentTestimonial 
+                        ? 'opacity-100 translate-y-0' 
+                        : 'opacity-0 translate-y-4'
+                    }`}
+                  >
+                    <p className="text-sm md:text-base text-gray-200 font-sans font-light italic leading-relaxed">"{t.text}"</p>
+                    <div className="flex items-center mt-2">
+                       <span className="w-4 h-0.5 bg-emphz-orange mr-2"></span>
+                       <span className="text-emphz-orange font-bold text-xs font-display tracking-wide">{t.company}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </div>
 
         </div>
         
-        {/* Scroll Indicator - Adjusted for mobile position */}
         <div className="absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-70 motion-safe:animate-bounce z-20 pointer-events-none">
           <span className="text-[8px] md:text-[10px] tracking-[0.2em] uppercase mb-2 text-white font-display">Scroll to Explore</span>
           <div className="w-[1px] h-8 md:h-16 bg-gradient-to-b from-emphz-orange to-transparent"></div>
         </div>
       </section>
 
-      {/* 2. Infinite Marquee - Trust Signals (Light Theme) */}
+      {/* 2. Infinite Marquee */}
       <div className="py-8 bg-white border-y border-gray-100 overflow-hidden" aria-hidden="true">
         <div className="flex space-x-16 motion-safe:animate-scroll whitespace-nowrap w-max hover:pause will-change-transform">
           {[...INDUSTRIES, ...INDUSTRIES, ...INDUSTRIES].map((ind, i) => (
@@ -137,7 +164,37 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. Key Features Grid - Enhanced with Tech Grid */}
+      {/* 2.5 Certified Excellence Section */}
+      <section className="py-12 bg-gray-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6">
+           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+              <div className="flex-1">
+                 <h2 className="text-sm font-bold text-emphz-orange tracking-widest uppercase mb-2 font-display">Certified Excellence</h2>
+                 <p className="text-emphz-navy font-bold text-xl">Meeting Global Standards for Safety & Quality.</p>
+              </div>
+              <div className="flex flex-wrap gap-8 justify-center md:justify-end opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+                  <div className="flex flex-col items-center">
+                     <Award size={40} className="text-emphz-navy mb-2" />
+                     <span className="text-xs font-bold">ISO 9001:2015</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                     <Shield size={40} className="text-emphz-navy mb-2" />
+                     <span className="text-xs font-bold">UL 94 V-0</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                     <Droplet size={40} className="text-emphz-navy mb-2" />
+                     <span className="text-xs font-bold">IP 66/67</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                     <Sun size={40} className="text-emphz-navy mb-2" />
+                     <span className="text-xs font-bold">ASTM G154 (UV)</span>
+                  </div>
+              </div>
+           </div>
+        </div>
+      </section>
+
+      {/* 3. Key Features Grid */}
       <section className="py-24 md:py-32 relative bg-emphz-beige bg-tech-grid">
         <div className="w-full px-6 md:px-12 lg:px-24 relative z-10">
           <div className="mb-20 text-center md:text-left">
@@ -146,7 +203,6 @@ const Home: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-             {/* Feature 1 - Tabbed Card Style */}
              <div className="bg-white p-10 rounded-2xl relative overflow-hidden group hover:-translate-y-2 transition-transform duration-300 shadow-sm border border-gray-200 hover:border-emphz-orange hover:shadow-xl hover:shadow-emphz-orange/10 border-l-4">
                 <div className="absolute -right-8 -bottom-8 text-slate-100 opacity-50 group-hover:opacity-80 transition-opacity transform rotate-12">
                    <Droplet size={180} strokeWidth={1} />
@@ -162,7 +218,6 @@ const Home: React.FC = () => {
                 </p>
              </div>
 
-             {/* Feature 2 */}
              <div className="bg-white p-10 rounded-2xl relative overflow-hidden group hover:-translate-y-2 transition-transform duration-300 shadow-sm border border-gray-200 hover:border-yellow-500 hover:shadow-xl hover:shadow-yellow-500/10 border-l-4">
                 <div className="absolute -right-8 -bottom-8 text-slate-100 opacity-50 group-hover:opacity-80 transition-opacity transform rotate-12">
                    <Zap size={180} strokeWidth={1} />
@@ -178,7 +233,6 @@ const Home: React.FC = () => {
                 </p>
              </div>
 
-             {/* Feature 3 */}
              <div className="bg-white p-10 rounded-2xl relative overflow-hidden group hover:-translate-y-2 transition-transform duration-300 shadow-sm border border-gray-200 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/10 border-l-4">
                 <div className="absolute -right-8 -bottom-8 text-slate-100 opacity-50 group-hover:opacity-80 transition-opacity transform rotate-12">
                    <Layers size={180} strokeWidth={1} />
@@ -197,7 +251,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 4. Product Showcase Slider - Light Theme */}
+      {/* 4. Product Showcase Slider */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-12">
@@ -225,9 +279,39 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 4.5. Company Overview / Mission Section - Light */}
+      {/* 4.5 NEW: Industries Served Grid */}
+      <section className="py-24 bg-emphz-navy relative overflow-hidden">
+         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="text-center mb-16">
+                 <h2 className="text-sm font-bold text-emphz-orange tracking-widest uppercase mb-4 font-display">Applications</h2>
+                 <h3 className="text-4xl font-black text-white font-display">Industries Powering India</h3>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+               {[
+                  { icon: <Sun className="w-8 h-8"/>, title: "Solar & Renewables", desc: "UV-stable combiner boxes and inverter enclosures that withstand 25+ years of direct sunlight." },
+                  { icon: <Train className="w-8 h-8"/>, title: "Railways & Metro", desc: "Fire-retardant (UL94 V0) trackside cabinets and platform furniture for high-traffic zones." },
+                  { icon: <Wifi className="w-8 h-8"/>, title: "Telecom / 5G", desc: "Radio-transparent FRP shrouds and lightweight rooftop shelters for 5G antenna deployment." },
+                  { icon: <CloudRain className="w-8 h-8"/>, title: "Water Treatment", desc: "Chemical-resistant walkways, gratings, and panel enclosures for high-humidity pump rooms." },
+                  { icon: <Factory className="w-8 h-8"/>, title: "Urban Infrastructure", desc: "Graffiti-resistant, modular utility kiosks for smart cities and EV charging stations." },
+                  { icon: <Flame className="w-8 h-8"/>, title: "Oil & Gas", desc: "Anti-static, explosion-proof junction boxes and heavy-duty cable trays for hazardous zones." },
+               ].map((item, idx) => (
+                  <div key={idx} className="bg-white/5 border border-white/10 p-8 rounded-xl hover:bg-white/10 transition-colors group cursor-default">
+                     <div className="bg-emphz-orange/20 w-14 h-14 rounded-lg flex items-center justify-center text-emphz-orange mb-6 group-hover:scale-110 transition-transform">
+                        {item.icon}
+                     </div>
+                     <h4 className="text-xl font-bold text-white mb-3 font-display">{item.title}</h4>
+                     <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+                  </div>
+               ))}
+            </div>
+         </div>
+      </section>
+
+      {/* 5. Company Overview / Mission Section */}
       <section className="py-24 bg-emphz-beige relative overflow-hidden bg-tech-grid">
-         <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-blue-100 rounded-full blur-[100px] transform -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+         <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-blue-100 rounded-full blur-[100px] transform -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
          
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
@@ -245,7 +329,6 @@ const Home: React.FC = () => {
                   </Link>
                </div>
                
-               {/* Stats Grid */}
                <div className="lg:w-1/2 grid grid-cols-2 gap-4 w-full">
                   <div className="bg-white p-8 rounded-2xl border border-gray-200 flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300 shadow-sm">
                      <div className="text-4xl font-black text-emphz-navy mb-2 font-display">25+</div>
@@ -268,7 +351,7 @@ const Home: React.FC = () => {
          </div>
       </section>
 
-      {/* 5. CTA Section - Light */}
+      {/* 6. CTA Section */}
       <section className="py-24 md:py-32 relative overflow-hidden bg-white">
          <div className="absolute inset-0 bg-emphz-orange transform -skew-y-3 origin-bottom-left scale-110 opacity-[0.03]"></div>
          <div className="relative z-10 max-w-5xl mx-auto px-4 text-center">
