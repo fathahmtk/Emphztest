@@ -468,14 +468,14 @@ const About: React.FC = () => {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                 {/* Team Member Card */}
                 {[
-                  { name: "Muhammed Rashik P", role: "Managing Director", img: "40" },
-                  { name: "Anjali Kumar", role: "Head of Operations", img: "41" },
-                  { name: "Vikram Singh", role: "Lead, Material Science", img: "42" },
-                  { name: "Priya Menon", role: "Project Management", img: "43" }
+                  { name: "Muhammed Rashik P", role: "Managing Director", image: "https://lh3.googleusercontent.com/pw/AP1GczPXd3SB3ha5w7wQYPCYln2z7mHwS2GWu0AiuUXj7QzLOpT54vA9BriS2YorAIZu9Qm0ppfMXMU6tBiJ4dyG4yhafK5leMobYiQCD8pWPWynVssz2_ueIQwbCl2XYIagOoycgZH5wk512mzKaUCSYsAXtQ=w1280-h720-s-no-gm?authuser=0" },
+                  { name: "Anjali Kumar", role: "Head of Operations", image: "https://picsum.photos/200/200?random=41" },
+                  { name: "Vikram Singh", role: "Lead, Material Science", image: "https://picsum.photos/200/200?random=42" },
+                  { name: "Priya Menon", role: "Project Management", image: "https://picsum.photos/200/200?random=43" }
                 ].map((member, i) => (
                   <div key={i} className="text-center group">
                       <div className="relative w-32 h-32 md:w-48 md:h-48 mx-auto rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-emphz-orange transition-all duration-500 shadow-xl">
-                          <img src={`https://picsum.photos/200/200?random=${member.img}`} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"/>
+                          <img src={member.image} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"/>
                           <div className="absolute inset-0 bg-emphz-orange/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                       </div>
                       <h4 className="font-bold text-lg md:text-xl mt-4 md:mt-5 font-display text-emphz-navy">{member.name}</h4>
