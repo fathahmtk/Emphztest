@@ -128,23 +128,23 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. Key Features Grid - Light Theme */}
-      <section className="py-32 relative bg-emphz-beige">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 3. Key Features Grid - Enhanced with Tech Grid */}
+      <section className="py-32 relative bg-emphz-beige bg-tech-grid">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="mb-20 text-center md:text-left">
              <h2 className="text-sm font-bold text-emphz-orange tracking-widest uppercase mb-4 font-display">The Emphz Advantage</h2>
              <h3 className="text-4xl md:text-5xl font-black text-emphz-navy font-display tracking-tight">Why Engineers Choose GRP.</h3>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-             {/* Feature 1 */}
-             <div className="glass-panel p-10 rounded-3xl relative overflow-hidden group hover:bg-white transition-colors bg-white">
+             {/* Feature 1 - Tabbed Card Style */}
+             <div className="bg-white p-10 rounded-2xl relative overflow-hidden group hover:-translate-y-2 transition-transform duration-300 shadow-sm border border-gray-200 hover:border-emphz-orange hover:shadow-xl hover:shadow-emphz-orange/10 border-l-4">
                 <div className="absolute -right-8 -bottom-8 text-slate-100 opacity-50 group-hover:opacity-80 transition-opacity transform rotate-12">
                    <Droplet size={180} strokeWidth={1} />
                 </div>
                 <ScrollRevealIcon>
-                  <div className="w-16 h-16 bg-emphz-orange/10 rounded-2xl flex items-center justify-center mb-8 text-emphz-orange group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-emphz-orange/10">
-                    <Droplet size={36} />
+                  <div className="w-16 h-16 bg-emphz-orange/10 rounded-xl flex items-center justify-center mb-8 text-emphz-orange group-hover:scale-110 transition-transform duration-300">
+                    <Droplet size={32} />
                   </div>
                 </ScrollRevealIcon>
                 <h4 className="text-2xl font-black mb-4 text-emphz-navy font-display">Corrosion Immunity</h4>
@@ -154,13 +154,13 @@ const Home: React.FC = () => {
              </div>
 
              {/* Feature 2 */}
-             <div className="glass-panel p-10 rounded-3xl relative overflow-hidden group hover:bg-white transition-colors bg-white">
+             <div className="bg-white p-10 rounded-2xl relative overflow-hidden group hover:-translate-y-2 transition-transform duration-300 shadow-sm border border-gray-200 hover:border-yellow-500 hover:shadow-xl hover:shadow-yellow-500/10 border-l-4">
                 <div className="absolute -right-8 -bottom-8 text-slate-100 opacity-50 group-hover:opacity-80 transition-opacity transform rotate-12">
                    <Zap size={180} strokeWidth={1} />
                 </div>
                 <ScrollRevealIcon>
-                  <div className="w-16 h-16 bg-yellow-500/10 rounded-2xl flex items-center justify-center mb-8 text-yellow-500 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-yellow-500/10">
-                    <Zap size={36} />
+                  <div className="w-16 h-16 bg-yellow-500/10 rounded-xl flex items-center justify-center mb-8 text-yellow-500 group-hover:scale-110 transition-transform duration-300">
+                    <Zap size={32} />
                   </div>
                 </ScrollRevealIcon>
                 <h4 className="text-2xl font-black mb-4 text-emphz-navy font-display">Electrical Safety</h4>
@@ -170,13 +170,13 @@ const Home: React.FC = () => {
              </div>
 
              {/* Feature 3 */}
-             <div className="glass-panel p-10 rounded-3xl relative overflow-hidden group hover:bg-white transition-colors bg-white">
+             <div className="bg-white p-10 rounded-2xl relative overflow-hidden group hover:-translate-y-2 transition-transform duration-300 shadow-sm border border-gray-200 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/10 border-l-4">
                 <div className="absolute -right-8 -bottom-8 text-slate-100 opacity-50 group-hover:opacity-80 transition-opacity transform rotate-12">
                    <Layers size={180} strokeWidth={1} />
                 </div>
                 <ScrollRevealIcon>
-                  <div className="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-8 text-blue-500 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-blue-500/10">
-                    <Layers size={36} />
+                  <div className="w-16 h-16 bg-blue-500/10 rounded-xl flex items-center justify-center mb-8 text-blue-500 group-hover:scale-110 transition-transform duration-300">
+                    <Layers size={32} />
                   </div>
                 </ScrollRevealIcon>
                 <h4 className="text-2xl font-black mb-4 text-emphz-navy font-display">Modular Design</h4>
@@ -217,22 +217,22 @@ const Home: React.FC = () => {
       </section>
 
       {/* 4.5. Company Overview / Mission Section - Light */}
-      <section className="py-24 bg-emphz-beige relative overflow-hidden">
+      <section className="py-24 bg-emphz-beige relative overflow-hidden bg-tech-grid">
          <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-blue-100 rounded-full blur-[100px] transform -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
          
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
                <div className="lg:w-1/2">
-                  <h2 className="text-sm font-bold text-emphz-orange tracking-widest uppercase mb-4 font-display">Engineering Excellence</h2>
+                  <h2 className="text-sm font-bold text-emphz-orange tracking-widest uppercase mb-4 font-display">Who We Are</h2>
                   <h3 className="text-4xl md:text-5xl font-black text-emphz-navy mb-6 leading-tight font-display tracking-tighter">
-                     Pioneering the Future of <br/>
-                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-navy to-slate-500">Industrial Infrastructure.</span>
+                     Emphz GRP Solutions: <br/>
+                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-navy to-slate-500">Built to Last.</span>
                   </h3>
                   <p className="text-lg text-slate-600 leading-relaxed mb-8 font-sans font-light">
-                     Emphz GRP Solutions is dedicated to solving India's toughest engineering challenges. By systematically replacing corrosion-prone steel with advanced Glass Reinforced Plastic composites, we deliver infrastructure that withstands the harshest coastal and industrial environments for decades.
+                     Our mission is simple: to provide the most durable, corrosion-resistant infrastructure solutions for India's demanding environments. By leveraging advanced Glass Reinforced Plastic technology, we eliminate maintenance costs and extend asset lifecycles by decades.
                   </p>
                   <Link to="/about" className="inline-flex items-center text-emphz-navy font-bold text-sm tracking-wide border-b-2 border-emphz-orange pb-1 hover:text-emphz-orange transition-colors group font-display">
-                     LEARN MORE ABOUT OUR MISSION <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={16} />
+                     LEARN MORE <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={16} />
                   </Link>
                </div>
                

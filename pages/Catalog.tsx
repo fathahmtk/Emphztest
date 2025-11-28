@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Filter, Download, Scale, X, Check, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react';
+import { Filter, Download, Scale, X, Check, ChevronRight, ChevronDown } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../constants';
 import { ProductCategory, Product } from '../types';
 
@@ -39,8 +39,8 @@ const CompareModal: React.FC<{
                <Scale className="text-emphz-orange" size={24} />
              </div>
              <div>
-                <h2 id="compare-title" className="text-2xl font-bold text-emphz-navy">Compare Products</h2>
-                <p className="text-xs text-gray-500">Side-by-side technical specification review</p>
+                <h2 id="compare-title" className="text-2xl font-bold text-emphz-navy font-display">Compare Products</h2>
+                <p className="text-xs text-gray-500 font-mono">Side-by-side technical specification review</p>
              </div>
           </div>
           <button 
@@ -57,23 +57,23 @@ const CompareModal: React.FC<{
           <div className={`grid gap-4`} style={{ gridTemplateColumns: `180px repeat(${productsToCompare.length}, 1fr)`}}>
             
             {/* Header Row */}
-            <div className="font-bold text-gray-400 sticky top-0 bg-white py-4 z-10 border-b border-gray-100 flex items-end pb-4">
+            <div className="font-bold text-gray-400 sticky top-0 bg-white py-4 z-10 border-b border-gray-100 flex items-end pb-4 font-display text-sm uppercase tracking-wider">
                Product Details
             </div>
             {productsToCompare.map(product => (
               <div key={product.id} className="text-center sticky top-0 bg-white py-4 z-10 border-b border-gray-100 shadow-sm">
                 <div className="relative inline-block">
                   <img src={product.imageUrl} alt={product.name} className="w-24 h-24 object-cover mx-auto rounded-lg mb-3 border border-gray-200 shadow-sm"/>
-                  <div className="absolute top-0 right-0 -mt-2 -mr-2 bg-emphz-navy text-white text-xs font-bold px-2 py-0.5 rounded shadow-sm">{product.id.split('-')[2] || 'V1'}</div>
+                  <div className="absolute top-0 right-0 -mt-2 -mr-2 bg-emphz-navy text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm font-mono">{product.id.split('-')[2] || 'V1'}</div>
                 </div>
-                <h3 className="font-bold text-emphz-navy text-sm px-2 leading-tight min-h-[2.5em] flex items-center justify-center">{product.name}</h3>
+                <h3 className="font-bold text-emphz-navy text-sm px-2 leading-tight min-h-[2.5em] flex items-center justify-center font-display">{product.name}</h3>
               </div>
             ))}
 
             {/* Category Row */}
-            <div className="font-bold text-gray-500 py-3 text-sm flex items-center border-b border-gray-100">Category</div>
+            <div className="font-bold text-gray-500 py-3 text-sm flex items-center border-b border-gray-100 font-display">Category</div>
             {productsToCompare.map(p => (
-              <div key={`cat-${p.id}`} className="text-center py-3 text-emphz-orange font-bold text-xs uppercase tracking-wide border-b border-gray-100 bg-blue-50/50 rounded-lg my-1 flex items-center justify-center">
+              <div key={`cat-${p.id}`} className="text-center py-3 text-emphz-orange font-bold text-xs uppercase tracking-wide border-b border-gray-100 bg-blue-50/50 rounded-lg my-1 flex items-center justify-center font-display">
                 {p.category}
               </div>
             ))}
@@ -83,11 +83,11 @@ const CompareModal: React.FC<{
             {/* Spec Rows */}
             {allSpecLabels.map(label => (
               <React.Fragment key={label}>
-                <div className="font-bold text-gray-400 py-3 text-sm flex items-center">{label}</div>
+                <div className="font-bold text-gray-400 py-3 text-sm flex items-center font-display">{label}</div>
                 {productsToCompare.map(product => {
                   const spec = product.specs.find(s => s.label === label);
                   return (
-                    <div key={`${product.id}-${label}`} className="text-center py-3 text-slate-700 text-sm bg-gray-50 rounded-lg my-1 flex items-center justify-center border border-gray-100 hover:border-gray-200 transition-colors">
+                    <div key={`${product.id}-${label}`} className="text-center py-3 text-slate-700 text-xs bg-gray-50 rounded-lg my-1 flex items-center justify-center border border-gray-100 hover:border-gray-200 transition-colors font-mono">
                       {spec?.value || <span className="text-gray-300">-</span>}
                     </div>
                   );
@@ -98,14 +98,14 @@ const CompareModal: React.FC<{
             <div className="col-span-full h-4 border-b border-gray-100 mb-4"></div>
 
             {/* Features Row */}
-            <div className="font-bold text-gray-500 py-3 text-sm">Key Highlights</div>
+            <div className="font-bold text-gray-500 py-3 text-sm font-display">Key Highlights</div>
             {productsToCompare.map(p => (
                <div key={`feat-${p.id}`} className="py-3 text-left text-xs text-gray-600 bg-gray-50 rounded-lg px-4 border border-gray-100">
                   <ul className="space-y-2">
                     {p.features.slice(0, 4).map((f, i) => (
                       <li key={i} className="flex items-start">
                         <Check size={12} className="text-emphz-orange mr-2 mt-0.5 flex-shrink-0" />
-                        <span>{f}</span>
+                        <span className="font-sans font-medium">{f}</span>
                       </li>
                     ))}
                   </ul>
@@ -115,7 +115,7 @@ const CompareModal: React.FC<{
         </div>
         
         <div className="p-4 border-t border-gray-200 bg-gray-50 rounded-b-2xl flex justify-end">
-             <button onClick={onClose} className="bg-white border border-gray-300 text-emphz-navy font-bold px-6 py-3 rounded-lg hover:bg-emphz-orange hover:text-white hover:border-emphz-orange transition-colors">Close Comparison</button>
+             <button onClick={onClose} className="bg-white border border-gray-300 text-emphz-navy font-bold px-6 py-3 rounded-lg hover:bg-emphz-orange hover:text-white hover:border-emphz-orange transition-colors font-display text-sm tracking-wide">Close Comparison</button>
         </div>
       </div>
     </div>
@@ -134,14 +134,13 @@ const FilterSection: React.FC<{
       onClick={onToggle}
       className="flex items-center justify-between w-full py-4 text-left group focus:outline-none"
     >
-      <span className="text-xs font-bold text-slate-600 uppercase tracking-wider group-hover:text-emphz-navy transition-colors">
+      <span className="text-xs font-bold text-slate-600 uppercase tracking-wider group-hover:text-emphz-navy transition-colors font-display">
         {title}
       </span>
-      {isOpen ? (
-        <ChevronUp size={16} className="text-gray-400 group-hover:text-emphz-navy transition-colors" />
-      ) : (
-        <ChevronDown size={16} className="text-gray-400 group-hover:text-emphz-navy transition-colors" />
-      )}
+      <ChevronDown 
+        size={16} 
+        className={`text-gray-400 group-hover:text-emphz-navy transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} 
+      />
     </button>
     <div
       className={`overflow-hidden transition-all duration-300 ease-in-out ${
@@ -225,11 +224,11 @@ const Catalog: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-gray-200 pb-8">
             <div>
-              <div className="text-emphz-orange font-bold tracking-widest text-xs uppercase mb-2">The Collection</div>
-              <h1 className="text-5xl font-black text-emphz-navy mb-2">PRODUCT CATALOG</h1>
-              <p className="text-slate-600 max-w-xl">Engineered GRP solutions for demanding environments. Browse our range of enclosures, kiosks, and modular cabins.</p>
+              <div className="text-emphz-orange font-bold tracking-widest text-xs uppercase mb-2 font-display">The Collection</div>
+              <h1 className="text-5xl font-black text-emphz-navy mb-2 font-display">PRODUCT CATALOG</h1>
+              <p className="text-slate-600 max-w-xl font-sans">Engineered GRP solutions for demanding environments. Browse our range of enclosures, kiosks, and modular cabins.</p>
             </div>
-            <button className="flex items-center bg-white hover:bg-emphz-orange hover:text-white border border-gray-300 text-emphz-navy px-6 py-3 rounded-full text-sm font-bold transition-colors mt-6 md:mt-0 focus:ring-2 focus:ring-emphz-navy shadow-sm">
+            <button className="flex items-center bg-white hover:bg-emphz-orange hover:text-white border border-gray-300 text-emphz-navy px-6 py-3 rounded-full text-sm font-bold transition-colors mt-6 md:mt-0 focus:ring-2 focus:ring-emphz-navy shadow-sm font-display tracking-wide">
               <Download className="mr-2" size={18} aria-hidden="true" /> Download Price List (PDF)
             </button>
           </div>
@@ -238,7 +237,7 @@ const Catalog: React.FC = () => {
             {/* Sidebar Filters - Light Theme */}
             <div className="w-full lg:w-64 flex-shrink-0">
               <div className="glass-panel p-6 rounded-2xl sticky top-24 bg-white">
-                <div className="flex items-center mb-2 text-emphz-navy font-bold uppercase tracking-wider text-sm pb-4 border-b border-gray-100">
+                <div className="flex items-center mb-2 text-emphz-navy font-bold uppercase tracking-wider text-sm pb-4 border-b border-gray-100 font-display">
                   <Filter size={16} className="mr-2" aria-hidden="true" /> Filters
                 </div>
                 
@@ -250,7 +249,7 @@ const Catalog: React.FC = () => {
                 >
                   <div className="space-y-1">
                     {categories.map((cat) => (
-                      <label key={cat} className={`flex items-center justify-between cursor-pointer group py-2 pl-3 pr-2 rounded-lg transition-colors relative ${selectedCategory === cat ? 'bg-blue-50' : 'hover:bg-gray-50'}`}>
+                      <label key={cat} className={`flex items-center justify-between cursor-pointer group py-2 pl-3 pr-2 rounded-lg transition-colors relative ${selectedCategory === cat ? 'bg-emphz-orange/5' : 'hover:bg-gray-50'}`}>
                          <div className="flex items-center relative z-10">
                             <input 
                               type="radio" 
@@ -304,7 +303,7 @@ const Catalog: React.FC = () => {
                               }`}>
                                   <Check size={12} className={`transition-opacity duration-200 ${isSelected ? 'opacity-100' : 'opacity-0'}`} />
                               </span>
-                              <span className={`text-sm transition-colors ${isSelected ? 'text-emphz-navy font-medium' : 'text-slate-500'}`}>
+                              <span className={`text-sm transition-colors font-mono ${isSelected ? 'text-emphz-navy font-bold' : 'text-slate-500'}`}>
                                 {feature}
                               </span>
                             </div>
@@ -318,7 +317,7 @@ const Catalog: React.FC = () => {
                 {(selectedCategory !== 'All' || selectedFeatures.length > 0) && (
                   <button 
                     onClick={() => { setSelectedCategory('All'); setSelectedFeatures([]); }}
-                    className="w-full mt-6 py-2 text-xs font-bold text-gray-400 hover:text-emphz-orange border border-dashed border-gray-300 hover:border-emphz-orange rounded transition-colors uppercase tracking-wide"
+                    className="w-full mt-6 py-2 text-xs font-bold text-gray-400 hover:text-emphz-orange border border-dashed border-gray-300 hover:border-emphz-orange rounded transition-colors uppercase tracking-wide font-display"
                   >
                     Reset All Filters
                   </button>
@@ -332,12 +331,12 @@ const Catalog: React.FC = () => {
                 {filteredProducts.map((product) => {
                   const isComparing = compareList.includes(product.id);
                   return (
-                    <article key={product.id} className="bg-white rounded-2xl overflow-hidden flex flex-col h-[450px] group relative transition-all duration-300 hover:scale-[1.03] border border-gray-200 hover:border-emphz-orange hover:shadow-[0_0_25px_rgba(14,165,233,0.25)]">
+                    <article key={product.id} className="bg-white rounded-2xl overflow-hidden flex flex-col h-[450px] group relative transition-all duration-300 hover:scale-[1.03] border border-gray-200 hover:border-emphz-orange hover:shadow-[0_0_25px_rgba(0,112,243,0.25)]">
                       <div className="relative h-3/5 overflow-hidden">
                         <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         
-                        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur text-emphz-navy text-[10px] font-bold px-2 py-1 rounded shadow-sm">
+                        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur text-emphz-navy text-[10px] font-bold px-2 py-1 rounded shadow-sm font-display tracking-wider">
                           {product.category}
                         </div>
                         
@@ -354,19 +353,19 @@ const Catalog: React.FC = () => {
                       <div className="p-6 flex flex-col flex-grow relative bg-white">
                         <div className="absolute -top-12 left-6 right-6 flex space-x-2">
                           {product.specs.slice(0,2).map((s, i) => (
-                              <span key={i} className="bg-white/95 backdrop-blur border border-gray-200 text-xs px-2 py-1 rounded text-emphz-navy font-bold shadow-sm">
+                              <span key={i} className="bg-white/95 backdrop-blur border border-gray-200 text-[10px] px-2 py-1 rounded text-emphz-navy font-bold shadow-sm font-mono tracking-tight">
                                 {s.value}
                               </span>
                           ))}
                         </div>
 
-                        <h3 className="text-xl font-bold text-emphz-navy mb-2 line-clamp-1 group-hover:text-emphz-orange transition-colors">{product.name}</h3>
+                        <h3 className="text-xl font-bold text-emphz-navy mb-2 line-clamp-1 group-hover:text-emphz-orange transition-colors font-display tracking-tight">{product.name}</h3>
                         <p className="text-slate-500 text-sm mb-6 line-clamp-2">{product.shortDescription}</p>
                         
                         <div className="mt-auto">
                           <Link 
                             to={`/products/${product.id}`} 
-                            className="w-full flex items-center justify-between bg-gray-50 hover:bg-emphz-orange text-emphz-navy hover:text-white font-bold py-3 px-4 rounded-xl transition-all group/btn border border-gray-100 hover:border-emphz-orange focus:ring-2 focus:ring-emphz-navy"
+                            className="w-full flex items-center justify-between bg-gray-50 hover:bg-emphz-orange text-emphz-navy hover:text-white font-bold py-3 px-4 rounded-xl transition-all group/btn border border-gray-100 hover:border-emphz-orange focus:ring-2 focus:ring-emphz-navy font-display text-xs tracking-widest"
                           >
                             <span>VIEW SPECS</span>
                             <ChevronRight size={16} className="group-hover/btn:translate-x-1 transition-transform" aria-hidden="true" />
@@ -380,8 +379,8 @@ const Catalog: React.FC = () => {
               
               {filteredProducts.length === 0 && (
                 <div className="text-center py-20 bg-white rounded-2xl border border-gray-200">
-                  <h3 className="text-xl text-gray-400">No products match your filters.</h3>
-                  <button onClick={() => { setSelectedCategory('All'); setSelectedFeatures([]); }} className="mt-4 text-emphz-orange font-bold hover:underline focus:ring-2 focus:ring-emphz-navy rounded">Clear Filters</button>
+                  <h3 className="text-xl text-gray-400 font-display">No products match your filters.</h3>
+                  <button onClick={() => { setSelectedCategory('All'); setSelectedFeatures([]); }} className="mt-4 text-emphz-orange font-bold hover:underline focus:ring-2 focus:ring-emphz-navy rounded font-mono text-sm">Clear Filters</button>
                 </div>
               )}
             </div>
@@ -403,16 +402,16 @@ const Catalog: React.FC = () => {
                     </div>
                   ))}
                 </div>
-                <div className="text-sm">
-                  <span className="font-bold text-emphz-orange">{compareList.length}</span> selected
+                <div className="text-sm font-sans">
+                  <span className="font-bold text-emphz-orange font-mono text-lg mr-1">{compareList.length}</span> selected
                 </div>
               </div>
               <div className="flex items-center space-x-3">
-                <button onClick={() => setCompareList([])} className="text-gray-400 hover:text-white text-xs uppercase font-bold tracking-wider focus:ring-2 focus:ring-white rounded px-2">Clear</button>
+                <button onClick={() => setCompareList([])} className="text-gray-400 hover:text-white text-xs uppercase font-bold tracking-wider focus:ring-2 focus:ring-white rounded px-2 font-display">Clear</button>
                 {compareList.length >= 2 && (
                     <button 
                     onClick={() => setIsCompareModalOpen(true)}
-                    className="bg-white text-emphz-navy px-6 py-2 rounded-lg font-bold hover:bg-emphz-orange hover:text-white transition-colors text-sm focus:ring-2 focus:ring-white shadow-lg"
+                    className="bg-white text-emphz-navy px-6 py-2 rounded-lg font-bold hover:bg-emphz-orange hover:text-white transition-colors text-sm focus:ring-2 focus:ring-white shadow-lg font-display tracking-wide"
                     >
                     COMPARE SELECTED
                     </button>

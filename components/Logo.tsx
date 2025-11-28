@@ -2,8 +2,8 @@ import React from 'react';
 
 const Logo: React.FC<{ className?: string; variant?: 'light' | 'dark' }> = ({ className, variant = 'light' }) => {
   const eColor = variant === 'light' ? '#64748B' : '#334155'; // slate-500, slate-700
-  const boltColor = '#0088EE'; // New Azure Blue
-  const textColor = variant === 'light' ? '#F8FAFC' : '#0B1121'; // slate-50, Midnight Slate
+  const boltColor = '#0070F3'; // Electric Azure
+  const textColor = variant === 'light' ? '#F8FAFC' : '#0B1120'; // slate-50, Deep Carbon
 
   return (
     <svg 

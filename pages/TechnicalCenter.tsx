@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Cpu, Send, Loader2, BookOpen, PenTool, FileText, Download, ChevronRight } from 'lucide-react';
+import { Cpu, Send, Loader2, BookOpen, PenTool, FileText, Download, ChevronRight, Terminal } from 'lucide-react';
 import { askTechnicalAssistant } from '../services/geminiService';
 import { ChatMessage } from '../types';
 import GatedDownloadModal from '../components/GatedDownloadModal';
@@ -50,83 +50,88 @@ const TechnicalCenter: React.FC = () => {
   };
 
   const downloadCategories = [
-    { title: 'Product Datasheets', count: 12, icon: <FileText className="w-5 h-5 text-blue-600"/>, type: 'PDF' },
-    { title: 'Brochures & Flyers', count: 4, icon: <BookOpen className="w-5 h-5 text-purple-600"/>, type: 'PDF' },
-    { title: 'Installation Manuals', count: 8, icon: <PenTool className="w-5 h-5 text-green-600"/>, type: 'PDF' },
-    { title: 'Certifications (ISO/IP)', count: 3, icon: <Download className="w-5 h-5 text-orange-600"/>, type: 'ZIP' },
+    { title: 'Product Datasheets', count: 12, icon: <FileText className="w-5 h-5"/>, type: 'PDF' },
+    { title: 'Brochures & Flyers', count: 4, icon: <BookOpen className="w-5 h-5"/>, type: 'PDF' },
+    { title: 'Installation Manuals', count: 8, icon: <PenTool className="w-5 h-5"/>, type: 'PDF' },
+    { title: 'Certifications (ISO/IP)', count: 3, icon: <Download className="w-5 h-5"/>, type: 'ZIP' },
   ];
 
   return (
     <>
-      <div className="bg-gray-50 min-h-screen">
-        <div className="bg-emphz-navy text-white py-16 relative overflow-hidden">
+      <div className="bg-slate-900 min-h-screen">
+        <div className="bg-emphz-navy text-white py-16 relative overflow-hidden border-b border-white/5">
           <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
-            <h1 className="text-4xl font-bold mb-4">Technical Knowledge Center</h1>
-            <p className="text-gray-300 max-w-2xl mx-auto">
-              Access detailed engineering resources, white papers, and consult with our AI Technical Specialist.
+            <h1 className="text-4xl font-bold mb-4 font-display">Technical Knowledge Center</h1>
+            <p className="text-gray-400 max-w-2xl mx-auto font-mono text-sm">
+              // Access engineering resources, white papers, and AI consultant.
             </p>
           </div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
           
+          {/* Sidebar - File Explorer Style */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-              <div className="p-6 border-b border-gray-100 bg-gray-50">
-                 <h3 className="font-bold text-emphz-navy text-lg">Downloads Library</h3>
-                 <p className="text-xs text-gray-600">Updated: Oct 2025</p>
+            <div className="bg-slate-800 rounded-lg shadow-xl border border-slate-700 overflow-hidden">
+              <div className="p-4 border-b border-slate-700 bg-slate-800/50 flex items-center justify-between">
+                 <h3 className="font-bold text-white text-sm font-mono uppercase tracking-wider">/root/downloads</h3>
+                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
               </div>
-              <div className="divide-y divide-gray-100">
+              <div className="divide-y divide-slate-700/50">
                 {downloadCategories.map((cat, i) => (
-                  <button key={i} onClick={() => handleDownloadClick({ title: cat.title, type: cat.type })} className="w-full text-left p-4 hover:bg-gray-50 cursor-pointer group transition-colors focus:outline-none focus:bg-gray-100 focus:ring-2 focus:ring-inset focus:ring-emphz-orange">
+                  <button key={i} onClick={() => handleDownloadClick({ title: cat.title, type: cat.type })} className="w-full text-left p-4 hover:bg-slate-700 cursor-pointer group transition-colors focus:outline-none focus:bg-slate-700">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
-                        <div className="bg-gray-100 p-2 rounded-lg mr-4 group-hover:bg-white group-hover:shadow-sm transition-all">
+                        <div className="text-slate-400 mr-3 group-hover:text-emphz-orange transition-colors">
                           {cat.icon}
                         </div>
                         <div>
-                          <h4 className="font-bold text-gray-800 text-sm group-hover:text-emphz-orange">{cat.title}</h4>
-                          <span className="text-xs text-gray-600">{cat.count} Files</span>
+                          <h4 className="font-bold text-gray-200 text-sm group-hover:text-white font-mono">{cat.title}</h4>
+                          <span className="text-[10px] text-gray-500 font-mono">dir • {cat.count} files</span>
                         </div>
                       </div>
-                      <ChevronRight size={16} className="text-gray-400 group-hover:text-emphz-orange" aria-hidden="true" />
+                      <ChevronRight size={14} className="text-gray-600 group-hover:text-emphz-orange" aria-hidden="true" />
                     </div>
                   </button>
                 ))}
               </div>
-              <div className="p-4 bg-emphz-beige/20">
-                <button onClick={() => handleDownloadClick({ title: 'Full Document Library', type: 'ZIP' })} className="w-full text-center text-xs font-bold text-emphz-navy hover:underline focus:outline-none focus:text-emphz-orange focus:ring-2 focus:ring-emphz-navy rounded px-2 py-1">
-                  View All 27 Documents
+              <div className="p-3 bg-slate-900/50 border-t border-slate-700 text-right">
+                <button onClick={() => handleDownloadClick({ title: 'Full Document Library', type: 'ZIP' })} className="text-[10px] font-bold text-emphz-orange hover:text-white hover:underline font-mono uppercase tracking-wide">
+                  Download All (.zip)
                 </button>
               </div>
             </div>
 
-            <div className="bg-emphz-navy text-white rounded-xl shadow-lg p-6">
-               <h3 className="font-bold mb-2">Need CAD Drawings?</h3>
-               <p className="text-xs text-gray-400 mb-4">Access our comprehensive library of DWG/STEP files for all enclosure sizes.</p>
-               <button onClick={() => handleDownloadClick({ title: 'CAD Library Access Request', type: 'CAD' })} className="w-full bg-emphz-orange py-2 rounded text-sm font-bold hover:bg-red-700 transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-emphz-orange">
-                 Request Engineer Access
+            <div className="bg-emphz-orange/10 border border-emphz-orange/20 rounded-lg p-6">
+               <h3 className="font-bold text-emphz-orange mb-2 font-mono text-sm uppercase">&gt; CAD Request</h3>
+               <p className="text-xs text-gray-400 mb-4 font-mono">Access restricted DWG/STEP files for integration.</p>
+               <button onClick={() => handleDownloadClick({ title: 'CAD Library Access Request', type: 'CAD' })} className="w-full bg-emphz-orange/20 border border-emphz-orange text-emphz-orange py-2 rounded text-xs font-bold hover:bg-emphz-orange hover:text-white transition-colors font-mono uppercase tracking-wider">
+                 Initialize Request
                </button>
             </div>
           </div>
 
+          {/* Main Terminal Window */}
           <div className="lg:col-span-8">
-            <div className="bg-white rounded-xl shadow-lg border border-gray-200 flex flex-col h-[600px] overflow-hidden">
-              <div className="bg-gradient-to-r from-emphz-navy to-gray-900 p-4 flex items-center justify-between">
-                <div className="flex items-center text-white">
-                   <div className="bg-white/10 p-2 rounded-lg mr-3">
-                     <Cpu className="w-5 h-5 text-emphz-orange" aria-hidden="true" />
+            <div className="bg-black rounded-lg shadow-2xl border border-slate-700 flex flex-col h-[600px] overflow-hidden font-mono">
+              {/* Terminal Header */}
+              <div className="bg-slate-800 p-3 flex items-center justify-between border-b border-slate-700">
+                <div className="flex items-center space-x-2">
+                   <div className="flex space-x-1.5">
+                     <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                     <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
                    </div>
-                   <div>
-                     <h2 className="font-bold text-sm">Emphz AI Technical Consultant</h2>
-                     <p className="text-[10px] text-gray-400">Powered by Gemini 2.5 Flash</p>
+                   <div className="ml-4 text-xs text-gray-400 flex items-center">
+                     <Terminal size={12} className="mr-2" />
+                     emphz-assistant@gemini-2.5:~
                    </div>
                 </div>
-                <div className="text-[10px] font-bold text-emphz-navy bg-emphz-beige px-2 py-1 rounded shadow-sm">BETA</div>
+                <div className="text-[10px] font-bold text-green-500 tracking-wider animate-pulse">ONLINE</div>
               </div>
 
               <div 
-                className="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50 focus:ring-2 focus:ring-inset focus:ring-emphz-orange focus:outline-none" 
+                className="flex-1 overflow-y-auto p-6 space-y-6 bg-black text-sm" 
                 role="log" 
                 aria-live="polite"
                 aria-label="Chat History"
@@ -134,54 +139,66 @@ const TechnicalCenter: React.FC = () => {
               >
                 {messages.map((msg, idx) => (
                   <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[85%] p-4 rounded-xl text-sm leading-relaxed shadow-sm ${
+                    <div className={`max-w-[85%] ${
                       msg.role === 'user' 
-                        ? 'bg-emphz-navy text-white rounded-br-none' 
-                        : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none'
+                        ? 'text-right' 
+                        : 'text-left'
                     }`}>
-                      {msg.role === 'model' ? (
-                        <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ 
-                          __html: msg.text.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<b>$1</b>') 
-                        }} />
-                      ) : (
-                        msg.text
-                      )}
+                      <span className={`text-[10px] uppercase font-bold mb-1 block ${msg.role === 'user' ? 'text-emphz-orange' : 'text-green-500'}`}>
+                        {msg.role === 'user' ? 'USER' : 'SYSTEM'}
+                      </span>
+                      <div className={`inline-block p-4 rounded-md text-xs leading-relaxed border ${
+                         msg.role === 'user'
+                         ? 'bg-emphz-orange/10 border-emphz-orange/30 text-gray-200'
+                         : 'bg-slate-900 border-slate-700 text-gray-300'
+                      }`}>
+                         {msg.role === 'model' ? (
+                          <div dangerouslySetInnerHTML={{ 
+                            __html: msg.text.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<b class="text-white">$1</b>') 
+                          }} />
+                        ) : (
+                          msg.text
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
                 {isLoading && (
                   <div className="flex justify-start">
-                    <div className="bg-white border border-gray-200 p-4 rounded-xl rounded-bl-none shadow-sm flex items-center">
-                       <Loader2 className="animate-spin h-4 w-4 text-emphz-orange mr-2" aria-hidden="true" />
-                       <span className="text-xs text-gray-500">Analyzing engineering data...</span>
+                    <div>
+                        <span className="text-[10px] uppercase font-bold mb-1 block text-green-500">SYSTEM</span>
+                        <div className="bg-slate-900 border border-slate-700 p-3 rounded-md flex items-center text-green-500 text-xs">
+                           <Loader2 className="animate-spin h-3 w-3 mr-2" />
+                           Processing query...
+                        </div>
                     </div>
                   </div>
                 )}
                 <div ref={messagesEndRef} />
               </div>
 
-              <div className="p-4 bg-white border-t border-gray-200">
-                <div className="relative">
-                  <label htmlFor="chat-input" className="sr-only">Ask technical question</label>
+              <div className="p-4 bg-slate-900 border-t border-slate-700">
+                <div className="relative flex items-center">
+                  <span className="text-green-500 font-bold mr-2 text-sm">$</span>
                   <input
                     id="chat-input"
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder="Ask about chemical resistance, fire ratings, or dimensions..."
-                    className="w-full pl-4 pr-14 py-4 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emphz-orange focus:border-transparent outline-none transition-all text-sm placeholder-gray-500"
+                    placeholder="Enter command or query..."
+                    className="flex-1 bg-transparent border-none focus:ring-0 text-white placeholder-slate-600 outline-none text-sm h-10"
+                    autoComplete="off"
                   />
                   <button 
                     onClick={handleSend}
                     disabled={isLoading || !input.trim()}
-                    aria-label="Send Message"
-                    className="absolute right-2 top-2 bottom-2 bg-emphz-navy text-white px-4 rounded-lg hover:bg-emphz-orange disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center focus:ring-2 focus:ring-offset-1 focus:ring-emphz-navy"
+                    aria-label="Execute"
+                    className="text-slate-400 hover:text-white disabled:opacity-30 transition-colors"
                   >
-                    <Send size={18} aria-hidden="true" />
+                    <Send size={16} />
                   </button>
                 </div>
-                <p className="text-center text-[10px] text-gray-600 mt-2">AI responses are for guidance. Refer to official datasheets for critical specs.</p>
               </div>
             </div>
           </div>
