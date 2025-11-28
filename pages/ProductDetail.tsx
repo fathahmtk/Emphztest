@@ -348,7 +348,7 @@ const ProductDetail: React.FC = () => {
                   </button>
 
                   <p className="text-[10px] text-gray-500 text-center mt-4 font-mono">
-                    Bulk pricing applies for orders > 50 units.
+                    Bulk pricing applies for orders &gt; 50 units.
                   </p>
                 </div>
               </div>
