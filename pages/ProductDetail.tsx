@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Check, FileText, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon, Camera, ArrowRight, Loader2, Share2, CheckCircle, ChevronLeft, ChevronRight, Maximize, X, ZoomIn, ZoomOut, RotateCcw, Linkedin, Twitter, Mail, Link as LinkIcon, Copy, MessageCircle } from 'lucide-react';
@@ -108,7 +109,7 @@ const ProductDetail: React.FC = () => {
   const { addItem } = useRFQ();
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<'desc' | 'specs' | 'downloads'>('desc');
-  const [viewMode, setViewMode] = useState<'3D' | 'IMAGE'>('3D');
+  const [viewMode, setViewMode] = useState<'3D' | 'IMAGE'>('IMAGE');
   const [activeImage, setActiveImage] = useState<string>('');
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
@@ -337,7 +338,7 @@ const ProductDetail: React.FC = () => {
           {viewMode === 'IMAGE' ? (
             <>
               <div 
-                className="absolute inset-0 transition-opacity duration-500 bg-[#0B1120] cursor-zoom-in"
+                className="absolute inset-0 transition-opacity duration-500 bg-[#0B1120] cursor-zoom-in animate-fade-in"
                 onClick={() => setIsLightboxOpen(true)}
               >
                 <img src={activeImage} alt={product.name} className="w-full h-full object-cover opacity-100 group-hover:scale-105 transition-transform duration-[2s]" key={activeImage} />
