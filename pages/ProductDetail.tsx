@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Check, FileText, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon, Camera, ArrowRight, Loader2, Share2, CheckCircle, ChevronLeft, ChevronRight, Maximize, X, ZoomIn, ZoomOut, RotateCcw, Linkedin, Twitter, Mail, Link as LinkIcon, Copy, MessageCircle } from 'lucide-react';
+import { Check, FileText, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon, Camera, ArrowRight, Loader2, Share2, CheckCircle, ChevronLeft, ChevronRight, Maximize, X, ZoomIn, ZoomOut, RotateCcw, Linkedin, Twitter, Mail, Link as LinkIcon, Copy, MessageCircle, Flame, Layers, ShieldCheck, Award } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../constants';
 import { useRFQ } from '../contexts/RFQContext';
 import { ProductCategory } from '../types';
@@ -305,6 +305,17 @@ const ProductDetail: React.FC = () => {
     return 'DEFAULT';
   };
 
+  const specIcons: { [key: string]: React.ReactElement } = {
+    'ip rating': <ShieldCheck size={16} className="text-emphz-orange" />,
+    'ik rating': <ShieldCheck size={16} className="text-emphz-orange" />,
+    'fire rating': <Flame size={16} className="text-red-500" />,
+    'dimensions': <Maximize size={16} className="text-blue-500" />,
+    'material': <Layers size={16} className="text-gray-500" />,
+    'structure': <Layers size={16} className="text-gray-500" />,
+    'certification': <Award size={16} className="text-yellow-500" />,
+    'process': <Settings size={16} className="text-gray-500" />,
+  };
+
   return (
     <>
       <div className="bg-white min-h-screen text-slate-900 pb-24">
@@ -349,7 +360,7 @@ const ProductDetail: React.FC = () => {
                 className="absolute inset-0 transition-opacity duration-500 bg-[#0B1120] cursor-zoom-in animate-fade-in"
                 onClick={() => setIsLightboxOpen(true)}
               >
-                <img src={activeImage} alt={product.name} className="w-full h-full object-cover opacity-100 group-hover:scale-105 transition-transform duration-[2s]" key={activeImage} />
+                <img src={activeImage} alt={product.name} className="w-full h-full object-cover opacity-100 group-hover:scale-105 transition-transform duration-700 ease-in-out" key={activeImage} />
               </div>
               
               {galleryImages.length > 1 && (
@@ -374,6 +385,28 @@ const ProductDetail: React.FC = () => {
               {/* Improved Gradients for Readability */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#050A14] via-transparent to-[#050A14]/30 pointer-events-none"></div>
               <div className="absolute inset-0 bg-gradient-to-r from-[#050A14]/60 via-transparent to-transparent pointer-events-none"></div>
+
+              {/* Thumbnail Navigator Overlay */}
+              <div className="absolute bottom-0 left-0 w-full p-4 md:p-6 z-30 bg-gradient-to-t from-black/70 via-black/40 to-transparent pointer-events-auto">
+                  <div className="max-w-4xl mx-auto">
+                      <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent snap-x snap-mandatory">
+                          {galleryImages.map((img, idx) => (
+                              <button
+                                  key={idx}
+                                  onClick={(e) => { e.stopPropagation(); setActiveImage(img); setViewMode('IMAGE'); }}
+                                  className={`relative w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-300 group bg-gray-900 snap-center ${
+                                      activeImage === img
+                                      ? 'border-emphz-orange ring-2 ring-emphz-orange/30 scale-105'
+                                      : 'border-transparent opacity-60 hover:opacity-100 hover:border-white/50'
+                                  }`}
+                                  aria-label={`View image ${idx + 1}`}
+                              >
+                                  <img src={img} alt={`Thumbnail ${idx + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                              </button>
+                          ))}
+                      </div>
+                  </div>
+              </div>
             </>
           ) : (
             <div className="w-full h-full absolute inset-0 z-10 animate-fade-in">
@@ -425,34 +458,7 @@ const ProductDetail: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-16">
             
             <div className="lg:col-span-2">
-               {/* Gallery Carousel */}
-               <div className="mb-12">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em] font-display">
-                      Media Gallery
-                    </h3>
-                    <span className="text-[10px] font-mono text-gray-400">
-                      {String(activeIndex + 1).padStart(2, '0')} / {String(galleryImages.length).padStart(2, '0')}
-                    </span>
-                  </div>
-                  <div className="flex gap-4 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-300">
-                      {galleryImages.map((img, idx) => (
-                          <button 
-                            key={idx}
-                            onClick={() => { setActiveImage(img); setViewMode('IMAGE'); }}
-                            className={`relative w-28 h-28 md:w-40 md:h-40 flex-shrink-0 rounded-2xl overflow-hidden border-2 transition-all duration-300 snap-start group bg-gray-100 ${
-                                activeImage === img && viewMode === 'IMAGE' 
-                                ? 'border-emphz-orange ring-4 ring-emphz-orange/10 scale-105 z-10' 
-                                : 'border-transparent opacity-70 hover:opacity-100 hover:scale-105'
-                            }`}
-                          >
-                             <img src={img} alt={`View ${idx + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                          </button>
-                      ))}
-                  </div>
-               </div>
-
-               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-10">
                  {product.specs.slice(0,4).map((s, i) => (
                    <div key={i} className="bg-gray-50 border border-gray-100 p-5 rounded-2xl text-center hover:bg-white hover:shadow-lg transition-all duration-300">
                      <div className="text-[9px] text-gray-400 uppercase font-bold mb-2 font-display tracking-widest">{s.label}</div>
@@ -550,7 +556,10 @@ const ProductDetail: React.FC = () => {
                       <tbody className="divide-y divide-gray-200 bg-white">
                         {product.specs.map((spec, i) => (
                           <tr key={i} className={`hover:bg-blue-50/20 transition-colors ${i % 2 === 0 ? 'bg-gray-50/30' : 'bg-white'}`}>
-                            <td className="px-6 py-5 whitespace-nowrap text-xs font-bold text-slate-500 w-1/3 font-display uppercase tracking-wider border-r border-gray-100">{spec.label}</td>
+                            <td className="px-6 py-5 whitespace-nowrap text-xs font-bold text-slate-500 w-1/3 font-display uppercase tracking-wider border-r border-gray-100 flex items-center gap-3">
+                                {specIcons[spec.label.toLowerCase()] || <div className="w-4 h-4" /> /* Placeholder for alignment */}
+                                {spec.label}
+                            </td>
                             <td className="px-6 py-5 whitespace-nowrap text-sm text-emphz-navy font-mono font-medium">{spec.value}</td>
                           </tr>
                         ))}
