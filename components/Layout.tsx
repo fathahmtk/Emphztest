@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ShoppingCart, Phone, Mail, MapPin, ChevronRight, MessageCircle, FileText, Search } from 'lucide-react';
-import { NAV_LINKS } from '../constants';
+import { NAV_LINKS, MOCK_PRODUCTS } from '../constants';
 import { useRFQ } from '../contexts/RFQContext';
 import LiveChatWidget from './LiveChatWidget';
 import Logo from './Logo';
@@ -18,6 +18,34 @@ export function Layout({ children }: LayoutProps) {
   const [scrollProgress, setScrollProgress] = useState(0);
   const location = useLocation();
   const { items } = useRFQ();
+
+  const { pathname } = location;
+
+  const breadcrumbs = useMemo(() => {
+    const pathParts = pathname.split('/').filter(Boolean);
+    if (pathParts.length === 0) return [];
+
+    let currentPath = '';
+    const crumbs = pathParts.map((part, index) => {
+        currentPath += `/${part}`;
+        let name = part.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+
+        // Special case for product pages
+        if (pathParts[0] === 'products' && index === 1) {
+            const product = MOCK_PRODUCTS.find(p => p.id === part);
+            if (product) name = product.name;
+        }
+        
+        return {
+            name,
+            path: currentPath,
+            isCurrent: index === pathParts.length - 1,
+        };
+    });
+
+    // Add "Home" as the root
+    return [{ name: 'Home', path: '/', isCurrent: false }, ...crumbs];
+  }, [pathname]);
 
   // Scroll to top on route change with instant behavior for cleaner navigation
   useEffect(() => {
@@ -307,6 +335,31 @@ export function Layout({ children }: LayoutProps) {
         role="main" 
         tabIndex={-1}
       >
+        {!isHome && breadcrumbs.length > 0 && (
+            <div className="w-full bg-gray-50/80 backdrop-blur-sm border-b border-gray-200">
+                <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto px-6 md:px-8 py-3 animate-fade-in">
+                    <ol className="flex items-center space-x-2 text-xs font-mono">
+                        {breadcrumbs.map((crumb, index) => (
+                            <li key={crumb.path} className="flex items-center">
+                                {index > 0 && <ChevronRight size={14} className="text-gray-400 mx-2" />}
+                                {crumb.isCurrent ? (
+                                    <span className="text-emphz-navy font-bold truncate" aria-current="page">
+                                        {crumb.name}
+                                    </span>
+                                ) : (
+                                    <Link 
+                                        to={crumb.path}
+                                        className="text-gray-500 hover:text-emphz-orange hover:underline transition-colors truncate"
+                                    >
+                                        {crumb.name}
+                                    </Link>
+                                )}
+                            </li>
+                        ))}
+                    </ol>
+                </nav>
+            </div>
+        )}
         {children}
       </main>
 
