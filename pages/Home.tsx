@@ -163,10 +163,10 @@ const Home: React.FC = () => {
                     { icon: Sun, label: "ASTM UV", sub: "Weatherability" }
                   ].map((cert, idx) => (
                     <div key={idx} className="flex flex-col items-center group cursor-default">
-                       <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100 mb-3 group-hover:border-emphz-orange group-hover:scale-110 transition-all duration-300">
+                       <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100 mb-3 group-hover:border-emphz-orange group-hover:scale-110 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-emphz-orange/20">
                           <cert.icon size={28} className="text-gray-400 group-hover:text-emphz-orange transition-colors" />
                        </div>
-                       <span className="text-xs font-black text-emphz-navy uppercase tracking-wider">{cert.label}</span>
+                       <span className="text-xs font-black text-emphz-navy uppercase tracking-wider group-hover:text-emphz-orange transition-colors">{cert.label}</span>
                        <span className="text-[10px] text-gray-400 font-mono mt-1">{cert.sub}</span>
                     </div>
                   ))}

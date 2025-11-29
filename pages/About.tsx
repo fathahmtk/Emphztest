@@ -1,14 +1,90 @@
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Target, Gem, Users, Anchor, Lightbulb, Zap, CheckCircle, MapPin, PenTool, Calendar, Award, Rocket, Shield, FileCheck, XCircle, AlertTriangle, Scale, BatteryCharging, Clock, Truck, Droplet, Hammer, Feather, Factory, Recycle, Leaf, Microscope, Sun, Quote } from 'lucide-react';
+
+// Self-contained animated statistic component
+const AnimatedStatistic: React.FC<{
+  endValue: number;
+  duration?: number;
+  suffix?: string;
+  label: string;
+}> = ({ endValue, duration = 2000, suffix = '', label }) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const isVisible = useRef(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isVisible.current) {
+          isVisible.current = true; // Prevent re-triggering
+          let start = 0;
+          const end = endValue;
+          const startTime = Date.now();
+
+          const animate = () => {
+            const currentTime = Date.now();
+            const elapsedTime = currentTime - startTime;
+            if (elapsedTime < duration) {
+              const progress = elapsedTime / duration;
+              // Ease-out function for a smoother stop
+              const easedProgress = progress * (2 - progress);
+              setCount(easedProgress * (end - start) + start);
+              requestAnimationFrame(animate);
+            } else {
+              setCount(end);
+            }
+          };
+          requestAnimationFrame(animate);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [endValue, duration]);
+
+  const displayValue = endValue % 1 !== 0 ? count.toFixed(1) : Math.floor(count);
+
+  return (
+    <div ref={ref}>
+      <div className="text-4xl md:text-5xl font-black text-emphz-navy mb-2 font-display">
+        {displayValue}
+        {suffix}
+      </div>
+      <div className="text-[10px] md:text-xs text-slate-400 uppercase tracking-[0.2em] font-bold font-display">
+        {label}
+      </div>
+    </div>
+  );
+};
 
 const About: React.FC = () => {
 
   const values = [
-    { icon: <Anchor className="w-8 h-8 text-emphz-orange" />, title: "Uncompromising Durability", description: "We build solutions engineered to last for a generation, not just a season. Every product is a testament to our commitment to long-term performance." },
-    { icon: <Lightbulb className="w-8 h-8 text-emphz-orange" />, title: "Material Innovation", description: "We are relentless in our pursuit of the most advanced GRP composites, constantly pushing the boundaries of what's possible in strength, resilience, and design." },
-    { icon: <Users className="w-8 h-8 text-emphz-orange" />, title: "Collaborative Partnership", description: "Your project is our project. We function as an extension of your engineering team, providing expert consultation and bespoke solutions from start to finish." },
+    { 
+      icon: <Anchor className="w-8 h-8 text-emphz-orange" />, 
+      title: "Uncompromising Durability", 
+      description: "Our solutions are engineered to last a generation. We build for long-term performance in the harshest conditions.",
+      statistic: { value: 25, suffix: '+ Year', label: 'Design Life' }
+    },
+    { 
+      icon: <Lightbulb className="w-8 h-8 text-emphz-orange" />, 
+      title: "Material Innovation", 
+      description: "We relentlessly pursue advanced GRP composites, pushing the boundaries of strength, resilience, and design.",
+      statistic: { value: 40, suffix: '%', label: 'Lighter Than Steel' }
+    },
+    { 
+      icon: <Users className="w-8 h-8 text-emphz-orange" />, 
+      title: "Collaborative Partnership", 
+      description: "Your project is our project. We function as an extension of your engineering team, from start to finish.",
+      statistic: { value: 500, suffix: '+', label: 'Projects Delivered' }
+    },
   ];
 
   const timelineEvents = [
@@ -22,7 +98,7 @@ const About: React.FC = () => {
     <div className="bg-white text-emphz-navy">
       {/* Hero Section */}
       <section className="bg-emphz-navy text-white py-16 md:py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{backgroundImage: "url('https://picsum.photos/1600/900?random=30')"}}></div>
+        <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{backgroundImage: "url('https://images.unsplash.com/photo-1581092921462-6870002878b6?q=80&w=2670&auto=format&fit=crop')"}}></div>
         <div className="absolute inset-0 bg-gradient-to-r from-emphz-navy via-emphz-navy/70 to-transparent"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <h1 className="text-4xl md:text-7xl font-black mb-4 md:mb-6 max-w-3xl leading-tight font-display">Engineering a Corrosion-Free Future.</h1>
@@ -68,10 +144,17 @@ const About: React.FC = () => {
             <h3 className="text-3xl md:text-4xl font-bold text-emphz-navy mb-8 md:mb-12 font-display">The Principles That Guide Us.</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                 {values.map((value, i) => (
-                    <div key={i} className="bg-gray-50 p-6 md:p-8 rounded-xl border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                    <div key={i} className="bg-gray-50 p-6 md:p-8 rounded-xl border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col items-center">
                         {value.icon}
                         <h4 className="text-lg md:text-xl font-bold my-3 md:my-4 font-display">{value.title}</h4>
-                        <p className="text-gray-600 text-sm leading-relaxed font-sans">{value.description}</p>
+                        <p className="text-gray-600 text-sm leading-relaxed font-sans mb-6 flex-grow">{value.description}</p>
+                        <div className="mt-auto pt-6 border-t border-gray-200 w-full">
+                           <AnimatedStatistic 
+                              endValue={value.statistic.value} 
+                              suffix={value.statistic.suffix}
+                              label={value.statistic.label}
+                           />
+                        </div>
                     </div>
                 ))}
             </div>
@@ -469,9 +552,9 @@ const About: React.FC = () => {
                 {/* Team Member Card */}
                 {[
                   { name: "Muhammed Rashik P", role: "Managing Director", image: "https://lh3.googleusercontent.com/pw/AP1GczPXd3SB3ha5w7wQYPCYln2z7mHwS2GWu0AiuUXj7QzLOpT54vA9BriS2YorAIZu9Qm0ppfMXMU6tBiJ4dyG4yhafK5leMobYiQCD8pWPWynVssz2_ueIQwbCl2XYIagOoycgZH5wk512mzKaUCSYsAXtQ=w1280-h720-s-no-gm?authuser=0" },
-                  { name: "Anjali Kumar", role: "Head of Operations", image: "https://picsum.photos/200/200?random=41" },
-                  { name: "Vikram Singh", role: "Lead, Material Science", image: "https://picsum.photos/200/200?random=42" },
-                  { name: "Priya Menon", role: "Project Management", image: "https://picsum.photos/200/200?random=43" }
+                  { name: "Anjali Kumar", role: "Head of Operations", image: "https://images.unsplash.com/photo-1580894742597-87bc8789db3d?q=80&w=2670&auto=format&fit=crop" },
+                  { name: "Vikram Singh", role: "Lead, Material Science", image: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2671&auto=format&fit=crop" },
+                  { name: "Priya Menon", role: "Project Management", image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=2576&auto=format&fit=crop" }
                 ].map((member, i) => (
                   <div key={i} className="text-center group">
                       <div className="relative w-32 h-32 md:w-48 md:h-48 mx-auto rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-emphz-orange transition-all duration-500 shadow-xl">

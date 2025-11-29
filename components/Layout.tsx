@@ -399,7 +399,7 @@ export function Layout({ children }: LayoutProps) {
         {/* Background Abstract */}
         <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none overflow-hidden">
            <div className="absolute -right-20 top-0 w-[400px] h-[400px] bg-emphz-orange rounded-full blur-[150px] animate-pulse"></div>
-           <div className="absolute -left-20 bottom-0 w-[300px] h-[300px] bg-blue-600 rounded-full blur-[120px]"></div>
+           <div className="absolute -left-20 bottom-0 w-[300px] h-[300px] bg-blue-600 rounded-full blur-[120px] animate-float"></div>
            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
         </div>
 

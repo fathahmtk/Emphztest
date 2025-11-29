@@ -315,7 +315,7 @@ const Catalog: React.FC = () => {
         >
           <div className="space-y-1">
             {categories.map((cat) => (
-              <label key={cat} className={`flex items-center justify-between cursor-pointer group py-2.5 pl-3 pr-2 rounded-lg transition-all relative ${selectedCategory === cat ? 'bg-emphz-navy text-white shadow-md' : 'hover:bg-gray-50'}`}>
+              <label key={cat} className={`flex items-center justify-between cursor-pointer group py-2.5 pl-3 pr-2 rounded-lg transition-all relative ${selectedCategory === cat ? 'bg-emphz-orange text-white shadow-md' : 'hover:bg-gray-50'}`}>
                  <div className="flex items-center relative z-10">
                     <input 
                       type="radio" 
@@ -329,7 +329,7 @@ const Catalog: React.FC = () => {
                       {cat}
                     </span>
                  </div>
-                 <span className={`text-[10px] font-mono px-2 py-0.5 rounded transition-colors font-bold ${selectedCategory === cat ? 'bg-emphz-orange text-white' : 'bg-gray-100 text-gray-500'}`}>
+                 <span className={`text-[10px] font-mono px-2 py-0.5 rounded transition-colors font-bold ${selectedCategory === cat ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500'}`}>
                    {getCategoryCount(cat)}
                  </span>
               </label>
@@ -486,7 +486,7 @@ const Catalog: React.FC = () => {
                       {/* Comparison Toggle (Floating) */}
                       <button 
                           onClick={(e) => { e.preventDefault(); toggleCompare(product.id); }}
-                          className={`absolute top-4 left-4 p-2 rounded-full backdrop-blur-md transition-all border border-white/20 shadow-lg z-20 group-hover:opacity-100 ${isComparing ? 'opacity-100 bg-emphz-orange text-white' : 'opacity-0 bg-white text-gray-400 hover:text-emphz-navy'}`}
+                          className={`absolute top-4 left-4 p-2 rounded-full backdrop-blur-md transition-all border border-white/20 shadow-lg z-20 opacity-70 hover:opacity-100 hover:scale-110 ${isComparing ? 'bg-emphz-orange text-white' : 'bg-white text-gray-400 hover:text-emphz-navy'}`}
                           title="Compare"
                         >
                           <Scale size={16} />

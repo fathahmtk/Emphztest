@@ -13,6 +13,7 @@ const Contact: React.FC = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [emailTouched, setEmailTouched] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -64,6 +65,11 @@ const Contact: React.FC = () => {
     { question: "What is your typical lead time?", answer: "Standard enclosures are shipped within 48 hours. Custom orders typically require 2-4 weeks depending on mold availability." },
     { question: "Do you ship internationally?", answer: "Yes, we export to the Middle East, Southeast Asia, and Africa. All shipments are palletized and ISPM-15 compliant." },
   ];
+  
+  const toggleFaq = (index: number) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
+
 
   return (
     <div className="bg-slate-50 min-h-screen text-slate-900 font-sans selection:bg-emphz-orange selection:text-white pb-24">
@@ -282,16 +288,31 @@ const Contact: React.FC = () => {
                 <h3 className="text-3xl md:text-4xl font-bold text-emphz-navy font-display">Frequently Asked Questions</h3>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="space-y-4 max-w-4xl mx-auto">
                 {faqs.map((faq, i) => (
-                    <div key={i} className="bg-white p-8 rounded-3xl border border-gray-100 hover:shadow-2xl hover:shadow-gray-200/50 hover:border-emphz-orange/30 transition-all duration-500 group cursor-default relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-24 h-24 bg-gray-50 rounded-bl-[60px] -mr-4 -mt-4 transition-colors group-hover:bg-emphz-orange/10"></div>
-                        <div className="relative z-10">
-                            <div className="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-emphz-orange group-hover:text-white transition-colors text-emphz-navy shadow-sm">
-                                <HelpCircle size={24} />
+                    <div key={i} className="bg-white rounded-2xl border border-gray-100 overflow-hidden transition-all duration-300 ease-in-out group hover:border-emphz-orange/30">
+                        <button
+                          onClick={() => toggleFaq(i)}
+                          className="w-full flex items-center justify-between p-6 text-left cursor-pointer"
+                          aria-expanded={openFaq === i}
+                        >
+                            <div className="flex items-center">
+                                <div className="w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center mr-4 group-hover:bg-emphz-orange/10 transition-colors text-emphz-navy shadow-sm">
+                                    <HelpCircle size={20} className="group-hover:text-emphz-orange transition-colors" />
+                                </div>
+                                <h4 className="font-bold text-emphz-navy text-base font-display">{faq.question}</h4>
                             </div>
-                            <h4 className="font-bold text-emphz-navy text-lg font-display mb-4 group-hover:text-emphz-orange transition-colors">{faq.question}</h4>
-                            <p className="text-sm text-gray-500 font-sans leading-relaxed font-light">{faq.answer}</p>
+                            <ChevronDown 
+                              size={20} 
+                              className={`text-slate-400 transition-transform duration-300 ${openFaq === i ? 'rotate-180 text-emphz-orange' : ''}`} 
+                            />
+                        </button>
+                        <div
+                          className={`overflow-hidden transition-all duration-300 ease-in-out ${openFaq === i ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'}`}
+                        >
+                            <div className="px-6 pb-6 pl-20">
+                                <p className="text-sm text-gray-500 font-sans leading-relaxed font-light border-l-2 border-emphz-orange/20 pl-4">{faq.answer}</p>
+                            </div>
                         </div>
                     </div>
                 ))}
