@@ -8,16 +8,25 @@ import Logo from './Logo';
 import CommandPalette from './CommandPalette';
 
 interface LayoutProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+export function Layout({ children }: LayoutProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const location = useLocation();
   const { items } = useRFQ();
+
+  // Scroll to top on route change with instant behavior for cleaner navigation
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant'
+    });
+  }, [location.pathname]);
 
   // Updated logic to handle sub-routes robustly
   const isActive = (path: string) => {
@@ -92,28 +101,29 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   // Header State Logic - PREMIUM DARK THEME
   const isHeaderTransparent = isHome && !scrolled && !isMenuOpen;
   
-  // Transition from transparent to Deep Navy with Teal Border glow
+  // Refined transition logic with smooth cubic-bezier easing
+  const headerBaseClass = "fixed top-0 w-full z-50 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]";
   const headerBgClass = isMenuOpen 
-    ? 'bg-transparent border-transparent py-2' 
+    ? 'bg-transparent border-transparent py-4' 
     : (isHeaderTransparent 
-        ? 'bg-transparent border-transparent py-4 md:py-6' 
-        : 'bg-emphz-navy/95 backdrop-blur-xl border-b border-white/5 py-3 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)]');
+        ? 'bg-transparent border-transparent py-6 md:py-8' 
+        : 'bg-[#0B1120]/90 backdrop-blur-xl border-b border-white/5 py-3 md:py-4 shadow-[0_4px_30px_rgba(0,0,0,0.3)]');
   
   // Navigation Links
   const navLinkClass = isHeaderTransparent 
-    ? 'text-gray-100 hover:text-white font-medium drop-shadow-md' 
-    : 'text-gray-300 font-medium hover:text-white';
+    ? 'text-white/90 hover:text-white font-medium drop-shadow-sm' 
+    : 'text-gray-400 font-medium hover:text-white';
     
   const activeLinkClass = 'text-emphz-orange font-bold drop-shadow-md';
   
   const iconColorClass = isHeaderTransparent 
-    ? 'text-white hover:text-emphz-orange drop-shadow-md' 
-    : 'text-gray-300 hover:text-emphz-orange';
+    ? 'text-white hover:text-emphz-orange drop-shadow-sm' 
+    : 'text-gray-400 hover:text-emphz-orange';
 
   // Desktop Nav Pill Container
   const navPillClass = isHeaderTransparent 
-    ? 'bg-black/20 border border-white/10 backdrop-blur-sm shadow-lg' 
-    : 'bg-black/20 border border-white/5';
+    ? 'bg-black/10 border border-white/10 backdrop-blur-[2px]' 
+    : 'bg-transparent border-transparent';
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-emphz-navy font-sans selection:bg-emphz-orange selection:text-white relative">
@@ -152,18 +162,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
       {/* Main Header */}
       <header 
-        className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out ${headerBgClass}`}
+        className={`${headerBaseClass} ${headerBgClass}`}
         aria-label="Site Header"
       >
         <div className="w-full px-6 md:px-12">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-full">
             {/* Logo */}
-            <Link to="/" className="group z-50 relative" aria-label="Emphz Home" onClick={() => setIsMenuOpen(false)}>
+            <Link to="/" className="group z-50 relative block py-2" aria-label="Emphz Home" onClick={() => setIsMenuOpen(false)}>
               <Logo className="h-8 md:h-10 w-auto transition-transform duration-300 group-hover:scale-105" variant="light" />
             </Link>
 
             {/* Desktop Nav */}
-            <nav className={`hidden md:flex items-center space-x-8 px-10 py-3 rounded-full transition-all duration-500 ${navPillClass}`} aria-label="Main Navigation">
+            <nav className={`hidden md:flex items-center space-x-8 px-8 py-2 rounded-full transition-all duration-500 ${navPillClass}`} aria-label="Main Navigation">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.path}
@@ -187,18 +197,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                  aria-label="Search (Cmd+K)"
                  title="Search (Cmd+K)"
               >
-                 <Search size={22} className="group-hover:scale-110 transition-transform" />
+                 <Search size={20} className="group-hover:scale-110 transition-transform" />
               </button>
 
               <Link to="/rfq" className={`relative p-2 transition-colors group ${iconColorClass}`} aria-label={`View RFQ Cart, ${items.length} items`}>
-                <ShoppingCart size={22} aria-hidden="true" className="group-hover:scale-110 transition-transform"/>
+                <ShoppingCart size={20} aria-hidden="true" className="group-hover:scale-110 transition-transform"/>
                 {items.length > 0 && (
                   <span className="absolute -top-1 -right-1 h-5 w-5 bg-emphz-orange text-white text-[10px] font-bold flex items-center justify-center rounded-full shadow-md ring-2 ring-emphz-navy animate-pulse">
                     {items.length}
                   </span>
                 )}
               </Link>
-              <Link to="/rfq" className="bg-emphz-orange text-white px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-[#00D4DE] transition-all shadow-[0_0_20px_rgba(0,173,181,0.3)] hover:shadow-[0_0_30px_rgba(0,173,181,0.5)] transform hover:-translate-y-0.5 font-display border border-white/10">
+              <Link to="/rfq" className="bg-emphz-orange text-white px-6 py-2 rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-[#00D4DE] transition-all shadow-[0_0_20px_rgba(0,173,181,0.3)] hover:shadow-[0_0_30px_rgba(0,173,181,0.5)] transform hover:-translate-y-0.5 font-display border border-white/10">
                 GET QUOTE
               </Link>
             </div>
@@ -210,11 +220,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                  className={`relative p-2 transition-colors ${iconColorClass}`}
                  aria-label="Search"
               >
-                 <Search size={24} />
+                 <Search size={22} />
               </button>
               
                <Link to="/rfq" onClick={() => setIsMenuOpen(false)} className={`relative p-2 transition-colors ${iconColorClass}`} aria-label={`View RFQ Cart`}>
-                <ShoppingCart size={24} aria-hidden="true" />
+                <ShoppingCart size={22} aria-hidden="true" />
                 {items.length > 0 && (
                   <span className="absolute -top-1 -right-1 h-4 w-4 bg-emphz-orange text-white text-[9px] font-bold flex items-center justify-center rounded-full shadow-md ring-1 ring-emphz-navy">
                     {items.length}
@@ -227,7 +237,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={isMenuOpen}
               >
-                {isMenuOpen ? <X size={32} aria-hidden="true" /> : <Menu size={32} aria-hidden="true" />}
+                {isMenuOpen ? <X size={28} aria-hidden="true" /> : <Menu size={28} aria-hidden="true" />}
               </button>
             </div>
           </div>
@@ -281,7 +291,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </header>
 
       {/* Main Content - Remove top padding for Home to allow full bleed hero */}
-      <main id="main-content" className={`flex-grow relative min-h-[calc(100vh-400px)] ${isHome ? '' : 'pt-20 md:pt-24'}`} role="main" tabIndex={-1}>
+      <main id="main-content" className={`flex-grow relative min-h-[calc(100vh-400px)] ${isHome ? '' : 'pt-24'}`} role="main" tabIndex={-1}>
         {children}
       </main>
 
@@ -380,6 +390,4 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </footer>
     </div>
   );
-};
-
-export default Layout;
+}
