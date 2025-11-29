@@ -1,9 +1,46 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MOCK_CASE_STUDIES } from '../constants';
 import { MapPin, ArrowRight, Calendar, Building2, CheckCircle2, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const CaseStudies: React.FC = () => {
+  // Inject JSON-LD Schema
+  useEffect(() => {
+    const scriptId = 'json-ld-casestudies';
+    let script = document.getElementById(scriptId) as HTMLScriptElement;
+    
+    if (!script) {
+      script = document.createElement('script');
+      script.id = scriptId;
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
+    }
+
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListElement": MOCK_CASE_STUDIES.map((cs, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Article",
+          "headline": cs.title,
+          "image": cs.imageUrl,
+          "description": cs.challenge + ' ' + cs.solution,
+          "author": { "@type": "Organization", "name": "Emphz" },
+          "locationCreated": { "@type": "Place", "name": cs.location }
+        }
+      }))
+    };
+
+    script.textContent = JSON.stringify(schema);
+    
+    return () => {
+        const el = document.getElementById(scriptId);
+        if (el) el.remove();
+    }
+  }, []);
+
   return (
     <div className="bg-emphz-navy min-h-screen text-white selection:bg-emphz-orange selection:text-white">
       {/* Cinematic Hero */}

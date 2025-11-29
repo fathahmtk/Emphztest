@@ -40,13 +40,17 @@ export function Layout({ children }: LayoutProps) {
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 20;
-      setScrolled(isScrolled);
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
       
       // Calculate scroll progress
       const totalScroll = document.documentElement.scrollTop;
       const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scroll = `${totalScroll / windowHeight}`;
-      setScrollProgress(Number(scroll));
+      if (windowHeight > 0) {
+        const scroll = totalScroll / windowHeight;
+        setScrollProgress(scroll);
+      }
 
       // Keep theme-color dark (#0B1120) for immersive feel in both states
       const metaThemeColor = document.querySelector('meta[name="theme-color"]');
@@ -59,7 +63,7 @@ export function Layout({ children }: LayoutProps) {
     handleScroll(); // Initial check
     
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isHome]);
+  }, [isHome, scrolled]);
 
   // Global Keyboard Shortcut for Search (Cmd+K)
   useEffect(() => {
@@ -253,19 +257,25 @@ export function Layout({ children }: LayoutProps) {
         >
             <nav className="space-y-6" aria-label="Mobile Navigation">
               {NAV_LINKS.map((link, index) => (
-                <Link
+                <div 
                   key={link.path}
-                  to={link.path}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`block text-4xl sm:text-5xl font-black tracking-tight transition-all duration-700 transform font-display group ${
-                    isActive(link.path) 
-                      ? 'text-transparent bg-clip-text bg-gradient-to-r from-emphz-orange to-cyan-200' 
-                      : 'text-white/40 hover:text-white'
-                  } ${isMenuOpen ? 'translate-x-0 opacity-100' : '-translate-x-12 opacity-0'}`}
-                  style={{ transitionDelay: `${150 + (index * 75)}ms` }}
+                  className={`transform transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                    isMenuOpen ? 'translate-x-0 opacity-100' : '-translate-x-12 opacity-0'
+                  }`}
+                  style={{ transitionDelay: isMenuOpen ? `${150 + (index * 80)}ms` : '0ms' }}
                 >
-                  <span className="inline-block group-active:scale-95 transition-transform">{link.label}</span>
-                </Link>
+                  <Link
+                    to={link.path}
+                    onClick={() => setIsMenuOpen(false)}
+                    className={`block text-4xl sm:text-5xl font-black tracking-tight font-display group transition-colors duration-300 ${
+                      isActive(link.path) 
+                        ? 'text-transparent bg-clip-text bg-gradient-to-r from-emphz-orange to-cyan-200' 
+                        : 'text-white/40 hover:text-white'
+                    }`}
+                  >
+                    <span className="inline-block group-active:scale-95 transition-transform origin-left">{link.label}</span>
+                  </Link>
+                </div>
               ))}
               
               <div 
@@ -291,7 +301,12 @@ export function Layout({ children }: LayoutProps) {
       </header>
 
       {/* Main Content - Remove top padding for Home to allow full bleed hero */}
-      <main id="main-content" className={`flex-grow relative min-h-[calc(100vh-400px)] ${isHome ? '' : 'pt-24'}`} role="main" tabIndex={-1}>
+      <main 
+        id="main-content" 
+        className={`flex-grow relative min-h-[calc(100vh-400px)] ${isHome ? '' : 'pt-24'} transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${isMenuOpen ? 'blur-sm scale-[0.98] opacity-40 grayscale-[50%]' : ''}`} 
+        role="main" 
+        tabIndex={-1}
+      >
         {children}
       </main>
 
@@ -327,7 +342,7 @@ export function Layout({ children }: LayoutProps) {
       <CommandPalette isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
       {/* Footer - Immersive Midnight Slate */}
-      <footer className="bg-emphz-navy text-white pt-20 pb-10 md:pt-28 md:pb-12 relative overflow-hidden" role="contentinfo">
+      <footer className={`bg-emphz-navy text-white pt-20 pb-10 md:pt-28 md:pb-12 relative overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${isMenuOpen ? 'blur-sm opacity-40' : ''}`} role="contentinfo">
         {/* Background Abstract */}
         <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none overflow-hidden">
            <div className="absolute -right-20 top-0 w-[400px] h-[400px] bg-emphz-orange rounded-full blur-[150px] animate-pulse"></div>

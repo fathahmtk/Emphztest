@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Filter, Download, Scale, X, Check, ChevronRight, ChevronDown, SlidersHorizontal, Grid, List, ArrowRight } from 'lucide-react';
+import { Filter, Download, Scale, X, Check, ChevronRight, ChevronDown, SlidersHorizontal, Grid, List, ArrowRight, ArrowUpDown } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../constants';
 import { ProductCategory, Product } from '../types';
 
@@ -53,8 +53,8 @@ const CompareModal: React.FC<{
           </button>
         </header>
         
-        <div className="overflow-y-auto p-8 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
-          <div className={`grid gap-6`} style={{ gridTemplateColumns: `200px repeat(${productsToCompare.length}, 1fr)`}}>
+        <div className="overflow-auto p-8 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+          <div className={`grid gap-6`} style={{ gridTemplateColumns: `minmax(180px, 200px) repeat(${productsToCompare.length}, minmax(220px, 1fr))`}}>
             
             {/* Header Row */}
             <div className="font-bold text-gray-400 sticky top-0 bg-white py-4 z-10 border-b-2 border-emphz-orange/20 flex items-end pb-4 font-display text-xs uppercase tracking-widest">
@@ -152,6 +152,7 @@ const FilterSection: React.FC<{
 const Catalog: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
+  const [sortBy, setSortBy] = useState<string>('default');
   const [compareList, setCompareList] = useState<string[]>([]);
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
@@ -164,27 +165,87 @@ const Catalog: React.FC = () => {
   const categories = ['All', ...Object.values(ProductCategory)];
   const availableFeatures = ['IP66 / IP67', 'UL94 Fire Rated', 'ATEX / Ex-Proof'];
 
-  const filteredProducts = MOCK_PRODUCTS.filter(p => {
-    const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory;
-    let matchesFeatures = true;
-    if (selectedFeatures.length > 0) {
-      const productSearchString = (
-        p.features.join(' ') + 
-        p.specs.map(s => s.value).join(' ') + 
-        p.name + 
-        p.shortDescription
-      ).toLowerCase();
+  const filteredProducts = useMemo(() => {
+    return MOCK_PRODUCTS.filter(p => {
+      const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory;
+      let matchesFeatures = true;
+      if (selectedFeatures.length > 0) {
+        const productSearchString = (
+          p.features.join(' ') + 
+          p.specs.map(s => s.value).join(' ') + 
+          p.name + 
+          p.shortDescription
+        ).toLowerCase();
 
-      matchesFeatures = selectedFeatures.every(feature => {
-        const f = feature.toLowerCase();
-        if (f.includes('ip66')) return productSearchString.includes('ip66') || productSearchString.includes('ip67');
-        if (f.includes('fire')) return productSearchString.includes('ul94') || productSearchString.includes('fire') || productSearchString.includes('v-0');
-        if (f.includes('atex')) return productSearchString.includes('atex') || productSearchString.includes('proof') || productSearchString.includes('explosion') || productSearchString.includes('zone');
-        return false;
-      });
+        matchesFeatures = selectedFeatures.every(feature => {
+          const f = feature.toLowerCase();
+          if (f.includes('ip66')) return productSearchString.includes('ip66') || productSearchString.includes('ip67');
+          if (f.includes('fire')) return productSearchString.includes('ul94') || productSearchString.includes('fire') || productSearchString.includes('v-0');
+          if (f.includes('atex')) return productSearchString.includes('atex') || productSearchString.includes('proof') || productSearchString.includes('explosion') || productSearchString.includes('zone');
+          return false;
+        });
+      }
+      return matchesCategory && matchesFeatures;
+    });
+  }, [selectedCategory, selectedFeatures]);
+
+  const sortedProducts = useMemo(() => {
+    const sorted = [...filteredProducts];
+    if (sortBy === 'name-asc') {
+      sorted.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortBy === 'name-desc') {
+      sorted.sort((a, b) => b.name.localeCompare(a.name));
+    } else if (sortBy === 'category') {
+      sorted.sort((a, b) => a.category.localeCompare(b.category));
     }
-    return matchesCategory && matchesFeatures;
-  });
+    return sorted;
+  }, [filteredProducts, sortBy]);
+
+  // Inject JSON-LD Schema
+  useEffect(() => {
+    const scriptId = 'json-ld-catalog';
+    let script = document.getElementById(scriptId) as HTMLScriptElement;
+    
+    if (!script) {
+      script = document.createElement('script');
+      script.id = scriptId;
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
+    }
+
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListElement": sortedProducts.map((p, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Product",
+          "name": p.name,
+          "image": p.imageUrl,
+          "description": p.shortDescription,
+          "url": window.location.origin + '/products/' + p.id
+        }
+      }))
+    };
+
+    script.textContent = JSON.stringify(schema);
+
+    return () => {
+      const el = document.getElementById(scriptId);
+      if (el) el.remove();
+    };
+  }, [sortedProducts]);
+
+  // Lock body scroll when mobile filter is open
+  useEffect(() => {
+    if (isMobileFiltersOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isMobileFiltersOpen]);
 
   const toggleCompare = (id: string) => {
     if (compareList.includes(id)) {
@@ -215,6 +276,100 @@ const Catalog: React.FC = () => {
     return MOCK_PRODUCTS.filter(p => p.category === cat).length;
   };
 
+  // Reusable Filter Render Function
+  const renderFilters = (isMobile = false) => (
+    <div className={`${isMobile ? 'h-full overflow-y-auto p-6 pb-24 bg-white' : 'bg-white p-6 rounded-2xl sticky top-28 shadow-xl shadow-gray-200/50 border border-gray-100'}`}>
+       <div className="flex items-center justify-between mb-2 pb-4 border-b border-gray-100">
+          <div className="text-emphz-navy font-bold uppercase tracking-[0.15em] text-xs font-display flex items-center">
+            <Filter size={14} className="mr-2" aria-hidden="true" /> Refine Selection
+          </div>
+          {isMobile && (
+            <button 
+              onClick={() => setIsMobileFiltersOpen(false)} 
+              className="text-gray-400 hover:text-emphz-orange p-2 rounded-full hover:bg-gray-100 transition-colors"
+            >
+              <X size={20} />
+            </button>
+          )}
+       </div>
+       
+       {/* Category Accordion */}
+       <FilterSection 
+          title="Category" 
+          isOpen={openSections.category} 
+          onToggle={() => toggleSection('category')}
+        >
+          <div className="space-y-1">
+            {categories.map((cat) => (
+              <label key={cat} className={`flex items-center justify-between cursor-pointer group py-2.5 pl-3 pr-2 rounded-lg transition-all relative ${selectedCategory === cat ? 'bg-emphz-navy text-white shadow-md' : 'hover:bg-gray-50'}`}>
+                 <div className="flex items-center relative z-10">
+                    <input 
+                      type="radio" 
+                      name="category" 
+                      className="sr-only peer"
+                      checked={selectedCategory === cat}
+                      onChange={() => setSelectedCategory(cat)}
+                    />
+                    
+                    <span className={`text-xs transition-all duration-300 font-medium ${selectedCategory === cat ? 'text-white font-bold' : 'text-slate-600 group-hover:text-slate-900'}`}>
+                      {cat}
+                    </span>
+                 </div>
+                 <span className={`text-[10px] font-mono px-2 py-0.5 rounded transition-colors font-bold ${selectedCategory === cat ? 'bg-emphz-orange text-white' : 'bg-gray-100 text-gray-500'}`}>
+                   {getCategoryCount(cat)}
+                 </span>
+              </label>
+            ))}
+          </div>
+        </FilterSection>
+
+        {/* Features Accordion */}
+        <FilterSection 
+          title="Key Specs" 
+          isOpen={openSections.features} 
+          onToggle={() => toggleSection('features')}
+        >
+          <div className="space-y-2 mt-1">
+            {availableFeatures.map((feature) => {
+              const isSelected = selectedFeatures.includes(feature);
+              return (
+                <label key={feature} className="flex items-center justify-between hover:bg-gray-50 p-2.5 rounded-lg cursor-pointer relative group select-none transition-colors">
+                    <div className="flex items-center">
+                      <input 
+                        type="checkbox" 
+                        className="sr-only" 
+                        checked={isSelected}
+                        onChange={() => toggleFeature(feature)}
+                      /> 
+                      <span className={`w-5 h-5 rounded border mr-3 flex items-center justify-center transition-all duration-200 ${
+                        isSelected 
+                          ? 'bg-emphz-orange border-emphz-orange text-white shadow-sm' 
+                          : 'border-gray-300 bg-white group-hover:border-emphz-orange'
+                      }`}>
+                          <Check size={12} className={`transition-opacity duration-200 ${isSelected ? 'opacity-100' : 'opacity-0'}`} />
+                      </span>
+                      <span className={`text-xs transition-colors font-mono ${isSelected ? 'text-emphz-navy font-bold' : 'text-slate-500'}`}>
+                        {feature}
+                      </span>
+                    </div>
+                </label>
+              );
+            })}
+          </div>
+        </FilterSection>
+
+        {/* Reset Filters */}
+        {(selectedCategory !== 'All' || selectedFeatures.length > 0) && (
+          <button 
+            onClick={() => { setSelectedCategory('All'); setSelectedFeatures([]); }}
+            className="w-full mt-6 py-3 text-[10px] font-bold text-gray-400 hover:text-white hover:bg-gray-400 rounded-lg transition-colors uppercase tracking-widest font-display border border-gray-200"
+          >
+            Clear All Filters
+          </button>
+        )}
+    </div>
+  );
+
   return (
     <>
       <div className="bg-gray-50 min-h-screen py-16 md:py-20 relative text-slate-900">
@@ -232,115 +387,56 @@ const Catalog: React.FC = () => {
             </button>
           </div>
 
-          {/* Mobile Filter Toggle */}
-          <div className="lg:hidden mb-8">
+          {/* Mobile Filter Button */}
+          <div className="lg:hidden mb-8 sticky top-24 z-30">
             <button 
-              onClick={() => setIsMobileFiltersOpen(!isMobileFiltersOpen)}
-              className={`w-full flex items-center justify-between px-6 py-4 rounded-xl font-bold shadow-md border transition-all ${isMobileFiltersOpen ? 'bg-emphz-navy text-white border-emphz-navy' : 'bg-white text-emphz-navy border-gray-200'}`}
+              onClick={() => setIsMobileFiltersOpen(true)}
+              className="w-full flex items-center justify-between px-6 py-4 rounded-xl font-bold shadow-xl border bg-emphz-navy text-white border-emphz-navy transition-all transform hover:scale-[1.02]"
             >
               <span className="flex items-center uppercase text-sm tracking-widest font-display">
                 <SlidersHorizontal size={18} className="mr-3" />
                 Filter & Sort
               </span>
-              <span className="bg-emphz-orange text-white text-[10px] px-2 py-1 rounded font-mono font-bold">{filteredProducts.length} Results</span>
+              <span className="bg-emphz-orange text-white text-[10px] px-2 py-1 rounded font-mono font-bold shadow-sm">{filteredProducts.length} Results</span>
             </button>
           </div>
 
           <div className="flex flex-col lg:flex-row gap-10">
-            {/* Sidebar Filters - Responsive Logic */}
-            <div className={`w-full lg:w-72 flex-shrink-0 ${isMobileFiltersOpen ? 'block' : 'hidden lg:block'}`}>
-              <div className="bg-white p-6 rounded-2xl sticky top-28 shadow-xl shadow-gray-200/50 border border-gray-100">
-                <div className="flex items-center justify-between mb-2 pb-4 border-b border-gray-100">
-                  <div className="text-emphz-navy font-bold uppercase tracking-[0.15em] text-xs font-display flex items-center">
-                    <Filter size={14} className="mr-2" aria-hidden="true" /> Refine Selection
-                  </div>
-                  {/* Close button for mobile only */}
-                  <button onClick={() => setIsMobileFiltersOpen(false)} className="lg:hidden text-gray-400">
-                    <X size={20} />
-                  </button>
-                </div>
-                
-                {/* Category Accordion */}
-                <FilterSection 
-                  title="Category" 
-                  isOpen={openSections.category} 
-                  onToggle={() => toggleSection('category')}
-                >
-                  <div className="space-y-1">
-                    {categories.map((cat) => (
-                      <label key={cat} className={`flex items-center justify-between cursor-pointer group py-2.5 pl-3 pr-2 rounded-lg transition-all relative ${selectedCategory === cat ? 'bg-emphz-navy text-white shadow-md' : 'hover:bg-gray-50'}`}>
-                         <div className="flex items-center relative z-10">
-                            <input 
-                              type="radio" 
-                              name="category" 
-                              className="sr-only peer"
-                              checked={selectedCategory === cat}
-                              onChange={() => setSelectedCategory(cat)}
-                            />
-                            
-                            <span className={`text-xs transition-all duration-300 font-medium ${selectedCategory === cat ? 'text-white font-bold' : 'text-slate-600 group-hover:text-slate-900'}`}>
-                              {cat}
-                            </span>
-                         </div>
-                         <span className={`text-[10px] font-mono px-2 py-0.5 rounded transition-colors font-bold ${selectedCategory === cat ? 'bg-emphz-orange text-white' : 'bg-gray-100 text-gray-500'}`}>
-                           {getCategoryCount(cat)}
-                         </span>
-                      </label>
-                    ))}
-                  </div>
-                </FilterSection>
-
-                {/* Features Accordion */}
-                <FilterSection 
-                  title="Key Specs" 
-                  isOpen={openSections.features} 
-                  onToggle={() => toggleSection('features')}
-                >
-                  <div className="space-y-2 mt-1">
-                    {availableFeatures.map((feature) => {
-                      const isSelected = selectedFeatures.includes(feature);
-                      return (
-                        <label key={feature} className="flex items-center justify-between hover:bg-gray-50 p-2.5 rounded-lg cursor-pointer relative group select-none transition-colors">
-                            <div className="flex items-center">
-                              <input 
-                                type="checkbox" 
-                                className="sr-only" 
-                                checked={isSelected}
-                                onChange={() => toggleFeature(feature)}
-                              /> 
-                              <span className={`w-5 h-5 rounded border mr-3 flex items-center justify-center transition-all duration-200 ${
-                                isSelected 
-                                  ? 'bg-emphz-orange border-emphz-orange text-white shadow-sm' 
-                                  : 'border-gray-300 bg-white group-hover:border-emphz-orange'
-                              }`}>
-                                  <Check size={12} className={`transition-opacity duration-200 ${isSelected ? 'opacity-100' : 'opacity-0'}`} />
-                              </span>
-                              <span className={`text-xs transition-colors font-mono ${isSelected ? 'text-emphz-navy font-bold' : 'text-slate-500'}`}>
-                                {feature}
-                              </span>
-                            </div>
-                        </label>
-                      );
-                    })}
-                  </div>
-                </FilterSection>
-
-                {/* Reset Filters */}
-                {(selectedCategory !== 'All' || selectedFeatures.length > 0) && (
-                  <button 
-                    onClick={() => { setSelectedCategory('All'); setSelectedFeatures([]); }}
-                    className="w-full mt-6 py-3 text-[10px] font-bold text-gray-400 hover:text-white hover:bg-gray-400 rounded-lg transition-colors uppercase tracking-widest font-display border border-gray-200"
-                  >
-                    Clear All Filters
-                  </button>
-                )}
-              </div>
+            {/* Desktop Sidebar */}
+            <div className="hidden lg:block w-72 flex-shrink-0">
+               {renderFilters(false)}
             </div>
 
             {/* Product Grid */}
             <div className="flex-1">
+              {/* Sorting & Results Bar (Desktop Only - Mobile has it in filters) */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+                <span className="text-sm text-gray-500 font-mono">
+                  Showing <span className="font-bold text-emphz-navy">{sortedProducts.length}</span> results
+                </span>
+                <div className="flex items-center self-end sm:self-auto">
+                  <span className="text-xs font-bold text-gray-400 uppercase mr-3 hidden sm:block font-display tracking-wider">Sort by:</span>
+                  <div className="relative group">
+                     <select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                        className="appearance-none bg-white border border-gray-200 text-emphz-navy text-xs font-bold py-2.5 pl-4 pr-10 rounded-lg focus:outline-none focus:border-emphz-orange cursor-pointer uppercase tracking-wider font-display hover:shadow-sm transition-all min-w-[140px]"
+                        aria-label="Sort products"
+                     >
+                        <option value="default">Featured</option>
+                        <option value="name-asc">Name (A-Z)</option>
+                        <option value="name-desc">Name (Z-A)</option>
+                        <option value="category">Category</option>
+                     </select>
+                     <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-400">
+                        <ChevronDown size={14} />
+                     </div>
+                  </div>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                {filteredProducts.map((product) => {
+                {sortedProducts.map((product) => {
                   const isComparing = compareList.includes(product.id);
                   return (
                     <article key={product.id} className="bg-white rounded-3xl overflow-hidden flex flex-col group relative transition-all duration-500 hover:-translate-y-2 shadow-sm border border-gray-100 hover:shadow-2xl hover:shadow-gray-200 hover:border-gray-200">
@@ -392,7 +488,7 @@ const Catalog: React.FC = () => {
                 })}
               </div>
               
-              {filteredProducts.length === 0 && (
+              {sortedProducts.length === 0 && (
                 <div className="text-center py-24 bg-white rounded-3xl border border-dashed border-gray-300">
                   <div className="bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                      <Filter className="text-gray-400" />
@@ -440,6 +536,30 @@ const Catalog: React.FC = () => {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Mobile Filter Slide-over Panel */}
+      <div className={`fixed inset-0 z-[100] lg:hidden ${isMobileFiltersOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
+        {/* Backdrop */}
+        <div 
+            className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${isMobileFiltersOpen ? 'opacity-100' : 'opacity-0'}`}
+            onClick={() => setIsMobileFiltersOpen(false)}
+        />
+        
+        {/* Slide-over Panel */}
+        <div className={`absolute inset-y-0 right-0 w-full max-w-xs bg-white shadow-2xl transform transition-transform duration-300 ease-out flex flex-col ${isMobileFiltersOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+            {renderFilters(true)}
+            
+            {/* Sticky Mobile Footer */}
+             <div className="absolute bottom-0 left-0 w-full p-4 border-t border-gray-100 bg-white shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
+                <button 
+                  onClick={() => setIsMobileFiltersOpen(false)}
+                  className="w-full bg-emphz-navy text-white font-bold py-4 rounded-xl uppercase tracking-widest text-xs shadow-lg flex items-center justify-center"
+                >
+                  View {filteredProducts.length} Results
+                </button>
+             </div>
+        </div>
       </div>
 
       {isCompareModalOpen && (

@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Check, FileText, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon, Camera, ArrowRight, Loader2, Share2, CheckCircle, ChevronLeft, ChevronRight, Maximize, X } from 'lucide-react';
+import { Check, FileText, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon, Camera, ArrowRight, Loader2, Share2, CheckCircle, ChevronLeft, ChevronRight, Maximize, X, ZoomIn, ZoomOut, RotateCcw, Linkedin, Twitter, Mail, Link as LinkIcon, Copy, MessageCircle } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../constants';
 import { useRFQ } from '../contexts/RFQContext';
 import { ProductCategory } from '../types';
@@ -8,6 +9,98 @@ import GatedDownloadModal from '../components/GatedDownloadModal';
 
 // Lazy load the heavy 3D viewer component
 const ThreeProductViewer = React.lazy(() => import('../components/ThreeProductViewer'));
+
+// Share Modal Component
+const ShareModal: React.FC<{
+  isOpen: boolean;
+  onClose: () => void;
+  productUrl: string;
+  productName: string;
+}> = ({ isOpen, onClose, productUrl, productName }) => {
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(productUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const encodedUrl = encodeURIComponent(productUrl);
+  const encodedText = encodeURIComponent(`Check out ${productName} by Emphz`);
+
+  const shareLinks = [
+    { name: 'WhatsApp', icon: <MessageCircle size={24} />, url: `https://wa.me/?text=${encodedText}%20${encodedUrl}`, color: 'bg-[#25D366]' },
+    { name: 'LinkedIn', icon: <Linkedin size={24} />, url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`, color: 'bg-[#0077b5]' },
+    { name: 'Twitter', icon: <Twitter size={24} />, url: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`, color: 'bg-[#1DA1F2]' },
+    { name: 'Email', icon: <Mail size={24} />, url: `mailto:?subject=${encodedText}&body=I found this interesting product: ${encodedUrl}`, color: 'bg-gray-600' },
+  ];
+
+  return (
+    <div 
+        className="fixed inset-0 z-[110] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
+        onClick={onClose}
+    >
+      <div 
+        className="bg-white rounded-3xl w-full max-w-sm p-8 relative shadow-2xl border border-gray-100 transform transition-all scale-100" 
+        onClick={e => e.stopPropagation()}
+      >
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-emphz-navy transition-colors p-2 rounded-full hover:bg-gray-100">
+          <X size={20} />
+        </button>
+        
+        <div className="text-center mb-8">
+            <h3 className="text-xl font-bold text-emphz-navy mb-2 font-display">Share Product</h3>
+            <p className="text-xs text-gray-500 font-sans">Share {productName} with your network.</p>
+        </div>
+
+        <div className="grid grid-cols-4 gap-4 mb-8">
+           {shareLinks.map((link) => (
+             <a 
+               key={link.name}
+               href={link.url}
+               target="_blank"
+               rel="noopener noreferrer"
+               className="flex flex-col items-center gap-3 group"
+             >
+               <div className={`${link.color} text-white w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all duration-300`}>
+                 {link.icon}
+               </div>
+               <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wide group-hover:text-emphz-navy transition-colors">{link.name}</span>
+             </a>
+           ))}
+        </div>
+
+        <div className="bg-gray-50 border border-gray-200 rounded-xl p-2 pl-4 flex items-center gap-3">
+           <LinkIcon size={16} className="text-gray-400 flex-shrink-0" />
+           <div className="flex-1 overflow-hidden relative h-5">
+              <div className="absolute inset-0 flex items-center text-xs text-gray-600 font-mono truncate select-all">
+                {productUrl}
+              </div>
+              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-gray-50 to-transparent pointer-events-none"></div>
+           </div>
+           <button 
+             onClick={handleCopy}
+             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 shadow-sm ${copied ? 'bg-green-500 text-white border border-green-500' : 'bg-white border border-gray-200 text-emphz-navy hover:border-emphz-orange'}`}
+           >
+             {copied ? <CheckCircle size={14} /> : <Copy size={14} />}
+             {copied ? 'Copied' : 'Copy'}
+           </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +112,62 @@ const ProductDetail: React.FC = () => {
   const [activeImage, setActiveImage] = useState<string>('');
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [fileToDownload, setFileToDownload] = useState<{ title: string; type: string } | null>(null);
+
+  // Zoom & Pan State
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const [panPosition, setPanPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+
+  // Reset zoom when image changes or lightbox toggles
+  useEffect(() => {
+    setZoomLevel(1);
+    setPanPosition({ x: 0, y: 0 });
+  }, [activeImage, isLightboxOpen]);
+
+  // Inject JSON-LD Schema
+  useEffect(() => {
+    if (product) {
+      const scriptId = 'json-ld-product';
+      let script = document.getElementById(scriptId) as HTMLScriptElement;
+      
+      if (!script) {
+        script = document.createElement('script');
+        script.id = scriptId;
+        script.type = 'application/ld+json';
+        document.head.appendChild(script);
+      }
+
+      const schema = {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": product.name,
+        "image": product.imageUrl,
+        "description": product.fullDescription,
+        "sku": product.id,
+        "brand": {
+          "@type": "Brand",
+          "name": "Emphz"
+        },
+        "category": product.category,
+        "offers": {
+           "@type": "Offer",
+           "url": window.location.href,
+           "priceCurrency": "INR",
+           "availability": "https://schema.org/InStock"
+        }
+      };
+
+      script.textContent = JSON.stringify(schema);
+
+      return () => {
+        const el = document.getElementById(scriptId);
+        if (el) el.remove();
+      };
+    }
+  }, [product]);
 
   const is3DAvailable = useMemo(() => {
     if (!product) return false;
@@ -79,6 +227,48 @@ const ProductDetail: React.FC = () => {
     setViewMode('IMAGE');
   };
 
+  // Zoom Handlers
+  const handleZoomIn = () => setZoomLevel(prev => Math.min(prev + 0.5, 5));
+  const handleZoomOut = () => setZoomLevel(prev => {
+    const newZoom = Math.max(prev - 0.5, 1);
+    if (newZoom === 1) setPanPosition({ x: 0, y: 0 });
+    return newZoom;
+  });
+  const handleResetZoom = () => {
+    setZoomLevel(1);
+    setPanPosition({ x: 0, y: 0 });
+  };
+
+  const handleDragStart = (e: React.MouseEvent) => {
+    if (zoomLevel > 1) {
+      e.preventDefault();
+      setIsDragging(true);
+      setDragStart({ x: e.clientX - panPosition.x, y: e.clientY - panPosition.y });
+    }
+  };
+
+  const handleDragMove = (e: React.MouseEvent) => {
+    if (isDragging && zoomLevel > 1) {
+      e.preventDefault();
+      setPanPosition({
+        x: e.clientX - dragStart.x,
+        y: e.clientY - dragStart.y
+      });
+    }
+  };
+
+  const handleDragEnd = () => setIsDragging(false);
+
+  const handleWheel = (e: React.WheelEvent) => {
+    // Enable simple scroll zooming
+    if (Math.abs(e.deltaY) > 0) {
+      const delta = -e.deltaY * 0.001;
+      const newZoom = Math.min(Math.max(1, zoomLevel + delta), 5);
+      setZoomLevel(newZoom);
+      if (newZoom === 1) setPanPosition({ x: 0, y: 0 });
+    }
+  };
+
   if (!product) {
     return <div className="p-20 text-center text-slate-800">Product not found. <Link to="/products" className="text-emphz-orange font-bold">Go back</Link></div>;
   }
@@ -89,7 +279,6 @@ const ProductDetail: React.FC = () => {
       productName: product.name,
       quantity
     });
-    // Add subtle visual feedback or toast here instead of alert in production
     alert(`${quantity} unit(s) added to RFQ Cart`);
   };
 
@@ -136,14 +325,21 @@ const ProductDetail: React.FC = () => {
                <button onClick={() => setIsLightboxOpen(true)} className="bg-white/5 backdrop-blur-md border border-white/10 text-white p-2.5 rounded-full hover:bg-white/20 transition-all shadow-lg" title="Fullscreen">
                   <Maximize size={18} />
                </button>
-               <button className="bg-white/5 backdrop-blur-md border border-white/10 text-white p-2.5 rounded-full hover:bg-white/20 transition-all shadow-lg" title="Share">
+               <button 
+                 onClick={() => setIsShareModalOpen(true)}
+                 className="bg-white/5 backdrop-blur-md border border-white/10 text-white p-2.5 rounded-full hover:bg-white/20 transition-all shadow-lg" 
+                 title="Share"
+               >
                   <Share2 size={18} />
                </button>
           </div>
 
           {viewMode === 'IMAGE' ? (
             <>
-              <div className="absolute inset-0 transition-opacity duration-500 bg-[#0B1120]">
+              <div 
+                className="absolute inset-0 transition-opacity duration-500 bg-[#0B1120] cursor-zoom-in"
+                onClick={() => setIsLightboxOpen(true)}
+              >
                 <img src={activeImage} alt={product.name} className="w-full h-full object-cover opacity-100 group-hover:scale-105 transition-transform duration-[2s]" key={activeImage} />
               </div>
               
@@ -485,43 +681,83 @@ const ProductDetail: React.FC = () => {
         </div>
       </div>
       
-      {/* Lightbox Modal */}
+      {/* Lightbox Modal with Zoom/Pan */}
       {isLightboxOpen && (
-        <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 animate-fade-in backdrop-blur-sm">
-            <button 
-                onClick={() => setIsLightboxOpen(false)} 
-                className="absolute top-6 right-6 text-white/50 hover:text-white p-3 rounded-full hover:bg-white/10 transition-colors z-50"
-            >
-                <X size={32}/>
-            </button>
+        <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center overflow-hidden animate-fade-in backdrop-blur-sm">
+            {/* Top Right Controls */}
+            <div className="absolute top-6 right-6 z-50 flex items-center gap-4">
+                <div className="flex items-center bg-white/10 backdrop-blur-md rounded-lg p-1 border border-white/10">
+                    <button onClick={handleZoomOut} className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-md transition-colors" title="Zoom Out"><ZoomOut size={20}/></button>
+                    <span className="w-12 text-center text-white font-mono text-xs select-none">{Math.round(zoomLevel * 100)}%</span>
+                    <button onClick={handleZoomIn} className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-md transition-colors" title="Zoom In"><ZoomIn size={20}/></button>
+                    <div className="w-px h-4 bg-white/10 mx-1"></div>
+                    <button onClick={handleResetZoom} className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-md transition-colors" title="Reset View"><RotateCcw size={20}/></button>
+                </div>
+                
+                <button 
+                    onClick={() => setIsLightboxOpen(false)} 
+                    className="text-white/50 hover:text-white p-3 rounded-full hover:bg-white/10 transition-colors"
+                >
+                    <X size={32}/>
+                </button>
+            </div>
             
-            <div className="relative w-full h-full flex items-center justify-center">
+            <div 
+                className="relative w-full h-full flex items-center justify-center"
+                onMouseDown={handleDragStart}
+                onMouseMove={handleDragMove}
+                onMouseUp={handleDragEnd}
+                onMouseLeave={handleDragEnd}
+                onWheel={handleWheel}
+                style={{ cursor: zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default' }}
+            >
                  {galleryImages.length > 1 && (
                     <button 
-                        onClick={handlePrevImage} 
-                        className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-4 rounded-full hover:bg-white/10 transition-colors"
+                        onClick={(e) => { e.stopPropagation(); handlePrevImage(); }} 
+                        className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-4 rounded-full hover:bg-white/10 transition-colors z-40"
                     > 
                         <ChevronLeft size={48} /> 
                     </button>
                  )}
                  
-                 <img src={activeImage} className="max-w-full max-h-full object-contain shadow-2xl" alt="Fullscreen Product" />
+                 <img 
+                    src={activeImage} 
+                    className="max-w-full max-h-full object-contain shadow-2xl transition-transform duration-100 ease-out origin-center select-none" 
+                    alt="Fullscreen Product"
+                    draggable={false}
+                    style={{
+                        transform: `translate(${panPosition.x}px, ${panPosition.y}px) scale(${zoomLevel})`
+                    }}
+                 />
                  
                  {galleryImages.length > 1 && (
                     <button 
-                        onClick={handleNextImage} 
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-4 rounded-full hover:bg-white/10 transition-colors"
+                        onClick={(e) => { e.stopPropagation(); handleNextImage(); }} 
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-4 rounded-full hover:bg-white/10 transition-colors z-40"
                     > 
                         <ChevronRight size={48} /> 
                     </button>
                  )}
                  
-                 <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 font-mono text-sm bg-black/50 px-4 py-2 rounded-full backdrop-blur-md border border-white/10">
+                 <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 font-mono text-sm bg-black/50 px-4 py-2 rounded-full backdrop-blur-md border border-white/10 z-40 pointer-events-none select-none">
                     {activeIndex + 1} / {galleryImages.length}
                  </div>
+                 
+                 {zoomLevel === 1 && (
+                   <div className="absolute bottom-24 left-1/2 -translate-x-1/2 text-white/40 text-xs font-mono bg-black/40 px-3 py-1 rounded-full backdrop-blur pointer-events-none select-none">
+                      Scroll/Pinch to Zoom • Drag to Pan
+                   </div>
+                 )}
             </div>
         </div>
       )}
+
+      <ShareModal 
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        productUrl={window.location.href}
+        productName={product.name}
+      />
 
       <GatedDownloadModal 
         isOpen={isDownloadModalOpen}

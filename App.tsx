@@ -1,3 +1,5 @@
+
+
 import React, { Suspense, lazy } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from './components/Layout';
@@ -12,6 +14,7 @@ const TechnicalCenter = lazy(() => import('./pages/TechnicalCenter'));
 const CaseStudies = lazy(() => import('./pages/CaseStudies'));
 const About = lazy(() => import('./pages/About'));
 const RFQ = lazy(() => import('./pages/RFQ'));
+const Contact = lazy(() => import('./pages/Contact'));
 const Sitemap = lazy(() => import('./pages/Sitemap'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
@@ -38,6 +41,7 @@ const App: React.FC = () => {
               <Route path="/technical" element={<TechnicalCenter />} />
               <Route path="/about" element={<About />} />
               <Route path="/rfq" element={<RFQ />} />
+              <Route path="/contact" element={<Contact />} />
               <Route path="/sitemap" element={<Sitemap />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

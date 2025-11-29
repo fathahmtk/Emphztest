@@ -8,7 +8,7 @@ export const NAV_LINKS = [
   { label: 'Case Studies', path: '/case-studies' },
   { label: 'Technical Center', path: '/technical' },
   { label: 'About', path: '/about' },
-  { label: 'Contact', path: '/rfq' },
+  { label: 'Contact', path: '/contact' },
 ];
 
 export const WHATSAPP_LINK = "https://wa.me/919037874080";

@@ -343,6 +343,7 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType }) 
     return () => {
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationId);
+      controls.dispose(); // IMPORTANT: Dispose controls
       
       if (container) {
         container.removeChild(renderer.domElement);

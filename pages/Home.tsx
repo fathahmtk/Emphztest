@@ -39,6 +39,14 @@ const ScrollRevealIcon: React.FC<{ children: React.ReactNode }> = ({ children })
 
 const Home: React.FC = () => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const WORDS = ["EXTREME", "FUTURE", "COAST", "INDUSTRY"];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentWordIndex((prev) => (prev + 1) % WORDS.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   const INDUSTRY_IMAGES = [
     { title: "Solar & Renewables", image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=600&q=80", desc: "UV-stable combiner boxes for harsh solar parks." },
@@ -60,7 +68,7 @@ const Home: React.FC = () => {
            <img 
             src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2670&auto=format&fit=crop" 
             alt="Modern Industrial Architecture"
-            className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-[20s] ease-linear"
+            className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700 ease-out"
            />
            {/* Cinematic Overlays */}
            <div className="absolute inset-0 bg-gradient-to-b from-[#0B1120]/80 via-[#0B1120]/40 to-[#0B1120] mix-blend-multiply"></div>
@@ -77,8 +85,8 @@ const Home: React.FC = () => {
               
               <h1 className="text-5xl sm:text-6xl md:text-8xl font-black font-display leading-[0.9] tracking-tighter text-white drop-shadow-2xl">
                 BUILT FOR THE <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-orange via-cyan-300 to-white filter drop-shadow-[0_0_30px_rgba(0,173,181,0.3)]">
-                   EXTREME.
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-orange via-cyan-300 to-white filter drop-shadow-[0_0_30px_rgba(0,173,181,0.3)] inline-block min-w-[300px]">
+                   {WORDS[currentWordIndex]}.
                 </span>
               </h1>
               
