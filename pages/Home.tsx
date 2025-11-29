@@ -39,14 +39,57 @@ const ScrollRevealIcon: React.FC<{ children: React.ReactNode }> = ({ children })
 
 const Home: React.FC = () => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
   const WORDS = ["EXTREME", "FUTURE", "COAST", "INDUSTRY"];
+  const HERO_IMAGES = [
+    {
+        src: "https://lh3.googleusercontent.com/pw/AP1GczMAwEyda-VatlopWLADNQaXs2ac5qXUBGyj127pjaQNQX1ovYq7FZLeSHxttDZHdHTitg8V4nvvU5F0Ad4SypnZnvXC0wKmqomtms1jkFrTREFrcXNhwBxdoojhP2ciD6fBA2dhWu5mtxELeCChbHPerw=w1563-h879-s-no-gm?authuser=0",
+        alt: "GRP security cabin in an industrial setting"
+    },
+    {
+        src: "https://lh3.googleusercontent.com/pw/AP1GczPDRXHhmo1DelLxi0HtftJnSmJ5IkdKr2Ul0o4WqNdZC0aJLGTf3RDD6NY95soy12tjT-9X5MXLRdCBt8plfP21vC68xJgU31pGM52ih8yBsDP2UzyWWShp8haDaNLGCv-EGnHQMuwNSVEJe7G288whig=w1563-h879-s-no-gm?authuser=0",
+        alt: "Protective GRP canopy for field instruments"
+    },
+    {
+        src: "https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0",
+        alt: "Futuristic GRP monocoque living pod"
+    },
+    {
+        src: "https://lh3.googleusercontent.com/pw/AP1GczNrU-k7hPLmr-DvpT_gbosZGrakzMIcqO2aFfnm9CxOaGu1urrgRkK_tdxRE5BL7yO4ncuoj20Ih9R9APtPjrpBjwBT9kMrwTWy_rU-TTp0g685rQRi7b2Gpm_8yO6_6nzE-xok9zOiNC7Yf6mIKxD44w=w1319-h879-s-no-gm?authuser=0",
+        alt: "Emphz GRP manufacturing facility"
+    },
+    {
+        src: "https://lh3.googleusercontent.com/pw/AP1GczOYyrN7zzWAF72LarCKhxba48Z63JkRPQa84TPIyRzuZwyGt-CbVJd4tzh2kNF93HhECGlR7d4lJzH5XFeWiqwiwWJy3yuaqr4v3VJXs3CJHYNEgmroDLxP0U89hb-D5PJ0wB1CNPL56fN7KgdXmzWs7w=w1319-h879-s-no-gm?authuser=0",
+        alt: "Modular GRP panel water tank installation"
+    },
+    {
+        src: "https://lh3.googleusercontent.com/pw/AP1GczO_yHvrVqeSyQptetDgD2xpolaXq9oXImcceikitbuNMjlzS3w1JQVVNKdnZ5FGwuJHtUNCvJtJmk1Z28icLadmXjgCqOeyX8x6QuEgEpIlE42BGv5ncFbvY0DrMNUFXlpYmrZ7LkkYTDGBNR7zpuN1vQ=w1319-h879-s-no-gm?authuser=0",
+        alt: "GRP electrical enclosure in an industrial plant"
+    }
+  ];
+
+  const FEATURED_CATEGORIES = [
+    "Electrical Enclosures",
+    "Modular Kiosks",
+    "Smart Living Pods",
+    "Fire Safety",
+    "Structural Profiles",
+    "Automobile Components"
+  ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const wordInterval = setInterval(() => {
       setCurrentWordIndex((prev) => (prev + 1) % WORDS.length);
     }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+    const imageInterval = setInterval(() => {
+        setCurrentImageIndex(prev => (prev + 1) % HERO_IMAGES.length);
+    }, 6000);
+    return () => {
+      clearInterval(wordInterval);
+      clearInterval(imageInterval);
+    };
+  }, [WORDS.length, HERO_IMAGES.length]);
 
   const INDUSTRY_IMAGES = [
     { title: "Solar & Renewables", image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=600&q=80", desc: "UV-stable combiner boxes for harsh solar parks." },
@@ -61,74 +104,72 @@ const Home: React.FC = () => {
     <div className="flex flex-col bg-white text-emphz-navy overflow-x-hidden motion-safe:scroll-smooth">
       
       {/* 1. Enhanced Hero Section - Full Wide Background */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050A14] group">
+      <section className="relative min-h-screen flex items-end justify-start overflow-hidden bg-[#050A14] group">
         
-        {/* Looping Background Video */}
-        <div className="absolute inset-0 z-0">
-           <video 
-            autoPlay 
-            loop 
-            muted 
-            playsInline 
-            className="w-full h-full object-cover"
-            poster="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2670&auto=format&fit=crop"
-            src="https://videos.pexels.com/video-files/3209828/3209828-hd_1920_1080_25fps.mp4"
-           >
-           </video>
+        {/* Background Image Slideshow with Ken Burns effect */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+           {HERO_IMAGES.map((image, index) => (
+               <img 
+                 key={index}
+                 src={image.src}
+                 alt={image.alt}
+                 className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-2000 ease-in-out ${index === currentImageIndex ? 'opacity-100 animate-ken-burns' : 'opacity-0'}`}
+               />
+           ))}
            {/* Cinematic Overlays */}
-           <div className="absolute inset-0 bg-gradient-to-b from-[#0B1120]/80 via-[#0B1120]/60 to-[#0B1120] mix-blend-multiply"></div>
+           <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-[#0B1120]/40 to-transparent"></div>
+           <div className="absolute inset-0 bg-gradient-to-l from-[#0B1120] via-transparent to-transparent opacity-50"></div>
            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay"></div>
         </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center pt-20">
+        <div className="relative z-10 w-full max-w-7xl mx-auto text-left p-6 md:p-8 lg:p-12">
             
-            <div className="animate-fade-up space-y-8">
-              <div className="inline-flex items-center px-4 py-2 rounded-full border border-emphz-orange/30 bg-emphz-navy/60 backdrop-blur-md shadow-[0_0_20px_rgba(0,173,181,0.2)]">
-                <span className="w-2 h-2 bg-emphz-orange rounded-full mr-3 animate-pulse shadow-[0_0_10px_#00ADB5]"></span>
-                <span className="text-xs font-bold tracking-[0.25em] uppercase text-white font-display">Advanced Material Science</span>
-              </div>
+            <div className="space-y-6 max-w-2xl">
               
-              <h1 className="text-5xl sm:text-6xl md:text-8xl font-black font-display leading-[0.9] tracking-tighter text-white drop-shadow-2xl">
-                BUILT FOR THE <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-orange via-cyan-300 to-white filter drop-shadow-[0_0_30px_rgba(0,173,181,0.3)] inline-block min-w-[300px]">
+              {/* Animated Product Categories */}
+              <div className="flex flex-wrap gap-2">
+                {FEATURED_CATEGORIES.map((category, index) => (
+                  <div
+                    key={category}
+                    className="animate-fade-up"
+                    style={{ animationDelay: `${300 + index * 80}ms` }}
+                  >
+                    <span className="block bg-white/10 backdrop-blur-md border border-white/10 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider font-mono shadow-lg">
+                      {category}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <h1 
+                className="text-4xl md:text-5xl font-black font-display leading-tight tracking-tighter text-white drop-shadow-2xl animate-fade-up"
+                style={{ animationDelay: '600ms' }}
+              >
+                BUILT FOR THE {' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-orange via-cyan-300 to-white filter drop-shadow-[0_0_30px_rgba(0,173,181,0.3)] inline-block">
                    {WORDS[currentWordIndex]}.
                 </span>
               </h1>
               
-              <p className="text-lg md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-sans font-light tracking-wide">
-                Next-generation GRP enclosures and modular structures. <br className="hidden md:block" />
-                Engineered to outperform steel in the world's harshest environments.
+              <p 
+                className="text-sm md:text-base text-gray-300 max-w-lg leading-relaxed font-sans font-light tracking-wide animate-fade-up"
+                style={{ animationDelay: '700ms' }}
+              >
+                Next-generation GRP enclosures and modular structures. Engineered to outperform steel in the world's harshest environments.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-5 justify-center pt-8">
-                <Link to="/products" className="group bg-emphz-orange text-white px-10 py-4 rounded-full font-black text-sm tracking-[0.15em] uppercase font-display hover:bg-[#00D4DE] transition-all duration-300 flex items-center justify-center shadow-[0_0_30px_rgba(0,173,181,0.4)] hover:shadow-[0_0_50px_rgba(0,173,181,0.6)] hover:-translate-y-1">
-                  VIEW CATALOG <ArrowRight className="ml-3 group-hover:translate-x-1 transition-transform" size={18} />
+              <div 
+                className="flex flex-col sm:flex-row gap-4 justify-start pt-2 animate-fade-up"
+                style={{ animationDelay: '800ms' }}
+              >
+                <Link to="/products" className="group bg-emphz-orange text-white px-8 py-3 rounded-full font-bold text-xs tracking-[0.1em] uppercase font-display hover:bg-[#00D4DE] transition-all duration-300 flex items-center justify-center shadow-[0_0_30px_rgba(0,173,181,0.4)] hover:shadow-[0_0_50px_rgba(0,173,181,0.6)] hover:-translate-y-1">
+                  VIEW CATALOG <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={16} />
                 </Link>
                 
-                <Link to="/rfq" className="group px-10 py-4 rounded-full border border-white/20 text-white font-black text-sm tracking-[0.15em] uppercase font-display hover:bg-white/10 hover:border-white/40 transition-all duration-300 flex items-center justify-center backdrop-blur-md bg-black/20 hover:-translate-y-1">
+                <Link to="/rfq" className="group px-8 py-3 rounded-full border border-white/20 text-white font-bold text-xs tracking-[0.1em] uppercase font-display hover:bg-white/10 hover:border-white/40 transition-all duration-300 flex items-center justify-center backdrop-blur-md bg-black/20 hover:-translate-y-1">
                   REQUEST QUOTE
                 </Link>
               </div>
-            </div>
-
-            {/* Floating Features - Responsive Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-12 mt-20 md:mt-32 w-full max-w-4xl opacity-80 animate-fade-up" style={{ animationDelay: '0.3s' }}>
-                 <div className="flex flex-col items-center gap-3">
-                    <ShieldCheck size={32} className="text-emphz-orange" />
-                    <span className="text-xs font-bold uppercase tracking-widest text-white">Corrosion Proof</span>
-                 </div>
-                 <div className="flex flex-col items-center gap-3">
-                    <Cpu size={32} className="text-emphz-orange" />
-                    <span className="text-xs font-bold uppercase tracking-widest text-white">Smart Ready</span>
-                 </div>
-                 <div className="flex flex-col items-center gap-3">
-                    <Globe size={32} className="text-emphz-orange" />
-                    <span className="text-xs font-bold uppercase tracking-widest text-white">Global Std.</span>
-                 </div>
-                 <div className="flex flex-col items-center gap-3">
-                    <Factory size={32} className="text-emphz-orange" />
-                    <span className="text-xs font-bold uppercase tracking-widest text-white">Made in India</span>
-                 </div>
             </div>
         </div>
       </section>

@@ -184,7 +184,7 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: 'emp-tray-hd',
     name: 'Heavy Duty Cable Tray',
-    category: ProductCategory.CABLE_MANAGEMENT,
+    category: ProductCategory.STRUCTURAL,
     shortDescription: 'Pultruded GRP cable trays for chemical plants and offshore platforms.',
     fullDescription: 'Manufactured using the pultrusion process, these cable trays offer the longitudinal strength of steel with the corrosion resistance of high-grade vinylester resin. Ideal for supporting heavy power cables in highly corrosive industrial atmospheres like refineries, fertilizer plants, and jetties.',
     imageUrl: 'https://lh3.googleusercontent.com/pw/AP1GczOU2TtVHlW4x4kbGDECN768Z5zvlPW7NhiRbBn7banNsKOGE0VdhwpM89Irw7pF8VjBUsDo4AJ5ncpByEomQYyTBPvaLQwlCJAf_-Frwc61HsDboJ-puZBWQryaqKo6pWqeLOWiOIRMWCQzjptq8jVvNw=w1563-h879-s-no-gm?authuser=0',

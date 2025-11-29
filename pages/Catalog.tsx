@@ -486,7 +486,7 @@ const Catalog: React.FC = () => {
                       {/* Comparison Toggle (Floating) */}
                       <button 
                           onClick={(e) => { e.preventDefault(); toggleCompare(product.id); }}
-                          className={`absolute top-4 left-4 p-2 rounded-full backdrop-blur-md transition-all border border-white/20 shadow-lg z-20 opacity-70 hover:opacity-100 hover:scale-110 ${isComparing ? 'bg-emphz-orange text-white' : 'bg-white text-gray-400 hover:text-emphz-navy'}`}
+                          className={`absolute top-4 left-4 p-2 rounded-full backdrop-blur-md transition-all border border-white/20 shadow-lg z-20 hover:scale-110 ${isComparing ? 'bg-emphz-orange text-white' : 'bg-white text-gray-400 hover:text-emphz-navy'}`}
                           title="Compare"
                         >
                           <Scale size={16} />

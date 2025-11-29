@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, MessageSquare, Clock, ArrowRight, CheckCircle, HelpCircle, Globe, ChevronDown, User, Book } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, MessageSquare, Clock, ArrowRight, CheckCircle, HelpCircle, Globe, ChevronDown, User, Book, Loader2 } from 'lucide-react';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -170,6 +170,12 @@ const Contact: React.FC = () => {
 
             {/* Form Side (White) */}
             <div className="lg:w-7/12 p-10 md:p-16 bg-white relative">
+                {isSubmitting && (
+                    <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-20 flex flex-col items-center justify-center">
+                        <Loader2 className="w-12 h-12 text-emphz-orange animate-spin" />
+                        <p className="mt-4 font-bold text-emphz-navy font-display tracking-widest">TRANSMITTING...</p>
+                    </div>
+                )}
                  {isSuccess ? (
                     // Success State
                      <div className="h-full flex flex-col items-center justify-center text-center animate-fade-in py-20">
@@ -189,7 +195,7 @@ const Contact: React.FC = () => {
                      </div>
                  ) : (
                     // Form
-                    <form onSubmit={handleSubmit} className="h-full flex flex-col justify-center">
+                    <form onSubmit={handleSubmit} className={`h-full flex flex-col justify-center transition-all ${isSubmitting ? 'blur-sm' : ''}`}>
                         <div className="mb-10">
                             <h3 className="text-3xl font-bold text-emphz-navy mb-2 font-display">Send a Message</h3>
                             <p className="text-gray-400 text-sm">Fill out the form below and we'll get back to you.</p>
@@ -266,11 +272,7 @@ const Contact: React.FC = () => {
                             disabled={isSubmitting}
                             className="bg-emphz-navy text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-[0.15em] hover:bg-emphz-orange transition-all shadow-lg shadow-emphz-navy/20 hover:shadow-xl hover:shadow-emphz-orange/30 transform hover:-translate-y-1 w-full md:w-auto flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed group"
                         >
-                            {isSubmitting ? (
-                                <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></span> Sending...</>
-                            ) : (
-                                <>Send Message <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" /></>
-                            )}
+                          Send Message <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
                         </button>
                     </form>
                  )}

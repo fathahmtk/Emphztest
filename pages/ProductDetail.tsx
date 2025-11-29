@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Check, FileText, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon, Camera, ArrowRight, Loader2, Share2, CheckCircle, ChevronLeft, ChevronRight, Maximize, X, ZoomIn, ZoomOut, RotateCcw, Linkedin, Twitter, Mail, Link as LinkIcon, Copy, MessageCircle, Flame, Layers, ShieldCheck, Award } from 'lucide-react';
@@ -360,7 +358,7 @@ const ProductDetail: React.FC = () => {
                 className="absolute inset-0 transition-opacity duration-500 bg-[#0B1120] cursor-zoom-in animate-fade-in"
                 onClick={() => setIsLightboxOpen(true)}
               >
-                <img src={activeImage} alt={product.name} className="w-full h-full object-cover opacity-100 group-hover:scale-105 transition-transform duration-700 ease-in-out" key={activeImage} />
+                <img src={activeImage} alt={product.name} className="w-full h-full object-cover opacity-100 group-hover:scale-105 transition-transform duration-700 ease-in-out" key={activeImage} loading="lazy" decoding="async" />
               </div>
               
               {galleryImages.length > 1 && (
@@ -483,7 +481,7 @@ const ProductDetail: React.FC = () => {
                </div>
 
               <div className="mb-8 border-b border-gray-200">
-                <div className="flex space-x-2 bg-gray-50 p-1.5 rounded-xl border border-gray-100" role="tablist" aria-label="Product Information">
+                <div className="flex space-x-1" role="tablist" aria-label="Product Information">
                   {['desc', 'specs', 'downloads'].map((tab) => (
                     <button
                       key={tab}
@@ -492,13 +490,16 @@ const ProductDetail: React.FC = () => {
                       aria-controls={`panel-${tab}`}
                       id={`tab-${tab}`}
                       onClick={() => setActiveTab(tab as any)}
-                      className={`flex-1 py-3 px-4 text-xs font-bold uppercase tracking-[0.1em] transition-all rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-emphz-orange font-display ${
+                      className={`relative py-3 px-5 text-xs font-bold uppercase tracking-[0.1em] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emphz-orange font-display rounded-t-lg ${
                         activeTab === tab 
-                        ? 'bg-white text-emphz-navy shadow-sm' 
-                        : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+                        ? 'text-emphz-orange' 
+                        : 'text-gray-400 hover:text-emphz-navy'
                       }`}
                     >
                       {tab === 'desc' ? 'Overview' : tab === 'specs' ? 'Specifications' : 'Downloads'}
+                      {activeTab === tab && (
+                        <span className="absolute bottom-0 left-0 w-full h-0.5 bg-emphz-orange rounded-full"></span>
+                      )}
                     </button>
                   ))}
                 </div>
@@ -633,7 +634,7 @@ const ProductDetail: React.FC = () => {
                   </div>
                   
                   <div className="bg-gray-50 p-4 rounded-xl text-center">
-                     <p className="text-[10px] text-gray-500 font-mono mb-2">Bulk pricing applies for orders &gt; 50 units.</p>
+                     <p className="text-[10px] text-gray-500 font-mono mb-2">Bulk pricing applies for orders > 50 units.</p>
                   </div>
 
                   <button 

@@ -7,7 +7,6 @@ export enum ProductCategory {
   CUSTOM = 'Custom Structures',
   AUTOMOBILE = 'Automobile Components',
   STRUCTURAL = 'Structural Profiles',
-  CABLE_MANAGEMENT = 'Cable Management',
   FIRE_SAFETY = 'Fire Safety Equipment',
   WATER_STORAGE = 'Water Storage Solutions',
   INDUSTRIAL_PROTECTION = 'Industrial Protection'
