@@ -49,7 +49,6 @@ const ROTATING_WORDS = ["POSSIBILITIES", "ENVIRONMENTS", "SOLUTIONS", "FUTURES"]
 const Home: React.FC = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -80,24 +79,16 @@ const Home: React.FC = () => {
       {/* 1. Enhanced Split Layout Hero Section */}
       <section className="relative min-h-screen flex items-center pt-20 pb-10 overflow-hidden bg-[#050A14] group">
         
-        {/* Animated Background */}
+        {/* Animated Background Image */}
         <div className="absolute inset-0 z-0 overflow-hidden">
-           <video 
-            autoPlay 
-            loop 
-            muted 
-            playsInline
-            poster="https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0"
-            onLoadedData={() => setIsVideoLoaded(true)}
-            className={`w-full h-full object-cover object-center transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-40' : 'opacity-0'}`}
-           >
-             {/* Reliable Abstract Tech Background */}
-             <source src="https://cdn.pixabay.com/video/2020/03/30/34976-411333333_large.mp4" type="video/mp4" />
-           </video>
-           <div className={`absolute inset-0 bg-[#050A14] transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-0' : 'opacity-100'}`}></div>
+           <img 
+            src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2301&auto=format&fit=crop"
+            alt="Advanced Engineering Background"
+            className="w-full h-full object-cover object-center scale-110 group-hover:scale-100 transition-transform duration-[20s] ease-linear opacity-50"
+           />
 
-           {/* Cinematic Gradients */}
-           <div className="absolute inset-0 bg-gradient-to-r from-[#050A14] via-[#050A14]/80 to-[#050A14]/30"></div>
+           {/* Cinematic Gradients - Refined for wide feel */}
+           <div className="absolute inset-0 bg-gradient-to-r from-[#050A14] via-[#050A14]/80 to-transparent"></div>
            <div className="absolute inset-0 bg-gradient-to-t from-[#050A14] via-transparent to-transparent opacity-90"></div>
            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 mix-blend-overlay"></div>
         </div>
