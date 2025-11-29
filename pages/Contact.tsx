@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, MessageSquare, Clock, ArrowRight, CheckCircle, HelpCircle, Globe, ChevronRight } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, MessageSquare, Clock, ArrowRight, CheckCircle, HelpCircle, Globe, ChevronDown, User, Book } from 'lucide-react';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -11,13 +11,45 @@ const Contact: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [emailTouched, setEmailTouched] = useState(false);
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleEmailBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    setEmailTouched(true);
+    if (!validateEmail(e.target.value)) {
+        setEmailError('Please enter a valid email address.');
+    } else {
+        setEmailError('');
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (name === 'email' && emailTouched) {
+      if (!validateEmail(value)) {
+          setEmailError('Please enter a valid email address.');
+      } else {
+          setEmailError('');
+      }
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    setEmailTouched(true);
+    if (!validateEmail(formData.email)) {
+      setEmailError('Please enter a valid email address.');
+      return;
+    }
+    
     setIsSubmitting(true);
     // Simulate API call
     setTimeout(() => {
@@ -158,72 +190,67 @@ const Contact: React.FC = () => {
                         </div>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6 mb-6">
-                            <div className="group">
-                                <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 font-display">Your Name</label>
-                                <input 
-                                    type="text" 
-                                    name="name" 
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    required 
-                                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-emphz-orange/20 focus:border-emphz-orange transition-all font-medium text-emphz-navy placeholder-gray-400 text-sm"
-                                    placeholder="John Doe"
-                                />
+                            <div>
+                                <label htmlFor="name" className="block text-xs font-medium text-slate-600 mb-2 font-sans">Your Name</label>
+                                <div className="relative group">
+                                    <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                                    <input 
+                                        type="text" name="name" id="name" value={formData.name} onChange={handleChange} required 
+                                        className="w-full bg-slate-50 border-0 ring-1 ring-inset ring-slate-200 rounded-xl pl-10 pr-4 py-3.5 outline-none focus:ring-2 focus:ring-inset focus:ring-emphz-orange transition-all font-medium text-emphz-navy placeholder-slate-400 text-sm group-hover:ring-slate-300"
+                                        placeholder="John Doe"
+                                    />
+                                </div>
                             </div>
-                            <div className="group">
-                                <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 font-display">Email Address</label>
-                                <input 
-                                    type="email" 
-                                    name="email" 
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    required 
-                                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-emphz-orange/20 focus:border-emphz-orange transition-all font-medium text-emphz-navy placeholder-gray-400 text-sm"
-                                    placeholder="john@company.com"
-                                />
+                            <div>
+                                <label htmlFor="email" className="block text-xs font-medium text-slate-600 mb-2 font-sans">Email Address</label>
+                                <div className="relative group">
+                                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                                    <input 
+                                        type="email" name="email" id="email" value={formData.email} onChange={handleChange} onBlur={handleEmailBlur} required 
+                                        className={`w-full bg-slate-50 border-0 ring-1 ring-inset ${emailError ? 'ring-red-400' : 'ring-slate-200 group-hover:ring-slate-300 focus:ring-emphz-orange'} rounded-xl pl-10 pr-4 py-3.5 outline-none focus:ring-2 focus:ring-inset transition-all font-medium text-emphz-navy placeholder-slate-400 text-sm`}
+                                        placeholder="john@company.com"
+                                    />
+                                </div>
+                                {emailError && <p className="text-red-500 text-xs mt-2 font-mono">{emailError}</p>}
                             </div>
                         </div>
 
-                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6 mb-6">
-                            <div className="group">
-                                <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 font-display">Phone (Optional)</label>
-                                <input 
-                                    type="tel" 
-                                    name="phone" 
-                                    value={formData.phone}
-                                    onChange={handleChange}
-                                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-emphz-orange/20 focus:border-emphz-orange transition-all font-medium text-emphz-navy placeholder-gray-400 text-sm"
-                                    placeholder="+91 ..."
-                                />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6 mb-6">
+                            <div>
+                                <label htmlFor="phone" className="block text-xs font-medium text-slate-600 mb-2 font-sans">Phone (Optional)</label>
+                                <div className="relative group">
+                                    <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                                    <input 
+                                        type="tel" name="phone" id="phone" value={formData.phone} onChange={handleChange}
+                                        className="w-full bg-slate-50 border-0 ring-1 ring-inset ring-slate-200 rounded-xl pl-10 pr-4 py-3.5 outline-none focus:ring-2 focus:ring-inset focus:ring-emphz-orange transition-all font-medium text-emphz-navy placeholder-slate-400 text-sm group-hover:ring-slate-300"
+                                        placeholder="+91 ..."
+                                    />
+                                </div>
                             </div>
-                            <div className="group">
-                                <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 font-display">Subject</label>
-                                <div className="relative">
+                            <div>
+                                <label htmlFor="subject" className="block text-xs font-medium text-slate-600 mb-2 font-sans">Subject</label>
+                                <div className="relative group">
+                                    <Book className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                                     <select 
-                                        name="subject" 
-                                        value={formData.subject}
-                                        onChange={handleChange}
-                                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-emphz-orange/20 focus:border-emphz-orange transition-all font-medium text-emphz-navy cursor-pointer appearance-none text-sm"
+                                        name="subject" id="subject" value={formData.subject} onChange={handleChange}
+                                        className="w-full bg-slate-50 border-0 ring-1 ring-inset ring-slate-200 rounded-xl pl-10 pr-8 py-3.5 outline-none focus:ring-2 focus:ring-inset focus:ring-emphz-orange transition-all font-medium text-emphz-navy cursor-pointer appearance-none text-sm group-hover:ring-slate-300"
                                     >
                                         <option value="">Select Topic...</option>
                                         <option value="Sales">Project Inquiry</option>
                                         <option value="Technical">Technical Support</option>
                                         <option value="Careers">Careers</option>
                                     </select>
-                                    <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 rotate-90 w-4 h-4 pointer-events-none" />
+                                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 pointer-events-none" />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="group mb-8">
-                             <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 font-display">Message</label>
+                        <div className="mb-8">
+                             <label htmlFor="message" className="block text-xs font-medium text-slate-600 mb-2 font-sans">Message</label>
                              <textarea 
-                                name="message" 
-                                value={formData.message}
-                                onChange={handleChange}
-                                required
+                                name="message" id="message" value={formData.message} onChange={handleChange} required
                                 rows={4}
-                                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-emphz-orange/20 focus:border-emphz-orange transition-all font-medium text-emphz-navy placeholder-gray-400 resize-none text-sm"
+                                className="w-full bg-slate-50 border-0 ring-1 ring-inset ring-slate-200 rounded-xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-inset focus:ring-emphz-orange transition-all font-medium text-emphz-navy placeholder-slate-400 resize-none text-sm group-hover:ring-slate-300"
                                 placeholder="Tell us about your project requirements..."
                              ></textarea>
                         </div>
@@ -231,14 +258,12 @@ const Contact: React.FC = () => {
                         <button 
                             type="submit" 
                             disabled={isSubmitting}
-                            className="bg-emphz-navy text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-[0.15em] hover:bg-emphz-orange transition-all shadow-xl hover:shadow-emphz-orange/30 transform hover:-translate-y-1 w-full md:w-auto flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed group"
+                            className="bg-emphz-navy text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-[0.15em] hover:bg-emphz-orange transition-all shadow-lg shadow-emphz-navy/20 hover:shadow-xl hover:shadow-emphz-orange/30 transform hover:-translate-y-1 w-full md:w-auto flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed group"
                         >
                             {isSubmitting ? (
-                                <div className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span> Sending...</div>
+                                <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></span> Sending...</>
                             ) : (
-                                <>
-                                    Send Message <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                </>
+                                <>Send Message <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" /></>
                             )}
                         </button>
                     </form>
