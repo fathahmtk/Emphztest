@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Droplet, Zap, Box, Layers, Maximize, FileText, Sun, Train, Wifi, Flame, CloudRain, Factory, Shield, CheckCircle, Award, Play, ShieldCheck, Cpu, Globe, ChevronRight } from 'lucide-react';
+import { ArrowRight, Droplet, Zap, Box, Layers, Maximize, FileText, Sun, Train, Wifi, Flame, CloudRain, Factory, Shield, CheckCircle, Award, Play, ShieldCheck, Cpu, Globe, ChevronRight, Anchor, Lightbulb, Users } from 'lucide-react';
 import { INDUSTRIES, MOCK_PRODUCTS } from '../constants';
 
 const ScrollRevealIcon: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -357,6 +357,50 @@ const Home: React.FC = () => {
                </div>
             </div>
          </div>
+      </section>
+
+      {/* 5.5. About Us Summary */}
+      <section className="py-20 md:py-24 bg-gray-50 border-y border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+                  <div className="lg:w-1/2 w-full">
+                      <div className="relative group">
+                          <div className="absolute -inset-2.5 bg-gradient-to-r from-emphz-orange to-cyan-400 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
+                          <img 
+                              src="https://lh3.googleusercontent.com/pw/AP1GczMvuz7tjgxC5-JF9dQctIIAuS8YxbnxwOh-BxiCmu2-fRi94SQUgqdsyZ8QcYCx_WhpUYQe-RJjo9kUnlKWHJYyHFiq7le1FfH98Qvn_LBr4-BYmSe-LfgpUg-WAI7KRzJg2kp_-VQNZK7FQcCRyd07dw=w1563-h879-s-no-gm?authuser=0"
+                              alt="Emphz Manufacturing Facility"
+                              className="rounded-3xl shadow-2xl relative w-full aspect-[4/3] object-cover"
+                          />
+                      </div>
+                  </div>
+                  <div className="lg:w-1/2">
+                      <h2 className="text-xs md:text-sm font-bold text-emphz-orange tracking-[0.2em] uppercase mb-4 font-display">About Emphz</h2>
+                      <h3 className="text-3xl md:text-4xl font-black text-emphz-navy mb-6 leading-tight font-display tracking-tight">
+                          Pioneering Composite Solutions Since 2020.
+                      </h3>
+                      <p className="text-base text-slate-600 leading-relaxed mb-8 font-sans font-light">
+                          Our mission is to systematically replace obsolete materials with superior, high-performance GRP solutions in critical infrastructure. We aim to eradicate the costs and dangers associated with corrosion, ensuring longevity and safety for a modern India.
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+                          <div className="flex items-center gap-3">
+                              <div className="bg-white p-3 rounded-full border border-gray-200 shadow-sm"><Anchor className="w-5 h-5 text-emphz-orange" /></div>
+                              <span className="text-xs font-bold text-emphz-navy font-display uppercase tracking-wider">Durability</span>
+                          </div>
+                          <div className="flex items-center gap-3">
+                              <div className="bg-white p-3 rounded-full border border-gray-200 shadow-sm"><Lightbulb className="w-5 h-5 text-emphz-orange" /></div>
+                              <span className="text-xs font-bold text-emphz-navy font-display uppercase tracking-wider">Innovation</span>
+                          </div>
+                          <div className="flex items-center gap-3">
+                              <div className="bg-white p-3 rounded-full border border-gray-200 shadow-sm"><Users className="w-5 h-5 text-emphz-orange" /></div>
+                              <span className="text-xs font-bold text-emphz-navy font-display uppercase tracking-wider">Partnership</span>
+                          </div>
+                      </div>
+                      <Link to="/about" className="inline-flex items-center text-white bg-emphz-navy px-8 py-4 rounded-full font-bold text-sm tracking-widest uppercase hover:bg-emphz-orange transition-colors group font-display shadow-xl hover:shadow-2xl hover:-translate-y-1">
+                          Discover Our Story <ArrowRight className="ml-3 group-hover:translate-x-1 transition-transform" size={16} />
+                      </Link>
+                  </div>
+              </div>
+          </div>
       </section>
 
       {/* 6. CTA Section */}
