@@ -276,6 +276,20 @@ const Catalog: React.FC = () => {
     return MOCK_PRODUCTS.filter(p => p.category === cat).length;
   };
 
+  const handleRemoveFeature = (feature: string) => {
+    setSelectedFeatures(prev => prev.filter(f => f !== feature));
+  };
+
+  const handleClearAll = () => {
+    setSelectedCategory('All');
+    setSelectedFeatures([]);
+  };
+
+  const activeFiltersList = useMemo(() => [
+    ...(selectedCategory !== 'All' ? [{ type: 'category', label: selectedCategory }] : []),
+    ...selectedFeatures.map(f => ({ type: 'feature', label: f }))
+  ], [selectedCategory, selectedFeatures]);
+
   // Reusable Filter Render Function
   const renderFilters = (isMobile = false) => (
     <div className={`${isMobile ? 'h-full overflow-y-auto p-6 pb-24 bg-white' : 'bg-white p-6 rounded-2xl sticky top-28 shadow-xl shadow-gray-200/50 border border-gray-100'}`}>
@@ -361,7 +375,7 @@ const Catalog: React.FC = () => {
         {/* Reset Filters */}
         {(selectedCategory !== 'All' || selectedFeatures.length > 0) && (
           <button 
-            onClick={() => { setSelectedCategory('All'); setSelectedFeatures([]); }}
+            onClick={handleClearAll}
             className="w-full mt-6 py-3 text-[10px] font-bold text-gray-400 hover:text-white hover:bg-gray-400 rounded-lg transition-colors uppercase tracking-widest font-display border border-gray-200"
           >
             Clear All Filters
@@ -409,7 +423,7 @@ const Catalog: React.FC = () => {
 
             {/* Product Grid */}
             <div className="flex-1">
-              {/* Sorting & Results Bar (Desktop Only - Mobile has it in filters) */}
+              {/* Sorting & Results Bar */}
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
                 <span className="text-sm text-gray-500 font-mono">
                   Showing <span className="font-bold text-emphz-navy">{sortedProducts.length}</span> results
@@ -434,6 +448,34 @@ const Catalog: React.FC = () => {
                   </div>
                 </div>
               </div>
+              
+              {/* Active Filters Bar */}
+              {activeFiltersList.length > 0 && (
+                <div className="mb-6 p-4 bg-gray-100 rounded-xl border border-gray-200 flex items-center flex-wrap gap-3">
+                  <span className="text-xs font-bold text-gray-500 mr-2 font-mono">Active Filters:</span>
+                  {activeFiltersList.map(filter => (
+                    <div key={filter.label} className="flex items-center bg-white border border-gray-300 rounded-full text-xs font-bold text-emphz-navy pl-3 pr-2 py-1 gap-2 animate-fade-in">
+                      <span>{filter.label}</span>
+                      <button
+                        onClick={() => {
+                          if (filter.type === 'category') setSelectedCategory('All');
+                          else handleRemoveFeature(filter.label);
+                        }}
+                        className="text-gray-400 hover:text-white hover:bg-red-500 rounded-full transition-colors p-0.5"
+                        aria-label={`Remove filter: ${filter.label}`}
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    onClick={handleClearAll}
+                    className="text-xs text-gray-500 hover:text-red-500 font-bold uppercase tracking-wider ml-auto pl-4 hover:underline"
+                  >
+                    Clear All
+                  </button>
+                </div>
+              )}
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 {sortedProducts.map((product) => {
@@ -495,7 +537,7 @@ const Catalog: React.FC = () => {
                   </div>
                   <h3 className="text-lg text-emphz-navy font-bold font-display">No products found.</h3>
                   <p className="text-gray-500 text-sm mb-6">Try adjusting your filters to see more results.</p>
-                  <button onClick={() => { setSelectedCategory('All'); setSelectedFeatures([]); }} className="text-white bg-emphz-orange px-6 py-2 rounded-full font-bold text-xs uppercase tracking-widest shadow-lg hover:shadow-xl transition-all">Clear Filters</button>
+                  <button onClick={handleClearAll} className="text-white bg-emphz-orange px-6 py-2 rounded-full font-bold text-xs uppercase tracking-widest shadow-lg hover:shadow-xl transition-all">Clear Filters</button>
                 </div>
               )}
             </div>

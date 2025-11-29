@@ -63,15 +63,20 @@ const Home: React.FC = () => {
       {/* 1. Enhanced Hero Section - Full Wide Background */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050A14] group">
         
-        {/* Animated Background Image */}
+        {/* Looping Background Video */}
         <div className="absolute inset-0 z-0">
-           <img 
-            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2670&auto=format&fit=crop" 
-            alt="Modern Industrial Architecture"
-            className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700 ease-out"
-           />
+           <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline 
+            className="w-full h-full object-cover"
+            poster="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2670&auto=format&fit=crop"
+            src="https://videos.pexels.com/video-files/3209828/3209828-hd_1920_1080_25fps.mp4"
+           >
+           </video>
            {/* Cinematic Overlays */}
-           <div className="absolute inset-0 bg-gradient-to-b from-[#0B1120]/80 via-[#0B1120]/40 to-[#0B1120] mix-blend-multiply"></div>
+           <div className="absolute inset-0 bg-gradient-to-b from-[#0B1120]/80 via-[#0B1120]/60 to-[#0B1120] mix-blend-multiply"></div>
            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay"></div>
         </div>
 
