@@ -481,7 +481,7 @@ const ProductDetail: React.FC = () => {
                </div>
 
               <div className="mb-8 border-b border-gray-200">
-                <div className="flex space-x-1" role="tablist" aria-label="Product Information">
+                <div className="flex space-x-2" role="tablist" aria-label="Product Information">
                   {['desc', 'specs', 'downloads'].map((tab) => (
                     <button
                       key={tab}
@@ -490,10 +490,10 @@ const ProductDetail: React.FC = () => {
                       aria-controls={`panel-${tab}`}
                       id={`tab-${tab}`}
                       onClick={() => setActiveTab(tab as any)}
-                      className={`relative py-3 px-5 text-xs font-bold uppercase tracking-[0.1em] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emphz-orange font-display rounded-t-lg ${
+                      className={`relative py-4 px-6 text-sm font-bold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emphz-orange font-display ${
                         activeTab === tab 
-                        ? 'text-emphz-navy border-b-2 border-emphz-orange' 
-                        : 'text-gray-400 hover:text-emphz-navy'
+                        ? 'border-b-2 border-emphz-navy text-emphz-navy' 
+                        : 'text-gray-400 hover:text-emphz-navy border-b-2 border-transparent'
                       }`}
                     >
                       {tab === 'desc' ? 'Overview' : tab === 'specs' ? 'Specifications' : 'Downloads'}

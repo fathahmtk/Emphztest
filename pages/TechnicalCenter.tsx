@@ -218,7 +218,7 @@ const TechnicalCenter: React.FC = () => {
                          ? 'bg-emphz-orange/5 border-emphz-orange/30 text-gray-300'
                          : 'bg-gray-900/80 border-gray-700 text-green-400 font-medium'
                       }`}>
-                         {msg.role === 'model' ? (
+                         {msg.role === 'model' && idx === 0 ? (
                            <TypewriterText text={msg.text} />
                          ) : (
                            msg.text

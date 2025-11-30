@@ -315,7 +315,7 @@ const Catalog: React.FC = () => {
         >
           <div className="space-y-1">
             {categories.map((cat) => (
-              <label key={cat} className={`flex items-center justify-between cursor-pointer group py-2.5 pl-3 pr-2 rounded-lg transition-all relative ${selectedCategory === cat ? 'bg-emphz-orange text-white shadow-md' : 'hover:bg-gray-50'}`}>
+              <label key={cat} className={`flex items-center justify-between cursor-pointer group py-2.5 pl-3 pr-2 rounded-lg transition-all relative ${selectedCategory === cat ? 'bg-emphz-orange/10 text-emphz-orange' : 'hover:bg-gray-50'}`}>
                  <div className="flex items-center relative z-10">
                     <input 
                       type="radio" 
@@ -325,11 +325,11 @@ const Catalog: React.FC = () => {
                       onChange={() => setSelectedCategory(cat)}
                     />
                     
-                    <span className={`text-xs transition-all duration-300 font-medium ${selectedCategory === cat ? 'text-white font-bold' : 'text-slate-600 group-hover:text-slate-900'}`}>
+                    <span className={`text-xs transition-all duration-300 font-medium ${selectedCategory === cat ? 'text-emphz-orange font-bold' : 'text-slate-600 group-hover:text-slate-900'}`}>
                       {cat}
                     </span>
                  </div>
-                 <span className={`text-[10px] font-mono px-2 py-0.5 rounded transition-colors font-bold ${selectedCategory === cat ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500'}`}>
+                 <span className={`text-[10px] font-mono px-2 py-0.5 rounded transition-colors font-bold ${selectedCategory === cat ? 'bg-emphz-orange/20 text-emphz-orange' : 'bg-gray-100 text-gray-500'}`}>
                    {getCategoryCount(cat)}
                  </span>
               </label>
