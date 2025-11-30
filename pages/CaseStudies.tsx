@@ -19,6 +19,8 @@ const CaseStudies: React.FC = () => {
     const schema = {
       "@context": "https://schema.org",
       "@type": "ItemList",
+      "name": "Emphz GRP Project Case Studies",
+      "description": "Real-world examples of how Emphz GRP solutions solve complex infrastructure challenges.",
       "itemListElement": MOCK_CASE_STUDIES.map((cs, index) => ({
         "@type": "ListItem",
         "position": index + 1,
@@ -26,9 +28,11 @@ const CaseStudies: React.FC = () => {
           "@type": "Article",
           "headline": cs.title,
           "image": cs.imageUrl,
-          "description": cs.challenge + ' ' + cs.solution,
+          "description": cs.challenge + ' ' + cs.solution + ' ' + cs.outcome,
           "author": { "@type": "Organization", "name": "Emphz" },
-          "locationCreated": { "@type": "Place", "name": cs.location }
+          "publisher": { "@type": "Organization", "name": "Emphz" },
+          "locationCreated": { "@type": "Place", "name": cs.location },
+          "mainEntityOfPage": window.location.href, // In a real app with unique URLs, this would be more specific
         }
       }))
     };

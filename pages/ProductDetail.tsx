@@ -134,7 +134,7 @@ const ProductDetail: React.FC = () => {
     setPanPosition({ x: 0, y: 0 });
   }, [activeImage, isLightboxOpen]);
 
-  // Inject JSON-LD Schema
+  // Inject JSON-LD Schema for SEO
   useEffect(() => {
     if (product) {
       const scriptId = 'json-ld-product';
@@ -154,6 +154,7 @@ const ProductDetail: React.FC = () => {
         "image": product.imageUrl,
         "description": product.fullDescription,
         "sku": product.id,
+        "mpn": product.id, // Manufacturer Part Number
         "brand": {
           "@type": "Brand",
           "name": "Emphz"
@@ -162,9 +163,13 @@ const ProductDetail: React.FC = () => {
         "offers": {
            "@type": "Offer",
            "url": window.location.href,
-           "priceCurrency": "INR",
-           "availability": "https://schema.org/InStock"
-        }
+           "priceCurrency": "INR", // Specify currency even without a price
+           "availability": "https://schema.org/InStock",
+           "itemCondition": "https://schema.org/NewCondition"
+        },
+        // In a real application, you could add reviews here if available
+        // "review": [],
+        // "aggregateRating": {}
       };
 
       script.textContent = JSON.stringify(schema);

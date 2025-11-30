@@ -216,6 +216,8 @@ const Catalog: React.FC = () => {
     const schema = {
       "@context": "https://schema.org",
       "@type": "ItemList",
+      "name": "Emphz GRP Product Catalog",
+      "description": `Browse ${sortedProducts.length} high-performance GRP solutions.`,
       "itemListElement": sortedProducts.map((p, index) => ({
         "@type": "ListItem",
         "position": index + 1,
@@ -224,7 +226,12 @@ const Catalog: React.FC = () => {
           "name": p.name,
           "image": p.imageUrl,
           "description": p.shortDescription,
-          "url": window.location.origin + '/products/' + p.id
+          "url": window.location.origin + '/#/products/' + p.id,
+          "brand": {
+              "@type": "Brand",
+              "name": "Emphz"
+          },
+          "sku": p.id
         }
       }))
     };

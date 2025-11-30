@@ -21,33 +21,104 @@ export function Layout({ children }: LayoutProps) {
 
   const { pathname } = location;
 
+  // SEO Management Hook for Titles, Descriptions, and Canonicals
+  useEffect(() => {
+    const handleMetadata = () => {
+      let title = "Emphz GRP Solutions | Advanced GRP Engineering";
+      let description = "Premium B2B GRP electrical enclosures and modular structures manufacturer for industrial and coastal environments.";
+      const pathParts = pathname.split('/').filter(Boolean);
+
+      if (pathname === '/') {
+          title = "Emphz GRP Solutions | Advanced GRP Enclosures & Modular Structures";
+          description = "India's leading manufacturer of high-performance GRP solutions, engineered to outperform steel in corrosive and harsh industrial environments.";
+      } else if (pathname.startsWith('/products/')) {
+          const productId = pathParts[1];
+          const product = MOCK_PRODUCTS.find(p => p.id === productId);
+          if (product) {
+              title = `${product.name} | ${product.category} | Emphz`;
+              description = product.shortDescription;
+          }
+      } else {
+        const currentLink = NAV_LINKS.find(link => link.path === pathname);
+        if (currentLink) {
+            title = `${currentLink.label} | Emphz GRP Solutions`;
+            switch(pathname) {
+                case '/products':
+                    description = "Browse our extensive catalog of GRP electrical enclosures, modular kiosks, security cabins, and custom composite structures.";
+                    break;
+                case '/case-studies':
+                    description = "Explore real-world applications of Emphz GRP solutions in demanding industries like utilities, rail, and coastal infrastructure.";
+                    break;
+                case '/technical':
+                    description = "Access our Technical Center for datasheets, installation guides, and direct consultation with our AI engineering assistant.";
+                    break;
+                case '/about':
+                    description = "Learn about Emphz's mission, manufacturing excellence, and commitment to replacing obsolete materials with superior GRP composites.";
+                    break;
+                case '/contact':
+                    description = "Contact our engineering and sales teams in Mysore and Kerala for quotes, technical support, and partnership inquiries.";
+                    break;
+            }
+        }
+      }
+      
+      document.title = title;
+
+      let metaDescription = document.querySelector('meta[name="description"]');
+      if (!metaDescription) {
+        metaDescription = document.createElement('meta');
+        metaDescription.setAttribute('name', 'description');
+        document.head.appendChild(metaDescription);
+      }
+      metaDescription.setAttribute('content', description);
+      
+      let canonicalLink = document.querySelector('link[rel="canonical"]');
+      if (!canonicalLink) {
+          canonicalLink = document.createElement('link');
+          canonicalLink.setAttribute('rel', 'canonical');
+          document.head.appendChild(canonicalLink);
+      }
+      canonicalLink.setAttribute('href', window.location.href);
+    };
+
+    handleMetadata();
+  }, [pathname]);
+
   const breadcrumbs = useMemo(() => {
     const pathParts = pathname.split('/').filter(Boolean);
     if (pathParts.length === 0) return [];
 
+    const crumbs = [];
     let currentPath = '';
-    const crumbs = pathParts.map((part, index) => {
+
+    for (let i = 0; i < pathParts.length; i++) {
+        const part = pathParts[i];
         currentPath += `/${part}`;
         let name = part.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
-        // Special case for product pages
-        if (pathParts[0] === 'products' && index === 1) {
+        // Specific override for product detail page to inject category
+        if (pathParts[0] === 'products' && i === 1) {
             const product = MOCK_PRODUCTS.find(p => p.id === part);
-            if (product) name = product.name;
+            if (product) {
+                crumbs.push({
+                    name: product.category,
+                    path: '/products', // Link back to the main catalog page
+                    isCurrent: false,
+                });
+                name = product.name; // Update the name for the final product crumb
+            }
         }
         
-        return {
+        crumbs.push({
             name,
             path: currentPath,
-            isCurrent: index === pathParts.length - 1,
-        };
-    });
+            isCurrent: i === pathParts.length - 1,
+        });
+    }
 
-    // Add "Home" as the root
     return [{ name: 'Home', path: '/', isCurrent: false }, ...crumbs];
   }, [pathname]);
 
-  // Scroll to top on route change with instant behavior for cleaner navigation
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -56,7 +127,6 @@ export function Layout({ children }: LayoutProps) {
     });
   }, [location.pathname]);
 
-  // Updated logic to handle sub-routes robustly
   const isActive = (path: string) => {
     if (path === '/') return location.pathname === '/';
     return location.pathname === path || location.pathname.startsWith(`${path}/`);
@@ -64,7 +134,6 @@ export function Layout({ children }: LayoutProps) {
 
   const isHome = location.pathname === '/';
 
-  // Handle scroll effect for header transparency, dynamic theme color, and progress bar
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 20;
@@ -72,7 +141,6 @@ export function Layout({ children }: LayoutProps) {
         setScrolled(isScrolled);
       }
       
-      // Calculate scroll progress
       const totalScroll = document.documentElement.scrollTop;
       const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       if (windowHeight > 0) {
@@ -80,7 +148,6 @@ export function Layout({ children }: LayoutProps) {
         setScrollProgress(scroll);
       }
 
-      // Keep theme-color dark (#0B1120) for immersive feel in both states
       const metaThemeColor = document.querySelector('meta[name="theme-color"]');
       if (metaThemeColor) {
         metaThemeColor.setAttribute('content', '#0B1120');
@@ -88,12 +155,11 @@ export function Layout({ children }: LayoutProps) {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial check
+    handleScroll();
     
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isHome, scrolled]);
 
-  // Global Keyboard Shortcut for Search (Cmd+K)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -105,13 +171,6 @@ export function Layout({ children }: LayoutProps) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Dynamic Title
-  useEffect(() => {
-    const pageTitle = NAV_LINKS.find(l => l.path === location.pathname)?.label || 'Emphz';
-    document.title = `${pageTitle} | Emphz GRP Solutions`;
-  }, [location]);
-
-  // Escape key to close menu
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setIsMenuOpen(false);
@@ -120,7 +179,6 @@ export function Layout({ children }: LayoutProps) {
     return () => window.removeEventListener('keydown', handleEsc);
   }, []);
 
-  // Lock body scroll when menu is open
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -130,10 +188,8 @@ export function Layout({ children }: LayoutProps) {
     return () => { document.body.style.overflow = 'unset'; };
   }, [isMenuOpen]);
 
-  // Header State Logic - PREMIUM DARK THEME
   const isHeaderTransparent = isHome && !scrolled && !isMenuOpen;
   
-  // Refined transition logic with smooth cubic-bezier easing
   const headerBaseClass = "fixed top-0 w-full z-50 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]";
   const headerBgClass = isMenuOpen 
     ? 'bg-transparent border-transparent py-4' 
@@ -141,7 +197,6 @@ export function Layout({ children }: LayoutProps) {
         ? 'bg-transparent border-transparent py-6 md:py-8' 
         : 'bg-[#0B1120]/90 backdrop-blur-xl border-b border-white/5 py-3 md:py-4 shadow-[0_4px_30px_rgba(0,0,0,0.3)]');
   
-  // Navigation Links
   const navLinkClass = isHeaderTransparent 
     ? 'text-white/90 hover:text-white font-medium drop-shadow-sm' 
     : 'text-gray-400 font-medium hover:text-white';
@@ -152,20 +207,17 @@ export function Layout({ children }: LayoutProps) {
     ? 'text-white hover:text-emphz-orange drop-shadow-sm' 
     : 'text-gray-400 hover:text-emphz-orange';
 
-  // Desktop Nav Pill Container
   const navPillClass = isHeaderTransparent 
     ? 'bg-black/10 border border-white/10 backdrop-blur-[2px]' 
     : 'bg-transparent border-transparent';
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-emphz-navy font-sans selection:bg-emphz-orange selection:text-white relative">
-      {/* Global Style Injection for Smooth Scrolling and Header Offset */}
       <style>{`
         html {
           scroll-behavior: smooth;
           scroll-padding-top: 80px; 
         }
-        /* Global Noise Texture */
         .global-noise {
           position: fixed;
           top: 0;
@@ -179,12 +231,10 @@ export function Layout({ children }: LayoutProps) {
         }
       `}</style>
 
-      {/* Noise Overlay */}
       <div className="global-noise"></div>
       
       <a href="#main-content" className="skip-link">Skip to main content</a>
       
-      {/* Scroll Progress Bar */}
       <div className="fixed top-0 left-0 w-full h-1 z-[60] pointer-events-none">
         <div 
           className="h-full bg-emphz-orange shadow-[0_0_10px_#00ADB5]" 
@@ -192,19 +242,16 @@ export function Layout({ children }: LayoutProps) {
         />
       </div>
 
-      {/* Main Header */}
       <header 
         className={`${headerBaseClass} ${headerBgClass}`}
         aria-label="Site Header"
       >
         <div className="w-full px-6 md:px-12">
           <div className="flex justify-between items-center h-full">
-            {/* Logo */}
             <Link to="/" className="group z-50 relative block py-2" aria-label="Emphz Home" onClick={() => setIsMenuOpen(false)}>
               <Logo className="h-8 md:h-10 w-auto transition-transform duration-300 group-hover:scale-105" variant="light" />
             </Link>
 
-            {/* Desktop Nav */}
             <nav className={`hidden md:flex items-center space-x-8 px-8 py-2 rounded-full transition-all duration-500 ${navPillClass}`} aria-label="Main Navigation">
               {NAV_LINKS.map((link) => (
                 <Link
@@ -221,7 +268,6 @@ export function Layout({ children }: LayoutProps) {
               ))}
             </nav>
 
-            {/* Actions */}
             <div className="hidden md:flex items-center space-x-5">
               <button
                  onClick={() => setIsSearchOpen(true)}
@@ -245,7 +291,6 @@ export function Layout({ children }: LayoutProps) {
               </Link>
             </div>
 
-            {/* Mobile Menu Button */}
             <div className="md:hidden flex items-center z-50 gap-4">
               <button
                  onClick={() => setIsSearchOpen(true)}
@@ -275,7 +320,6 @@ export function Layout({ children }: LayoutProps) {
           </div>
         </div>
 
-        {/* Mobile Menu Overlay - Full Screen Cinematic */}
         <div 
             className={`fixed inset-0 bg-[#050A14]/95 backdrop-blur-2xl z-40 flex flex-col justify-center px-8 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
                 isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
@@ -322,13 +366,11 @@ export function Layout({ children }: LayoutProps) {
               </div>
             </nav>
             
-            {/* Abstract Background Elements for Menu */}
             <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-emphz-orange/20 rounded-full blur-[100px] pointer-events-none"></div>
             <div className="absolute top-20 -left-20 w-60 h-60 bg-blue-600/20 rounded-full blur-[80px] pointer-events-none"></div>
           </div>
       </header>
 
-      {/* Main Content - Remove top padding for Home to allow full bleed hero */}
       <main 
         id="main-content" 
         className={`flex-grow relative min-h-[calc(100vh-400px)] ${isHome ? '' : 'pt-24'} transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${isMenuOpen ? 'blur-sm scale-[0.98] opacity-40 grayscale-[50%]' : ''}`} 
@@ -340,7 +382,7 @@ export function Layout({ children }: LayoutProps) {
                 <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto px-6 md:px-8 py-3 animate-fade-in">
                     <ol className="flex items-center space-x-2 text-xs font-mono">
                         {breadcrumbs.map((crumb, index) => (
-                            <li key={crumb.path} className="flex items-center">
+                            <li key={`${crumb.path}-${crumb.name}`} className="flex items-center">
                                 {index > 0 && <ChevronRight size={14} className="text-gray-400 mx-2" />}
                                 {crumb.isCurrent ? (
                                     <span className="text-emphz-navy font-bold truncate" aria-current="page">
@@ -363,7 +405,6 @@ export function Layout({ children }: LayoutProps) {
         {children}
       </main>
 
-      {/* Floating Action Buttons */}
       <div className={`fixed bottom-6 right-6 z-30 flex flex-col gap-3 transition-all duration-500 ${isMenuOpen ? 'opacity-0 translate-y-10 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
         <a 
           href="https://wa.me/919037874080" 
@@ -391,12 +432,9 @@ export function Layout({ children }: LayoutProps) {
 
       <LiveChatWidget />
       
-      {/* Global Command Palette */}
       <CommandPalette isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
-      {/* Footer - Immersive Midnight Slate */}
       <footer className={`bg-emphz-navy text-white pt-20 pb-10 md:pt-28 md:pb-12 relative overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${isMenuOpen ? 'blur-sm opacity-40' : ''}`} role="contentinfo">
-        {/* Background Abstract */}
         <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none overflow-hidden">
            <div className="absolute -right-20 top-0 w-[400px] h-[400px] bg-emphz-orange rounded-full blur-[150px] animate-float" style={{ animationDuration: '8s' }}></div>
            <div className="absolute -left-20 bottom-0 w-[300px] h-[300px] bg-blue-600 rounded-full blur-[120px] animate-float" style={{ animationDuration: '10s' }}></div>

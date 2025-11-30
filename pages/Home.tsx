@@ -45,31 +45,31 @@ const Home: React.FC = () => {
   const HERO_IMAGES = [
     {
         src: "https://lh3.googleusercontent.com/pw/AP1GczMAwEyda-VatlopWLADNQaXs2ac5qXUBGyj127pjaQNQX1ovYq7FZLeSHxttDZHdHTitg8V4nvvU5F0Ad4SypnZnvXC0wKmqomtms1jkFrTREFrcXNhwBxdoojhP2ciD6fBA2dhWu5mtxELeCChbHPerw=w1563-h879-s-no-gm?authuser=0",
-        alt: "GRP security cabin in an industrial setting"
+        alt: "Emphz GRP Security Guard Villa cabin at an industrial facility"
     },
     {
         src: "https://lh3.googleusercontent.com/pw/AP1GczPDRXHhmo1DelLxi0HtftJnSmJ5IkdKr2Ul0o4WqNdZC0aJLGTf3RDD6NY95soy12tjT-9X5MXLRdCBt8plfP21vC68xJgU31pGM52ih8yBsDP2UzyWWShp8haDaNLGCv-EGnHQMuwNSVEJe7G288whig=w1563-h879-s-no-gm?authuser=0",
-        alt: "Protective GRP canopy for field instruments"
+        alt: "Protective GRP Instrument Sunshade canopy for field transmitters"
     },
     {
         src: "https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0",
-        alt: "Futuristic GRP monocoque living pod"
+        alt: "Emphz Xpod X7 futuristic GRP monocoque smart living pod"
     },
     {
         src: "https://lh3.googleusercontent.com/pw/AP1GczNrU-k7hPLmr-DvpT_gbosZGrakzMIcqO2aFfnm9CxOaGu1urrgRkK_tdxRE5BL7yO4ncuoj20Ih9R9APtPjrpBjwBT9kMrwTWy_rU-TTp0g685rQRi7b2Gpm_8yO6_6nzE-xok9zOiNC7Yf6mIKxD44w=w1319-h879-s-no-gm?authuser=0",
-        alt: "Emphz GRP manufacturing facility"
+        alt: "Advanced GRP composite manufacturing facility with hot press molding machinery"
     },
     {
         src: "https://lh3.googleusercontent.com/pw/AP1GczOYyrN7zzWAF72LarCKhxba48Z63JkRPQa84TPIyRzuZwyGt-CbVJd4tzh2kNF93HhECGlR7d4lJzH5XFeWiqwiwWJy3yuaqr4v3VJXs3CJHYNEgmroDLxP0U89hb-D5PJ0wB1CNPL56fN7KgdXmzWs7w=w1319-h879-s-no-gm?authuser=0",
-        alt: "Modular GRP panel water tank installation"
+        alt: "Large modular GRP panel water tank installation for potable water storage"
     },
     {
         src: "https://lh3.googleusercontent.com/pw/AP1GczO_yHvrVqeSyQptetDgD2xpolaXq9oXImcceikitbuNMjlzS3w1JQVVNKdnZ5FGwuJHtUNCvJtJmk1Z28icLadmXjgCqOeyX8x6QuEgEpIlE42BGv5ncFbvY0DrMNUFXlpYmrZ7LkkYTDGBNR7zpuN1vQ=w1319-h879-s-no-gm?authuser=0",
-        alt: "GRP electrical enclosure in an industrial plant"
+        alt: "E-Series IP66 Coastal GRP Electrical Enclosure in an industrial plant"
     },
     {
         src: "https://lh3.googleusercontent.com/pw/AP1GczMvuz7tjgxC5-JF9dQctIIAuS8YxbnxwOh-BxiCmu2-fRi94SQUgqdsyZ8QcYCx_WhpUYQe-RJjo9kUnlKWHJYyHFiq7le1FfH98Qvn_LBr4-BYmSe-LfgpUg-WAI7KRzJg2kp_-VQNZK7FQcCRyd07dw=w1563-h879-s-no-gm?authuser=0",
-        alt: "Modular GRP utility kiosk"
+        alt: "Modular GRP utility kiosk for urban electrical substations"
     }
   ];
 
@@ -107,10 +107,8 @@ const Home: React.FC = () => {
   return (
     <div className="flex flex-col bg-white text-emphz-navy overflow-x-hidden motion-safe:scroll-smooth">
       
-      {/* 1. Enhanced Hero Section - Full Wide Background */}
       <section className="relative min-h-screen flex items-end justify-start overflow-hidden bg-[#050A14] group">
         
-        {/* Background Image Slideshow with Ken Burns effect */}
         <div className="absolute inset-0 z-0 overflow-hidden">
            {HERO_IMAGES.map((image, index) => (
                <img 
@@ -120,7 +118,6 @@ const Home: React.FC = () => {
                  className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-2000 ease-in-out ${index === currentImageIndex ? 'opacity-100 animate-ken-burns' : 'opacity-0'}`}
                />
            ))}
-           {/* Cinematic Overlays */}
            <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-[#0B1120]/40 to-transparent"></div>
            <div className="absolute inset-0 bg-gradient-to-l from-[#0B1120] via-transparent to-transparent opacity-50"></div>
            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay"></div>
@@ -130,7 +127,6 @@ const Home: React.FC = () => {
             
             <div className="space-y-6 max-w-2xl">
               
-              {/* Animated Product Categories */}
               <div className="flex flex-wrap gap-2">
                 {FEATURED_CATEGORIES.map((category, index) => (
                   <div
@@ -178,7 +174,6 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 2. Infinite Marquee */}
       <div className="py-8 md:py-10 bg-white border-y border-gray-100 overflow-hidden" aria-hidden="true">
         <div className="flex space-x-16 md:space-x-24 motion-safe:animate-scroll whitespace-nowrap w-max hover:pause will-change-transform">
           {[...INDUSTRIES, ...INDUSTRIES, ...INDUSTRIES].map((ind, i) => (
@@ -192,7 +187,6 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* 2.5 Certified Excellence Section - Improved Trust Strip */}
       <section className="py-20 bg-gray-50 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6">
            <div className="flex flex-col md:flex-row items-center justify-between gap-10">
@@ -220,9 +214,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 3. Key Features Grid - Modern Bento Style */}
       <section className="py-20 md:py-32 relative bg-white overflow-hidden">
-        {/* Abstract Background */}
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-50 rounded-full blur-[100px] opacity-60 translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-teal-50 rounded-full blur-[100px] opacity-60 -translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
 
@@ -300,7 +292,6 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 4. Product Showcase Slider - Sleeker Cards */}
       <section className="py-20 md:py-24 bg-gray-50 border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
@@ -338,7 +329,6 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 4.5 NEW: Industries Served Grid - Immersive Image Cards */}
       <section className="py-20 md:py-32 bg-emphz-navy relative overflow-hidden">
          <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -362,7 +352,6 @@ const Home: React.FC = () => {
          </div>
       </section>
 
-      {/* 5. Company Overview / Mission Section */}
       <section className="py-20 md:py-32 bg-white relative overflow-hidden">
          <div className="absolute top-1/2 left-0 w-[800px] h-[800px] bg-gray-50 rounded-full blur-[100px] transform -translate-y-1/2 -translate-x-1/3 pointer-events-none"></div>
          
@@ -404,7 +393,6 @@ const Home: React.FC = () => {
          </div>
       </section>
 
-      {/* 5.5. About Us Summary */}
       <section className="py-20 md:py-24 bg-gray-50 border-y border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
@@ -448,7 +436,6 @@ const Home: React.FC = () => {
           </div>
       </section>
 
-      {/* 6. CTA Section */}
       <section className="py-20 md:py-32 relative overflow-hidden bg-white">
          <div className="absolute inset-0 bg-emphz-navy transform -skew-y-3 origin-bottom-left scale-110 translate-y-20 z-0"></div>
          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 z-0 mix-blend-overlay pointer-events-none"></div>
