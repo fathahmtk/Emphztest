@@ -88,6 +88,7 @@ const CaseStudies: React.FC = () => {
                       src={study.imageUrl} 
                       alt={study.title} 
                       loading="lazy"
+                      decoding="async"
                       className="w-full aspect-[16/10] object-cover transform transition-transform duration-1000 group-hover:scale-110 relative z-10" 
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-emphz-navy via-transparent to-transparent opacity-80 z-20"></div>

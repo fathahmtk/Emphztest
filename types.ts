@@ -1,15 +1,17 @@
 export enum ProductCategory {
-  SMART_CABIN = 'Smart Living Pods',
-  ENCLOSURE = 'Electrical Enclosures',
-  KIOSK = 'Modular Kiosks',
-  CABIN = 'Security Cabins',
-  JUNCTION_BOX = 'Junction Boxes',
-  CUSTOM = 'Custom Structures',
   AUTOMOBILE = 'Automobile Components',
-  STRUCTURAL = 'Structural Profiles',
+  BUS_SHELTER = 'Bus Shelters',
+  CABIN = 'Security Cabins',
+  CUSTOM = 'Custom Structures',
+  ENCLOSURE = 'Electrical Enclosures',
   FIRE_SAFETY = 'Fire Safety Equipment',
-  WATER_STORAGE = 'Water Storage Solutions',
-  INDUSTRIAL_PROTECTION = 'Industrial Protection'
+  INDUSTRIAL_PROTECTION = 'Industrial Protection',
+  JUNCTION_BOX = 'Junction Boxes',
+  KIOSK = 'Modular Kiosks',
+  PORTABLE_TOILET = 'Portable Toilets',
+  SMART_CABIN = 'Smart Living Pods',
+  STRUCTURAL = 'Structural Profiles',
+  WATER_STORAGE = 'Water Storage Solutions'
 }
 
 export interface ProductSpec {
@@ -52,4 +54,15 @@ export interface ChatMessage {
   role: 'user' | 'model' | 'system';
   text: string;
   isError?: boolean;
+}
+
+export interface BlogPost {
+  slug: string;
+  title: string;
+  category: 'High-Intent' | 'Long-Tail';
+  date: string;
+  author: string;
+  summary: string;
+  imageUrl: string;
+  content: string;
 }

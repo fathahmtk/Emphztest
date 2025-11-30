@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { NAV_LINKS, MOCK_PRODUCTS, MOCK_CASE_STUDIES } from '../constants';
+import { NAV_LINKS, MOCK_PRODUCTS, MOCK_CASE_STUDIES, MOCK_BLOG_POSTS } from '../constants';
 import { ProductCategory, Product } from '../types';
-import { Box, FileText, ChevronRight, Activity, Cpu, Layers, LayoutGrid, Zap } from 'lucide-react';
+import { Box, FileText, ChevronRight, Activity, Cpu, Layers, LayoutGrid, Zap, Rss } from 'lucide-react';
 
 const Sitemap: React.FC = () => {
   const productsByCategory = Object.values(ProductCategory).reduce((acc, category) => {
@@ -27,7 +27,7 @@ const Sitemap: React.FC = () => {
             </div>
             <div className="hidden md:block text-right text-[10px] text-gray-500 font-mono">
                <div>LAST_UPDATE: {new Date().toLocaleDateString()}</div>
-               <div>NODES: {MOCK_PRODUCTS.length + MOCK_CASE_STUDIES.length + 5}</div>
+               <div>NODES: {MOCK_PRODUCTS.length + MOCK_CASE_STUDIES.length + MOCK_BLOG_POSTS.length + 5}</div>
             </div>
           </div>
 
@@ -90,13 +90,27 @@ const Sitemap: React.FC = () => {
                 </div>
                 
                 <div className="space-y-8">
+                    <div>
+                      <h3 className="text-[10px] font-bold text-gray-500 uppercase mb-3 tracking-widest flex items-center gap-2"><Rss size={12}/> Blog Articles</h3>
+                      <ul className="space-y-2">
+                         {MOCK_BLOG_POSTS.map(post => (
+                            <li key={post.slug}>
+                               <Link to={`/blog/${post.slug}`} className="block p-2 rounded hover:bg-white/5 border border-transparent hover:border-gray-800 transition-colors">
+                                  <div className="text-xs font-bold text-gray-300 line-clamp-1">{post.title}</div>
+                                  <div className="text-[9px] text-gray-600 font-mono mt-0.5">{post.date}</div>
+                               </Link>
+                            </li>
+                         ))}
+                      </ul>
+                   </div>
+
                    <div>
                       <h3 className="text-[10px] font-bold text-gray-500 uppercase mb-3 tracking-widest">Case Studies</h3>
                       <ul className="space-y-2">
                          {MOCK_CASE_STUDIES.map(study => (
                             <li key={study.id}>
                                <Link to="/case-studies" className="block p-2 rounded hover:bg-white/5 border border-transparent hover:border-gray-800 transition-colors">
-                                  <div className="text-xs font-bold text-gray-300">{study.title}</div>
+                                  <div className="text-xs font-bold text-gray-300 line-clamp-1">{study.title}</div>
                                   <div className="text-[9px] text-gray-600 font-mono mt-0.5">{study.location}</div>
                                </Link>
                             </li>

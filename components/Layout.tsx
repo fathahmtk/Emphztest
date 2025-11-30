@@ -1,15 +1,77 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ShoppingCart, Phone, Mail, MapPin, ChevronRight, MessageCircle, FileText, Search } from 'lucide-react';
-import { NAV_LINKS, MOCK_PRODUCTS } from '../constants';
+import { NAV_LINKS, MOCK_PRODUCTS, MOCK_BLOG_POSTS } from '../constants';
 import { useRFQ } from '../contexts/RFQContext';
 import LiveChatWidget from './LiveChatWidget';
 import Logo from './Logo';
 import CommandPalette from './CommandPalette';
+import { ProductCategory } from '../types';
 
 interface LayoutProps {
   children?: React.ReactNode;
 }
+
+const SEO_DATA = {
+  '/': {
+    title: 'EMPHZ – GRP/FRP Enclosures, Portable Toilets, Kiosks & Pods | Composite Engineering',
+    description: 'EMPHZ specializes in high-durability GRP/FRP enclosures, portable toilets, security cabins, food kiosks, sleeping pods, villa pods, and bus shelters for industrial and public-sector applications.',
+  },
+  '/about': {
+    title: 'About EMPHZ | Leading GRP/FRP Manufacturer',
+    description: 'Discover EMPHZ — a composite engineering company delivering premium GRP/FRP enclosures, kiosks, pods, and prefab structures built for long-term durability.',
+  },
+   '/products': {
+    title: 'GRP/FRP Product Catalog | Enclosures, Cabins, Pods & More | EMPHZ',
+    description: "Browse our extensive catalog of GRP electrical enclosures, modular kiosks, security cabins, portable toilets, and custom composite structures.",
+  },
+  '/case-studies': {
+    title: 'Case Studies | Real-World GRP Applications | EMPHZ',
+    description: "Explore real-world applications of Emphz GRP solutions in demanding industries like utilities, rail, and coastal infrastructure.",
+  },
+  '/technical': {
+    title: 'Technical Center | Datasheets & AI Support | EMPHZ',
+    description: "Access our Technical Center for datasheets, installation guides, and direct consultation with our AI engineering assistant.",
+  },
+  '/blog': {
+    title: 'Technical Insights | Emphz GRP Blog',
+    description: 'Explore the latest in GRP technology, project highlights, and engineering best practices from the Emphz team.',
+  },
+  '/contact': {
+    title: 'Contact EMPHZ | GRP/FRP Manufacturer',
+    description: 'Reach EMPHZ for product inquiries, quotations, and partnership opportunities.',
+  },
+  productsByCategory: {
+    [ProductCategory.PORTABLE_TOILET]: {
+      title: 'GRP Portable Toilets | FRP Toilet Cabins | Executive & Mobile Units',
+      description: 'Premium GRP/FRP portable toilets engineered for construction sites, events, public use, and commercial facilities. Waterless, mobile, and executive options available.',
+    },
+    [ProductCategory.ENCLOSURE]: {
+      title: 'GRP Electrical Enclosures | HT/LT, Solar, Telecom & Metering Boxes',
+      description: 'Industrial-grade GRP/FRP enclosures designed for weatherproof performance in power, utility, solar, telecom, and infrastructure projects.',
+    },
+     [ProductCategory.JUNCTION_BOX]: {
+      title: 'GRP Electrical Enclosures | HT/LT, Solar, Telecom & Metering Boxes',
+      description: 'Industrial-grade GRP/FRP enclosures designed for weatherproof performance in power, utility, solar, telecom, and infrastructure projects.',
+    },
+    [ProductCategory.CABIN]: {
+      title: 'GRP Security Cabins | FRP Guard Rooms & Portable Booths',
+      description: 'Anti-vandal GRP security cabins for malls, construction sites, factories, and gated communities.',
+    },
+    [ProductCategory.KIOSK]: {
+      title: 'GRP Food Kiosks | Portable Food Cabins & Retail Units',
+      description: 'Durable, hygienic GRP kiosks ideal for F&B outlets, retail pop-ups, and outdoor commercial use.',
+    },
+    [ProductCategory.SMART_CABIN]: {
+      title: 'Portable Sleeping Pods, Resort Pods & Villa Pods | GRP Luxury Cabins',
+      description: 'Premium GRP portable pods crafted for resorts, eco-parks, tourism operators, and private properties.',
+    },
+    [ProductCategory.BUS_SHELTER]: {
+      title: 'GRP Bus Shelters | FRP Bus Stop Manufacturer',
+      description: 'Maintenance-free GRP bus shelters for government, municipal and urban mobility projects.',
+    },
+  }
+};
 
 // Helper to update or create a meta tag
 const updateMetaTag = (identifier: string, value: string, isProperty: boolean) => {
@@ -36,46 +98,45 @@ export function Layout({ children }: LayoutProps) {
   // SEO Management Hook for Titles, Descriptions, Canonicals, and Social Tags
   useEffect(() => {
     const handleMetadata = () => {
-      let title = "Emphz GRP Solutions | Advanced GRP Engineering";
-      let description = "Premium B2B GRP electrical enclosures and modular structures manufacturer for industrial and coastal environments.";
+      let title = "EMPHZ – GRP/FRP Manufacturer";
+      let description = "High-performance GRP solutions, engineered to outperform steel in corrosive and harsh industrial environments.";
       let ogImage = "https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0";
       let ogType = "website";
+
       const pathParts = pathname.split('/').filter(Boolean);
 
-      if (pathname === '/') {
-          title = "Emphz GRP Solutions | Advanced GRP Enclosures & Modular Structures";
-          description = "India's leading manufacturer of high-performance GRP solutions, engineered to outperform steel in corrosive and harsh industrial environments.";
-      } else if (pathname.startsWith('/products/')) {
-          const productId = pathParts[1];
-          const product = MOCK_PRODUCTS.find(p => p.id === productId);
-          if (product) {
-              title = `${product.name} | ${product.category} | Emphz`;
-              description = product.shortDescription;
-              ogImage = product.imageUrl;
-              ogType = "product";
-          }
-      } else {
-        const currentLink = NAV_LINKS.find(link => link.path === pathname);
-        if (currentLink) {
-            title = `${currentLink.label} | Emphz GRP Solutions`;
-            ogType = "article";
-            switch(pathname) {
-                case '/products':
-                    description = "Browse our extensive catalog of GRP electrical enclosures, modular kiosks, security cabins, and custom composite structures.";
-                    break;
-                case '/case-studies':
-                    description = "Explore real-world applications of Emphz GRP solutions in demanding industries like utilities, rail, and coastal infrastructure.";
-                    break;
-                case '/technical':
-                    description = "Access our Technical Center for datasheets, installation guides, and direct consultation with our AI engineering assistant.";
-                    break;
-                case '/about':
-                    description = "Learn about Emphz's mission, manufacturing excellence, and commitment to replacing obsolete materials with superior GRP composites.";
-                    break;
-                case '/contact':
-                    description = "Contact our engineering and sales teams in Mysore and Kerala for quotes, technical support, and partnership inquiries.";
-                    break;
+      if (pathname.startsWith('/products/')) {
+        const productId = pathParts[1];
+        const product = MOCK_PRODUCTS.find(p => p.id === productId);
+        if (product) {
+            const categorySeo = SEO_DATA.productsByCategory[product.category as keyof typeof SEO_DATA.productsByCategory];
+            if (categorySeo) {
+                title = categorySeo.title;
+                description = categorySeo.description;
+            } else {
+                title = `${product.name} | ${product.category} | EMPHZ`;
+                description = product.shortDescription;
             }
+            ogImage = product.imageUrl;
+            ogType = "product";
+        }
+      } else if (pathname.startsWith('/blog/')) {
+        const slug = pathParts[1];
+        const post = MOCK_BLOG_POSTS.find(p => p.slug === slug);
+        if (post) {
+          title = `${post.title} | Emphz Blog`;
+          description = post.summary;
+          ogImage = post.imageUrl;
+          ogType = "article";
+        }
+      }
+      else {
+        const pageSeo = SEO_DATA[pathname as keyof typeof SEO_DATA];
+        // FIX: Add a type guard to ensure we are dealing with a page SEO object, not the productsByCategory object.
+        if (pageSeo && 'title' in pageSeo) {
+            title = pageSeo.title;
+            description = pageSeo.description;
+            ogType = pathname === '/' ? 'website' : 'article';
         }
       }
       

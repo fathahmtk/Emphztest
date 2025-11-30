@@ -1,17 +1,69 @@
-
-
-import { Product, ProductCategory, CaseStudy } from './types';
+import { Product, ProductCategory, CaseStudy, BlogPost } from './types';
 
 export const NAV_LINKS = [
   { label: 'Home', path: '/' },
   { label: 'Products', path: '/products' },
   { label: 'Case Studies', path: '/case-studies' },
   { label: 'Technical Center', path: '/technical' },
+  { label: 'Blog', path: '/blog' },
   { label: 'About', path: '/about' },
   { label: 'Contact', path: '/contact' },
 ];
 
 export const WHATSAPP_LINK = "https://wa.me/919037874080";
+
+export const MOCK_BLOG_POSTS: BlogPost[] = [
+  {
+    slug: 'grp-future-of-infrastructure',
+    title: 'Why GRP Is the Future of Portable Infrastructure',
+    category: 'High-Intent',
+    date: '2024-08-15',
+    author: 'Emphz Engineering Team',
+    summary: 'Explore the fundamental advantages of Glass Reinforced Plastic (GRP) over traditional materials like steel and concrete, especially in harsh environments.',
+    imageUrl: 'https://images.unsplash.com/photo-1581092921462-6870002878b6?auto=format&fit=crop&w=800&q=80',
+    content: `In the world of industrial and public infrastructure, the choice of material is paramount. For decades, steel and concrete have been the default options. However, in environments plagued by corrosion, moisture, and chemical exposure, these traditional materials reveal their weaknesses, leading to costly maintenance cycles and premature failure.\n\nEnter Glass Reinforced Plastic (GRP), a composite material engineered to thrive where others falter. GRP's inherent resistance to rust and corrosion makes it the definitive choice for coastal installations, chemical plants, and water treatment facilities. Unlike steel, it does not require painting or protective coatings, offering a maintenance-free lifespan of over 25 years.\n\nFurthermore, GRP's lightweight nature—up to 40% lighter than steel for equivalent strength—revolutionizes logistics and installation. A GRP kiosk or enclosure can be transported and installed with minimal heavy machinery, dramatically reducing project timelines and costs, especially in remote or difficult-to-access locations. This combination of durability and practicality positions GRP not just as an alternative, but as the successor to traditional materials for all future-proof infrastructure projects.`
+  },
+  {
+    slug: 'grp-vs-steel-enclosures',
+    title: 'GRP vs. Steel: Which Is Better for Electrical Enclosures?',
+    category: 'High-Intent',
+    date: '2024-08-05',
+    author: 'Technical Department',
+    summary: 'A head-to-head comparison of GRP and steel for protecting sensitive electrical components, focusing on safety, longevity, and total cost of ownership.',
+    imageUrl: 'https://images.unsplash.com/photo-1621947081720-86970823b77a?auto=format&fit=crop&w=800&q=80',
+    content: `When specifying electrical enclosures, engineers have a critical choice to make: GRP or steel? While mild steel and stainless steel have been industry standards, GRP offers a compelling set of advantages that address the core weaknesses of metal.\n\n**Corrosion:** This is GRP's home ground. In saline or chemical-rich atmospheres, a steel enclosure's integrity is compromised from day one. GRP is chemically inert and will not rust, ensuring a perfect seal (IP66/67) for decades.\n\n**Electrical Safety:** Steel is a conductor. A fault within a steel enclosure can energize the entire body, creating a severe shock hazard. GRP is a natural insulator, eliminating this risk and often simplifying earthing requirements.\n\n**Weight & Installation:** GRP's high strength-to-weight ratio makes it far easier to handle and install. This is a significant advantage for wall-mounted or pole-mounted applications, reducing both labor costs and structural load requirements.\n\nWhile steel may offer higher initial impact resistance (IK rating), modern GRP composites achieve IK10 ratings, making them suitable for all but the most extreme physical abuse scenarios. When considering the total cost of ownership, including maintenance and replacement, GRP emerges as the clear winner for long-term, reliable asset protection.`
+  },
+  {
+    slug: 'portable-toilets-for-construction',
+    title: 'Best Portable Toilet Setup for Construction Sites',
+    category: 'High-Intent',
+    date: '2024-07-28',
+    author: 'Project Solutions Team',
+    summary: "An essential guide for project managers on selecting durable, hygienic, and low-maintenance GRP portable toilets for demanding construction environments.",
+    imageUrl: 'https://images.unsplash.com/photo-1599057571583-696441b8b688?auto=format&fit=crop&w=800&q=80',
+    content: `Construction sites demand robust and reliable facilities. GRP portable toilets are engineered to withstand the rigors of a busy site, offering significant benefits over standard plastic units.\n\n**Durability:** The GRP shell is resistant to impacts, scratches, and UV degradation, preventing the fading and brittleness common in cheaper alternatives. They are built for a long service life across multiple projects.\n\n**Hygiene:** The smooth, non-porous gelcoat finish of a GRP cabin is incredibly easy to clean and sanitize. It doesn't absorb odors and is resistant to graffiti and chemical cleaners.\n\n**Flexibility:** Our GRP units can be configured with various options, from basic waterless bio-toilets for remote sites to executive cabins with freshwater flushing, sinks, and solar-powered lighting for site offices. This modularity allows you to create a welfare setup that matches your project's specific needs and scale.`
+  },
+  {
+    slug: 'grp-pods-eco-tourism',
+    title: 'How GRP Pods Are Transforming Eco-Tourism',
+    category: 'High-Intent',
+    date: '2024-07-15',
+    author: 'Hospitality Division',
+    summary: 'Discover how the minimal environmental impact and high durability of GRP sleeping pods make them the perfect solution for sustainable luxury in nature.',
+    imageUrl: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80',
+    content: `The eco-tourism industry faces a unique challenge: providing comfortable, even luxurious, accommodation with minimal disturbance to the natural environment. GRP sleeping and resort pods, like our Xpod series, are the ideal solution.\n\n**Low-Impact Installation:** The lightweight monocoque shell of a GRP pod can be craned or even helicoptered into position, requiring minimal foundation work. This preserves the natural landscape and allows for placement in stunning, remote locations that are inaccessible to traditional construction.\n\n**Energy Efficiency:** The GRP composite shell, often insulated with a PU foam core, provides excellent thermal insulation. This reduces the energy required for heating and cooling, a critical factor for off-grid or solar-powered resorts.\n\n**Longevity in Nature:** A GRP pod is impervious to rot, termites, and moisture. It will not warp or degrade in humid forests or on salty coastlines, ensuring a long, maintenance-free lifespan that respects the principle of sustainable investment.`
+  },
+  {
+    slug: 'low-maintenance-bus-shelters',
+    title: 'Low-Maintenance Bus Shelters for Municipal Projects',
+    category: 'High-Intent',
+    date: '2024-06-30',
+    author: 'Public Infrastructure Dept.',
+    summary: 'A look at why municipal governments are turning to GRP for public transport shelters to combat vandalism, corrosion, and high maintenance budgets.',
+    imageUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
+    content: 'Public infrastructure is a long-term investment, and maintenance costs are a primary concern for municipal authorities. GRP bus shelters offer a "fit and forget" solution that dramatically reduces lifetime costs.\n\n**Vandalism Resistance:** GRP has high impact strength and a through-pigmented color that cannot be scratched off. Graffiti can be easily removed from the gelcoat surface without damaging the material.\n\n**Weatherproof:** GRP will never rust, rot, or corrode. This is a critical advantage over steel shelters, especially in cities with high rainfall or coastal climates. The UV-stabilized material ensures it will not become brittle or fade under years of sun exposure.\n\n**Modular Design:** Our GRP bus shelters can be delivered in a flat-pack, modular format for quick and easy assembly on-site, minimizing disruption to public spaces. This makes them ideal for large-scale urban mobility projects with tight deadlines.'
+  }
+];
 
 export const MOCK_PRODUCTS: Product[] = [
   {
@@ -40,6 +92,40 @@ export const MOCK_PRODUCTS: Product[] = [
       { title: 'Electrical Schematics', type: 'CAD' }
     ],
     accessories: ['Solar Roof Package', 'Bio-Digester Tank', 'External Decking Module', 'Star-Gazing Skylight']
+  },
+  {
+    id: 'emp-pt-exec',
+    name: 'Executive GRP Portable Toilet',
+    category: ProductCategory.PORTABLE_TOILET,
+    shortDescription: 'Premium portable toilet cabin with modern amenities for events and executive sites.',
+    fullDescription: 'Our Executive GRP Portable Toilet offers superior hygiene and comfort. The robust GRP shell is easy to clean and resistant to vandalism. It comes equipped with a ceramic toilet, freshwater flushing system, a wash basin, and optional solar-powered lighting.',
+    imageUrl: 'https://lh3.googleusercontent.com/pw/AP1GczPQ03aYj-pW6L0BwB8Z2hJ0b9k3T5b7y9w2zX6wV2n1v2A1b-L8y9x_o8P9n3G5a_k9S8g7D4c3J2b1e-P5o4r_sT3b-C1q2J0s=w1000-h1000-s-no-gm?authuser=0',
+    specs: [
+      { label: 'Base Size', value: '4ft x 4ft' },
+      { label: 'Material', value: 'Insulated GRP Panels' },
+      { label: 'Water Tank', value: '150L Fresh, 250L Waste' },
+      { label: 'Features', value: 'Flush, Sink, Mirror, Vent' },
+    ],
+    features: ['Freshwater flush system', 'Anti-slip flooring', 'Lockable door with indicator', 'Easy to transport and install', 'Optional waterless bio-toilet'],
+    downloads: [ { title: 'Portable Toilet Brochure', type: 'PDF' } ],
+    accessories: ['Solar Lighting Kit', 'Hand Sanitizer Dispenser', 'Exhaust Fan']
+  },
+   {
+    id: 'emp-bs-metro',
+    name: 'Metro GRP Bus Shelter',
+    category: ProductCategory.BUS_SHELTER,
+    shortDescription: 'Durable and maintenance-free GRP bus shelter for modern urban transport projects.',
+    fullDescription: 'The Metro GRP Bus Shelter is designed for public spaces, offering protection from the elements with a modern aesthetic. The composite structure is fire retardant, UV resistant, and will not corrode, making it ideal for any climate. It features integrated seating and space for advertising panels.',
+    imageUrl: 'https://lh3.googleusercontent.com/pw/AP1GczN_sP8sT5f1k5f_j7Z6l_t8b9c4A1d_f3E2g_h5I4k_L9o7P3n_R2c_V1x_W0a_Y7x_X6v_Z5s_C4v_Q3c_B2a_L1e_S0z_I1a_A=w1200-h800-s-no-gm?authuser=0',
+    specs: [
+      { label: 'Dimensions', value: '4.5m x 1.5m x 2.8m' },
+      { label: 'Frame', value: 'Pultruded GRP Sections' },
+      { label: 'Roof', value: 'Translucent GRP Sheet' },
+      { label: 'Seating', value: 'Integrated GRP Bench' },
+    ],
+    features: ['Corrosion and rust proof', 'Vandal resistant', 'Integrated seating', 'Advertising panel space', 'Low maintenance'],
+    downloads: [ { title: 'Bus Shelter Datasheet', type: 'PDF' } ],
+    accessories: ['Solar LED Lighting', 'Timetable Display Case', 'Waste Bin']
   },
   {
     id: 'emp-kiosk-101',

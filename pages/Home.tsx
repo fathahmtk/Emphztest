@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Droplet, Zap, Box, Layers, Maximize, FileText, Sun, Train, Wifi, Flame, CloudRain, Factory, Shield, CheckCircle, Award, Play, ShieldCheck, Cpu, Globe, ChevronRight, Anchor, Lightbulb, Users } from 'lucide-react';
-import { INDUSTRIES, MOCK_PRODUCTS } from '../constants';
+import { ArrowRight, Droplet, Zap, Box, Layers, Maximize, FileText, Sun, Train, Wifi, Flame, CloudRain, Factory, Shield, CheckCircle, Award, Play, ShieldCheck, Cpu, Globe, ChevronRight, Anchor, Lightbulb, Users, Rss } from 'lucide-react';
+import { INDUSTRIES, MOCK_PRODUCTS, MOCK_BLOG_POSTS } from '../constants';
 
 const ScrollRevealIcon: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -38,10 +38,8 @@ const ScrollRevealIcon: React.FC<{ children: React.ReactNode }> = ({ children })
 };
 
 const Home: React.FC = () => {
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
-  const WORDS = ["EXTREME", "FUTURE", "COAST", "INDUSTRY"];
   const HERO_IMAGES = [
     {
         src: "https://lh3.googleusercontent.com/pw/AP1GczMAwEyda-VatlopWLADNQaXs2ac5qXUBGyj127pjaQNQX1ovYq7FZLeSHxttDZHdHTitg8V4nvvU5F0Ad4SypnZnvXC0wKmqomtms1jkFrTREFrcXNhwBxdoojhP2ciD6fBA2dhWu5mtxELeCChbHPerw=w1563-h879-s-no-gm?authuser=0",
@@ -83,17 +81,13 @@ const Home: React.FC = () => {
   ];
 
   useEffect(() => {
-    const wordInterval = setInterval(() => {
-      setCurrentWordIndex((prev) => (prev + 1) % WORDS.length);
-    }, 3000);
     const imageInterval = setInterval(() => {
         setCurrentImageIndex(prev => (prev + 1) % HERO_IMAGES.length);
     }, 6000);
     return () => {
-      clearInterval(wordInterval);
       clearInterval(imageInterval);
     };
-  }, [WORDS.length, HERO_IMAGES.length]);
+  }, [HERO_IMAGES.length]);
 
   const INDUSTRY_IMAGES = [
     { title: "Solar & Renewables", image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=600&q=80", desc: "UV-stable combiner boxes for harsh solar parks." },
@@ -115,6 +109,8 @@ const Home: React.FC = () => {
                  key={index}
                  src={image.src}
                  alt={image.alt}
+                 loading={index === 0 ? 'eager' : 'lazy'}
+                 decoding="async"
                  className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-2000 ease-in-out ${index === currentImageIndex ? 'opacity-100 animate-ken-burns' : 'opacity-0'}`}
                />
            ))}
@@ -125,7 +121,7 @@ const Home: React.FC = () => {
 
         <div className="relative z-10 w-full max-w-7xl mx-auto text-left p-6 md:p-8 lg:p-12">
             
-            <div className="space-y-6 max-w-2xl">
+            <div className="space-y-6 max-w-3xl">
               
               <div className="flex flex-wrap gap-2">
                 {FEATURED_CATEGORIES.map((category, index) => (
@@ -145,10 +141,7 @@ const Home: React.FC = () => {
                 className="text-4xl md:text-5xl font-black font-display leading-tight tracking-tighter text-white drop-shadow-2xl animate-fade-up"
                 style={{ animationDelay: '600ms' }}
               >
-                BUILT FOR THE {' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-teal via-cyan-300 to-white filter drop-shadow-[0_0_30px_rgba(0,173,181,0.3)] inline-block">
-                   {WORDS[currentWordIndex]}.
-                </span>
+                Leading GRP/FRP Manufacturer Delivering Industrial & Portable Solutions
               </h1>
               
               <p 
@@ -340,7 +333,7 @@ const Home: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                {INDUSTRY_IMAGES.map((item, idx) => (
                   <div key={idx} className="group relative h-72 rounded-3xl overflow-hidden cursor-pointer shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-                     <img src={item.image} alt={item.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                     <img src={item.image} alt={item.title} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                      <div className="absolute inset-0 bg-gradient-to-t from-emphz-navy via-emphz-navy/60 to-transparent opacity-90 group-hover:opacity-75 transition-opacity duration-500"></div>
                      <div className="absolute inset-0 p-8 flex flex-col justify-end">
                         <h4 className="text-2xl font-bold text-white font-display mb-2 group-hover:text-emphz-teal transition-colors">{item.title}</h4>
@@ -351,89 +344,38 @@ const Home: React.FC = () => {
             </div>
          </div>
       </section>
-
-      <section className="py-20 md:py-32 bg-white relative overflow-hidden">
-         <div className="absolute top-1/2 left-0 w-[800px] h-[800px] bg-gray-50 rounded-full blur-[100px] transform -translate-y-1/2 -translate-x-1/3 pointer-events-none"></div>
-         
-         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-24">
-               <div className="lg:w-1/2">
-                  <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-[0.2em] uppercase mb-4 font-display">Who We Are</h2>
-                  <h3 className="text-4xl md:text-6xl font-black text-emphz-navy mb-8 leading-none font-display tracking-tight">
-                     Built to Last. <br/>
-                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-teal to-cyan-500">Engineered to Protect.</span>
-                  </h3>
-                  <p className="text-lg text-slate-600 leading-relaxed mb-8 font-sans font-light">
-                     Our mission is simple: to provide the most durable, corrosion-resistant infrastructure solutions for India's demanding environments. By leveraging advanced Glass Reinforced Plastic technology, we eliminate maintenance costs and extend asset lifecycles by decades.
-                  </p>
-                  <Link to="/about" className="inline-flex items-center text-white bg-emphz-navy px-8 py-4 rounded-full font-bold text-sm tracking-widest uppercase hover:bg-emphz-teal transition-colors group font-display shadow-xl hover:shadow-2xl hover:-translate-y-1">
-                     LEARN MORE <ArrowRight className="ml-3 group-hover:translate-x-1 transition-transform" size={16} />
-                  </Link>
-               </div>
-               
-               <div className="lg:w-1/2 grid grid-cols-2 gap-4 w-full">
-                  <div className="bg-white p-8 rounded-3xl border border-gray-100 flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300 shadow-xl shadow-gray-200/50">
-                     <div className="text-4xl md:text-5xl font-black text-emphz-navy mb-2 font-display">25+</div>
-                     <div className="text-[10px] md:text-xs text-slate-500 uppercase tracking-[0.2em] font-bold font-display">Years Lifespan</div>
-                  </div>
-                  <div className="bg-white p-8 rounded-3xl border border-gray-100 flex flex-col items-center text-center mt-8 transform hover:scale-105 transition-transform duration-300 shadow-xl shadow-gray-200/50">
-                     <div className="text-4xl md:text-5xl font-black text-emphz-navy mb-2 font-display">0%</div>
-                     <div className="text-[10px] md:text-xs text-slate-500 uppercase tracking-[0.2em] font-bold font-display">Corrosion</div>
-                  </div>
-                  <div className="bg-white p-8 rounded-3xl border border-gray-100 flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300 shadow-xl shadow-gray-200/50">
-                     <div className="text-4xl md:text-5xl font-black text-emphz-navy mb-2 font-display">IP66</div>
-                     <div className="text-[10px] md:text-xs text-slate-500 uppercase tracking-[0.2em] font-bold font-display">Certified</div>
-                  </div>
-                  <div className="bg-emphz-teal p-8 rounded-3xl border border-emphz-teal shadow-2xl shadow-emphz-teal/30 flex flex-col items-center text-center mt-8 transform hover:scale-105 transition-transform duration-300">
-                     <div className="text-4xl md:text-5xl font-black text-emphz-navy mb-2 font-display">100%</div>
-                     <div className="text-[10px] md:text-xs text-emphz-navy uppercase tracking-[0.2em] font-bold font-display">Maintenance Free</div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </section>
-
+      
+      {/* Latest Insights Section */}
       <section className="py-20 md:py-24 bg-gray-50 border-y border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-                  <div className="lg:w-1/2 w-full">
-                      <div className="relative group">
-                          <div className="absolute -inset-2.5 bg-gradient-to-r from-emphz-teal to-cyan-400 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
-                          <img 
-                              src="https://lh3.googleusercontent.com/pw/AP1GczMvuz7tjgxC5-JF9dQctIIAuS8YxbnxwOh-BxiCmu2-fRi94SQUgqdsyZ8QcYCx_WhpUYQe-RJjo9kUnlKWHJYyHFiq7le1FfH98Qvn_LBr4-BYmSe-LfgpUg-WAI7KRzJg2kp_-VQNZK7FQcCRyd07dw=w1563-h879-s-no-gm?authuser=0"
-                              alt="Emphz Manufacturing Facility"
-                              className="rounded-3xl shadow-2xl relative w-full aspect-[4/3] object-cover"
-                          />
-                      </div>
-                  </div>
-                  <div className="lg:w-1/2">
-                      <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-[0.2em] uppercase mb-4 font-display">About Emphz</h2>
-                      <h3 className="text-3xl md:text-4xl font-black text-emphz-navy mb-6 leading-tight font-display tracking-tight">
-                          Pioneering Composite Solutions Since 2020.
-                      </h3>
-                      <p className="text-base text-slate-600 leading-relaxed mb-8 font-sans font-light">
-                          Our mission is to systematically replace obsolete materials with superior, high-performance GRP solutions in critical infrastructure. We aim to eradicate the costs and dangers associated with corrosion, ensuring longevity and safety for a modern India.
-                      </p>
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-                          <div className="flex items-center gap-3">
-                              <div className="bg-white p-3 rounded-full border border-gray-200 shadow-sm"><Anchor className="w-5 h-5 text-emphz-teal" /></div>
-                              <span className="text-xs font-bold text-emphz-navy font-display uppercase tracking-wider">Durability</span>
-                          </div>
-                          <div className="flex items-center gap-3">
-                              <div className="bg-white p-3 rounded-full border border-gray-200 shadow-sm"><Lightbulb className="w-5 h-5 text-emphz-teal" /></div>
-                              <span className="text-xs font-bold text-emphz-navy font-display uppercase tracking-wider">Innovation</span>
-                          </div>
-                          <div className="flex items-center gap-3">
-                              <div className="bg-white p-3 rounded-full border border-gray-200 shadow-sm"><Users className="w-5 h-5 text-emphz-teal" /></div>
-                              <span className="text-xs font-bold text-emphz-navy font-display uppercase tracking-wider">Partnership</span>
-                          </div>
-                      </div>
-                      <Link to="/about" className="inline-flex items-center text-white bg-emphz-navy px-8 py-4 rounded-full font-bold text-sm tracking-widest uppercase hover:bg-emphz-teal transition-colors group font-display shadow-xl hover:shadow-2xl hover:-translate-y-1">
-                          Discover Our Story <ArrowRight className="ml-3 group-hover:translate-x-1 transition-transform" size={16} />
-                      </Link>
-                  </div>
-              </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+             <div>
+                <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-[0.2em] uppercase mb-3 font-display">Latest Insights</h2>
+                <h3 className="text-3xl md:text-4xl font-black text-emphz-navy font-display tracking-tight">From the Engineering Blog</h3>
+             </div>
+             <Link to="/blog" className="group mt-4 md:mt-0 text-emphz-navy font-bold text-sm border-b-2 border-emphz-teal pb-1 hover:text-emphz-teal-text transition-colors flex items-center font-display tracking-wide">
+                READ ALL ARTICLES <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+             </Link>
           </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {MOCK_BLOG_POSTS.slice(0, 3).map(post => (
+              <Link to={`/blog/${post.slug}`} key={post.slug} className="group bg-white rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-gray-200/80 hover:-translate-y-2 transition-all duration-500 border border-gray-100">
+                <div className="relative h-60 overflow-hidden">
+                  <img src={post.imageUrl} alt={post.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"/>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur text-emphz-navy text-[9px] font-bold px-3 py-1.5 rounded-full shadow-sm font-display tracking-wider uppercase">
+                    {post.category}
+                  </div>
+                </div>
+                <div className="p-6">
+                  <p className="text-xs text-gray-400 font-mono mb-2">{post.date}</p>
+                  <h4 className="text-lg font-bold text-emphz-navy group-hover:text-emphz-teal transition-colors mb-3 font-display leading-tight">{post.title}</h4>
+                  <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed font-sans">{post.summary}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
       </section>
 
       <section className="py-20 md:py-32 relative overflow-hidden bg-white">

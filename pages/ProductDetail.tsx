@@ -109,6 +109,23 @@ const ShareModal: React.FC<{
   );
 };
 
+const H1_MAP: Record<ProductCategory, string> = {
+    [ProductCategory.PORTABLE_TOILET]: 'GRP/FRP Portable Toilets Built for Heavy-Duty, Long-Term Use',
+    [ProductCategory.ENCLOSURE]: 'High-Performance GRP/FRP Electrical Enclosures for Industrial Operations',
+    [ProductCategory.JUNCTION_BOX]: 'High-Performance GRP/FRP Electrical Enclosures for Industrial Operations',
+    [ProductCategory.SMART_CABIN]: 'Portable Sleeping, Resort & Villa Pods Designed for Premium Living',
+    [ProductCategory.CABIN]: 'GRP Security Cabins & FRP Guard Rooms',
+    [ProductCategory.KIOSK]: 'GRP Food Kiosks & Portable Retail Units',
+    [ProductCategory.BUS_SHELTER]: 'Durable GRP Bus Shelters for Public Infrastructure',
+    [ProductCategory.FIRE_SAFETY]: 'Fire Safety GRP Equipment Cabinets',
+    [ProductCategory.WATER_STORAGE]: 'Modular GRP Water Storage Solutions',
+    [ProductCategory.INDUSTRIAL_PROTECTION]: 'Industrial GRP Protection and Sunshades',
+    [ProductCategory.AUTOMOBILE]: 'Advanced GRP Automobile Components',
+    [ProductCategory.STRUCTURAL]: 'High-Strength GRP Structural Profiles',
+    [ProductCategory.CUSTOM]: 'Custom Engineered GRP Structures',
+};
+
+
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const product = MOCK_PRODUCTS.find(p => p.id === id);
@@ -363,7 +380,7 @@ const ProductDetail: React.FC = () => {
                 className="absolute inset-0 transition-opacity duration-500 bg-[#0B1120] cursor-zoom-in animate-fade-in"
                 onClick={() => setIsLightboxOpen(true)}
               >
-                <img src={activeImage} alt={product.name} className="w-full h-full object-cover opacity-100 group-hover:scale-105 transition-transform duration-700 ease-in-out" key={activeImage} loading="lazy" decoding="async" />
+                <img src={activeImage} alt={product.name} className="w-full h-full object-cover opacity-100 group-hover:scale-105 transition-transform duration-700 ease-in-out" key={activeImage} loading="eager" decoding="async" />
               </div>
               
               {galleryImages.length > 1 && (
@@ -443,7 +460,7 @@ const ProductDetail: React.FC = () => {
                </Link>
                <div className="flex items-center gap-3 mb-4">
                  <div className="inline-block px-3 py-1 bg-emphz-teal text-emphz-navy text-[10px] font-bold rounded uppercase tracking-wider shadow-lg shadow-emphz-teal/30 font-display">
-                   {product.category}
+                   {product.name}
                  </div>
                  {product.features.includes('UL94 Fire Rated') && (
                     <div className="inline-block px-3 py-1 bg-red-600/80 backdrop-blur text-white text-[10px] font-bold rounded uppercase tracking-wider font-display">
@@ -451,7 +468,7 @@ const ProductDetail: React.FC = () => {
                     </div>
                  )}
                </div>
-               <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-white mb-4 leading-none drop-shadow-2xl font-display">{product.name}</h1>
+               <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-white mb-4 leading-none drop-shadow-2xl font-display">{H1_MAP[product.category] || product.name}</h1>
                <p className="text-gray-400 font-mono text-xs opacity-80 border-l border-emphz-teal pl-3">SKU: {product.id.toUpperCase()}</p>
              </div>
           </div>

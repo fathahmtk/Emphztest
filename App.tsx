@@ -1,7 +1,5 @@
-
-
 import React, { Suspense, lazy } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { RFQProvider } from './contexts/RFQContext';
 import { Loader2 } from 'lucide-react';
@@ -17,6 +15,8 @@ const RFQ = lazy(() => import('./pages/RFQ'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Sitemap = lazy(() => import('./pages/Sitemap'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+const Blog = lazy(() => import('./pages/Blog'));
+const BlogPost = lazy(() => import('./pages/BlogPost'));
 
 const PageLoader: React.FC = () => (
   <div className="min-h-[60vh] flex items-center justify-center text-emphz-navy w-full">
@@ -39,6 +39,8 @@ const App: React.FC = () => {
               <Route path="/products/:id" element={<ProductDetail />} />
               <Route path="/case-studies" element={<CaseStudies />} />
               <Route path="/technical" element={<TechnicalCenter />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/about" element={<About />} />
               <Route path="/rfq" element={<RFQ />} />
               <Route path="/contact" element={<Contact />} />
