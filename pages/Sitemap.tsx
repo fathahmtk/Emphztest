@@ -113,4 +113,17 @@ const Sitemap: React.FC = () => {
                          </Link>
                          <Link to="/rfq" className="bg-gray-900 border border-gray-800 p-3 rounded text-center hover:border-emphz-teal group transition-colors">
                             <Activity size={16} className="mx-auto mb-2 text-gray-600 group-hover:text-emphz-teal"/>
-                            <span className="text-[10px] font-
+                            <span className="text-[10px] font-bold text-gray-400 group-hover:text-white">RFQ_CART</span>
+                         </Link>
+                      </div>
+                   </div>
+                </div>
+             </div>
+
+          </div>
+       </div>
+    </div>
+  );
+};
+
+export default Sitemap;

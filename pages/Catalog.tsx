@@ -201,6 +201,11 @@ const Catalog: React.FC = () => {
     return sorted;
   }, [filteredProducts, sortBy]);
 
+  // Key to re-trigger animation on filter/sort change
+  const gridKey = useMemo(() => {
+    return `${selectedCategory}-${selectedFeatures.join('_')}-${sortBy}`;
+  }, [selectedCategory, selectedFeatures, sortBy]);
+
   // Inject JSON-LD Schema
   useEffect(() => {
     const scriptId = 'json-ld-catalog';
@@ -484,7 +489,11 @@ const Catalog: React.FC = () => {
                 </div>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              <div 
+                key={gridKey}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 animate-fade-in"
+                style={{ animationDuration: '400ms' }}
+              >
                 {sortedProducts.map((product) => {
                   const isComparing = compareList.includes(product.id);
                   return (
