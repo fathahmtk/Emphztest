@@ -631,7 +631,7 @@ const ProductDetail: React.FC = () => {
                   </div>
                   
                   <div className="bg-gray-50 p-4 rounded-xl text-center">
-                     <p className="text-[10px] text-gray-500 font-mono mb-2">Bulk pricing applies for orders > 50 units.</p>
+                     <p className="text-[10px] text-gray-500 font-mono mb-2">{'Bulk pricing applies for orders > 50 units.'}</p>
                   </div>
 
                   <button 

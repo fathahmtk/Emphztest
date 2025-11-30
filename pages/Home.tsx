@@ -66,6 +66,10 @@ const Home: React.FC = () => {
     {
         src: "https://lh3.googleusercontent.com/pw/AP1GczO_yHvrVqeSyQptetDgD2xpolaXq9oXImcceikitbuNMjlzS3w1JQVVNKdnZ5FGwuJHtUNCvJtJmk1Z28icLadmXjgCqOeyX8x6QuEgEpIlE42BGv5ncFbvY0DrMNUFXlpYmrZ7LkkYTDGBNR7zpuN1vQ=w1319-h879-s-no-gm?authuser=0",
         alt: "GRP electrical enclosure in an industrial plant"
+    },
+    {
+        src: "https://lh3.googleusercontent.com/pw/AP1GczMvuz7tjgxC5-JF9dQctIIAuS8YxbnxwOh-BxiCmu2-fRi94SQUgqdsyZ8QcYCx_WhpUYQe-RJjo9kUnlKWHJYyHFiq7le1FfH98Qvn_LBr4-BYmSe-LfgpUg-WAI7KRzJg2kp_-VQNZK7FQcCRyd07dw=w1563-h879-s-no-gm?authuser=0",
+        alt: "Modular GRP utility kiosk"
     }
   ];
 
