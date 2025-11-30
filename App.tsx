@@ -21,7 +21,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const PageLoader: React.FC = () => (
   <div className="min-h-[60vh] flex items-center justify-center text-emphz-navy w-full">
     <div className="flex flex-col items-center">
-      <Loader2 className="w-8 h-8 animate-spin text-emphz-orange mb-2" />
+      <Loader2 className="w-8 h-8 animate-spin text-emphz-teal mb-2" />
       <span className="text-xs font-bold uppercase tracking-widest opacity-50">Loading Assets...</span>
     </div>
   </div>

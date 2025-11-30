@@ -134,7 +134,7 @@ const Home: React.FC = () => {
                     className="animate-fade-up"
                     style={{ animationDelay: `${300 + index * 80}ms` }}
                   >
-                    <span className="block bg-white/10 backdrop-blur-md border border-white/10 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider font-mono shadow-lg">
+                    <span className="block bg-white/10 backdrop-blur-md border border-white/10 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider font-mono shadow-lg [text-shadow:0_1px_2px_rgba(0,0,0,0.5)]">
                       {category}
                     </span>
                   </div>
@@ -180,7 +180,7 @@ const Home: React.FC = () => {
             <div key={i} className="flex items-center space-x-4 text-gray-400 hover:text-emphz-navy transition-colors cursor-default group">
               <Link to="/products" className="flex items-center gap-4 focus:outline-none">
                 <Box size={20} className="text-gray-400 group-hover:text-emphz-teal transition-colors" />
-                <span className="text-xl md:text-2xl font-black uppercase tracking-tighter text-gray-300 group-hover:text-emphz-navy transition-colors font-display">{ind.title}</span>
+                <span className="text-xl md:text-2xl font-black uppercase tracking-tighter text-slate-500 group-hover:text-emphz-navy transition-colors font-display">{ind.title}</span>
               </Link>
             </div>
           ))}

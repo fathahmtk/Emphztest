@@ -79,8 +79,8 @@ const GatedDownloadModal: React.FC<GatedDownloadModalProps> = ({ isOpen, onClose
 
         <div className="p-8">
           <div className="text-center mb-6">
-            <div className="mx-auto bg-emphz-orange/10 w-16 h-16 rounded-full flex items-center justify-center border-4 border-emphz-orange/20">
-               <Download className="w-8 h-8 text-emphz-orange" />
+            <div className="mx-auto bg-emphz-teal/10 w-16 h-16 rounded-full flex items-center justify-center border-4 border-emphz-teal/20">
+               <Download className="w-8 h-8 text-emphz-teal" />
             </div>
             <h2 id="download-modal-title" className="text-2xl font-bold text-white mt-4">Unlock Your Download</h2>
             <p className="text-gray-400 text-sm mt-1">
@@ -100,7 +100,7 @@ const GatedDownloadModal: React.FC<GatedDownloadModalProps> = ({ isOpen, onClose
                 onChange={handleChange}
                 placeholder="Full Name"
                 required
-                className="w-full bg-black/40 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-emphz-orange focus:border-emphz-orange outline-none"
+                className="w-full bg-black/40 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-emphz-teal focus:border-emphz-teal outline-none"
               />
             </div>
             <div className="relative">
@@ -112,7 +112,7 @@ const GatedDownloadModal: React.FC<GatedDownloadModalProps> = ({ isOpen, onClose
                 onChange={handleChange}
                 placeholder="Company Name"
                 required
-                className="w-full bg-black/40 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-emphz-orange focus:border-emphz-orange outline-none"
+                className="w-full bg-black/40 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-emphz-teal focus:border-emphz-teal outline-none"
               />
             </div>
             <div className="relative">
@@ -124,14 +124,14 @@ const GatedDownloadModal: React.FC<GatedDownloadModalProps> = ({ isOpen, onClose
                 onChange={handleChange}
                 placeholder="Business Email"
                 required
-                className="w-full bg-black/40 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-emphz-orange focus:border-emphz-orange outline-none"
+                className="w-full bg-black/40 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-emphz-teal focus:border-emphz-teal outline-none"
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-white text-emphz-navy font-black py-4 rounded-lg hover:bg-emphz-orange hover:text-white transition-all shadow-lg text-sm uppercase tracking-wide flex items-center justify-center disabled:opacity-50"
+              className="w-full bg-white text-emphz-navy font-black py-4 rounded-lg hover:bg-emphz-teal hover:text-white transition-all shadow-lg text-sm uppercase tracking-wide flex items-center justify-center disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>

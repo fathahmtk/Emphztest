@@ -365,8 +365,8 @@ export function Layout({ children }: LayoutProps) {
                     onClick={() => setIsMenuOpen(false)}
                     className={`block text-4xl sm:text-5xl font-black tracking-tight font-display group transition-colors duration-300 ${
                       isActive(link.path) 
-                        ? 'text-transparent bg-clip-text bg-gradient-to-r from-emphz-teal to-cyan-200' 
-                        : 'text-white/40 hover:text-white'
+                        ? 'text-transparent bg-clip-text bg-gradient-to-r from-emphz-teal to-cyan-200 drop-shadow-[0_2px_4px_rgba(0,173,181,0.4)]' 
+                        : 'text-gray-400 hover:text-white'
                     }`}
                   >
                     <span className="inline-block group-active:scale-95 transition-transform origin-left">{link.label}</span>
@@ -496,11 +496,11 @@ export function Layout({ children }: LayoutProps) {
               <ul className="space-y-4 text-sm font-medium text-gray-400">
                 <li className="flex items-start group py-1">
                   <MapPin size={18} className="mr-3 mt-0.5 text-emphz-navy bg-gray-200 rounded-full p-0.5 group-hover:bg-white transition-colors flex-shrink-0" />
-                  <span>Mysore Factory <br/><span className="text-xs opacity-50">KIADB Industrial Area</span></span>
+                  <span>Mysore Factory <br/><span className="text-xs text-gray-500">KIADB Industrial Area</span></span>
                 </li>
                 <li className="flex items-start group py-1">
                   <MapPin size={18} className="mr-3 mt-0.5 text-emphz-teal bg-white/10 rounded-full p-0.5 group-hover:bg-white transition-colors flex-shrink-0" />
-                  <span>Kerala Ops <br/><span className="text-xs opacity-50">Vadakara HQ</span></span>
+                  <span>Kerala Ops <br/><span className="text-xs text-gray-500">Vadakara HQ</span></span>
                 </li>
                 <li className="flex items-center group hover:text-white transition-colors py-1"><Phone size={16} className="mr-3 text-gray-500 group-hover:text-emphz-teal" /> +91 9037 874 080</li>
                 <li className="flex items-center group hover:text-white transition-colors py-1"><Mail size={16} className="mr-3 text-gray-500 group-hover:text-emphz-teal" /> info@emphz.in</li>
@@ -508,7 +508,7 @@ export function Layout({ children }: LayoutProps) {
             </div>
           </div>
           
-          <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 font-sans gap-6">
+          <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 font-sans gap-6">
             <p>&copy; 2025 Emphz Engineering Pvt Ltd. Precision Molded in India.</p>
             <div className="flex space-x-8 font-bold uppercase tracking-widest text-[10px]">
               <Link to="#" className="hover:text-emphz-teal transition-colors">Privacy Policy</Link>

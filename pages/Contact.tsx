@@ -198,7 +198,7 @@ const Contact: React.FC = () => {
                     <form onSubmit={handleSubmit} className={`h-full flex flex-col justify-center transition-all ${isSubmitting ? 'blur-sm' : ''}`}>
                         <div className="mb-10">
                             <h3 className="text-3xl font-bold text-emphz-navy mb-2 font-display">Send a Message</h3>
-                            <p className="text-gray-400 text-sm">Fill out the form below and we'll get back to you.</p>
+                            <p className="text-gray-500 text-sm">Fill out the form below and we'll get back to you.</p>
                         </div>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6 mb-6">
