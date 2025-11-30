@@ -45,31 +45,31 @@ const Home: React.FC = () => {
   const HERO_IMAGES = [
     {
         src: "https://lh3.googleusercontent.com/pw/AP1GczMAwEyda-VatlopWLADNQaXs2ac5qXUBGyj127pjaQNQX1ovYq7FZLeSHxttDZHdHTitg8V4nvvU5F0Ad4SypnZnvXC0wKmqomtms1jkFrTREFrcXNhwBxdoojhP2ciD6fBA2dhWu5mtxELeCChbHPerw=w1563-h879-s-no-gm?authuser=0",
-        alt: "Emphz GRP Security Guard Villa cabin at an industrial facility"
+        alt: "High-performance Emphz GRP Security Guard Villa cabin at an industrial facility, showcasing its sleek design."
     },
     {
         src: "https://lh3.googleusercontent.com/pw/AP1GczPDRXHhmo1DelLxi0HtftJnSmJ5IkdKr2Ul0o4WqNdZC0aJLGTf3RDD6NY95soy12tjT-9X5MXLRdCBt8plfP21vC68xJgU31pGM52ih8yBsDP2UzyWWShp8haDaNLGCv-EGnHQMuwNSVEJe7G288whig=w1563-h879-s-no-gm?authuser=0",
-        alt: "Protective GRP Instrument Sunshade canopy for field transmitters"
+        alt: "Durable protective GRP Instrument Sunshade canopy protecting sensitive field transmitters from solar radiation."
     },
     {
         src: "https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0",
-        alt: "Emphz Xpod X7 futuristic GRP monocoque smart living pod"
+        alt: "The futuristic Emphz Xpod X7, a monocoque GRP smart living pod, perfect for modern resorts."
     },
     {
         src: "https://lh3.googleusercontent.com/pw/AP1GczNrU-k7hPLmr-DvpT_gbosZGrakzMIcqO2aFfnm9CxOaGu1urrgRkK_tdxRE5BL7yO4ncuoj20Ih9R9APtPjrpBjwBT9kMrwTWy_rU-TTp0g685rQRi7b2Gpm_8yO6_6nzE-xok9zOiNC7Yf6mIKxD44w=w1319-h879-s-no-gm?authuser=0",
-        alt: "Advanced GRP composite manufacturing facility with hot press molding machinery"
+        alt: "Inside an advanced GRP composite manufacturing facility with hot press molding machinery for Emphz products."
     },
     {
         src: "https://lh3.googleusercontent.com/pw/AP1GczOYyrN7zzWAF72LarCKhxba48Z63JkRPQa84TPIyRzuZwyGt-CbVJd4tzh2kNF93HhECGlR7d4lJzH5XFeWiqwiwWJy3yuaqr4v3VJXs3CJHYNEgmroDLxP0U89hb-D5PJ0wB1CNPL56fN7KgdXmzWs7w=w1319-h879-s-no-gm?authuser=0",
-        alt: "Large modular GRP panel water tank installation for potable water storage"
+        alt: "Large modular GRP panel water tank installation for hygienic potable water storage, a key Emphz solution."
     },
     {
         src: "https://lh3.googleusercontent.com/pw/AP1GczO_yHvrVqeSyQptetDgD2xpolaXq9oXImcceikitbuNMjlzS3w1JQVVNKdnZ5FGwuJHtUNCvJtJmk1Z28icLadmXjgCqOeyX8x6QuEgEpIlE42BGv5ncFbvY0DrMNUFXlpYmrZ7LkkYTDGBNR7zpuN1vQ=w1319-h879-s-no-gm?authuser=0",
-        alt: "E-Series IP66 Coastal GRP Electrical Enclosure in an industrial plant"
+        alt: "The robust E-Series IP66 Coastal GRP Electrical Enclosure installed in an industrial plant, showcasing its durability."
     },
     {
         src: "https://lh3.googleusercontent.com/pw/AP1GczMvuz7tjgxC5-JF9dQctIIAuS8YxbnxwOh-BxiCmu2-fRi94SQUgqdsyZ8QcYCx_WhpUYQe-RJjo9kUnlKWHJYyHFiq7le1FfH98Qvn_LBr4-BYmSe-LfgpUg-WAI7KRzJg2kp_-VQNZK7FQcCRyd07dw=w1563-h879-s-no-gm?authuser=0",
-        alt: "Modular GRP utility kiosk for urban electrical substations"
+        alt: "A modular GRP utility kiosk by Emphz, designed for modern urban electrical substations."
     }
   ];
 
