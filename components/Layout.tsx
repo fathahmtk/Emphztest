@@ -11,6 +11,18 @@ interface LayoutProps {
   children?: React.ReactNode;
 }
 
+// Helper to update or create a meta tag
+const updateMetaTag = (identifier: string, value: string, isProperty: boolean) => {
+  const attr = isProperty ? 'property' : 'name';
+  let element = document.querySelector(`meta[${attr}="${identifier}"]`) as HTMLMetaElement;
+  if (!element) {
+    element = document.createElement('meta');
+    element.setAttribute(attr, identifier);
+    document.head.appendChild(element);
+  }
+  element.setAttribute('content', value);
+};
+
 export function Layout({ children }: LayoutProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -21,11 +33,13 @@ export function Layout({ children }: LayoutProps) {
 
   const { pathname } = location;
 
-  // SEO Management Hook for Titles, Descriptions, and Canonicals
+  // SEO Management Hook for Titles, Descriptions, Canonicals, and Social Tags
   useEffect(() => {
     const handleMetadata = () => {
       let title = "Emphz GRP Solutions | Advanced GRP Engineering";
       let description = "Premium B2B GRP electrical enclosures and modular structures manufacturer for industrial and coastal environments.";
+      let ogImage = "https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0";
+      let ogType = "website";
       const pathParts = pathname.split('/').filter(Boolean);
 
       if (pathname === '/') {
@@ -37,11 +51,14 @@ export function Layout({ children }: LayoutProps) {
           if (product) {
               title = `${product.name} | ${product.category} | Emphz`;
               description = product.shortDescription;
+              ogImage = product.imageUrl;
+              ogType = "product";
           }
       } else {
         const currentLink = NAV_LINKS.find(link => link.path === pathname);
         if (currentLink) {
             title = `${currentLink.label} | Emphz GRP Solutions`;
+            ogType = "article";
             switch(pathname) {
                 case '/products':
                     description = "Browse our extensive catalog of GRP electrical enclosures, modular kiosks, security cabins, and custom composite structures.";
@@ -63,14 +80,21 @@ export function Layout({ children }: LayoutProps) {
       }
       
       document.title = title;
+      
+      // Standard Meta
+      updateMetaTag('description', description, false);
 
-      let metaDescription = document.querySelector('meta[name="description"]');
-      if (!metaDescription) {
-        metaDescription = document.createElement('meta');
-        metaDescription.setAttribute('name', 'description');
-        document.head.appendChild(metaDescription);
-      }
-      metaDescription.setAttribute('content', description);
+      // OpenGraph Meta
+      updateMetaTag('og:title', title, true);
+      updateMetaTag('og:description', description, true);
+      updateMetaTag('og:image', ogImage, true);
+      updateMetaTag('og:url', window.location.href, true);
+      updateMetaTag('og:type', ogType, true);
+
+      // Twitter Card Meta
+      updateMetaTag('twitter:title', title, false);
+      updateMetaTag('twitter:description', description, false);
+      updateMetaTag('twitter:image', ogImage, false);
       
       let canonicalLink = document.querySelector('link[rel="canonical"]');
       if (!canonicalLink) {
