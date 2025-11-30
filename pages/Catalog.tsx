@@ -483,15 +483,6 @@ const Catalog: React.FC = () => {
                   return (
                     <article key={product.id} className="bg-white rounded-3xl overflow-hidden flex flex-col group relative transition-all duration-500 hover:-translate-y-2 shadow-sm border border-gray-100 hover:shadow-2xl hover:shadow-gray-200 hover:border-gray-200">
                       
-                      {/* Comparison Toggle (Floating) */}
-                      <button 
-                          onClick={(e) => { e.preventDefault(); toggleCompare(product.id); }}
-                          className={`absolute top-4 left-4 p-2 rounded-full backdrop-blur-md transition-all border border-white/20 shadow-lg z-20 hover:scale-110 ${isComparing ? 'bg-emphz-orange text-white' : 'bg-white text-gray-400 hover:text-emphz-navy'}`}
-                          title="Compare"
-                        >
-                          <Scale size={16} />
-                      </button>
-
                       <div className="relative h-64 overflow-hidden bg-gray-100">
                         <img src={product.imageUrl} alt={product.name} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-60"></div>
@@ -502,6 +493,14 @@ const Catalog: React.FC = () => {
                       </div>
 
                       <div className="p-6 flex flex-col flex-grow relative bg-white pb-20">
+                        {/* Comparison Toggle (Now always visible) */}
+                        <button 
+                            onClick={(e) => { e.preventDefault(); toggleCompare(product.id); }}
+                            className={`absolute top-6 right-6 p-2 rounded-full backdrop-blur-md transition-all border shadow-lg z-20 hover:scale-110 ${isComparing ? 'bg-emphz-orange text-white border-emphz-orange/20' : 'bg-white text-gray-400 hover:text-emphz-navy border-gray-200'}`}
+                            title="Compare"
+                          >
+                            <Scale size={16} />
+                        </button>
                         {/* Specs Pills */}
                         <div className="flex flex-wrap gap-2 mb-4">
                            {product.specs.slice(0,2).map((s, i) => (

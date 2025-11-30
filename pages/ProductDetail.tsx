@@ -492,14 +492,11 @@ const ProductDetail: React.FC = () => {
                       onClick={() => setActiveTab(tab as any)}
                       className={`relative py-3 px-5 text-xs font-bold uppercase tracking-[0.1em] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emphz-orange font-display rounded-t-lg ${
                         activeTab === tab 
-                        ? 'text-emphz-orange' 
+                        ? 'text-emphz-navy border-b-2 border-emphz-orange' 
                         : 'text-gray-400 hover:text-emphz-navy'
                       }`}
                     >
                       {tab === 'desc' ? 'Overview' : tab === 'specs' ? 'Specifications' : 'Downloads'}
-                      {activeTab === tab && (
-                        <span className="absolute bottom-0 left-0 w-full h-0.5 bg-emphz-orange rounded-full"></span>
-                      )}
                     </button>
                   ))}
                 </div>
