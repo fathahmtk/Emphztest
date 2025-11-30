@@ -72,7 +72,7 @@ const Contact: React.FC = () => {
 
 
   return (
-    <div className="bg-slate-50 min-h-screen text-slate-900 font-sans selection:bg-emphz-orange selection:text-white pb-24">
+    <div className="bg-slate-50 min-h-screen text-slate-900 font-sans selection:bg-emphz-teal selection:text-white pb-24">
       
       {/* Hero Section - Refined */}
       <div className="relative bg-[#0B1120] text-white pt-32 pb-64 overflow-hidden">

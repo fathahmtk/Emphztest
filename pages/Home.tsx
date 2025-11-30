@@ -2,40 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Droplet, Zap, Box, Layers, Maximize, FileText, Sun, Train, Wifi, Flame, CloudRain, Factory, Shield, CheckCircle, Award, Play, ShieldCheck, Cpu, Globe, ChevronRight, Anchor, Lightbulb, Users, Rss } from 'lucide-react';
 import { INDUSTRIES, MOCK_PRODUCTS, MOCK_BLOG_POSTS } from '../constants';
-
-const ScrollRevealIcon: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      className={`transition-all duration-1000 ease-out transform ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-      }`}
-    >
-      {children}
-    </div>
-  );
-};
+import ScrollReveal from '../components/ScrollReveal';
 
 const Home: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -218,7 +185,7 @@ const Home: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-             <ScrollRevealIcon>
+             <ScrollReveal>
                <div className="bg-white p-8 md:p-12 rounded-3xl relative overflow-hidden group hover:-translate-y-3 transition-transform duration-500 shadow-xl shadow-gray-200/50 border border-gray-100 hover:border-emphz-teal h-full flex flex-col">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-emphz-teal/5 rounded-bl-[100px] -mr-8 -mt-8 transition-all group-hover:bg-emphz-teal/10"></div>
                   
@@ -237,9 +204,9 @@ const Home: React.FC = () => {
                     </span>
                   </div>
                </div>
-             </ScrollRevealIcon>
+             </ScrollReveal>
 
-             <ScrollRevealIcon>
+             <ScrollReveal delay={200}>
                <div className="bg-emphz-navy p-8 md:p-12 rounded-3xl relative overflow-hidden group hover:-translate-y-3 transition-transform duration-500 shadow-2xl shadow-emphz-navy/30 h-full flex flex-col text-white">
                   <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
                   <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-yellow-500/20 rounded-full blur-2xl group-hover:bg-yellow-500/30 transition-colors"></div>
@@ -259,9 +226,9 @@ const Home: React.FC = () => {
                     </span>
                   </div>
                </div>
-             </ScrollRevealIcon>
+             </ScrollReveal>
 
-             <ScrollRevealIcon>
+             <ScrollReveal delay={400}>
                <div className="bg-white p-8 md:p-12 rounded-3xl relative overflow-hidden group hover:-translate-y-3 transition-transform duration-500 shadow-xl shadow-gray-200/50 border border-gray-100 hover:border-blue-500 h-full flex flex-col">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-[100px] -mr-8 -mt-8 transition-all group-hover:bg-blue-100"></div>
 
@@ -280,7 +247,7 @@ const Home: React.FC = () => {
                     </span>
                   </div>
                </div>
-             </ScrollRevealIcon>
+             </ScrollReveal>
           </div>
         </div>
       </section>
@@ -374,6 +341,42 @@ const Home: React.FC = () => {
                 </div>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 md:py-32 bg-white relative overflow-hidden">
+        <div className="absolute top-1/2 left-0 w-[800px] h-[800px] bg-gray-50 rounded-full blur-[100px] transform -translate-y-1/2 -translate-x-1/3 pointer-events-none"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-24">
+            <div className="lg:w-1/2">
+              <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-[0.2em] uppercase mb-4 font-display">Who We Are</h2>
+              <h3 className="text-4xl md:text-6xl font-black text-emphz-navy mb-8 leading-none font-display tracking-tight">Built to Last. <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-teal to-cyan-500">Engineered to Protect.</span></h3>
+              <p className="text-lg text-slate-600 leading-relaxed mb-8 font-sans font-light">
+                Our mission is simple: to provide the most durable, corrosion-resistant infrastructure solutions for India's demanding environments. By leveraging advanced Glass Reinforced Plastic technology, we eliminate maintenance costs and extend asset lifecycles by decades.
+              </p>
+              <Link to="/about" className="inline-flex items-center text-white bg-emphz-navy px-8 py-4 rounded-full font-bold text-sm tracking-widest uppercase hover:bg-emphz-teal transition-colors group font-display shadow-xl hover:shadow-2xl hover:-translate-y-1">
+                LEARN MORE <ArrowRight size={16} className="ml-3 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+            <div className="lg:w-1/2 grid grid-cols-2 gap-4 w-full">
+              <div className="bg-white p-8 rounded-3xl border border-gray-100 flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300 shadow-xl shadow-gray-200/50">
+                <div className="text-4xl md:text-5xl font-black text-emphz-navy mb-2 font-display">25+</div>
+                <div className="text-[10px] md:text-xs text-slate-500 uppercase tracking-[0.2em] font-bold font-display">Years Lifespan</div>
+              </div>
+              <div className="bg-white p-8 rounded-3xl border border-gray-100 flex flex-col items-center text-center mt-8 transform hover:scale-105 transition-transform duration-300 shadow-xl shadow-gray-200/50">
+                <div className="text-4xl md:text-5xl font-black text-emphz-navy mb-2 font-display">0%</div>
+                <div className="text-[10px] md:text-xs text-slate-500 uppercase tracking-[0.2em] font-bold font-display">Corrosion</div>
+              </div>
+              <div className="bg-white p-8 rounded-3xl border border-gray-100 flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300 shadow-xl shadow-gray-200/50">
+                <div className="text-4xl md:text-5xl font-black text-emphz-navy mb-2 font-display">IP66</div>
+                <div className="text-[10px] md:text-xs text-slate-500 uppercase tracking-[0.2em] font-bold font-display">Certified</div>
+              </div>
+              <div className="bg-emphz-teal p-8 rounded-3xl border border-emphz-teal shadow-2xl shadow-emphz-teal/30 flex flex-col items-center text-center mt-8 transform hover:scale-105 transition-transform duration-300">
+                <div className="text-4xl md:text-5xl font-black text-emphz-navy mb-2 font-display">100%</div>
+                <div className="text-[10px] md:text-xs text-emphz-navy uppercase tracking-[0.2em] font-bold font-display">Maintenance Free</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
