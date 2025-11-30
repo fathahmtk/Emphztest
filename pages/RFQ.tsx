@@ -45,7 +45,7 @@ const RFQ: React.FC = () => {
   const getPriorityColor = () => {
     if (leadScore < 40) return 'text-gray-400 bg-gray-100';
     if (leadScore < 70) return 'text-blue-500 bg-blue-500/10';
-    return 'text-emphz-orange bg-emphz-orange/10';
+    return 'text-emphz-teal bg-emphz-teal/10';
   };
 
   if (submitted) {
@@ -64,7 +64,7 @@ const RFQ: React.FC = () => {
           <div className="bg-white/5 rounded-xl p-6 mb-8 border border-white/5">
              <div className="flex justify-between text-sm mb-2">
                 <span className="text-gray-400 font-mono">Routing Target:</span>
-                <span className="text-emphz-orange font-bold font-mono">
+                <span className="text-emphz-teal font-bold font-mono">
                   {formData.region === 'Kerala' ? 'Vadakara Ops Center' : 'Mysore Factory HQ'}
                 </span>
              </div>
@@ -80,7 +80,7 @@ const RFQ: React.FC = () => {
             Our engineering team has received your manifest. A formal quotation and technical datasheet package will be dispatched to <span className="text-white font-bold">{formData.email}</span> within 24 hours.
           </p>
 
-          <Link to="/" className="inline-flex items-center justify-center w-full bg-emphz-orange text-white font-bold py-4 rounded-xl hover:bg-white hover:text-emphz-navy transition-all uppercase tracking-widest text-xs font-display">
+          <Link to="/" className="inline-flex items-center justify-center w-full bg-emphz-teal text-emphz-navy font-bold py-4 rounded-xl hover:bg-white transition-all uppercase tracking-widest text-xs font-display">
             Return to Command Center
           </Link>
         </div>
@@ -104,7 +104,7 @@ const RFQ: React.FC = () => {
             <h1 className="text-4xl lg:text-5xl font-black font-display mb-2 text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">
                PROJECT <br/> MANIFEST
             </h1>
-            <p className="text-emphz-orange font-mono text-xs uppercase tracking-wider mb-10">
+            <p className="text-emphz-teal font-mono text-xs uppercase tracking-wider mb-10">
                // QUANTITY_CHECK // SPEC_VALIDATION
             </p>
 
@@ -112,7 +112,7 @@ const RFQ: React.FC = () => {
                {items.length === 0 ? (
                   <div className="p-8 border-2 border-dashed border-white/10 rounded-2xl text-center">
                      <p className="text-gray-500 text-sm mb-4">No assets configured.</p>
-                     <Link to="/products" className="text-emphz-orange font-bold text-xs hover:underline uppercase tracking-wide">Browse Solutions</Link>
+                     <Link to="/products" className="text-emphz-teal font-bold text-xs hover:underline uppercase tracking-wide">Browse Solutions</Link>
                   </div>
                ) : (
                   items.map((item, i) => (
@@ -122,7 +122,7 @@ const RFQ: React.FC = () => {
                            <div className="text-[10px] text-gray-500 font-mono mt-1">ID: {item.productId}</div>
                         </div>
                         <div className="flex items-center gap-4">
-                           <div className="bg-black/40 px-3 py-1 rounded text-xs font-mono text-emphz-orange border border-white/5">
+                           <div className="bg-black/40 px-3 py-1 rounded text-xs font-mono text-emphz-teal border border-white/5">
                               x{item.quantity}
                            </div>
                            <button 
@@ -141,20 +141,20 @@ const RFQ: React.FC = () => {
             <div className="mt-8 pt-8 border-t border-white/10">
                <div className="grid grid-cols-2 gap-4 text-[10px] uppercase tracking-wider font-bold text-gray-500 mb-6 font-display">
                   <div className="flex items-center gap-2">
-                     <ShieldCheck size={14} className="text-emphz-orange" /> Verified Specs
+                     <ShieldCheck size={14} className="text-emphz-teal" /> Verified Specs
                   </div>
                   <div className="flex items-center gap-2">
-                     <Zap size={14} className="text-emphz-orange" /> Fast Track RFQ
+                     <Zap size={14} className="text-emphz-teal" /> Fast Track RFQ
                   </div>
                   <div className="flex items-center gap-2">
-                     <Globe size={14} className="text-emphz-orange" /> Global Export
+                     <Globe size={14} className="text-emphz-teal" /> Global Export
                   </div>
                   <div className="flex items-center gap-2">
-                     <Cpu size={14} className="text-emphz-orange" /> AI Optimized
+                     <Cpu size={14} className="text-emphz-teal" /> AI Optimized
                   </div>
                </div>
                
-               <div className="bg-gradient-to-r from-emphz-orange to-cyan-500 h-1 w-full rounded-full opacity-20"></div>
+               <div className="bg-gradient-to-r from-emphz-teal to-cyan-500 h-1 w-full rounded-full opacity-20"></div>
             </div>
          </div>
       </div>
@@ -188,7 +188,7 @@ const RFQ: React.FC = () => {
                            name="industry"
                            value={formData.industry}
                            onChange={handleChange}
-                           className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm text-emphz-navy font-medium focus:ring-2 focus:ring-emphz-orange focus:border-transparent outline-none transition-all"
+                           className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm text-emphz-navy font-medium focus:ring-2 focus:ring-emphz-teal focus:border-transparent outline-none transition-all"
                         >
                            <option value="Construction">Construction / Civil</option>
                            <option value="Utilities">Power & Utilities</option>
@@ -203,7 +203,7 @@ const RFQ: React.FC = () => {
                            name="urgency"
                            value={formData.urgency}
                            onChange={handleChange}
-                           className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm text-emphz-navy font-medium focus:ring-2 focus:ring-emphz-orange focus:border-transparent outline-none transition-all"
+                           className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm text-emphz-navy font-medium focus:ring-2 focus:ring-emphz-teal focus:border-transparent outline-none transition-all"
                         >
                            <option value="Standard">Standard (4-6 Weeks)</option>
                            <option value="Immediate">Immediate (Stock Check)</option>
@@ -227,7 +227,7 @@ const RFQ: React.FC = () => {
                            name="region"
                            value={formData.region}
                            onChange={handleChange}
-                           className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm text-emphz-navy font-medium focus:ring-2 focus:ring-emphz-orange focus:border-transparent outline-none transition-all appearance-none"
+                           className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm text-emphz-navy font-medium focus:ring-2 focus:ring-emphz-teal focus:border-transparent outline-none transition-all appearance-none"
                         >
                            <option value="Kerala">Kerala (Vadakara Hub)</option>
                            <option value="Karnataka">Karnataka (Mysore HQ)</option>
@@ -239,7 +239,7 @@ const RFQ: React.FC = () => {
                            <MapPin size={16} />
                         </div>
                      </div>
-                     <p className="text-[10px] text-emphz-orange mt-2 font-mono">
+                     <p className="text-[10px] text-emphz-teal mt-2 font-mono">
                         * Routing: {formData.region === 'Kerala' ? 'Direct to Kerala Ops Team' : 'Direct to Central Manufacturing'}
                      </p>
                   </div>
@@ -251,7 +251,7 @@ const RFQ: React.FC = () => {
                         placeholder="Full Name *" 
                         required 
                         onChange={handleChange}
-                        className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-orange outline-none"
+                        className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-teal outline-none"
                      />
                      <input 
                         type="text" 
@@ -259,7 +259,7 @@ const RFQ: React.FC = () => {
                         placeholder="Company Name *" 
                         required 
                         onChange={handleChange}
-                        className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-orange outline-none"
+                        className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-teal outline-none"
                      />
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -269,7 +269,7 @@ const RFQ: React.FC = () => {
                         placeholder="Work Email *" 
                         required 
                         onChange={handleChange}
-                        className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-orange outline-none"
+                        className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-teal outline-none"
                      />
                      <input 
                         type="tel" 
@@ -277,7 +277,7 @@ const RFQ: React.FC = () => {
                         placeholder="Phone Number *" 
                         required 
                         onChange={handleChange}
-                        className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-orange outline-none"
+                        className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-teal outline-none"
                      />
                   </div>
                </div>
@@ -290,14 +290,14 @@ const RFQ: React.FC = () => {
                       rows={3}
                       onChange={handleChange}
                       placeholder="Enter specific dimensional constraints, IP rating requirements, or custom color codes..."
-                      className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-orange outline-none"
+                      className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-teal outline-none"
                    ></textarea>
                </div>
 
                <button 
                   type="submit" 
                   disabled={items.length === 0}
-                  className="w-full bg-emphz-navy text-white font-black py-5 rounded-xl hover:bg-emphz-orange transition-all shadow-xl shadow-emphz-navy/20 hover:shadow-emphz-orange/40 text-sm uppercase tracking-[0.2em] font-display transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-3"
+                  className="w-full bg-emphz-navy text-white font-black py-5 rounded-xl hover:bg-emphz-teal transition-all shadow-xl shadow-emphz-navy/20 hover:shadow-emphz-teal/40 text-sm uppercase tracking-[0.2em] font-display transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-3"
                >
                   <Send size={18} /> Initialize Request
                </button>

@@ -146,7 +146,7 @@ const Home: React.FC = () => {
                 style={{ animationDelay: '600ms' }}
               >
                 BUILT FOR THE {' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-orange via-cyan-300 to-white filter drop-shadow-[0_0_30px_rgba(0,173,181,0.3)] inline-block">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-teal via-cyan-300 to-white filter drop-shadow-[0_0_30px_rgba(0,173,181,0.3)] inline-block">
                    {WORDS[currentWordIndex]}.
                 </span>
               </h1>
@@ -162,7 +162,7 @@ const Home: React.FC = () => {
                 className="flex flex-col sm:flex-row gap-4 justify-start pt-2 animate-fade-up"
                 style={{ animationDelay: '800ms' }}
               >
-                <Link to="/products" className="group bg-emphz-orange text-white px-8 py-3 rounded-full font-bold text-xs tracking-[0.1em] uppercase font-display hover:bg-[#00D4DE] transition-all duration-300 flex items-center justify-center shadow-[0_0_30px_rgba(0,173,181,0.4)] hover:shadow-[0_0_50px_rgba(0,173,181,0.6)] hover:-translate-y-1">
+                <Link to="/products" className="group bg-emphz-teal text-emphz-navy px-8 py-3 rounded-full font-bold text-xs tracking-[0.1em] uppercase font-display hover:bg-[#00D4DE] transition-all duration-300 flex items-center justify-center shadow-[0_0_30px_rgba(0,173,181,0.4)] hover:shadow-[0_0_50px_rgba(0,173,181,0.6)] hover:-translate-y-1">
                   VIEW CATALOG <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={16} />
                 </Link>
                 
@@ -177,10 +177,10 @@ const Home: React.FC = () => {
       <div className="py-8 md:py-10 bg-white border-y border-gray-100 overflow-hidden" aria-hidden="true">
         <div className="flex space-x-16 md:space-x-24 motion-safe:animate-scroll whitespace-nowrap w-max hover:pause will-change-transform">
           {[...INDUSTRIES, ...INDUSTRIES, ...INDUSTRIES].map((ind, i) => (
-            <div key={i} className="flex items-center space-x-4 text-gray-300 hover:text-emphz-navy transition-colors cursor-default group">
+            <div key={i} className="flex items-center space-x-4 text-gray-400 hover:text-emphz-navy transition-colors cursor-default group">
               <Link to="/products" className="flex items-center gap-4 focus:outline-none">
-                <Box size={20} className="text-gray-300 group-hover:text-emphz-orange transition-colors" />
-                <span className="text-xl md:text-2xl font-black uppercase tracking-tighter group-hover:text-emphz-navy transition-colors font-display">{ind.title}</span>
+                <Box size={20} className="text-gray-400 group-hover:text-emphz-teal transition-colors" />
+                <span className="text-xl md:text-2xl font-black uppercase tracking-tighter text-gray-300 group-hover:text-emphz-navy transition-colors font-display">{ind.title}</span>
               </Link>
             </div>
           ))}
@@ -191,7 +191,7 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6">
            <div className="flex flex-col md:flex-row items-center justify-between gap-10">
               <div className="flex-1 text-center md:text-left">
-                 <h2 className="text-xs md:text-sm font-bold text-emphz-orange tracking-[0.2em] uppercase mb-3 font-display">Certified Excellence</h2>
+                 <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-[0.2em] uppercase mb-3 font-display">Certified Excellence</h2>
                  <p className="text-emphz-navy font-bold text-2xl md:text-3xl leading-tight">Meeting Global Standards <br/>for Safety & Quality.</p>
               </div>
               <div className="flex flex-wrap gap-8 md:gap-12 justify-center md:justify-end">
@@ -202,11 +202,11 @@ const Home: React.FC = () => {
                     { icon: Sun, label: "ASTM UV", sub: "Weatherability" }
                   ].map((cert, idx) => (
                     <div key={idx} className="flex flex-col items-center group cursor-default">
-                       <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100 mb-3 group-hover:border-emphz-orange group-hover:scale-110 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-emphz-orange/20">
-                          <cert.icon size={28} className="text-gray-400 group-hover:text-emphz-orange transition-colors" />
+                       <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100 mb-3 group-hover:border-emphz-teal group-hover:scale-110 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-emphz-teal/20">
+                          <cert.icon size={28} className="text-slate-500 group-hover:text-emphz-teal transition-colors" />
                        </div>
-                       <span className="text-xs font-black text-emphz-navy uppercase tracking-wider group-hover:text-emphz-orange transition-colors">{cert.label}</span>
-                       <span className="text-[10px] text-gray-400 font-mono mt-1">{cert.sub}</span>
+                       <span className="text-xs font-black text-emphz-navy uppercase tracking-wider group-hover:text-emphz-teal-text transition-colors">{cert.label}</span>
+                       <span className="text-[10px] text-slate-500 font-mono mt-1">{cert.sub}</span>
                     </div>
                   ))}
               </div>
@@ -220,26 +220,26 @@ const Home: React.FC = () => {
 
         <div className="w-full max-w-7xl mx-auto px-6 md:px-12 relative z-10">
           <div className="mb-16 md:mb-24 text-center">
-             <h2 className="text-xs md:text-sm font-bold text-emphz-orange tracking-[0.2em] uppercase mb-4 font-display">The Emphz Advantage</h2>
+             <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-[0.2em] uppercase mb-4 font-display">The Emphz Advantage</h2>
              <h3 className="text-4xl md:text-6xl font-black text-emphz-navy font-display tracking-tight leading-none">Why Engineers <br/>Choose GRP.</h3>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
              <ScrollRevealIcon>
-               <div className="bg-white p-8 md:p-12 rounded-3xl relative overflow-hidden group hover:-translate-y-3 transition-transform duration-500 shadow-xl shadow-gray-200/50 border border-gray-100 hover:border-emphz-orange h-full flex flex-col">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-emphz-orange/5 rounded-bl-[100px] -mr-8 -mt-8 transition-all group-hover:bg-emphz-orange/10"></div>
+               <div className="bg-white p-8 md:p-12 rounded-3xl relative overflow-hidden group hover:-translate-y-3 transition-transform duration-500 shadow-xl shadow-gray-200/50 border border-gray-100 hover:border-emphz-teal h-full flex flex-col">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-emphz-teal/5 rounded-bl-[100px] -mr-8 -mt-8 transition-all group-hover:bg-emphz-teal/10"></div>
                   
-                  <div className="w-16 h-16 bg-emphz-orange text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-emphz-orange/30 group-hover:scale-110 transition-transform duration-500 relative z-10">
+                  <div className="w-16 h-16 bg-emphz-teal text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-emphz-teal/30 group-hover:scale-110 transition-transform duration-500 relative z-10">
                     <Droplet size={32} />
                   </div>
                   
                   <h4 className="text-2xl font-black mb-4 text-emphz-navy font-display">Corrosion Immunity</h4>
-                  <p className="text-slate-500 leading-relaxed text-sm font-medium font-sans mb-6 flex-grow">
+                  <p className="text-slate-600 leading-relaxed text-sm font-medium font-sans mb-6 flex-grow">
                      Engineered specifically for high-salinity coastal environments. Our GRP composites are chemically inert, offering a 25+ year lifespan where traditional steel enclosures fail within months.
                   </p>
                   
                   <div className="border-t border-gray-100 pt-6">
-                    <span className="text-xs font-bold text-emphz-orange uppercase tracking-wider flex items-center">
+                    <span className="text-xs font-bold text-emphz-teal-text uppercase tracking-wider flex items-center">
                       Learn More <ArrowRight size={14} className="ml-2 group-hover:translate-x-2 transition-transform"/>
                     </span>
                   </div>
@@ -277,7 +277,7 @@ const Home: React.FC = () => {
                   </div>
                   
                   <h4 className="text-2xl font-black mb-4 text-emphz-navy font-display">Modular Design</h4>
-                  <p className="text-slate-500 leading-relaxed text-sm font-medium font-sans mb-6 flex-grow">
+                  <p className="text-slate-600 leading-relaxed text-sm font-medium font-sans mb-6 flex-grow">
                      Smart flat-pack capability allows for rapid deployment in difficult terrain. Our precision modular connections ensure IP66/67 ratings are rigorously maintained after assembly.
                   </p>
                   
@@ -296,10 +296,10 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
              <div>
-                <h2 className="text-xs md:text-sm font-bold text-emphz-orange tracking-[0.2em] uppercase mb-3 font-display">The Collection</h2>
+                <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-[0.2em] uppercase mb-3 font-display">The Collection</h2>
                 <h3 className="text-3xl md:text-4xl font-black text-emphz-navy font-display tracking-tight">Featured Products</h3>
              </div>
-             <Link to="/products" className="group mt-4 md:mt-0 text-emphz-navy font-bold text-sm border-b-2 border-emphz-orange pb-1 hover:text-emphz-orange transition-colors flex items-center font-display tracking-wide">
+             <Link to="/products" className="group mt-4 md:mt-0 text-emphz-navy font-bold text-sm border-b-2 border-emphz-teal pb-1 hover:text-emphz-teal-text transition-colors flex items-center font-display tracking-wide">
                 VIEW FULL CATALOG <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
              </Link>
           </div>
@@ -319,7 +319,7 @@ const Home: React.FC = () => {
                 <div className="absolute bottom-0 left-0 w-full p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                   <h3 className="text-xl font-bold text-white mb-2 font-display leading-tight">{product.name}</h3>
                   <p className="text-xs text-gray-300 line-clamp-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 font-sans">{product.shortDescription}</p>
-                  <div className="flex items-center text-emphz-orange text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
+                  <div className="flex items-center text-emphz-teal text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
                      View Details <ArrowRight size={12} className="ml-2" />
                   </div>
                 </div>
@@ -333,7 +333,7 @@ const Home: React.FC = () => {
          <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="text-center mb-16">
-                 <h2 className="text-xs md:text-sm font-bold text-emphz-orange tracking-[0.2em] uppercase mb-4 font-display">Applications</h2>
+                 <h2 className="text-xs md:text-sm font-bold text-emphz-teal tracking-[0.2em] uppercase mb-4 font-display">Applications</h2>
                  <h3 className="text-4xl md:text-5xl font-black text-white font-display">Industries Powering India</h3>
             </div>
             
@@ -343,7 +343,7 @@ const Home: React.FC = () => {
                      <img src={item.image} alt={item.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                      <div className="absolute inset-0 bg-gradient-to-t from-emphz-navy via-emphz-navy/60 to-transparent opacity-90 group-hover:opacity-75 transition-opacity duration-500"></div>
                      <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                        <h4 className="text-2xl font-bold text-white font-display mb-2 group-hover:text-emphz-orange transition-colors">{item.title}</h4>
+                        <h4 className="text-2xl font-bold text-white font-display mb-2 group-hover:text-emphz-teal transition-colors">{item.title}</h4>
                         <p className="text-gray-300 text-sm leading-relaxed transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">{item.desc}</p>
                      </div>
                   </div>
@@ -358,15 +358,15 @@ const Home: React.FC = () => {
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-24">
                <div className="lg:w-1/2">
-                  <h2 className="text-xs md:text-sm font-bold text-emphz-orange tracking-[0.2em] uppercase mb-4 font-display">Who We Are</h2>
+                  <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-[0.2em] uppercase mb-4 font-display">Who We Are</h2>
                   <h3 className="text-4xl md:text-6xl font-black text-emphz-navy mb-8 leading-none font-display tracking-tight">
                      Built to Last. <br/>
-                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-orange to-cyan-500">Engineered to Protect.</span>
+                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-teal to-cyan-500">Engineered to Protect.</span>
                   </h3>
                   <p className="text-lg text-slate-600 leading-relaxed mb-8 font-sans font-light">
                      Our mission is simple: to provide the most durable, corrosion-resistant infrastructure solutions for India's demanding environments. By leveraging advanced Glass Reinforced Plastic technology, we eliminate maintenance costs and extend asset lifecycles by decades.
                   </p>
-                  <Link to="/about" className="inline-flex items-center text-white bg-emphz-navy px-8 py-4 rounded-full font-bold text-sm tracking-widest uppercase hover:bg-emphz-orange transition-colors group font-display shadow-xl hover:shadow-2xl hover:-translate-y-1">
+                  <Link to="/about" className="inline-flex items-center text-white bg-emphz-navy px-8 py-4 rounded-full font-bold text-sm tracking-widest uppercase hover:bg-emphz-teal transition-colors group font-display shadow-xl hover:shadow-2xl hover:-translate-y-1">
                      LEARN MORE <ArrowRight className="ml-3 group-hover:translate-x-1 transition-transform" size={16} />
                   </Link>
                </div>
@@ -374,19 +374,19 @@ const Home: React.FC = () => {
                <div className="lg:w-1/2 grid grid-cols-2 gap-4 w-full">
                   <div className="bg-white p-8 rounded-3xl border border-gray-100 flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300 shadow-xl shadow-gray-200/50">
                      <div className="text-4xl md:text-5xl font-black text-emphz-navy mb-2 font-display">25+</div>
-                     <div className="text-[10px] md:text-xs text-slate-400 uppercase tracking-[0.2em] font-bold font-display">Years Lifespan</div>
+                     <div className="text-[10px] md:text-xs text-slate-500 uppercase tracking-[0.2em] font-bold font-display">Years Lifespan</div>
                   </div>
                   <div className="bg-white p-8 rounded-3xl border border-gray-100 flex flex-col items-center text-center mt-8 transform hover:scale-105 transition-transform duration-300 shadow-xl shadow-gray-200/50">
                      <div className="text-4xl md:text-5xl font-black text-emphz-navy mb-2 font-display">0%</div>
-                     <div className="text-[10px] md:text-xs text-slate-400 uppercase tracking-[0.2em] font-bold font-display">Corrosion</div>
+                     <div className="text-[10px] md:text-xs text-slate-500 uppercase tracking-[0.2em] font-bold font-display">Corrosion</div>
                   </div>
                   <div className="bg-white p-8 rounded-3xl border border-gray-100 flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300 shadow-xl shadow-gray-200/50">
                      <div className="text-4xl md:text-5xl font-black text-emphz-navy mb-2 font-display">IP66</div>
-                     <div className="text-[10px] md:text-xs text-slate-400 uppercase tracking-[0.2em] font-bold font-display">Certified</div>
+                     <div className="text-[10px] md:text-xs text-slate-500 uppercase tracking-[0.2em] font-bold font-display">Certified</div>
                   </div>
-                  <div className="bg-emphz-orange p-8 rounded-3xl border border-emphz-orange shadow-2xl shadow-emphz-orange/30 flex flex-col items-center text-center mt-8 transform hover:scale-105 transition-transform duration-300">
-                     <div className="text-4xl md:text-5xl font-black text-white mb-2 font-display">100%</div>
-                     <div className="text-[10px] md:text-xs text-white/90 uppercase tracking-[0.2em] font-bold font-display">Maintenance Free</div>
+                  <div className="bg-emphz-teal p-8 rounded-3xl border border-emphz-teal shadow-2xl shadow-emphz-teal/30 flex flex-col items-center text-center mt-8 transform hover:scale-105 transition-transform duration-300">
+                     <div className="text-4xl md:text-5xl font-black text-emphz-navy mb-2 font-display">100%</div>
+                     <div className="text-[10px] md:text-xs text-emphz-navy uppercase tracking-[0.2em] font-bold font-display">Maintenance Free</div>
                   </div>
                </div>
             </div>
@@ -398,7 +398,7 @@ const Home: React.FC = () => {
               <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
                   <div className="lg:w-1/2 w-full">
                       <div className="relative group">
-                          <div className="absolute -inset-2.5 bg-gradient-to-r from-emphz-orange to-cyan-400 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
+                          <div className="absolute -inset-2.5 bg-gradient-to-r from-emphz-teal to-cyan-400 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
                           <img 
                               src="https://lh3.googleusercontent.com/pw/AP1GczMvuz7tjgxC5-JF9dQctIIAuS8YxbnxwOh-BxiCmu2-fRi94SQUgqdsyZ8QcYCx_WhpUYQe-RJjo9kUnlKWHJYyHFiq7le1FfH98Qvn_LBr4-BYmSe-LfgpUg-WAI7KRzJg2kp_-VQNZK7FQcCRyd07dw=w1563-h879-s-no-gm?authuser=0"
                               alt="Emphz Manufacturing Facility"
@@ -407,7 +407,7 @@ const Home: React.FC = () => {
                       </div>
                   </div>
                   <div className="lg:w-1/2">
-                      <h2 className="text-xs md:text-sm font-bold text-emphz-orange tracking-[0.2em] uppercase mb-4 font-display">About Emphz</h2>
+                      <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-[0.2em] uppercase mb-4 font-display">About Emphz</h2>
                       <h3 className="text-3xl md:text-4xl font-black text-emphz-navy mb-6 leading-tight font-display tracking-tight">
                           Pioneering Composite Solutions Since 2020.
                       </h3>
@@ -416,19 +416,19 @@ const Home: React.FC = () => {
                       </p>
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
                           <div className="flex items-center gap-3">
-                              <div className="bg-white p-3 rounded-full border border-gray-200 shadow-sm"><Anchor className="w-5 h-5 text-emphz-orange" /></div>
+                              <div className="bg-white p-3 rounded-full border border-gray-200 shadow-sm"><Anchor className="w-5 h-5 text-emphz-teal" /></div>
                               <span className="text-xs font-bold text-emphz-navy font-display uppercase tracking-wider">Durability</span>
                           </div>
                           <div className="flex items-center gap-3">
-                              <div className="bg-white p-3 rounded-full border border-gray-200 shadow-sm"><Lightbulb className="w-5 h-5 text-emphz-orange" /></div>
+                              <div className="bg-white p-3 rounded-full border border-gray-200 shadow-sm"><Lightbulb className="w-5 h-5 text-emphz-teal" /></div>
                               <span className="text-xs font-bold text-emphz-navy font-display uppercase tracking-wider">Innovation</span>
                           </div>
                           <div className="flex items-center gap-3">
-                              <div className="bg-white p-3 rounded-full border border-gray-200 shadow-sm"><Users className="w-5 h-5 text-emphz-orange" /></div>
+                              <div className="bg-white p-3 rounded-full border border-gray-200 shadow-sm"><Users className="w-5 h-5 text-emphz-teal" /></div>
                               <span className="text-xs font-bold text-emphz-navy font-display uppercase tracking-wider">Partnership</span>
                           </div>
                       </div>
-                      <Link to="/about" className="inline-flex items-center text-white bg-emphz-navy px-8 py-4 rounded-full font-bold text-sm tracking-widest uppercase hover:bg-emphz-orange transition-colors group font-display shadow-xl hover:shadow-2xl hover:-translate-y-1">
+                      <Link to="/about" className="inline-flex items-center text-white bg-emphz-navy px-8 py-4 rounded-full font-bold text-sm tracking-widest uppercase hover:bg-emphz-teal transition-colors group font-display shadow-xl hover:shadow-2xl hover:-translate-y-1">
                           Discover Our Story <ArrowRight className="ml-3 group-hover:translate-x-1 transition-transform" size={16} />
                       </Link>
                   </div>
@@ -446,7 +446,7 @@ const Home: React.FC = () => {
              Join the leading architects and engineers in Kerala who have switched to Emphz GRP for a lifetime of maintenance-free performance.
            </p>
            <div className="flex flex-col sm:flex-row justify-center gap-5">
-             <Link to="/rfq" className="bg-emphz-orange text-white px-10 py-5 rounded-full font-bold text-sm md:text-base shadow-[0_0_30px_rgba(0,173,181,0.4)] hover:shadow-[0_0_50px_rgba(0,173,181,0.6)] hover:-translate-y-1 transition-all focus:ring-2 focus:ring-white font-display uppercase tracking-widest">
+             <Link to="/rfq" className="bg-emphz-teal text-emphz-navy px-10 py-5 rounded-full font-bold text-sm md:text-base shadow-[0_0_30px_rgba(0,173,181,0.4)] hover:shadow-[0_0_50px_rgba(0,173,181,0.6)] hover:-translate-y-1 transition-all focus:ring-2 focus:ring-white font-display uppercase tracking-widest">
                GET A QUOTE NOW
              </Link>
              <Link to="/technical" className="bg-transparent border border-white/30 text-white px-10 py-5 rounded-full font-bold text-sm md:text-base hover:bg-white/10 transition-all focus:ring-2 focus:ring-white font-display uppercase tracking-widest backdrop-blur-sm">

@@ -201,18 +201,18 @@ export function Layout({ children }: LayoutProps) {
     ? 'text-white/90 hover:text-white font-medium drop-shadow-sm' 
     : 'text-gray-400 font-medium hover:text-white';
     
-  const activeLinkClass = 'text-emphz-orange font-bold drop-shadow-md';
+  const activeLinkClass = 'text-emphz-teal font-bold drop-shadow-md';
   
   const iconColorClass = isHeaderTransparent 
-    ? 'text-white hover:text-emphz-orange drop-shadow-sm' 
-    : 'text-gray-400 hover:text-emphz-orange';
+    ? 'text-white hover:text-emphz-teal drop-shadow-sm' 
+    : 'text-gray-400 hover:text-emphz-teal';
 
   const navPillClass = isHeaderTransparent 
     ? 'bg-black/10 border border-white/10 backdrop-blur-[2px]' 
     : 'bg-transparent border-transparent';
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-emphz-navy font-sans selection:bg-emphz-orange selection:text-white relative">
+    <div className="min-h-screen flex flex-col bg-white text-emphz-navy font-sans selection:bg-emphz-teal selection:text-white relative">
       <style>{`
         html {
           scroll-behavior: smooth;
@@ -237,7 +237,7 @@ export function Layout({ children }: LayoutProps) {
       
       <div className="fixed top-0 left-0 w-full h-1 z-[60] pointer-events-none">
         <div 
-          className="h-full bg-emphz-orange shadow-[0_0_10px_#00ADB5]" 
+          className="h-full bg-emphz-teal shadow-[0_0_10px_#00ADB5]" 
           style={{ width: `${scrollProgress * 100}%`, transition: 'width 0.1s ease-out' }}
         />
       </div>
@@ -263,7 +263,7 @@ export function Layout({ children }: LayoutProps) {
                   aria-current={isActive(link.path) ? 'page' : undefined}
                 >
                   {link.label}
-                  <span className={`absolute -bottom-1 left-0 w-full h-0.5 bg-emphz-orange transform origin-left transition-transform duration-300 ${isActive(link.path) ? 'scale-x-100 shadow-[0_0_10px_#00ADB5]' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
+                  <span className={`absolute -bottom-1 left-0 w-full h-0.5 bg-emphz-teal transform origin-left transition-transform duration-300 ${isActive(link.path) ? 'scale-x-100 shadow-[0_0_10px_#00ADB5]' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
                 </Link>
               ))}
             </nav>
@@ -281,12 +281,12 @@ export function Layout({ children }: LayoutProps) {
               <Link to="/rfq" className={`relative p-2 transition-colors group ${iconColorClass}`} aria-label={`View RFQ Cart, ${items.length} items`}>
                 <ShoppingCart size={20} aria-hidden="true" className="group-hover:scale-110 transition-transform"/>
                 {items.length > 0 && (
-                  <span className="absolute -top-1 -right-1 h-5 w-5 bg-emphz-orange text-white text-[10px] font-bold flex items-center justify-center rounded-full shadow-md ring-2 ring-emphz-navy animate-pulse">
+                  <span className="absolute -top-1 -right-1 h-5 w-5 bg-emphz-teal text-emphz-navy text-[10px] font-bold flex items-center justify-center rounded-full shadow-md ring-2 ring-emphz-navy animate-pulse">
                     {items.length}
                   </span>
                 )}
               </Link>
-              <Link to="/rfq" className="bg-emphz-orange text-white px-6 py-2 rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-[#00D4DE] transition-all shadow-[0_0_20px_rgba(0,173,181,0.3)] hover:shadow-[0_0_30px_rgba(0,173,181,0.5)] transform hover:-translate-y-0.5 font-display border border-white/10">
+              <Link to="/rfq" className="bg-emphz-teal text-emphz-navy px-6 py-2 rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-[#00D4DE] transition-all shadow-[0_0_20px_rgba(0,173,181,0.3)] hover:shadow-[0_0_30px_rgba(0,173,181,0.5)] transform hover:-translate-y-0.5 font-display border border-white/10">
                 GET QUOTE
               </Link>
             </div>
@@ -303,14 +303,14 @@ export function Layout({ children }: LayoutProps) {
                <Link to="/rfq" onClick={() => setIsMenuOpen(false)} className={`relative p-2 transition-colors ${iconColorClass}`} aria-label={`View RFQ Cart`}>
                 <ShoppingCart size={22} aria-hidden="true" />
                 {items.length > 0 && (
-                  <span className="absolute -top-1 -right-1 h-4 w-4 bg-emphz-orange text-white text-[9px] font-bold flex items-center justify-center rounded-full shadow-md ring-1 ring-emphz-navy">
+                  <span className="absolute -top-1 -right-1 h-4 w-4 bg-emphz-teal text-emphz-navy text-[9px] font-bold flex items-center justify-center rounded-full shadow-md ring-1 ring-emphz-navy">
                     {items.length}
                   </span>
                 )}
               </Link>
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-2 focus:outline-none text-white hover:text-emphz-orange rounded-full transition-all"
+                className="p-2 focus:outline-none text-white hover:text-emphz-teal rounded-full transition-all"
                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={isMenuOpen}
               >
@@ -341,7 +341,7 @@ export function Layout({ children }: LayoutProps) {
                     onClick={() => setIsMenuOpen(false)}
                     className={`block text-4xl sm:text-5xl font-black tracking-tight font-display group transition-colors duration-300 ${
                       isActive(link.path) 
-                        ? 'text-transparent bg-clip-text bg-gradient-to-r from-emphz-orange to-cyan-200' 
+                        ? 'text-transparent bg-clip-text bg-gradient-to-r from-emphz-teal to-cyan-200' 
                         : 'text-white/40 hover:text-white'
                     }`}
                   >
@@ -353,20 +353,20 @@ export function Layout({ children }: LayoutProps) {
               <div 
                 className={`pt-12 border-t border-white/10 transition-all duration-700 delay-500 ${isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
               >
-                 <Link to="/rfq" onClick={() => setIsMenuOpen(false)} className="flex items-center justify-between w-full bg-emphz-orange text-white px-8 py-5 rounded-2xl font-bold text-lg sm:text-xl font-display shadow-[0_10px_40px_-10px_rgba(0,173,181,0.5)] active:scale-95 transition-transform">
+                 <Link to="/rfq" onClick={() => setIsMenuOpen(false)} className="flex items-center justify-between w-full bg-emphz-teal text-emphz-navy px-8 py-5 rounded-2xl font-bold text-lg sm:text-xl font-display shadow-[0_10px_40px_-10px_rgba(0,173,181,0.5)] active:scale-95 transition-transform">
                     <span>Review RFQ Cart</span>
-                    <span className="bg-black/20 px-4 py-1 rounded-full text-sm font-mono">{items.length} items</span>
+                    <span className="bg-black/20 text-white px-4 py-1 rounded-full text-sm font-mono">{items.length} items</span>
                   </Link>
                   
                   <div className="mt-8 flex justify-center gap-8 text-white/50">
-                    <a href="mailto:info@emphz.in" className="hover:text-emphz-orange transition-colors"><Mail size={24}/></a>
-                    <a href="tel:+919037874080" className="hover:text-emphz-orange transition-colors"><Phone size={24}/></a>
-                    <a href="#" className="hover:text-emphz-orange transition-colors"><MapPin size={24}/></a>
+                    <a href="mailto:info@emphz.in" className="hover:text-emphz-teal transition-colors"><Mail size={24}/></a>
+                    <a href="tel:+919037874080" className="hover:text-emphz-teal transition-colors"><Phone size={24}/></a>
+                    <a href="#" className="hover:text-emphz-teal transition-colors"><MapPin size={24}/></a>
                   </div>
               </div>
             </nav>
             
-            <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-emphz-orange/20 rounded-full blur-[100px] pointer-events-none"></div>
+            <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-emphz-teal/20 rounded-full blur-[100px] pointer-events-none"></div>
             <div className="absolute top-20 -left-20 w-60 h-60 bg-blue-600/20 rounded-full blur-[80px] pointer-events-none"></div>
           </div>
       </header>
@@ -391,7 +391,7 @@ export function Layout({ children }: LayoutProps) {
                                 ) : (
                                     <Link 
                                         to={crumb.path}
-                                        className="text-gray-500 hover:text-emphz-orange hover:underline transition-colors truncate"
+                                        className="text-gray-500 hover:text-emphz-teal-text hover:underline transition-colors truncate"
                                     >
                                         {crumb.name}
                                     </Link>
@@ -420,13 +420,13 @@ export function Layout({ children }: LayoutProps) {
         </a>
         <Link 
           to="/technical"
-          className="bg-white border-2 border-gray-100 text-emphz-navy p-3 md:p-4 rounded-full shadow-lg hover:border-emphz-orange hover:text-emphz-orange hover:scale-110 transition-all flex items-center justify-center group relative"
+          className="bg-white border-2 border-gray-100 text-emphz-navy p-3 md:p-4 rounded-full shadow-lg hover:border-emphz-teal hover:text-emphz-teal hover:scale-110 transition-all flex items-center justify-center group relative"
           aria-label="Technical Specs"
         >
           <FileText size={24} className="w-5 h-5 md:w-6 md:h-6" />
            <span className="absolute right-full mr-4 bg-white text-slate-900 text-xs font-bold px-3 py-1.5 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap pointer-events-none font-sans hidden md:block transform translate-x-2 group-hover:translate-x-0">
             Datasheets
-          </span>
+           </span>
         </Link>
       </div>
 
@@ -436,7 +436,7 @@ export function Layout({ children }: LayoutProps) {
 
       <footer className={`bg-emphz-navy text-white pt-20 pb-10 md:pt-28 md:pb-12 relative overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${isMenuOpen ? 'blur-sm opacity-40' : ''}`} role="contentinfo">
         <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none overflow-hidden">
-           <div className="absolute -right-20 top-0 w-[400px] h-[400px] bg-emphz-orange rounded-full blur-[150px] animate-float" style={{ animationDuration: '8s' }}></div>
+           <div className="absolute -right-20 top-0 w-[400px] h-[400px] bg-emphz-teal rounded-full blur-[150px] animate-float" style={{ animationDuration: '8s' }}></div>
            <div className="absolute -left-20 bottom-0 w-[300px] h-[300px] bg-blue-600 rounded-full blur-[120px] animate-float" style={{ animationDuration: '10s' }}></div>
            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
         </div>
@@ -452,34 +452,34 @@ export function Layout({ children }: LayoutProps) {
               <h3 className="text-2xl md:text-4xl font-display font-bold mb-6 leading-tight max-w-lg bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
                 Replace steel. Ignore corrosion. Build for the future.
               </h3>
-              <p className="text-gray-400 text-sm leading-relaxed max-w-md font-sans border-l-2 border-emphz-orange pl-4">
+              <p className="text-gray-400 text-sm leading-relaxed max-w-md font-sans border-l-2 border-emphz-teal pl-4">
                 India's premier GRP infrastructure manufacturer. Delivering precision-molded composites from Mysore to the harshest coastal environments.
               </p>
             </div>
 
             <div>
-              <h4 className="text-xs font-bold text-emphz-orange uppercase tracking-[0.2em] mb-6 font-display">Products</h4>
+              <h4 className="text-xs font-bold text-emphz-teal uppercase tracking-[0.2em] mb-6 font-display">Products</h4>
               <ul className="space-y-4 text-sm font-medium text-gray-400">
-                <li><Link to="/products" className="hover:text-white transition-colors flex items-center group py-1"><ChevronRight size={14} className="mr-2 text-emphz-orange transform group-hover:translate-x-1 transition-transform"/> Enclosures</Link></li>
-                <li><Link to="/products" className="hover:text-white transition-colors flex items-center group py-1"><ChevronRight size={14} className="mr-2 text-emphz-orange transform group-hover:translate-x-1 transition-transform"/> Modular Kiosks</Link></li>
-                <li><Link to="/products" className="hover:text-white transition-colors flex items-center group py-1"><ChevronRight size={14} className="mr-2 text-emphz-orange transform group-hover:translate-x-1 transition-transform"/> Security Cabins</Link></li>
-                <li><Link to="/products" className="hover:text-white transition-colors flex items-center group py-1"><ChevronRight size={14} className="mr-2 text-emphz-orange transform group-hover:translate-x-1 transition-transform"/> Resort Villas</Link></li>
+                <li><Link to="/products" className="hover:text-white transition-colors flex items-center group py-1"><ChevronRight size={14} className="mr-2 text-emphz-teal transform group-hover:translate-x-1 transition-transform"/> Enclosures</Link></li>
+                <li><Link to="/products" className="hover:text-white transition-colors flex items-center group py-1"><ChevronRight size={14} className="mr-2 text-emphz-teal transform group-hover:translate-x-1 transition-transform"/> Modular Kiosks</Link></li>
+                <li><Link to="/products" className="hover:text-white transition-colors flex items-center group py-1"><ChevronRight size={14} className="mr-2 text-emphz-teal transform group-hover:translate-x-1 transition-transform"/> Security Cabins</Link></li>
+                <li><Link to="/products" className="hover:text-white transition-colors flex items-center group py-1"><ChevronRight size={14} className="mr-2 text-emphz-teal transform group-hover:translate-x-1 transition-transform"/> Resort Villas</Link></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-xs font-bold text-emphz-orange uppercase tracking-[0.2em] mb-6 font-display">Connect</h4>
+              <h4 className="text-xs font-bold text-emphz-teal uppercase tracking-[0.2em] mb-6 font-display">Connect</h4>
               <ul className="space-y-4 text-sm font-medium text-gray-400">
                 <li className="flex items-start group py-1">
                   <MapPin size={18} className="mr-3 mt-0.5 text-emphz-navy bg-gray-200 rounded-full p-0.5 group-hover:bg-white transition-colors flex-shrink-0" />
                   <span>Mysore Factory <br/><span className="text-xs opacity-50">KIADB Industrial Area</span></span>
                 </li>
                 <li className="flex items-start group py-1">
-                  <MapPin size={18} className="mr-3 mt-0.5 text-emphz-orange bg-white/10 rounded-full p-0.5 group-hover:bg-white transition-colors flex-shrink-0" />
+                  <MapPin size={18} className="mr-3 mt-0.5 text-emphz-teal bg-white/10 rounded-full p-0.5 group-hover:bg-white transition-colors flex-shrink-0" />
                   <span>Kerala Ops <br/><span className="text-xs opacity-50">Vadakara HQ</span></span>
                 </li>
-                <li className="flex items-center group hover:text-white transition-colors py-1"><Phone size={16} className="mr-3 text-gray-500 group-hover:text-emphz-orange" /> +91 9037 874 080</li>
-                <li className="flex items-center group hover:text-white transition-colors py-1"><Mail size={16} className="mr-3 text-gray-500 group-hover:text-emphz-orange" /> info@emphz.in</li>
+                <li className="flex items-center group hover:text-white transition-colors py-1"><Phone size={16} className="mr-3 text-gray-500 group-hover:text-emphz-teal" /> +91 9037 874 080</li>
+                <li className="flex items-center group hover:text-white transition-colors py-1"><Mail size={16} className="mr-3 text-gray-500 group-hover:text-emphz-teal" /> info@emphz.in</li>
               </ul>
             </div>
           </div>
@@ -487,9 +487,9 @@ export function Layout({ children }: LayoutProps) {
           <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 font-sans gap-6">
             <p>&copy; 2025 Emphz Engineering Pvt Ltd. Precision Molded in India.</p>
             <div className="flex space-x-8 font-bold uppercase tracking-widest text-[10px]">
-              <Link to="#" className="hover:text-emphz-orange transition-colors">Privacy Policy</Link>
-              <Link to="#" className="hover:text-emphz-orange transition-colors">Terms of Use</Link>
-              <Link to="/sitemap" className="hover:text-emphz-orange transition-colors">Sitemap</Link>
+              <Link to="#" className="hover:text-emphz-teal transition-colors">Privacy Policy</Link>
+              <Link to="#" className="hover:text-emphz-teal transition-colors">Terms of Use</Link>
+              <Link to="/sitemap" className="hover:text-emphz-teal transition-colors">Sitemap</Link>
             </div>
           </div>
         </div>

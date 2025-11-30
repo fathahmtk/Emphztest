@@ -56,7 +56,7 @@ const AnimatedStatistic: React.FC<{
         {displayValue}
         {suffix}
       </div>
-      <div className="text-[10px] md:text-xs text-slate-400 uppercase tracking-[0.2em] font-bold font-display">
+      <div className="text-[10px] md:text-xs text-slate-500 uppercase tracking-[0.2em] font-bold font-display">
         {label}
       </div>
     </div>
@@ -67,19 +67,19 @@ const About: React.FC = () => {
 
   const values = [
     { 
-      icon: <Anchor className="w-8 h-8 text-emphz-orange" />, 
+      icon: <Anchor className="w-8 h-8 text-emphz-teal" />, 
       title: "Uncompromising Durability", 
       description: "Our solutions are engineered to last a generation. We build for long-term performance in the harshest conditions.",
       statistic: { value: 25, suffix: '+ Year', label: 'Design Life' }
     },
     { 
-      icon: <Lightbulb className="w-8 h-8 text-emphz-orange" />, 
+      icon: <Lightbulb className="w-8 h-8 text-emphz-teal" />, 
       title: "Material Innovation", 
       description: "We relentlessly pursue advanced GRP composites, pushing the boundaries of strength, resilience, and design.",
       statistic: { value: 40, suffix: '%', label: 'Lighter Than Steel' }
     },
     { 
-      icon: <Users className="w-8 h-8 text-emphz-orange" />, 
+      icon: <Users className="w-8 h-8 text-emphz-teal" />, 
       title: "Collaborative Partnership", 
       description: "Your project is our project. We function as an extension of your engineering team, from start to finish.",
       statistic: { value: 500, suffix: '+', label: 'Projects Delivered' }
@@ -101,7 +101,7 @@ const About: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-emphz-navy via-emphz-navy/70 to-transparent"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <h1 className="text-4xl md:text-7xl font-black mb-4 md:mb-6 max-w-3xl leading-tight font-display">Engineering a Corrosion-Free Future.</h1>
-          <p className="text-base md:text-xl text-gray-300 max-w-2xl leading-relaxed font-light border-l-4 border-emphz-orange pl-4 md:pl-6 font-sans">
+          <p className="text-base md:text-xl text-gray-300 max-w-2xl leading-relaxed font-light border-l-4 border-emphz-teal pl-4 md:pl-6 font-sans">
             We are a team of material scientists and engineers dedicated to solving India's toughest infrastructure challenges with advanced GRP composites.
           </p>
         </div>
@@ -111,7 +111,7 @@ const About: React.FC = () => {
       <section className="py-16 md:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           <div className="pr-0 md:pr-8">
-            <h2 className="text-xs md:text-sm font-bold text-emphz-orange tracking-widest uppercase mb-3 md:mb-4 font-display">Our Mission</h2>
+            <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-widest uppercase mb-3 md:mb-4 font-display">Our Mission</h2>
             <h3 className="text-3xl md:text-4xl font-bold text-emphz-navy mb-4 md:mb-6 font-display">To Replace Obsolete Materials.</h3>
             <p className="text-gray-600 leading-relaxed text-sm md:text-base font-sans">
               Our mission is to systematically replace traditional materials like steel, concrete, and wood with superior, high-performance GRP solutions in critical infrastructure. We aim to eradicate the costs and dangers associated with corrosion and degradation, ensuring longevity and safety for a modern India.
@@ -119,14 +119,14 @@ const About: React.FC = () => {
           </div>
           <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg border border-gray-200 space-y-6">
             <div className="flex items-start">
-              <div className="bg-emphz-orange/10 p-3 rounded-full mr-4"><Target className="w-5 h-5 md:w-6 md:h-6 text-emphz-orange" /></div>
+              <div className="bg-emphz-teal/10 p-3 rounded-full mr-4"><Target className="w-5 h-5 md:w-6 md:h-6 text-emphz-teal" /></div>
               <div>
                 <h4 className="font-bold text-base md:text-lg font-display">Engineer for Environment</h4>
                 <p className="text-gray-500 text-xs md:text-sm font-sans">Create products perfectly suited for their intended environment, from saline coasts to harsh industrial zones.</p>
               </div>
             </div>
             <div className="flex items-start">
-              <div className="bg-emphz-orange/10 p-3 rounded-full mr-4"><Gem className="w-5 h-5 md:w-6 md:h-6 text-emphz-orange" /></div>
+              <div className="bg-emphz-teal/10 p-3 rounded-full mr-4"><Gem className="w-5 h-5 md:w-6 md:h-6 text-emphz-teal" /></div>
               <div>
                 <h4 className="font-bold text-base md:text-lg font-display">Deliver Unmatched Quality</h4>
                 <p className="text-gray-500 text-xs md:text-sm font-sans">Utilize precision manufacturing and the highest-grade materials to deliver products that exceed international standards.</p>
@@ -139,7 +139,7 @@ const About: React.FC = () => {
       {/* Our Values Section */}
        <section className="py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-xs md:text-sm font-bold text-emphz-orange tracking-widest uppercase mb-3 md:mb-4 font-display">Our Core Values</h2>
+            <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-widest uppercase mb-3 md:mb-4 font-display">Our Core Values</h2>
             <h3 className="text-3xl md:text-4xl font-bold text-emphz-navy mb-8 md:mb-12 font-display">The Principles That Guide Us.</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                 {values.map((value, i) => (
@@ -165,7 +165,7 @@ const About: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
                <div className="lg:w-1/2">
-                   <h2 className="text-xs md:text-sm font-bold text-emphz-orange tracking-widest uppercase mb-3 md:mb-4 font-display">How We Build</h2>
+                   <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-widest uppercase mb-3 md:mb-4 font-display">How We Build</h2>
                    <h3 className="text-3xl md:text-4xl font-bold text-emphz-navy mb-4 md:mb-6 font-display">Manufacturing Excellence.</h3>
                    <p className="text-base md:text-lg text-gray-600 mb-6 font-light font-sans">
                       At our Mysore facility, we employ multiple advanced composite manufacturing techniques to ensure every product meets specific structural and aesthetic requirements.
@@ -219,7 +219,7 @@ const About: React.FC = () => {
                            <div className="font-bold text-xl md:text-2xl font-display">ISO 9001:2015</div>
                            <div className="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-widest mt-1 font-display">Certified Facility</div>
                         </div>
-                        <Award className="w-10 h-10 md:w-12 md:h-12 text-emphz-orange" />
+                        <Award className="w-10 h-10 md:w-12 md:h-12 text-emphz-teal" />
                      </div>
                   </div>
                </div>
@@ -232,7 +232,7 @@ const About: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
                 <div className="md:w-1/3 text-center md:text-left">
-                    <h2 className="text-xs md:text-sm font-bold text-emphz-orange tracking-widest uppercase mb-3 md:mb-4 font-display">Strict Standards</h2>
+                    <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-widest uppercase mb-3 md:mb-4 font-display">Strict Standards</h2>
                     <h3 className="text-3xl font-bold text-emphz-navy mb-3 md:mb-4 font-display">In-House QA Lab</h3>
                     <p className="text-gray-600 text-sm md:text-base font-sans">
                         We don't just manufacture; we test. Our Mysore facility includes a dedicated Quality Assurance lab where batches are rigorously tested against international standards.
@@ -280,7 +280,7 @@ const About: React.FC = () => {
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
             {/* Image Side */}
             <div className="w-full lg:w-1/2 relative group">
-              <div className="absolute inset-0 bg-emphz-orange/20 rounded-2xl transform translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500"></div>
+              <div className="absolute inset-0 bg-emphz-teal/20 rounded-2xl transform translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500"></div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                  <img 
                    src="https://lh3.googleusercontent.com/pw/AP1GczPXd3SB3ha5w7wQYPCYln2z7mHwS2GWu0AiuUXj7QzLOpT54vA9BriS2YorAIZu9Qm0ppfMXMU6tBiJ4dyG4yhafK5leMobYiQCD8pWPWynVssz2_ueIQwbCl2XYIagOoycgZH5wk512mzKaUCSYsAXtQ=w1280-h720-s-no-gm?authuser=0" 
@@ -297,7 +297,7 @@ const About: React.FC = () => {
 
             {/* Content Side */}
             <div className="w-full lg:w-1/2">
-              <Quote className="text-emphz-orange w-12 h-12 md:w-16 md:h-16 mb-6 opacity-20" />
+              <Quote className="text-emphz-teal w-12 h-12 md:w-16 md:h-16 mb-6 opacity-20" />
               <h2 className="text-3xl md:text-5xl font-black text-emphz-navy mb-8 font-display leading-tight">
                 Building Resilience for a Changing World.
               </h2>
@@ -314,7 +314,7 @@ const About: React.FC = () => {
                     <div className="font-display text-xl text-emphz-navy italic font-bold">Muhammed Rashik P</div>
                  </div>
                  <div className="text-right">
-                    <div className="text-xs font-bold text-emphz-orange uppercase tracking-widest">Emphz Engineering</div>
+                    <div className="text-xs font-bold text-emphz-teal-text uppercase tracking-widest">Emphz Engineering</div>
                     <div className="text-[10px] text-gray-400 font-mono">EST. 2020</div>
                  </div>
               </div>
@@ -331,7 +331,7 @@ const About: React.FC = () => {
                     Partner with us to leverage the power of GRP for your next project. Let's create infrastructure that lasts.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
-                    <Link to="/rfq" className="bg-emphz-orange text-white px-8 py-4 rounded-full font-bold text-base shadow-2xl hover:scale-105 transition-transform font-display uppercase tracking-wider">
+                    <Link to="/rfq" className="bg-emphz-teal text-emphz-navy px-8 py-4 rounded-full font-bold text-base shadow-2xl hover:scale-105 transition-transform font-display uppercase tracking-wider">
                         Request a Consultation
                     </Link>
                     <Link to="/case-studies" className="bg-white/10 border border-white/20 text-white px-8 py-4 rounded-full font-bold text-base hover:bg-white/20 transition-all font-display uppercase tracking-wider">

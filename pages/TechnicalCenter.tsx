@@ -115,10 +115,10 @@ const TechnicalCenter: React.FC = () => {
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-5"></div>
           <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
             <div className="inline-flex items-center justify-center p-3 bg-white/5 rounded-full mb-6 border border-white/10">
-               <Cpu className="text-emphz-orange animate-pulse" size={24} />
+               <Cpu className="text-emphz-teal animate-pulse" size={24} />
             </div>
             <h1 className="text-4xl md:text-5xl font-black mb-4 font-display text-white tracking-tight">TECHNICAL KNOWLEDGE CORE</h1>
-            <p className="text-emphz-orange max-w-2xl mx-auto font-mono text-sm tracking-wide">
+            <p className="text-emphz-teal max-w-2xl mx-auto font-mono text-sm tracking-wide">
               // ENGINEERING_RESOURCES // AI_CONSULTANT // DATASHEETS
             </p>
           </div>
@@ -135,10 +135,10 @@ const TechnicalCenter: React.FC = () => {
               </div>
               <div className="divide-y divide-gray-800/50">
                 {downloadCategories.map((cat, i) => (
-                  <button key={i} onClick={() => handleDownloadClick({ title: cat.title, type: cat.type })} className="w-full text-left p-4 hover:bg-white/5 cursor-pointer group transition-colors focus:outline-none border-l-2 border-transparent hover:border-emphz-orange">
+                  <button key={i} onClick={() => handleDownloadClick({ title: cat.title, type: cat.type })} className="w-full text-left p-4 hover:bg-white/5 cursor-pointer group transition-colors focus:outline-none border-l-2 border-transparent hover:border-emphz-teal">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
-                        <div className="text-gray-600 mr-3 group-hover:text-emphz-orange transition-colors">
+                        <div className="text-gray-600 mr-3 group-hover:text-emphz-teal transition-colors">
                           {cat.icon}
                         </div>
                         <div>
@@ -146,27 +146,27 @@ const TechnicalCenter: React.FC = () => {
                           <span className="text-[10px] text-gray-600 font-mono group-hover:text-gray-500 transition-colors">DIR • {cat.count} FILES</span>
                         </div>
                       </div>
-                      <ChevronRight size={14} className="text-gray-700 group-hover:text-emphz-orange" aria-hidden="true" />
+                      <ChevronRight size={14} className="text-gray-700 group-hover:text-emphz-teal" aria-hidden="true" />
                     </div>
                   </button>
                 ))}
               </div>
               <div className="p-3 bg-black/20 border-t border-gray-800 text-right">
-                <button onClick={() => handleDownloadClick({ title: 'Full Document Library', type: 'ZIP' })} className="text-[10px] font-bold text-emphz-orange hover:text-white hover:underline font-mono uppercase tracking-wide">
+                <button onClick={() => handleDownloadClick({ title: 'Full Document Library', type: 'ZIP' })} className="text-[10px] font-bold text-emphz-teal hover:text-white hover:underline font-mono uppercase tracking-wide">
                   DOWNLOAD_ALL_ASSETS.ZIP
                 </button>
               </div>
             </div>
 
-            <div className="bg-emphz-orange/5 border border-emphz-orange/20 rounded-lg p-6 relative overflow-hidden group">
-               <div className="absolute -right-4 -top-4 w-16 h-16 bg-emphz-orange/20 rounded-full blur-xl group-hover:bg-emphz-orange/30 transition-colors"></div>
-               <h3 className="font-bold text-emphz-orange mb-2 font-mono text-sm uppercase flex items-center gap-2">
+            <div className="bg-emphz-teal/5 border border-emphz-teal/20 rounded-lg p-6 relative overflow-hidden group">
+               <div className="absolute -right-4 -top-4 w-16 h-16 bg-emphz-teal/20 rounded-full blur-xl group-hover:bg-emphz-teal/30 transition-colors"></div>
+               <h3 className="font-bold text-emphz-teal mb-2 font-mono text-sm uppercase flex items-center gap-2">
                  <Terminal size={14}/> CAD Request
                </h3>
                <p className="text-xs text-gray-400 mb-4 font-mono leading-relaxed">
                  Access restricted manufacturing files (DWG/STEP) for architectural integration.
                </p>
-               <button onClick={() => handleDownloadClick({ title: 'CAD Library Access Request', type: 'CAD' })} className="w-full bg-emphz-orange/10 border border-emphz-orange/50 text-emphz-orange py-2 rounded text-xs font-bold hover:bg-emphz-orange hover:text-white transition-all font-mono uppercase tracking-wider shadow-[0_0_15px_rgba(0,173,181,0.15)] hover:shadow-[0_0_20px_rgba(0,173,181,0.4)]">
+               <button onClick={() => handleDownloadClick({ title: 'CAD Library Access Request', type: 'CAD' })} className="w-full bg-emphz-teal/10 border border-emphz-teal/50 text-emphz-teal py-2 rounded text-xs font-bold hover:bg-emphz-teal hover:text-white transition-all font-mono uppercase tracking-wider shadow-[0_0_15px_rgba(0,173,181,0.15)] hover:shadow-[0_0_20px_rgba(0,173,181,0.4)]">
                  Initialize_Request()
                </button>
             </div>
@@ -188,7 +188,7 @@ const TechnicalCenter: React.FC = () => {
                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
                    </div>
                    <div className="ml-4 text-xs text-gray-500 flex items-center font-bold tracking-wider">
-                     <Terminal size={12} className="mr-2 text-emphz-orange" />
+                     <Terminal size={12} className="mr-2 text-emphz-teal" />
                      EMPHZ-AI@GEMINI-NODE-2.5:~
                    </div>
                 </div>
@@ -210,12 +210,12 @@ const TechnicalCenter: React.FC = () => {
                         ? 'text-right' 
                         : 'text-left'
                     }`}>
-                      <span className={`text-[10px] uppercase font-bold mb-1 block tracking-widest ${msg.role === 'user' ? 'text-emphz-orange' : 'text-green-500'}`}>
+                      <span className={`text-[10px] uppercase font-bold mb-1 block tracking-widest ${msg.role === 'user' ? 'text-emphz-teal' : 'text-green-500'}`}>
                         {msg.role === 'user' ? 'USER_INPUT' : 'SYSTEM_RESPONSE'}
                       </span>
                       <div className={`inline-block p-4 rounded-lg text-xs leading-relaxed border shadow-lg ${
                          msg.role === 'user'
-                         ? 'bg-emphz-orange/5 border-emphz-orange/30 text-gray-300'
+                         ? 'bg-emphz-teal/5 border-emphz-teal/30 text-gray-300'
                          : 'bg-gray-900/80 border-gray-700 text-green-400 font-medium'
                       }`}>
                          {msg.role === 'model' && idx === 0 ? (
@@ -242,7 +242,7 @@ const TechnicalCenter: React.FC = () => {
               </div>
 
               <div className="p-4 bg-gray-900 border-t border-gray-800 relative z-20">
-                <div className="relative flex items-center bg-black border border-gray-700 rounded-md px-3 py-1 focus-within:border-emphz-orange focus-within:shadow-[0_0_10px_rgba(0,173,181,0.2)] transition-all">
+                <div className="relative flex items-center bg-black border border-gray-700 rounded-md px-3 py-1 focus-within:border-emphz-teal focus-within:shadow-[0_0_10px_rgba(0,173,181,0.2)] transition-all">
                   <span className="text-green-500 font-bold mr-2 text-sm animate-pulse">$</span>
                   <input
                     id="chat-input"
@@ -258,7 +258,7 @@ const TechnicalCenter: React.FC = () => {
                     onClick={handleSend}
                     disabled={isLoading || !input.trim()}
                     aria-label="Execute"
-                    className="text-gray-500 hover:text-emphz-orange disabled:opacity-30 transition-colors p-2"
+                    className="text-gray-500 hover:text-emphz-teal disabled:opacity-30 transition-colors p-2"
                   >
                     <Send size={16} />
                   </button>

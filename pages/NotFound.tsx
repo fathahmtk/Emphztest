@@ -12,14 +12,14 @@ const NotFound: React.FC = () => {
         </div>
         
         <h1 className="text-6xl font-black text-white mb-2 font-display tracking-tighter">404</h1>
-        <h2 className="text-xl font-bold text-emphz-orange uppercase tracking-[0.2em] mb-6 font-mono">Signal Lost</h2>
+        <h2 className="text-xl font-bold text-emphz-teal uppercase tracking-[0.2em] mb-6 font-mono">Signal Lost</h2>
         
         <p className="text-gray-400 mb-10 font-light text-lg">
           The requested asset could not be located in our schematics. It may have been decommissioned or moved to a restricted sector.
         </p>
         
         <div className="flex flex-col sm:flex-row justify-center gap-4">
-           <Link to="/" className="inline-flex items-center justify-center bg-white text-emphz-navy font-bold px-8 py-3 rounded-full hover:bg-emphz-orange hover:text-white transition-all uppercase tracking-widest text-xs font-display">
+           <Link to="/" className="inline-flex items-center justify-center bg-white text-emphz-navy font-bold px-8 py-3 rounded-full hover:bg-emphz-teal hover:text-white transition-all uppercase tracking-widest text-xs font-display">
               <Home size={14} className="mr-2" /> Return Home
            </Link>
            <button onClick={() => window.history.back()} className="inline-flex items-center justify-center bg-transparent border border-white/20 text-white font-bold px-8 py-3 rounded-full hover:bg-white/10 transition-all uppercase tracking-widest text-xs font-display">

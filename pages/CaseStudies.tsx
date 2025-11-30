@@ -46,21 +46,21 @@ const CaseStudies: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-emphz-navy min-h-screen text-white selection:bg-emphz-orange selection:text-white">
+    <div className="bg-emphz-navy min-h-screen text-white selection:bg-emphz-teal selection:text-white">
       {/* Cinematic Hero */}
       <div className="relative py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emphz-orange/20 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emphz-teal/20 rounded-full blur-[120px] pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-600/20 rounded-full blur-[100px] pointer-events-none"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-md">
-            <span className="w-2 h-2 rounded-full bg-emphz-orange animate-pulse"></span>
+            <span className="w-2 h-2 rounded-full bg-emphz-teal animate-pulse"></span>
             <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-300 font-display">Proven Performance</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-black text-white mb-6 font-display tracking-tight leading-none">
             ENGINEERING <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-orange to-cyan-400">SUCCESS STORIES</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-teal to-cyan-400">SUCCESS STORIES</span>
           </h1>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto font-sans font-light leading-relaxed">
             From the saline coasts of Kerala to the industrial hubs of Karnataka, explore how Emphz GRP solutions solve critical infrastructure challenges.
@@ -82,7 +82,7 @@ const CaseStudies: React.FC = () => {
                 
                 {/* Visual Side */}
                 <div className="w-full lg:w-3/5 relative perspective-1000">
-                  <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-black/50 border border-white/5 group-hover:border-emphz-orange/30 transition-all duration-500 transform group-hover:rotate-y-2">
+                  <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-black/50 border border-white/5 group-hover:border-emphz-teal/30 transition-all duration-500 transform group-hover:rotate-y-2">
                     <div className="absolute inset-0 bg-gray-900 animate-pulse z-0"></div>
                     <img 
                       src={study.imageUrl} 
@@ -95,7 +95,7 @@ const CaseStudies: React.FC = () => {
                     {/* Floating Stats on Image */}
                     <div className="absolute bottom-6 left-6 z-30 flex flex-wrap gap-3">
                       <div className="bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-lg flex items-center gap-2">
-                        <MapPin size={12} className="text-emphz-orange" />
+                        <MapPin size={12} className="text-emphz-teal" />
                         <span className="text-xs font-mono font-bold">{study.location}</span>
                       </div>
                       <div className="bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-lg flex items-center gap-2">
@@ -111,8 +111,8 @@ const CaseStudies: React.FC = () => {
 
                 {/* Content Side */}
                 <div className="w-full lg:w-2/5 relative">
-                  <div className="text-[10px] font-mono text-emphz-orange mb-3 flex items-center gap-2">
-                    <span className="w-8 h-px bg-emphz-orange"></span>
+                  <div className="text-[10px] font-mono text-emphz-teal mb-3 flex items-center gap-2">
+                    <span className="w-8 h-px bg-emphz-teal"></span>
                     CASE STUDY 0{idx + 1}
                   </div>
                   
@@ -133,8 +133,8 @@ const CaseStudies: React.FC = () => {
                     </div>
 
                     <div className="relative pl-10">
-                      <div className="absolute left-0 top-1 w-6 h-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-emphz-orange">
-                         <span className="w-2 h-2 rounded-full bg-emphz-orange"></span>
+                      <div className="absolute left-0 top-1 w-6 h-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-emphz-teal">
+                         <span className="w-2 h-2 rounded-full bg-emphz-teal"></span>
                       </div>
                       <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 font-display">The Solution</h4>
                       <p className="text-gray-300 text-sm leading-relaxed font-light">{study.solution}</p>
@@ -154,12 +154,12 @@ const CaseStudies: React.FC = () => {
                   <div className="mt-8 pt-8 border-t border-white/10 flex items-center justify-between">
                      <div className="flex flex-col">
                         <span className="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Impact Metric</span>
-                        <div className="flex items-center text-emphz-orange font-mono font-bold">
+                        <div className="flex items-center text-emphz-teal font-mono font-bold">
                            <TrendingUp size={16} className="mr-2" />
                            <span>100% ROI &lt; 2 Yrs</span>
                         </div>
                      </div>
-                     <Link to="/rfq" className="bg-white text-emphz-navy px-6 py-3 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-emphz-orange hover:text-white transition-all shadow-lg hover:shadow-emphz-orange/50">
+                     <Link to="/rfq" className="bg-white text-emphz-navy px-6 py-3 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-emphz-teal hover:text-white transition-all shadow-lg hover:shadow-emphz-teal/50">
                         Start Your Project
                      </Link>
                   </div>
@@ -173,7 +173,7 @@ const CaseStudies: React.FC = () => {
         {/* Bottom CTA */}
         <div className="mt-20 text-center">
             <p className="text-gray-400 mb-6 font-light">Have a challenging environment? Let's engineer a solution.</p>
-             <Link to="/contact" className="inline-flex items-center text-emphz-orange hover:text-white font-bold tracking-widest uppercase text-sm transition-colors group">
+             <Link to="/contact" className="inline-flex items-center text-emphz-teal hover:text-white font-bold tracking-widest uppercase text-sm transition-colors group">
                 Contact Engineering Team <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform"/>
              </Link>
         </div>

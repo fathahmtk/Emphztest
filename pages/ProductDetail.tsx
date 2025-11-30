@@ -98,7 +98,7 @@ const ShareModal: React.FC<{
            </div>
            <button 
              onClick={handleCopy}
-             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 shadow-sm ${copied ? 'bg-green-500 text-white border border-green-500' : 'bg-white border border-gray-200 text-emphz-navy hover:border-emphz-orange'}`}
+             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 shadow-sm ${copied ? 'bg-green-500 text-white border border-green-500' : 'bg-white border border-gray-200 text-emphz-navy hover:border-emphz-teal'}`}
            >
              {copied ? <CheckCircle size={14} /> : <Copy size={14} />}
              {copied ? 'Copied' : 'Copy'}
@@ -282,7 +282,7 @@ const ProductDetail: React.FC = () => {
   };
 
   if (!product) {
-    return <div className="p-20 text-center text-slate-800">Product not found. <Link to="/products" className="text-emphz-orange font-bold">Go back</Link></div>;
+    return <div className="p-20 text-center text-slate-800">Product not found. <Link to="/products" className="text-emphz-teal font-bold">Go back</Link></div>;
   }
 
   const handleAddToRFQ = () => {
@@ -309,8 +309,8 @@ const ProductDetail: React.FC = () => {
   };
 
   const specIcons: { [key: string]: React.ReactElement } = {
-    'ip rating': <ShieldCheck size={16} className="text-emphz-orange" />,
-    'ik rating': <ShieldCheck size={16} className="text-emphz-orange" />,
+    'ip rating': <ShieldCheck size={16} className="text-emphz-teal" />,
+    'ik rating': <ShieldCheck size={16} className="text-emphz-teal" />,
     'fire rating': <Flame size={16} className="text-red-500" />,
     'dimensions': <Maximize size={16} className="text-blue-500" />,
     'material': <Layers size={16} className="text-gray-500" />,
@@ -329,7 +329,7 @@ const ProductDetail: React.FC = () => {
               {is3DAvailable && (
                <button 
                  onClick={() => setViewMode(prev => prev === '3D' ? 'IMAGE' : '3D')}
-                 className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-5 py-2.5 rounded-full font-bold text-xs hover:bg-emphz-orange hover:border-emphz-orange transition-all shadow-xl flex items-center justify-center gap-2 group/toggle uppercase tracking-wide"
+                 className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-5 py-2.5 rounded-full font-bold text-xs hover:bg-emphz-teal hover:border-emphz-teal transition-all shadow-xl flex items-center justify-center gap-2 group/toggle uppercase tracking-wide"
                  title="Toggle 3D/Photo"
                >
                  {viewMode === '3D' ? (
@@ -399,7 +399,7 @@ const ProductDetail: React.FC = () => {
                                   onClick={(e) => { e.stopPropagation(); setActiveImage(img); setViewMode('IMAGE'); }}
                                   className={`relative w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-300 group bg-gray-900 snap-center ${
                                       activeImage === img
-                                      ? 'border-emphz-orange ring-2 ring-emphz-orange/30 scale-105'
+                                      ? 'border-emphz-teal ring-2 ring-emphz-teal/30 scale-105'
                                       : 'border-transparent opacity-60 hover:opacity-100 hover:border-white/50'
                                   }`}
                                   aria-label={`View image ${idx + 1}`}
@@ -423,10 +423,10 @@ const ProductDetail: React.FC = () => {
                     
                     <div className="relative z-10 flex flex-col items-center">
                         <div className="relative mb-8">
-                           <div className="absolute inset-0 bg-emphz-orange/20 blur-2xl rounded-full"></div>
-                           <Box className="w-16 h-16 text-emphz-orange animate-bounce relative z-10" strokeWidth={1} />
+                           <div className="absolute inset-0 bg-emphz-teal/20 blur-2xl rounded-full"></div>
+                           <Box className="w-16 h-16 text-emphz-teal animate-bounce relative z-10" strokeWidth={1} />
                         </div>
-                        <span className="text-emphz-orange font-bold text-xs tracking-[0.4em] font-display animate-pulse">INITIALIZING ENGINE</span>
+                        <span className="text-emphz-teal font-bold text-xs tracking-[0.4em] font-display animate-pulse">INITIALIZING ENGINE</span>
                     </div>
                  </div>
                }>
@@ -442,7 +442,7 @@ const ProductDetail: React.FC = () => {
                  <ArrowLeft size={14} className="mr-2" aria-hidden="true" /> Catalog
                </Link>
                <div className="flex items-center gap-3 mb-4">
-                 <div className="inline-block px-3 py-1 bg-emphz-orange text-white text-[10px] font-bold rounded uppercase tracking-wider shadow-lg shadow-emphz-orange/30 font-display">
+                 <div className="inline-block px-3 py-1 bg-emphz-teal text-emphz-navy text-[10px] font-bold rounded uppercase tracking-wider shadow-lg shadow-emphz-teal/30 font-display">
                    {product.category}
                  </div>
                  {product.features.includes('UL94 Fire Rated') && (
@@ -452,7 +452,7 @@ const ProductDetail: React.FC = () => {
                  )}
                </div>
                <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-white mb-4 leading-none drop-shadow-2xl font-display">{product.name}</h1>
-               <p className="text-gray-400 font-mono text-xs opacity-80 border-l border-emphz-orange pl-3">SKU: {product.id.toUpperCase()}</p>
+               <p className="text-gray-400 font-mono text-xs opacity-80 border-l border-emphz-teal pl-3">SKU: {product.id.toUpperCase()}</p>
              </div>
           </div>
         </div>
@@ -464,7 +464,7 @@ const ProductDetail: React.FC = () => {
                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-10">
                  {product.specs.slice(0,4).map((s, i) => (
                    <div key={i} className="bg-gray-50 border border-gray-100 p-5 rounded-2xl text-center hover:bg-white hover:shadow-lg transition-all duration-300">
-                     <div className="text-[9px] text-gray-400 uppercase font-bold mb-2 font-display tracking-widest">{s.label}</div>
+                     <div className="text-[9px] text-slate-500 uppercase font-bold mb-2 font-display tracking-widest">{s.label}</div>
                      <div className="text-sm font-bold text-emphz-navy font-mono break-words">{s.value}</div>
                    </div>
                  ))}
@@ -476,7 +476,7 @@ const ProductDetail: React.FC = () => {
                     <p className="text-xs text-gray-500">Official datasheets and CAD drawings.</p>
                   </div>
                   <div className="flex gap-3 w-full sm:w-auto mt-4 sm:mt-0">
-                    <button onClick={() => handleDownloadClick({ title: product.downloads[0].title, type: 'PDF' })} className="flex-1 sm:flex-none flex items-center bg-emphz-navy text-white px-5 py-3 rounded-xl font-bold text-xs hover:bg-emphz-orange transition-all duration-300 shadow-lg shadow-emphz-navy/20 font-display tracking-wide uppercase">
+                    <button onClick={() => handleDownloadClick({ title: product.downloads[0].title, type: 'PDF' })} className="flex-1 sm:flex-none flex items-center bg-emphz-navy text-white px-5 py-3 rounded-xl font-bold text-xs hover:bg-emphz-teal transition-all duration-300 shadow-lg shadow-emphz-navy/20 font-display tracking-wide uppercase">
                         <Download size={14} className="mr-2" /> PDF
                     </button>
                     <button onClick={() => handleDownloadClick({ title: "Engineer's Pack", type: 'ZIP' })} className="flex-1 sm:flex-none flex items-center bg-white border border-gray-200 text-emphz-navy px-5 py-3 rounded-xl font-bold text-xs hover:border-emphz-navy transition-all duration-300 font-display tracking-wide uppercase">
@@ -495,7 +495,7 @@ const ProductDetail: React.FC = () => {
                       aria-controls={`panel-${tab}`}
                       id={`tab-${tab}`}
                       onClick={() => setActiveTab(tab as any)}
-                      className={`relative py-4 px-6 text-sm font-bold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emphz-orange font-display ${
+                      className={`relative py-4 px-6 text-sm font-bold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emphz-teal font-display ${
                         activeTab === tab 
                         ? 'border-b-2 border-emphz-navy text-emphz-navy' 
                         : 'text-gray-400 hover:text-emphz-navy border-b-2 border-transparent'
@@ -519,7 +519,7 @@ const ProductDetail: React.FC = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {product.features.map((feat, i) => (
                           <div key={i} className="flex items-start p-4 rounded-xl bg-gray-50 border border-gray-100/50 hover:border-gray-200 transition-colors">
-                            <CheckCircle className="w-5 h-5 text-emphz-orange mr-3 flex-shrink-0 mt-0.5" />
+                            <CheckCircle className="w-5 h-5 text-emphz-teal mr-3 flex-shrink-0 mt-0.5" />
                             <span className="text-sm text-slate-700 font-medium">{feat}</span>
                           </div>
                         ))}
@@ -528,16 +528,16 @@ const ProductDetail: React.FC = () => {
 
                     {product.accessories && (
                       <div className="bg-slate-900 text-white p-8 rounded-3xl relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-emphz-orange/20 rounded-full blur-3xl"></div>
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-emphz-teal/20 rounded-full blur-3xl"></div>
                         <div className="relative z-10">
                             <div className="flex items-center mb-5">
-                            <Settings className="text-emphz-orange mr-3" size={20} aria-hidden="true" />
+                            <Settings className="text-emphz-teal mr-3" size={20} aria-hidden="true" />
                             <h3 className="font-bold font-display uppercase tracking-widest text-sm">Compatible Accessories</h3>
                             </div>
                             <div className="flex flex-wrap gap-3">
                             {product.accessories.map((acc, i) => (
                                 <span key={i} className="inline-flex items-center text-xs font-bold text-white bg-white/10 px-4 py-2 rounded-lg border border-white/10 hover:bg-white/20 transition-colors font-mono">
-                                <Plus size={12} className="text-emphz-orange mr-2" aria-hidden="true" /> {acc}
+                                <Plus size={12} className="text-emphz-teal mr-2" aria-hidden="true" /> {acc}
                                 </span>
                             ))}
                             </div>
@@ -578,15 +578,15 @@ const ProductDetail: React.FC = () => {
                   <div key="downloads" role="tabpanel" id="panel-downloads" aria-labelledby="tab-downloads" className="space-y-4 animate-fade-in">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {product.downloads.map((dl, i) => (
-                        <button key={i} onClick={() => handleDownloadClick(dl)} className="text-left border border-gray-200 bg-white rounded-2xl p-6 flex items-start hover:border-emphz-orange hover:shadow-xl hover:shadow-gray-200/50 transition-all cursor-pointer group">
-                          <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center mr-4 group-hover:bg-emphz-orange/10 transition-colors">
-                             <FileText className="text-gray-400 group-hover:text-emphz-orange w-6 h-6 transition-colors" aria-hidden="true" />
+                        <button key={i} onClick={() => handleDownloadClick(dl)} className="text-left border border-gray-200 bg-white rounded-2xl p-6 flex items-start hover:border-emphz-teal hover:shadow-xl hover:shadow-gray-200/50 transition-all cursor-pointer group">
+                          <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center mr-4 group-hover:bg-emphz-teal/10 transition-colors">
+                             <FileText className="text-gray-400 group-hover:text-emphz-teal w-6 h-6 transition-colors" aria-hidden="true" />
                           </div>
                           <div>
                             <h4 className="font-bold text-emphz-navy text-sm font-display mb-1">{dl.title}</h4>
                             <p className="text-xs text-gray-400 font-mono flex items-center">{dl.type} <span className="mx-2">•</span> 2.4 MB</p>
                           </div>
-                          <Download size={18} className="ml-auto text-gray-300 group-hover:text-emphz-orange transition-colors" />
+                          <Download size={18} className="ml-auto text-gray-300 group-hover:text-emphz-teal transition-colors" />
                         </button>
                       ))}
                     </div>
@@ -641,20 +641,20 @@ const ProductDetail: React.FC = () => {
 
                   <button 
                     onClick={handleAddToRFQ}
-                    className="w-full bg-emphz-navy text-white font-black py-4 rounded-xl hover:bg-emphz-orange transition-all shadow-xl shadow-emphz-navy/20 hover:shadow-emphz-orange/40 text-xs uppercase tracking-widest font-display transform hover:-translate-y-1"
+                    className="w-full bg-emphz-navy text-white font-black py-4 rounded-xl hover:bg-emphz-teal transition-all shadow-xl shadow-emphz-navy/20 hover:shadow-emphz-teal/40 text-xs uppercase tracking-widest font-display transform hover:-translate-y-1"
                   >
                     ADD TO QUOTE LIST
                   </button>
 
                    <button 
                     onClick={() => handleDownloadClick({ title: product.downloads[0].title, type: product.downloads[0].type })}
-                    className="w-full border-2 border-gray-100 text-gray-500 font-bold py-3.5 rounded-xl hover:border-emphz-orange hover:text-emphz-orange transition-all text-xs uppercase tracking-widest flex items-center justify-center group font-display bg-transparent hover:bg-white"
+                    className="w-full border-2 border-gray-100 text-gray-500 font-bold py-3.5 rounded-xl hover:border-emphz-teal hover:text-emphz-teal transition-all text-xs uppercase tracking-widest flex items-center justify-center group font-display bg-transparent hover:bg-white"
                   >
                     <Download size={14} className="mr-2 group-hover:scale-110 transition-transform" /> Datasheet
                   </button>
 
                   <p className="text-[10px] text-gray-400 text-center font-mono leading-relaxed">
-                    Need custom specs? Use the <Link to="/technical" className="text-emphz-orange hover:underline">Technical Assistant</Link>.
+                    Need custom specs? Use the <Link to="/technical" className="text-emphz-teal hover:underline">Technical Assistant</Link>.
                   </p>
                 </div>
               </div>
@@ -667,7 +667,7 @@ const ProductDetail: React.FC = () => {
                 <h3 className="text-2xl font-bold text-emphz-navy mb-10 font-display">Alternative Configurations</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {relatedProducts.map(rp => (
-                         <Link key={rp.id} to={`/products/${rp.id}`} className="group bg-white border border-gray-100 rounded-3xl overflow-hidden hover:border-emphz-orange/50 transition-all duration-300 hover:shadow-2xl hover:shadow-gray-200/50 hover:-translate-y-1">
+                         <Link key={rp.id} to={`/products/${rp.id}`} className="group bg-white border border-gray-100 rounded-3xl overflow-hidden hover:border-emphz-teal/50 transition-all duration-300 hover:shadow-2xl hover:shadow-gray-200/50 hover:-translate-y-1">
                             <div className="relative h-56 overflow-hidden">
                                 <img src={rp.imageUrl} alt={rp.name} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
@@ -676,7 +676,7 @@ const ProductDetail: React.FC = () => {
                                 </div>
                             </div>
                             <div className="p-6">
-                                <h4 className="font-bold text-emphz-navy text-lg group-hover:text-emphz-orange transition-colors mb-3 font-display">{rp.name}</h4>
+                                <h4 className="font-bold text-emphz-navy text-lg group-hover:text-emphz-teal transition-colors mb-3 font-display">{rp.name}</h4>
                                 <p className="text-gray-500 text-xs line-clamp-2 leading-relaxed font-sans">{rp.shortDescription}</p>
                             </div>
                          </Link>
@@ -691,11 +691,11 @@ const ProductDetail: React.FC = () => {
         <div className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-xl border-t border-gray-200 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] lg:hidden z-40 flex items-center gap-4 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
            <div className="flex-1">
               <div className="text-emphz-navy font-bold text-sm line-clamp-1 font-display">{product.name}</div>
-              <div className="text-emphz-orange text-[10px] font-bold font-mono">SKU: {product.id.toUpperCase()}</div>
+              <div className="text-emphz-teal text-[10px] font-bold font-mono">SKU: {product.id.toUpperCase()}</div>
            </div>
            <button 
              onClick={handleAddToRFQ}
-             className="bg-emphz-navy text-white font-bold px-8 py-3.5 rounded-xl text-xs hover:bg-emphz-orange transition-colors font-display uppercase tracking-widest shadow-lg"
+             className="bg-emphz-navy text-white font-bold px-8 py-3.5 rounded-xl text-xs hover:bg-emphz-teal transition-colors font-display uppercase tracking-widest shadow-lg"
            >
              ADD TO QUOTE
            </button>

@@ -22,7 +22,7 @@ const Sitemap: React.FC = () => {
        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="mb-12 border-b border-gray-800 pb-8 flex items-end justify-between">
             <div>
-               <div className="text-emphz-orange font-bold text-xs uppercase tracking-[0.3em] mb-2">// SYSTEM_ARCHITECTURE</div>
+               <div className="text-emphz-teal font-bold text-xs uppercase tracking-[0.3em] mb-2">// SYSTEM_ARCHITECTURE</div>
                <h1 className="text-4xl md:text-5xl font-black text-white font-display tracking-tight">SITE BLUEPRINT</h1>
             </div>
             <div className="hidden md:block text-right text-[10px] text-gray-500 font-mono">
@@ -35,8 +35,8 @@ const Sitemap: React.FC = () => {
              
              {/* Column 1: Core Navigation */}
              <div className="lg:col-span-1">
-                <div className="flex items-center gap-2 text-white font-bold mb-6 uppercase tracking-wider text-sm border-l-2 border-emphz-orange pl-3">
-                   <LayoutGrid size={16} className="text-emphz-orange"/> Core Modules
+                <div className="flex items-center gap-2 text-white font-bold mb-6 uppercase tracking-wider text-sm border-l-2 border-emphz-teal pl-3">
+                   <LayoutGrid size={16} className="text-emphz-teal"/> Core Modules
                 </div>
                 <div className="space-y-4 relative">
                    {/* Vertical Connector Line */}
@@ -48,8 +48,8 @@ const Sitemap: React.FC = () => {
                          <div className="absolute left-[7px] top-1/2 w-4 h-px bg-gray-800"></div>
                          <div className="absolute left-[5px] top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-gray-700 rounded-full border border-gray-900"></div>
                          
-                         <Link to={link.path} className="block bg-gray-900/50 border border-gray-800 hover:border-emphz-orange p-3 rounded text-sm text-gray-300 hover:text-white hover:bg-gray-800 transition-all group">
-                            <span className="font-bold group-hover:text-emphz-orange transition-colors">{link.label}</span>
+                         <Link to={link.path} className="block bg-gray-900/50 border border-gray-800 hover:border-emphz-teal p-3 rounded text-sm text-gray-300 hover:text-white hover:bg-gray-800 transition-all group">
+                            <span className="font-bold group-hover:text-emphz-teal transition-colors">{link.label}</span>
                             <span className="block text-[9px] text-gray-600 font-mono mt-1 group-hover:text-gray-500">/{link.path.replace('/', '')}</span>
                          </Link>
                       </div>
@@ -59,8 +59,8 @@ const Sitemap: React.FC = () => {
 
              {/* Column 2 & 3: Product Matrix */}
              <div className="lg:col-span-2">
-                <div className="flex items-center gap-2 text-white font-bold mb-6 uppercase tracking-wider text-sm border-l-2 border-emphz-orange pl-3">
-                   <Box size={16} className="text-emphz-orange"/> Product Matrix
+                <div className="flex items-center gap-2 text-white font-bold mb-6 uppercase tracking-wider text-sm border-l-2 border-emphz-teal pl-3">
+                   <Box size={16} className="text-emphz-teal"/> Product Matrix
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                    {Object.entries(productsByCategory).map(([category, products]) => (
@@ -72,8 +72,8 @@ const Sitemap: React.FC = () => {
                             {products.map(product => (
                                <li key={product.id}>
                                   <Link to={`/products/${product.id}`} className="flex items-center justify-between group hover:pl-2 transition-all duration-300">
-                                     <span className="text-sm text-gray-500 group-hover:text-emphz-orange transition-colors">{product.name}</span>
-                                     <ChevronRight size={12} className="opacity-0 group-hover:opacity-100 text-emphz-orange transition-opacity" />
+                                     <span className="text-sm text-gray-500 group-hover:text-emphz-teal transition-colors">{product.name}</span>
+                                     <ChevronRight size={12} className="opacity-0 group-hover:opacity-100 text-emphz-teal transition-opacity" />
                                   </Link>
                                </li>
                             ))}
@@ -85,8 +85,8 @@ const Sitemap: React.FC = () => {
 
              {/* Column 4: Resources */}
              <div className="lg:col-span-1">
-                <div className="flex items-center gap-2 text-white font-bold mb-6 uppercase tracking-wider text-sm border-l-2 border-emphz-orange pl-3">
-                   <Cpu size={16} className="text-emphz-orange"/> Data Nodes
+                <div className="flex items-center gap-2 text-white font-bold mb-6 uppercase tracking-wider text-sm border-l-2 border-emphz-teal pl-3">
+                   <Cpu size={16} className="text-emphz-teal"/> Data Nodes
                 </div>
                 
                 <div className="space-y-8">
@@ -107,23 +107,10 @@ const Sitemap: React.FC = () => {
                    <div>
                       <h3 className="text-[10px] font-bold text-gray-500 uppercase mb-3 tracking-widest">Utilities</h3>
                       <div className="grid grid-cols-2 gap-2">
-                         <Link to="/technical" className="bg-gray-900 border border-gray-800 p-3 rounded text-center hover:border-emphz-orange group transition-colors">
-                            <Zap size={16} className="mx-auto mb-2 text-gray-600 group-hover:text-emphz-orange"/>
+                         <Link to="/technical" className="bg-gray-900 border border-gray-800 p-3 rounded text-center hover:border-emphz-teal group transition-colors">
+                            <Zap size={16} className="mx-auto mb-2 text-gray-600 group-hover:text-emphz-teal"/>
                             <span className="text-[10px] font-bold text-gray-400 group-hover:text-white">TECH_BOT</span>
                          </Link>
-                         <Link to="/rfq" className="bg-gray-900 border border-gray-800 p-3 rounded text-center hover:border-emphz-orange group transition-colors">
-                            <Activity size={16} className="mx-auto mb-2 text-gray-600 group-hover:text-emphz-orange"/>
-                            <span className="text-[10px] font-bold text-gray-400 group-hover:text-white">RFQ_CART</span>
-                         </Link>
-                      </div>
-                   </div>
-                </div>
-             </div>
-
-          </div>
-       </div>
-    </div>
-  );
-};
-
-export default Sitemap;
+                         <Link to="/rfq" className="bg-gray-900 border border-gray-800 p-3 rounded text-center hover:border-emphz-teal group transition-colors">
+                            <Activity size={16} className="mx-auto mb-2 text-gray-600 group-hover:text-emphz-teal"/>
+                            <span className="text-[10px] font-
