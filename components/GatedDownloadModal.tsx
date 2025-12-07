@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Download, X, Loader2, Building, User, Mail } from 'lucide-react';
+import { Download, X, Loader2, Building, User, Mail, CheckCircle } from 'lucide-react';
 
 interface GatedDownloadModalProps {
   isOpen: boolean;
@@ -9,6 +9,7 @@ interface GatedDownloadModalProps {
 
 const GatedDownloadModal: React.FC<GatedDownloadModalProps> = ({ isOpen, onClose, fileToDownload }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [formData, setFormData] = useState({ name: '', company: '', email: '' });
   const modalRef = useRef<HTMLDivElement>(null);
   const firstInputRef = useRef<HTMLInputElement>(null);
@@ -16,7 +17,10 @@ const GatedDownloadModal: React.FC<GatedDownloadModalProps> = ({ isOpen, onClose
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      firstInputRef.current?.focus();
+      // Reset state when opening
+      setIsSuccess(false);
+      setFormData({ name: '', company: '', email: '' });
+      setTimeout(() => firstInputRef.current?.focus(), 100);
     } else {
       document.body.style.overflow = 'auto';
     }
@@ -31,6 +35,24 @@ const GatedDownloadModal: React.FC<GatedDownloadModalProps> = ({ isOpen, onClose
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
 
+  // Effect to trigger download on success
+  useEffect(() => {
+    if (isSuccess && fileToDownload) {
+      // Simulate file download
+      const fileContent = `This is a placeholder for the document: ${fileToDownload.title}.\n\nForm Data Submitted:\nName: ${formData.name}\nCompany: ${formData.company}\nEmail: ${formData.email}`;
+      const blob = new Blob([fileContent], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${fileToDownload.title.replace(/\s/g, '_')}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  }, [isSuccess, fileToDownload, formData]);
+
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -39,22 +61,14 @@ const GatedDownloadModal: React.FC<GatedDownloadModalProps> = ({ isOpen, onClose
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate API call for lead capture
     console.log('--- LEAD CAPTURED (Gated Download) ---');
     console.log('User:', formData);
     console.log('Downloaded:', fileToDownload?.title);
     console.log('------------------------------------');
 
     setTimeout(() => {
-      // Simulate download trigger
-      alert(`Thank you! Your download for "${fileToDownload?.title}" is starting.`);
-      
-      // In a real app, you would trigger the download here, e.g.:
-      // window.location.href = fileToDownload.url;
-      
       setIsSubmitting(false);
-      onClose();
-      setFormData({ name: '', company: '', email: '' });
+      setIsSuccess(true);
     }, 1500);
   };
 
@@ -67,17 +81,21 @@ const GatedDownloadModal: React.FC<GatedDownloadModalProps> = ({ isOpen, onClose
       role="dialog"
       aria-modal="true"
       aria-labelledby="download-modal-title"
+      onClick={onClose}
     >
-      <div className="bg-emphz-dark rounded-2xl border border-white/10 shadow-2xl w-full max-w-md relative">
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-emphz-dark rounded-2xl border border-white/10 shadow-2xl w-full max-w-md relative overflow-hidden"
+      >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10"
+          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10 z-20"
           aria-label="Close"
         >
           <X size={24} />
         </button>
 
-        <div className="p-8">
+        <div className={`p-8 transition-opacity duration-300 ${isSuccess ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
           <div className="text-center mb-6">
             <div className="mx-auto bg-emphz-teal/10 w-16 h-16 rounded-full flex items-center justify-center border-4 border-emphz-teal/20">
                <Download className="w-8 h-8 text-emphz-teal" />
@@ -91,61 +109,60 @@ const GatedDownloadModal: React.FC<GatedDownloadModalProps> = ({ isOpen, onClose
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
+              <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
               <input
                 ref={firstInputRef}
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Full Name"
-                required
+                type="text" name="name" value={formData.name} onChange={handleChange}
+                placeholder="Full Name" required
                 className="w-full bg-black/40 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-emphz-teal focus:border-emphz-teal outline-none"
               />
             </div>
             <div className="relative">
-              <Building className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
+              <Building className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
               <input
-                type="text"
-                name="company"
-                value={formData.company}
-                onChange={handleChange}
-                placeholder="Company Name"
-                required
+                type="text" name="company" value={formData.company} onChange={handleChange}
+                placeholder="Company Name" required
                 className="w-full bg-black/40 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-emphz-teal focus:border-emphz-teal outline-none"
               />
             </div>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
               <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Business Email"
-                required
+                type="email" name="email" value={formData.email} onChange={handleChange}
+                placeholder="Business Email" required
                 className="w-full bg-black/40 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-emphz-teal focus:border-emphz-teal outline-none"
               />
             </div>
 
             <button
-              type="submit"
-              disabled={isSubmitting}
+              type="submit" disabled={isSubmitting}
               className="w-full bg-white text-emphz-navy font-black py-4 rounded-lg hover:bg-emphz-teal hover:text-white transition-all shadow-lg text-sm uppercase tracking-wide flex items-center justify-center disabled:opacity-50"
             >
               {isSubmitting ? (
-                <>
-                  <Loader2 className="animate-spin h-5 w-5 mr-2" />
-                  Processing...
-                </>
-              ) : (
-                'SUBMIT & DOWNLOAD'
-              )}
+                <><Loader2 className="animate-spin h-5 w-5 mr-2" /> Processing...</>
+              ) : ( 'SUBMIT & DOWNLOAD' )}
             </button>
             <p className="text-[10px] text-gray-600 text-center pt-2">
-              By submitting, you agree to receive occasional marketing updates from Emphz.
+              By submitting, you agree to receive occasional marketing updates.
             </p>
           </form>
+        </div>
+        
+        {/* Success State */}
+        <div className={`absolute inset-0 p-8 flex flex-col items-center justify-center text-center transition-opacity duration-300 ${isSuccess ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+             <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mb-6 border-4 border-green-500/20">
+                <CheckCircle className="w-10 h-10 text-green-500" />
+            </div>
+            <h3 className="text-2xl font-bold text-white mb-2">Thank You!</h3>
+            <p className="text-gray-400 text-sm mb-6">
+                Your download for "{fileToDownload?.title}" will begin shortly. If it doesn't, please check your browser settings.
+            </p>
+            <button
+                onClick={onClose}
+                className="w-full bg-emphz-teal text-emphz-navy font-black py-4 rounded-lg hover:bg-white transition-all shadow-lg text-sm uppercase tracking-wide"
+            >
+                Close
+            </button>
         </div>
       </div>
     </div>

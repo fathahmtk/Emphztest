@@ -32,7 +32,7 @@ const BlogPost: React.FC = () => {
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-end pb-16">
           <p className="text-sm font-bold text-emphz-teal uppercase tracking-widest mb-4">{post.category}</p>
           <h1 className="text-4xl md:text-6xl font-black text-white font-display leading-tight">{post.title}</h1>
-          <div className="flex items-center text-gray-400 mt-6 text-xs font-mono gap-6">
+          <div className="flex items-center text-gray-500 mt-6 text-xs font-mono gap-6">
             <div className="flex items-center gap-2"><Calendar size={14} /> <span>{post.date}</span></div>
             <div className="flex items-center gap-2"><Edit size={14} /> <span>{post.author}</span></div>
             <div className="flex items-center gap-2"><Clock size={14} /> <span>5 min read</span></div>

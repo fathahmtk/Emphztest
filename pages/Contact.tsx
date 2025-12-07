@@ -292,17 +292,17 @@ const Contact: React.FC = () => {
             
             <div className="space-y-4 max-w-4xl mx-auto">
                 {faqs.map((faq, i) => (
-                    <div key={i} className="bg-white rounded-2xl border border-gray-100 overflow-hidden transition-all duration-300 ease-in-out group hover:border-emphz-orange/30">
+                    <div key={i} className={`bg-white rounded-2xl border transition-all duration-300 ease-in-out group ${openFaq === i ? 'border-emphz-orange/30 shadow-md ring-1 ring-emphz-orange/10' : 'border-gray-100'}`}>
                         <button
                           onClick={() => toggleFaq(i)}
-                          className="w-full flex items-center justify-between p-6 text-left cursor-pointer"
+                          className="w-full flex items-center justify-between p-6 text-left cursor-pointer focus:outline-none"
                           aria-expanded={openFaq === i}
                         >
                             <div className="flex items-center">
-                                <div className="w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center mr-4 group-hover:bg-emphz-orange/10 transition-colors text-emphz-navy shadow-sm">
-                                    <HelpCircle size={20} className="group-hover:text-emphz-orange transition-colors" />
+                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center mr-4 transition-colors shadow-sm ${openFaq === i ? 'bg-emphz-orange text-white' : 'bg-gray-50 text-emphz-navy group-hover:bg-emphz-orange/10'}`}>
+                                    <HelpCircle size={20} className={openFaq === i ? 'text-white' : 'group-hover:text-emphz-orange transition-colors'} />
                                 </div>
-                                <h4 className="font-bold text-emphz-navy text-base font-display">{faq.question}</h4>
+                                <h4 className={`font-bold text-base font-display transition-colors ${openFaq === i ? 'text-emphz-orange' : 'text-emphz-navy'}`}>{faq.question}</h4>
                             </div>
                             <ChevronDown 
                               size={20} 
@@ -310,7 +310,7 @@ const Contact: React.FC = () => {
                             />
                         </button>
                         <div
-                          className={`overflow-hidden transition-all duration-300 ease-in-out ${openFaq === i ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'}`}
+                          className={`overflow-hidden transition-all duration-300 ease-in-out ${openFaq === i ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
                         >
                             <div className="px-6 pb-6 pl-20">
                                 <p className="text-sm text-gray-500 font-sans leading-relaxed font-light border-l-2 border-emphz-orange/20 pl-4">{faq.answer}</p>

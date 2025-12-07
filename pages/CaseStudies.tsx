@@ -49,7 +49,7 @@ const CaseStudies: React.FC = () => {
     <div className="bg-emphz-navy min-h-screen text-white selection:bg-emphz-teal selection:text-white">
       {/* Cinematic Hero */}
       <div className="relative py-24 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+        <div className="absolute inset-0 bg-carbon-fibre opacity-10"></div>
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emphz-teal/20 rounded-full blur-[120px] pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-600/20 rounded-full blur-[100px] pointer-events-none"></div>
         
@@ -107,7 +107,7 @@ const CaseStudies: React.FC = () => {
                   </div>
                   
                   {/* Decorative Elements */}
-                  <div className={`absolute -bottom-6 -right-6 w-24 h-24 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20 z-0 ${idx % 2 === 1 ? 'right-auto -left-6' : ''}`}></div>
+                  <div className={`absolute -bottom-6 -right-6 w-24 h-24 bg-cubes opacity-20 z-0 ${idx % 2 === 1 ? 'right-auto -left-6' : ''}`}></div>
                 </div>
 
                 {/* Content Side */}

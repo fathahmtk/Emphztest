@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Filter, Download, Scale, X, Check, ChevronRight, ChevronDown, SlidersHorizontal, Grid, List, ArrowRight, ArrowUpDown } from 'lucide-react';
+import { Filter, Download, Scale, X, Check, ChevronRight, ChevronDown, SlidersHorizontal, Grid, List, ArrowRight, ArrowUpDown, LayoutGrid, ShieldCheck, Ruler, Layers } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../constants';
 import { ProductCategory, Product } from '../types';
 
@@ -153,6 +153,7 @@ const Catalog: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<string>('default');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [compareList, setCompareList] = useState<string[]>([]);
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
@@ -203,8 +204,8 @@ const Catalog: React.FC = () => {
 
   // Key to re-trigger animation on filter/sort change
   const gridKey = useMemo(() => {
-    return `${selectedCategory}-${selectedFeatures.join('_')}-${sortBy}`;
-  }, [selectedCategory, selectedFeatures, sortBy]);
+    return `${selectedCategory}-${selectedFeatures.join('_')}-${sortBy}-${viewMode}`;
+  }, [selectedCategory, selectedFeatures, sortBy, viewMode]);
 
   // Inject JSON-LD Schema
   useEffect(() => {
@@ -304,7 +305,7 @@ const Catalog: React.FC = () => {
 
   // Reusable Filter Render Function
   const renderFilters = (isMobile = false) => (
-    <div className={`${isMobile ? 'h-full overflow-y-auto p-6 pb-24 bg-white' : 'bg-white p-6 rounded-2xl sticky top-28 shadow-xl shadow-gray-200/50 border border-gray-100'}`}>
+    <div className={`${isMobile ? 'h-full overflow-y-auto p-6 pb-24 bg-white' : 'bg-white p-6 rounded-2xl sticky top-32 shadow-xl shadow-gray-200/50 border border-gray-100'}`}>
        <div className="flex items-center justify-between mb-2 pb-4 border-b border-gray-100">
           <div className="text-emphz-navy font-bold uppercase tracking-[0.15em] text-xs font-display flex items-center">
             <Filter size={14} className="mr-2" aria-hidden="true" /> Refine Selection
@@ -398,7 +399,7 @@ const Catalog: React.FC = () => {
 
   return (
     <>
-      <div className="bg-gray-50 min-h-screen py-16 md:py-20 relative text-slate-900">
+      <div className="bg-gray-50 min-h-screen py-16 md:py-24 relative text-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-gray-200 pb-10">
             <div>
@@ -440,23 +441,44 @@ const Catalog: React.FC = () => {
                 <span className="text-sm text-gray-500 font-mono">
                   Showing <span className="font-bold text-emphz-navy">{sortedProducts.length}</span> results
                 </span>
-                <div className="flex items-center self-end sm:self-auto">
-                  <span className="text-xs font-bold text-gray-400 uppercase mr-3 hidden sm:block font-display tracking-wider">Sort by:</span>
-                  <div className="relative group">
-                     <select
-                        value={sortBy}
-                        onChange={(e) => setSortBy(e.target.value)}
-                        className="appearance-none bg-white border border-gray-200 text-emphz-navy text-xs font-bold py-2.5 pl-4 pr-10 rounded-lg focus:outline-none focus:border-emphz-teal cursor-pointer uppercase tracking-wider font-display hover:shadow-sm transition-all min-w-[140px]"
-                        aria-label="Sort products"
-                     >
-                        <option value="default">Featured</option>
-                        <option value="name-asc">Name (A-Z)</option>
-                        <option value="name-desc">Name (Z-A)</option>
-                        <option value="category">Category</option>
-                     </select>
-                     <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-400">
-                        <ChevronDown size={14} />
-                     </div>
+                
+                <div className="flex items-center self-end sm:self-auto gap-4">
+                  {/* View Toggles */}
+                  <div className="flex items-center bg-white rounded-lg border border-gray-200 p-1">
+                    <button 
+                      onClick={() => setViewMode('grid')}
+                      className={`p-2 rounded-md transition-colors ${viewMode === 'grid' ? 'bg-emphz-navy text-white' : 'text-gray-400 hover:text-emphz-navy'}`}
+                      aria-label="Grid View"
+                    >
+                      <LayoutGrid size={16} />
+                    </button>
+                    <button 
+                      onClick={() => setViewMode('list')}
+                      className={`p-2 rounded-md transition-colors ${viewMode === 'list' ? 'bg-emphz-navy text-white' : 'text-gray-400 hover:text-emphz-navy'}`}
+                      aria-label="List View"
+                    >
+                      <List size={16} />
+                    </button>
+                  </div>
+
+                  <div className="flex items-center">
+                    <span className="text-xs font-bold text-gray-400 uppercase mr-3 hidden sm:block font-display tracking-wider">Sort by:</span>
+                    <div className="relative group">
+                       <select
+                          value={sortBy}
+                          onChange={(e) => setSortBy(e.target.value)}
+                          className="appearance-none bg-white border border-gray-200 text-emphz-navy text-xs font-bold py-2.5 pl-4 pr-10 rounded-lg focus:outline-none focus:border-emphz-teal cursor-pointer uppercase tracking-wider font-display hover:shadow-sm transition-all min-w-[140px]"
+                          aria-label="Sort products"
+                       >
+                          <option value="default">Featured</option>
+                          <option value="name-asc">Name (A-Z)</option>
+                          <option value="name-desc">Name (Z-A)</option>
+                          <option value="category">Category</option>
+                       </select>
+                       <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-400">
+                          <ChevronDown size={14} />
+                       </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -466,7 +488,7 @@ const Catalog: React.FC = () => {
                 <div className="mb-6 p-4 bg-gray-100 rounded-xl border border-gray-200 flex items-center flex-wrap gap-3">
                   <span className="text-xs font-bold text-gray-500 mr-2 font-mono">Active Filters:</span>
                   {activeFiltersList.map(filter => (
-                    <div key={filter.label} className="flex items-center bg-white border border-gray-300 rounded-full text-xs font-bold text-emphz-navy pl-3 pr-2 py-1 gap-2 animate-fade-in">
+                    <div key={filter.label} className="flex items-center bg-white border border-gray-300 rounded-full text-xs font-bold text-emphz-navy pl-3 pr-2 py-1 gap-2 animate-fade-in shadow-sm">
                       <span>{filter.label}</span>
                       <button
                         onClick={() => {
@@ -489,59 +511,109 @@ const Catalog: React.FC = () => {
                 </div>
               )}
 
+              {/* Product Grid / List */}
               <div 
                 key={gridKey}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 animate-fade-in"
+                className={`animate-fade-in ${viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8' : 'space-y-4'}`}
                 style={{ animationDuration: '400ms' }}
               >
                 {sortedProducts.map((product) => {
                   const isComparing = compareList.includes(product.id);
-                  return (
-                    <article key={product.id} className="bg-white rounded-3xl overflow-hidden flex flex-col group relative transition-all duration-500 hover:-translate-y-2 shadow-sm border border-gray-100 hover:shadow-2xl hover:shadow-gray-200 hover:border-gray-200">
-                      
-                      <div className="relative h-64 overflow-hidden bg-gray-100">
-                        <img src={product.imageUrl} alt={product.name} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-60"></div>
-                        
-                        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur text-emphz-navy text-[10px] font-bold px-3 py-1.5 rounded-full shadow-sm font-display tracking-wider uppercase">
-                          {product.category}
-                        </div>
-                      </div>
-
-                      <div className="p-6 flex flex-col flex-grow relative bg-white pb-20">
-                        {/* Comparison Toggle (Now always visible) */}
-                        <button 
-                            onClick={(e) => { e.preventDefault(); toggleCompare(product.id); }}
-                            className={`absolute top-6 right-6 p-2 rounded-full backdrop-blur-md transition-all border shadow-lg z-20 hover:scale-110 ${isComparing ? 'bg-emphz-teal text-white border-emphz-teal/20' : 'bg-white text-gray-400 hover:text-emphz-navy border-gray-200'}`}
-                            title="Compare"
-                          >
-                            <Scale size={16} />
-                        </button>
-                        {/* Specs Pills */}
-                        <div className="flex flex-wrap gap-2 mb-4">
-                           {product.specs.slice(0,2).map((s, i) => (
-                              <span key={i} className="bg-gray-50 border border-gray-100 text-[9px] px-2 py-1 rounded text-slate-500 font-bold font-mono uppercase tracking-tight">
-                                {s.value}
-                              </span>
-                          ))}
+                  
+                  if (viewMode === 'grid') {
+                    // --- GRID CARD ---
+                    return (
+                      <article key={product.id} className="bg-white rounded-3xl overflow-hidden flex flex-col h-full group relative transition-all duration-500 hover:-translate-y-2 shadow-sm border border-gray-100 hover:shadow-2xl hover:shadow-gray-200 hover:border-gray-200">
+                        <div className="relative h-64 overflow-hidden bg-gray-100 flex-shrink-0">
+                          <img src={product.imageUrl} alt={product.name} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-60"></div>
+                          
+                          <div className="absolute top-4 right-4 bg-white/90 backdrop-blur text-emphz-navy text-[10px] font-bold px-3 py-1.5 rounded-full shadow-sm font-display tracking-wider uppercase">
+                            {product.category}
+                          </div>
                         </div>
 
-                        <h3 className="text-lg font-bold text-emphz-navy mb-2 line-clamp-1 group-hover:text-emphz-teal-text transition-colors font-display tracking-tight">{product.name}</h3>
-                        <p className="text-slate-500 text-xs mb-6 line-clamp-2 leading-relaxed">{product.shortDescription}</p>
-                        
-                        {/* Glass Footer for CTA */}
-                        <div className="absolute bottom-0 left-0 w-full p-6 bg-white/80 backdrop-blur-sm border-t border-gray-100 transition-all duration-300">
-                          <Link 
-                            to={`/products/${product.id}`} 
-                            className="w-full flex items-center justify-center bg-gray-50 hover:bg-emphz-navy text-emphz-navy hover:text-white font-bold py-3 px-4 rounded-xl transition-all font-display text-xs tracking-widest uppercase group/btn"
-                          >
-                            <span>View Specs</span>
-                            <ArrowRight size={14} className="ml-2 group-hover/btn:translate-x-1 transition-transform" />
-                          </Link>
+                        <div className="p-6 flex flex-col flex-grow bg-white relative">
+                          <button 
+                              onClick={(e) => { e.preventDefault(); toggleCompare(product.id); }}
+                              className={`absolute top-6 right-6 p-2 rounded-full backdrop-blur-md transition-all border shadow-lg z-20 hover:scale-110 ${isComparing ? 'bg-emphz-teal text-white border-emphz-teal/20' : 'bg-white text-gray-400 hover:text-emphz-navy border-gray-200'}`}
+                              title="Compare"
+                            >
+                              <Scale size={16} />
+                          </button>
+                          
+                          <div className="flex flex-wrap gap-2 mb-4">
+                             {product.specs.slice(0,2).map((s, i) => (
+                                <span key={i} className="bg-gray-50 border border-gray-100 text-[9px] px-2 py-1 rounded text-slate-500 font-bold font-mono uppercase tracking-tight">
+                                  {s.value}
+                                </span>
+                            ))}
+                          </div>
+
+                          <h3 className="text-lg font-bold text-emphz-navy mb-2 line-clamp-1 group-hover:text-emphz-teal-text transition-colors font-display tracking-tight">{product.name}</h3>
+                          <p className="text-slate-500 text-xs mb-6 line-clamp-2 leading-relaxed">{product.shortDescription}</p>
+                          
+                          <div className="mt-auto pt-6 border-t border-gray-100 transition-all duration-300">
+                            <Link 
+                              to={`/products/${product.id}`} 
+                              className="w-full flex items-center justify-center bg-gray-50 hover:bg-emphz-navy text-emphz-navy hover:text-white font-bold py-3 px-4 rounded-xl transition-all font-display text-xs tracking-widest uppercase group/btn"
+                            >
+                              <span>View Specs</span>
+                              <ArrowRight size={14} className="ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                            </Link>
+                          </div>
                         </div>
-                      </div>
-                    </article>
-                  );
+                      </article>
+                    );
+                  } else {
+                    // --- LIST ROW (Engineering View) ---
+                    return (
+                      <article key={product.id} className="bg-white rounded-xl border border-gray-200 p-4 flex flex-col md:flex-row items-center gap-6 hover:shadow-lg transition-shadow group relative">
+                         {/* Thumbnail */}
+                         <div className="w-full md:w-32 h-32 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden relative">
+                            <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                         </div>
+
+                         {/* Core Info */}
+                         <div className="flex-1 text-center md:text-left">
+                            <div className="text-[10px] text-gray-400 font-mono mb-1">{product.id.toUpperCase()}</div>
+                            <h3 className="text-lg font-bold text-emphz-navy mb-1 font-display group-hover:text-emphz-teal-text transition-colors">{product.name}</h3>
+                            <div className="inline-block bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider mb-2">{product.category}</div>
+                            <p className="text-xs text-gray-500 line-clamp-1">{product.shortDescription}</p>
+                         </div>
+
+                         {/* Tech Specs Columns */}
+                         <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-left min-w-[200px] border-l border-gray-100 pl-6 border-r pr-6 md:block hidden">
+                            {product.specs.slice(0, 4).map((s, i) => (
+                               <div key={i} className="flex flex-col">
+                                  <span className="text-[9px] text-gray-400 uppercase font-bold tracking-wider">{s.label}</span>
+                                  <span className="text-xs font-mono font-bold text-slate-700">{s.value}</span>
+                               </div>
+                            ))}
+                         </div>
+
+                         {/* Actions */}
+                         <div className="flex flex-row md:flex-col gap-3 min-w-[120px]">
+                            <Link 
+                              to={`/products/${product.id}`} 
+                              className="bg-emphz-navy hover:bg-emphz-teal text-white font-bold py-2 px-4 rounded-lg text-[10px] uppercase tracking-widest text-center transition-colors shadow-md"
+                            >
+                              Details
+                            </Link>
+                            <button 
+                              onClick={() => toggleCompare(product.id)}
+                              className={`border font-bold py-2 px-4 rounded-lg text-[10px] uppercase tracking-widest transition-colors flex items-center justify-center gap-2 ${
+                                isComparing 
+                                  ? 'border-emphz-teal text-emphz-teal bg-emphz-teal/5' 
+                                  : 'border-gray-200 text-gray-500 hover:border-gray-400 hover:text-gray-700'
+                              }`}
+                            >
+                              <Scale size={12} /> {isComparing ? 'Added' : 'Compare'}
+                            </button>
+                         </div>
+                      </article>
+                    );
+                  }
                 })}
               </div>
               

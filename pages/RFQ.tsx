@@ -93,7 +93,7 @@ const RFQ: React.FC = () => {
       
       {/* Left Panel: The Manifest (Dark Mode) */}
       <div className="w-full lg:w-5/12 bg-emphz-navy text-white relative overflow-hidden flex flex-col order-2 lg:order-1">
-         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+         <div className="absolute inset-0 bg-carbon-fibre opacity-20"></div>
          <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-emphz-navy to-transparent"></div>
          
          <div className="p-8 lg:p-12 relative z-10 flex-grow flex flex-col">
@@ -150,7 +150,7 @@ const RFQ: React.FC = () => {
                      <Globe size={14} className="text-emphz-teal" /> Global Export
                   </div>
                   <div className="flex items-center gap-2">
-                     <Cpu size={14} className="text-emphz-teal" /> AI Optimized
+                     <Cpu size={14} className="text-emphz-teal" /> Precision Engineered
                   </div>
                </div>
                

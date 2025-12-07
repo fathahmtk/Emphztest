@@ -42,6 +42,7 @@ export interface CaseStudy {
   solution: string;
   outcome: string;
   imageUrl: string;
+  relatedProductCategories?: ProductCategory[];
 }
 
 export interface RFQItem {

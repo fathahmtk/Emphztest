@@ -30,11 +30,11 @@ const SEO_DATA = {
     description: "Explore real-world applications of Emphz GRP solutions in demanding industries like utilities, rail, and coastal infrastructure.",
   },
   '/technical': {
-    title: 'Technical Center | Datasheets & AI Support | EMPHZ',
-    description: "Access our Technical Center for datasheets, installation guides, and direct consultation with our AI engineering assistant.",
+    title: 'Technical Center | Datasheets & Support | EMPHZ',
+    description: "Access our Technical Center for datasheets, installation guides, and direct consultation with our engineering team.",
   },
   '/blog': {
-    title: 'Technical Insights | Emphz GRP Blog',
+    title: 'Technical Insights | Emphz Blog',
     description: 'Explore the latest in GRP technology, project highlights, and engineering best practices from the Emphz team.',
   },
   '/contact': {
@@ -90,17 +90,29 @@ export function Layout({ children }: LayoutProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  // Initialize based on window width to avoid FOUC/Layout shifts
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   const location = useLocation();
   const { items } = useRFQ();
 
   const { pathname } = location;
+
+  // Robust Mobile Check to prevent double rendering
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    // Note: Initial check already done in useState, but we keep listener for resizes
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // SEO Management Hook for Titles, Descriptions, Canonicals, and Social Tags
   useEffect(() => {
     const handleMetadata = () => {
       let title = "EMPHZ – GRP/FRP Manufacturer";
       let description = "High-performance GRP solutions, engineered to outperform steel in corrosive and harsh industrial environments.";
-      let ogImage = "https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0";
+      let ogImage = "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1200&q=80";
       let ogType = "website";
 
       const pathParts = pathname.split('/').filter(Boolean);
@@ -132,7 +144,6 @@ export function Layout({ children }: LayoutProps) {
       }
       else {
         const pageSeo = SEO_DATA[pathname as keyof typeof SEO_DATA];
-        // FIX: Add a type guard to ensure we are dealing with a page SEO object, not the productsByCategory object.
         if (pageSeo && 'title' in pageSeo) {
             title = pageSeo.title;
             description = pageSeo.description;
@@ -314,6 +325,24 @@ export function Layout({ children }: LayoutProps) {
           opacity: 0.03;
           background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
+        .skip-link {
+          position: absolute;
+          top: -100px;
+          left: 20px;
+          background: #00ADB5;
+          color: #0B1120;
+          padding: 12px 24px;
+          z-index: 100;
+          transition: top 0.3s ease;
+          font-weight: 700;
+          border-radius: 0 0 8px 8px;
+          font-family: 'JetBrains Mono', monospace;
+          text-transform: uppercase;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .skip-link:focus {
+          top: 0;
+        }
       `}</style>
 
       <div className="global-noise"></div>
@@ -337,78 +366,94 @@ export function Layout({ children }: LayoutProps) {
               <Logo className="h-8 md:h-10 w-auto transition-transform duration-300 group-hover:scale-105" variant="light" />
             </Link>
 
-            <nav className={`hidden md:flex items-center space-x-8 px-8 py-2 rounded-full transition-all duration-500 ${navPillClass}`} aria-label="Main Navigation">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  className={`text-xs tracking-[0.15em] uppercase transition-all duration-300 font-display relative group ${
-                    isActive(link.path) ? activeLinkClass : navLinkClass
-                  }`}
-                  aria-current={isActive(link.path) ? 'page' : undefined}
+            {/* Desktop Navigation - JS Gated to prevent overlap if CSS fails */}
+            {!isMobile && (
+              <nav className={`hidden md:flex items-center space-x-8 px-8 py-2 rounded-full transition-all duration-500 ${navPillClass}`} aria-label="Main Navigation">
+                {NAV_LINKS.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className={`text-xs tracking-[0.15em] uppercase transition-all duration-300 font-display relative group ${
+                      isActive(link.path) ? activeLinkClass : navLinkClass
+                    }`}
+                    aria-current={isActive(link.path) ? 'page' : undefined}
+                  >
+                    {link.label}
+                    <span className={`absolute -bottom-1 left-0 w-full h-0.5 bg-emphz-teal transform origin-left transition-transform duration-300 ${isActive(link.path) ? 'scale-x-100 shadow-[0_0_10px_#00ADB5]' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
+                  </Link>
+                ))}
+              </nav>
+            )}
+
+            {/* Desktop Actions - JS Gated */}
+            {!isMobile && (
+              <div className="hidden md:flex items-center space-x-5">
+                <button
+                   onClick={() => setIsSearchOpen(true)}
+                   className={`relative p-2 transition-colors group ${iconColorClass}`}
+                   aria-label="Search (Cmd+K)"
+                   title="Search (Cmd+K)"
                 >
-                  {link.label}
-                  <span className={`absolute -bottom-1 left-0 w-full h-0.5 bg-emphz-teal transform origin-left transition-transform duration-300 ${isActive(link.path) ? 'scale-x-100 shadow-[0_0_10px_#00ADB5]' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
+                   <Search size={20} className="group-hover:scale-110 transition-transform" />
+                </button>
+
+                <Link to="/rfq" className={`relative p-2 transition-colors group ${iconColorClass}`} aria-label={`View RFQ Cart, ${items.length} items`}>
+                  <ShoppingCart size={20} aria-hidden="true" className="group-hover:scale-110 transition-transform"/>
+                  {items.length > 0 && (
+                    <span className="absolute -top-1 -right-1 h-5 w-5 bg-emphz-teal text-emphz-navy text-[10px] font-bold flex items-center justify-center rounded-full shadow-md ring-2 ring-emphz-navy animate-pulse">
+                      {items.length}
+                    </span>
+                  )}
                 </Link>
-              ))}
-            </nav>
+                <Link to="/rfq" className="bg-emphz-teal text-emphz-navy px-6 py-2 rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-[#00D4DE] transition-all shadow-[0_0_20px_rgba(0,173,181,0.3)] hover:shadow-[0_0_30px_rgba(0,173,181,0.5)] transform hover:-translate-y-0.5 font-display border border-white/10">
+                  GET QUOTE
+                </Link>
+              </div>
+            )}
 
-            <div className="hidden md:flex items-center space-x-5">
-              <button
-                 onClick={() => setIsSearchOpen(true)}
-                 className={`relative p-2 transition-colors group ${iconColorClass}`}
-                 aria-label="Search (Cmd+K)"
-                 title="Search (Cmd+K)"
-              >
-                 <Search size={20} className="group-hover:scale-110 transition-transform" />
-              </button>
-
-              <Link to="/rfq" className={`relative p-2 transition-colors group ${iconColorClass}`} aria-label={`View RFQ Cart, ${items.length} items`}>
-                <ShoppingCart size={20} aria-hidden="true" className="group-hover:scale-110 transition-transform"/>
-                {items.length > 0 && (
-                  <span className="absolute -top-1 -right-1 h-5 w-5 bg-emphz-teal text-emphz-navy text-[10px] font-bold flex items-center justify-center rounded-full shadow-md ring-2 ring-emphz-navy animate-pulse">
-                    {items.length}
-                  </span>
-                )}
-              </Link>
-              <Link to="/rfq" className="bg-emphz-teal text-emphz-navy px-6 py-2 rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-[#00D4DE] transition-all shadow-[0_0_20px_rgba(0,173,181,0.3)] hover:shadow-[0_0_30px_rgba(0,173,181,0.5)] transform hover:-translate-y-0.5 font-display border border-white/10">
-                GET QUOTE
-              </Link>
-            </div>
-
-            <div className="md:hidden flex items-center z-50 gap-4">
-              <button
-                 onClick={() => setIsSearchOpen(true)}
-                 className={`relative p-2 transition-colors ${iconColorClass}`}
-                 aria-label="Search"
-              >
-                 <Search size={22} />
-              </button>
-              
-               <Link to="/rfq" onClick={() => setIsMenuOpen(false)} className={`relative p-2 transition-colors ${iconColorClass}`} aria-label={`View RFQ Cart`}>
-                <ShoppingCart size={22} aria-hidden="true" />
-                {items.length > 0 && (
-                  <span className="absolute -top-1 -right-1 h-4 w-4 bg-emphz-teal text-emphz-navy text-[9px] font-bold flex items-center justify-center rounded-full shadow-md ring-1 ring-emphz-navy">
-                    {items.length}
-                  </span>
-                )}
-              </Link>
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-2 focus:outline-none text-white hover:text-emphz-teal rounded-full transition-all"
-                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                aria-expanded={isMenuOpen}
-              >
-                {isMenuOpen ? <X size={28} aria-hidden="true" /> : <Menu size={28} aria-hidden="true" />}
-              </button>
-            </div>
+            {/* Mobile Actions - JS Gated */}
+            {isMobile && (
+              <div className="md:hidden flex items-center z-50 gap-4">
+                <button
+                   onClick={() => setIsSearchOpen(true)}
+                   className={`relative p-2 transition-colors ${iconColorClass}`}
+                   aria-label="Search"
+                >
+                   <Search size={22} />
+                </button>
+                
+                 <Link to="/rfq" onClick={() => setIsMenuOpen(false)} className={`relative p-2 transition-colors ${iconColorClass}`} aria-label={`View RFQ Cart`}>
+                  <ShoppingCart size={22} aria-hidden="true" />
+                  {items.length > 0 && (
+                    <span className="absolute -top-1 -right-1 h-4 w-4 bg-emphz-teal text-emphz-navy text-[9px] font-bold flex items-center justify-center rounded-full shadow-md ring-1 ring-emphz-navy">
+                      {items.length}
+                    </span>
+                  )}
+                </Link>
+                <button
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className="p-2 focus:outline-none text-white hover:text-emphz-teal rounded-full transition-all"
+                  aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                  aria-expanded={isMenuOpen}
+                  aria-controls="mobile-menu-panel"
+                >
+                  {isMenuOpen ? <X size={28} aria-hidden="true" /> : <Menu size={28} aria-hidden="true" />}
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
         <div 
-            className={`fixed inset-0 bg-[#050A14]/95 backdrop-blur-2xl z-40 flex flex-col justify-center px-8 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+            id="mobile-menu-panel"
+            className={`fixed inset-0 bg-[#050A14]/95 backdrop-blur-2xl z-[60] flex flex-col justify-center px-8 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
                 isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
             }`}
+            // Inline style enforcement for visibility if CSS classes fail
+            style={{ 
+              visibility: isMenuOpen ? 'visible' : 'hidden', 
+              opacity: isMenuOpen ? 1 : 0 
+            }}
             role="dialog" 
             aria-modal="true"
         >
@@ -427,7 +472,7 @@ export function Layout({ children }: LayoutProps) {
                     className={`block text-4xl sm:text-5xl font-black tracking-tight font-display group transition-colors duration-300 ${
                       isActive(link.path) 
                         ? 'text-transparent bg-clip-text bg-gradient-to-r from-emphz-teal to-cyan-200 drop-shadow-[0_2px_4px_rgba(0,173,181,0.4)]' 
-                        : 'text-gray-400 hover:text-white'
+                        : 'text-gray-200 hover:text-white'
                     }`}
                   >
                     <span className="inline-block group-active:scale-95 transition-transform origin-left">{link.label}</span>
@@ -463,20 +508,20 @@ export function Layout({ children }: LayoutProps) {
         tabIndex={-1}
       >
         {!isHome && breadcrumbs.length > 0 && (
-            <div className="w-full bg-gray-50/80 backdrop-blur-sm border-b border-gray-200">
-                <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto px-6 md:px-8 py-3 animate-fade-in">
-                    <ol className="flex items-center space-x-2 text-xs font-mono">
+            <div className="w-full bg-gray-50/90 backdrop-blur-md border-b border-gray-200 sticky top-[72px] md:top-[88px] z-30 shadow-sm transition-all duration-300">
+                <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto px-6 md:px-8 py-4 animate-fade-in">
+                    <ol className="flex items-center space-x-2 text-xs font-mono tracking-wide">
                         {breadcrumbs.map((crumb, index) => (
                             <li key={`${crumb.path}-${crumb.name}`} className="flex items-center">
-                                {index > 0 && <ChevronRight size={14} className="text-gray-400 mx-2" />}
+                                {index > 0 && <ChevronRight size={12} className="text-gray-400 mx-2" />}
                                 {crumb.isCurrent ? (
-                                    <span className="text-emphz-navy font-bold truncate" aria-current="page">
+                                    <span className="text-emphz-navy font-bold truncate px-2 py-0.5 rounded bg-white border border-gray-200 shadow-sm" aria-current="page">
                                         {crumb.name}
                                     </span>
                                 ) : (
                                     <Link 
                                         to={crumb.path}
-                                        className="text-gray-500 hover:text-emphz-teal-text hover:underline transition-colors truncate"
+                                        className="text-gray-500 hover:text-emphz-teal hover:underline transition-colors truncate"
                                     >
                                         {crumb.name}
                                     </Link>
@@ -490,7 +535,7 @@ export function Layout({ children }: LayoutProps) {
         {children}
       </main>
 
-      <div className={`fixed bottom-6 right-6 z-30 flex flex-col gap-3 transition-all duration-500 ${isMenuOpen ? 'opacity-0 translate-y-10 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
+      <div className={`fixed bottom-6 left-6 z-30 flex flex-col gap-3 transition-all duration-500 ${isMenuOpen ? 'opacity-0 translate-y-10 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
         <a 
           href="https://wa.me/919037874080" 
           target="_blank" 
@@ -523,7 +568,7 @@ export function Layout({ children }: LayoutProps) {
         <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none overflow-hidden">
            <div className="absolute -right-20 top-0 w-[400px] h-[400px] bg-emphz-teal rounded-full blur-[150px] animate-float" style={{ animationDuration: '8s' }}></div>
            <div className="absolute -left-20 bottom-0 w-[300px] h-[300px] bg-blue-600 rounded-full blur-[120px] animate-float" style={{ animationDuration: '10s' }}></div>
-           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+           <div className="absolute inset-0 bg-carbon-fibre opacity-20"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">

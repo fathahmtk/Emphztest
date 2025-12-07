@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Loader2, BookOpen, PenTool, FileText, Download, ChevronRight, Terminal, Cpu } from 'lucide-react';
+import { Send, Loader2, BookOpen, PenTool, FileText, Download, ChevronRight, Terminal, Cpu, Calculator, Thermometer, Activity, Server, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { askTechnicalAssistant } from '../services/geminiService';
 import { ChatMessage } from '../types';
 import GatedDownloadModal from '../components/GatedDownloadModal';
 
-// Typewriter Effect Component for added realism
+// --- SUB-COMPONENTS ---
+
+// 1. Typewriter Effect for Terminal
 const TypewriterText: React.FC<{ text: string }> = ({ text }) => {
   const [displayedText, setDisplayedText] = useState('');
   
@@ -20,8 +22,7 @@ const TypewriterText: React.FC<{ text: string }> = ({ text }) => {
         index++;
         return prev + nextChar;
       });
-    }, 15); // Speed of typing
-    
+    }, 15);
     return () => clearInterval(intervalId);
   }, [text]);
 
@@ -30,10 +31,172 @@ const TypewriterText: React.FC<{ text: string }> = ({ text }) => {
   }} />;
 };
 
+// 2. Thermal Calculator Tool
+const ThermalCalculator: React.FC = () => {
+  const [dims, setDims] = useState({ h: 600, w: 400, d: 250 });
+  const [heatLoad, setHeatLoad] = useState(45); // Watts
+  const [ambient, setAmbient] = useState(35); // Celsius
+  const [install, setInstall] = useState<'wall' | 'free'>('wall');
+
+  // Heat transfer coefficient for GRP (approx W/m²K)
+  const K_GRP = 3.5; 
+
+  // Calculation Logic (Simplified VDE 0660 / IEC 60890)
+  const calculate = () => {
+    const h = (dims.h || 0) / 1000; // meters
+    const w = (dims.w || 0) / 1000;
+    const d = (dims.d || 0) / 1000;
+
+    // Effective cooling surface area
+    let area = 0;
+    if (h > 0 && w > 0 && d > 0) {
+        if (install === 'wall') {
+            // Wall mounted (back covered)
+            area = 1.4 * w * (h + d) + 1.8 * d * h; 
+        } else {
+            // Free standing (all sides exposed)
+            area = 1.8 * h * (w + d) + 1.4 * w * d;
+        }
+    }
+
+    // dT = P / (k * A)
+    // Avoid division by zero
+    const dt = (area > 0 && K_GRP > 0) ? heatLoad / (K_GRP * area) : 0;
+    const internalTemp = ambient + dt;
+    
+    return {
+        area: area.toFixed(2),
+        dt: dt.toFixed(1),
+        internalTemp: internalTemp.toFixed(1),
+        safe: internalTemp <= 55 // Assuming 55C is a generic safe limit for electronics
+    };
+  };
+
+  const result = calculate();
+
+  const handleDimChange = (key: keyof typeof dims, value: string) => {
+      const num = parseFloat(value);
+      setDims(prev => ({ ...prev, [key]: isNaN(num) ? 0 : num }));
+  };
+
+  return (
+    <div className="bg-[#0B1120] border border-gray-800 rounded-xl p-6 md:p-8 font-mono h-full flex flex-col">
+       <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-800">
+          <div className="flex items-center gap-3">
+             <div className="p-2 bg-orange-500/10 rounded-lg text-orange-500">
+               <Thermometer size={20} />
+             </div>
+             <div>
+               <h3 className="text-white font-bold text-lg leading-none">Thermal Sizing Engine</h3>
+               <span className="text-xs text-gray-500">GRP Enclosure Heat Dissipation</span>
+             </div>
+          </div>
+          <div className="text-[10px] text-gray-600 border border-gray-800 px-2 py-1 rounded bg-black">
+             VER 2.1.0
+          </div>
+       </div>
+
+       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 flex-grow">
+          {/* Inputs */}
+          <div className="space-y-6">
+             <div className="space-y-4">
+                <label className="text-xs text-emphz-teal font-bold uppercase tracking-wider block">Dimensions (mm)</label>
+                <div className="grid grid-cols-3 gap-3">
+                   <div>
+                      <span className="text-[10px] text-gray-500 block mb-1">HEIGHT</span>
+                      <input type="number" value={dims.h || ''} onChange={e => handleDimChange('h', e.target.value)} className="w-full bg-black border border-gray-700 rounded p-2 text-white text-sm focus:border-emphz-teal outline-none" placeholder="0" />
+                   </div>
+                   <div>
+                      <span className="text-[10px] text-gray-500 block mb-1">WIDTH</span>
+                      <input type="number" value={dims.w || ''} onChange={e => handleDimChange('w', e.target.value)} className="w-full bg-black border border-gray-700 rounded p-2 text-white text-sm focus:border-emphz-teal outline-none" placeholder="0" />
+                   </div>
+                   <div>
+                      <span className="text-[10px] text-gray-500 block mb-1">DEPTH</span>
+                      <input type="number" value={dims.d || ''} onChange={e => handleDimChange('d', e.target.value)} className="w-full bg-black border border-gray-700 rounded p-2 text-white text-sm focus:border-emphz-teal outline-none" placeholder="0" />
+                   </div>
+                </div>
+             </div>
+
+             <div>
+                <label className="text-xs text-emphz-teal font-bold uppercase tracking-wider block mb-3">Thermal Load</label>
+                <div className="flex items-center gap-4 bg-gray-900/50 p-3 rounded border border-gray-800">
+                   <div className="flex-1">
+                      <span className="text-[10px] text-gray-500 block mb-1">INTERNAL HEAT (WATTS)</span>
+                      <input type="number" value={heatLoad} onChange={e => setHeatLoad(Number(e.target.value))} className="w-full bg-transparent border-none p-0 text-white font-bold text-lg focus:ring-0" />
+                   </div>
+                   <Activity className="text-gray-600" size={20} />
+                </div>
+                <input 
+                  type="range" min="0" max="500" value={heatLoad} onChange={e => setHeatLoad(Number(e.target.value))} 
+                  className="w-full mt-3 h-1 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-emphz-teal"
+                />
+             </div>
+
+             <div className="grid grid-cols-2 gap-4">
+                <div>
+                   <label className="text-[10px] text-gray-500 block mb-1 uppercase">Ambient Temp (°C)</label>
+                   <input type="number" value={ambient} onChange={e => setAmbient(Number(e.target.value))} className="w-full bg-black border border-gray-700 rounded p-2 text-white text-sm" />
+                </div>
+                <div>
+                   <label className="text-[10px] text-gray-500 block mb-1 uppercase">Mounting</label>
+                   <select value={install} onChange={e => setInstall(e.target.value as any)} className="w-full bg-black border border-gray-700 rounded p-2 text-white text-sm">
+                      <option value="wall">Wall Mount</option>
+                      <option value="free">Free Standing</option>
+                   </select>
+                </div>
+             </div>
+          </div>
+
+          {/* Results */}
+          <div className="bg-black/40 rounded-xl border border-gray-800 p-6 flex flex-col justify-between relative overflow-hidden">
+             {/* Scanline effect for result box */}
+             <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.02)_1px,transparent_1px)] bg-[size:100%_4px] pointer-events-none"></div>
+             
+             <div>
+                <h4 className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-6">Simulation Results</h4>
+                
+                <div className="space-y-4">
+                   <div className="flex justify-between items-end border-b border-gray-800 pb-2">
+                      <span className="text-xs text-gray-500">Effective Surface Area</span>
+                      <span className="text-sm font-bold text-white">{result.area} m²</span>
+                   </div>
+                   <div className="flex justify-between items-end border-b border-gray-800 pb-2">
+                      <span className="text-xs text-gray-500">Temp Rise (ΔT)</span>
+                      <span className="text-sm font-bold text-emphz-teal">+{result.dt} °C</span>
+                   </div>
+                   <div className="flex justify-between items-end pb-2">
+                      <span className="text-xs text-gray-500">Final Internal Temp</span>
+                      <span className={`text-2xl font-black ${result.safe ? 'text-green-500' : 'text-red-500'}`}>{result.internalTemp} °C</span>
+                   </div>
+                </div>
+             </div>
+
+             <div className={`mt-8 p-4 rounded-lg border flex items-start gap-3 ${result.safe ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'}`}>
+                {result.safe ? <CheckCircle2 className="text-green-500 flex-shrink-0" size={20} /> : <AlertTriangle className="text-red-500 flex-shrink-0" size={20} />}
+                <div>
+                   <span className={`block text-xs font-bold mb-1 ${result.safe ? 'text-green-400' : 'text-red-400'}`}>
+                      {result.safe ? 'PASS: THERMAL INTEGRITY OK' : 'WARNING: CRITICAL TEMP EXCEEDED'}
+                   </span>
+                   <p className="text-[10px] text-gray-400 leading-relaxed">
+                      {result.safe 
+                        ? 'Passive heat dissipation via GRP surface is sufficient. No forced ventilation required.' 
+                        : 'Internal temperature exceeds 55°C limit. Recommend adding louvers or forced ventilation fan.'}
+                   </p>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+  );
+};
+
+// --- MAIN PAGE ---
+
 const TechnicalCenter: React.FC = () => {
+  const [activeModule, setActiveModule] = useState<'terminal' | 'tools' | 'library'>('terminal');
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'model', text: "System initialized. Emphz Technical Assistant v2.5 online. \nQuery database for material specs, IP ratings, or installation guidelines." }
+    { role: 'model', text: "System initialized. Emphz Technical Database v1.0 online. \nType a query or select a module from the sidebar." }
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -76,15 +239,15 @@ const TechnicalCenter: React.FC = () => {
   };
 
   const downloadCategories = [
-    { title: 'Product Datasheets', count: 12, icon: <FileText className="w-5 h-5"/>, type: 'PDF' },
-    { title: 'Brochures & Flyers', count: 4, icon: <BookOpen className="w-5 h-5"/>, type: 'PDF' },
-    { title: 'Installation Manuals', count: 8, icon: <PenTool className="w-5 h-5"/>, type: 'PDF' },
-    { title: 'Certifications (ISO/IP)', count: 3, icon: <Download className="w-5 h-5"/>, type: 'ZIP' },
+    { title: 'Product Datasheets', count: 12, icon: <FileText className="w-4 h-4"/>, type: 'PDF' },
+    { title: 'Brochures & Flyers', count: 4, icon: <BookOpen className="w-4 h-4"/>, type: 'PDF' },
+    { title: 'Installation Manuals', count: 8, icon: <PenTool className="w-4 h-4"/>, type: 'PDF' },
+    { title: 'Certifications (ISO/IP)', count: 3, icon: <Download className="w-4 h-4"/>, type: 'ZIP' },
   ];
 
   return (
     <>
-      <div className="bg-[#050A14] min-h-screen text-gray-300">
+      <div className="bg-[#050A14] min-h-screen text-gray-300 font-mono">
         <style>{`
           .scanline {
             width: 100%;
@@ -111,168 +274,195 @@ const TechnicalCenter: React.FC = () => {
           }
         `}</style>
 
-        <div className="bg-emphz-navy py-16 relative overflow-hidden border-b border-white/5">
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-5"></div>
-          <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
-            <div className="inline-flex items-center justify-center p-3 bg-white/5 rounded-full mb-6 border border-white/10">
-               <Cpu className="text-emphz-teal animate-pulse" size={24} />
+        <div className="bg-emphz-navy py-12 relative overflow-hidden border-b border-white/5">
+          <div className="absolute inset-0 bg-diagmonds-light opacity-5"></div>
+          <div className="max-w-7xl mx-auto px-4 relative z-10 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+               <div className="inline-flex items-center justify-center p-3 bg-white/5 rounded-xl border border-white/10">
+                  <Cpu className="text-emphz-teal animate-pulse" size={24} />
+               </div>
+               <div>
+                  <h1 className="text-2xl font-black font-display text-white tracking-tight">ENGINEERING CORE</h1>
+                  <p className="text-emphz-teal font-mono text-xs tracking-wide">
+                    // ACCESS_LEVEL: PUBLIC // ENCRYPTED
+                  </p>
+               </div>
             </div>
-            <h1 className="text-4xl md:text-5xl font-black mb-4 font-display text-white tracking-tight">TECHNICAL KNOWLEDGE CORE</h1>
-            <p className="text-emphz-teal max-w-2xl mx-auto font-mono text-sm tracking-wide">
-              // ENGINEERING_RESOURCES // AI_CONSULTANT // DATASHEETS
-            </p>
+            <div className="hidden md:flex items-center gap-6 text-[10px] text-gray-500 font-mono">
+               <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+                  SERVER_STATUS: ONLINE
+               </div>
+               <div>
+                  LATENCY: 12ms
+               </div>
+            </div>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-6 h-[calc(100vh-200px)] min-h-[600px]">
           
-          {/* Sidebar - File Explorer Style */}
-          <div className="lg:col-span-4 space-y-6">
-            <div className="bg-[#0B1120] rounded-lg shadow-2xl border border-gray-800 overflow-hidden">
-              <div className="p-4 border-b border-gray-800 bg-gray-900/50 flex items-center justify-between">
-                 <h3 className="font-bold text-gray-400 text-xs font-mono uppercase tracking-widest">/ROOT/DOWNLOADS</h3>
-                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]"></span>
-              </div>
-              <div className="divide-y divide-gray-800/50">
-                {downloadCategories.map((cat, i) => (
-                  <button key={i} onClick={() => handleDownloadClick({ title: cat.title, type: cat.type })} className="w-full text-left p-4 hover:bg-white/5 cursor-pointer group transition-colors focus:outline-none border-l-2 border-transparent hover:border-emphz-teal">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <div className="text-gray-600 mr-3 group-hover:text-emphz-teal transition-colors">
-                          {cat.icon}
-                        </div>
-                        <div>
-                          <h4 className="font-bold text-gray-300 text-sm group-hover:text-white font-mono">{cat.title}</h4>
-                          <span className="text-[10px] text-gray-600 font-mono group-hover:text-gray-500 transition-colors">DIR • {cat.count} FILES</span>
-                        </div>
-                      </div>
-                      <ChevronRight size={14} className="text-gray-700 group-hover:text-emphz-teal" aria-hidden="true" />
-                    </div>
-                  </button>
-                ))}
-              </div>
-              <div className="p-3 bg-black/20 border-t border-gray-800 text-right">
-                <button onClick={() => handleDownloadClick({ title: 'Full Document Library', type: 'ZIP' })} className="text-[10px] font-bold text-emphz-teal hover:text-white hover:underline font-mono uppercase tracking-wide">
-                  DOWNLOAD_ALL_ASSETS.ZIP
+          {/* Navigation Sidebar */}
+          <div className="lg:col-span-3 flex flex-col gap-4">
+             {/* Module Selector */}
+             <div className="bg-[#0B1120] rounded-xl border border-gray-800 p-2 space-y-1">
+                <button 
+                  onClick={() => setActiveModule('terminal')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-bold transition-all ${activeModule === 'terminal' ? 'bg-emphz-teal text-emphz-navy shadow-lg shadow-emphz-teal/20' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
+                >
+                   <Terminal size={16} /> KNOWLEDGE_BASE
                 </button>
-              </div>
-            </div>
+                <button 
+                  onClick={() => setActiveModule('tools')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-bold transition-all ${activeModule === 'tools' ? 'bg-emphz-teal text-emphz-navy shadow-lg shadow-emphz-teal/20' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
+                >
+                   <Calculator size={16} /> ENGINEERING_TOOLS
+                </button>
+                <button 
+                  onClick={() => setActiveModule('library')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-bold transition-all ${activeModule === 'library' ? 'bg-emphz-teal text-emphz-navy shadow-lg shadow-emphz-teal/20' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
+                >
+                   <Server size={16} /> ASSET_LIBRARY
+                </button>
+             </div>
 
-            <div className="bg-emphz-teal/5 border border-emphz-teal/20 rounded-lg p-6 relative overflow-hidden group">
-               <div className="absolute -right-4 -top-4 w-16 h-16 bg-emphz-teal/20 rounded-full blur-xl group-hover:bg-emphz-teal/30 transition-colors"></div>
-               <h3 className="font-bold text-emphz-teal mb-2 font-mono text-sm uppercase flex items-center gap-2">
-                 <Terminal size={14}/> CAD Request
-               </h3>
-               <p className="text-xs text-gray-400 mb-4 font-mono leading-relaxed">
-                 Access restricted manufacturing files (DWG/STEP) for architectural integration.
-               </p>
-               <button onClick={() => handleDownloadClick({ title: 'CAD Library Access Request', type: 'CAD' })} className="w-full bg-emphz-teal/10 border border-emphz-teal/50 text-emphz-teal py-2 rounded text-xs font-bold hover:bg-emphz-teal hover:text-white transition-all font-mono uppercase tracking-wider shadow-[0_0_15px_rgba(0,173,181,0.15)] hover:shadow-[0_0_20px_rgba(0,173,181,0.4)]">
-                 Initialize_Request()
-               </button>
-            </div>
+             {/* Dynamic Sidebar Content */}
+             <div className="flex-grow bg-[#0B1120] rounded-xl border border-gray-800 p-4 overflow-y-auto">
+                <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4 border-b border-gray-800 pb-2">
+                   {activeModule === 'terminal' ? 'Recent Queries' : activeModule === 'tools' ? 'Active Utility' : 'Index'}
+                </h3>
+                
+                {activeModule === 'library' && (
+                   <div className="space-y-1">
+                      {downloadCategories.map((cat, i) => (
+                        <button key={i} onClick={() => handleDownloadClick({ title: cat.title, type: cat.type })} className="w-full text-left p-3 hover:bg-white/5 rounded flex items-center justify-between group transition-colors">
+                           <div className="flex items-center gap-3">
+                              <span className="text-gray-600 group-hover:text-emphz-teal transition-colors">{cat.icon}</span>
+                              <span className="text-xs font-bold text-gray-400 group-hover:text-white transition-colors">{cat.title}</span>
+                           </div>
+                           <span className="text-[9px] bg-black px-1.5 py-0.5 rounded text-gray-600 font-mono">{cat.count}</span>
+                        </button>
+                      ))}
+                   </div>
+                )}
+
+                {activeModule === 'tools' && (
+                   <div className="text-xs text-gray-500 space-y-4">
+                      <div className="p-3 bg-white/5 rounded border border-white/5 border-l-2 border-l-emphz-teal">
+                         <div className="font-bold text-white mb-1">Thermal Calc</div>
+                         <p className="text-[10px] leading-relaxed">Calculate heat rise in enclosures based on IEC 60890.</p>
+                      </div>
+                      <div className="p-3 opacity-50 cursor-not-allowed">
+                         <div className="font-bold text-gray-400 mb-1">Chemical Resist.</div>
+                         <p className="text-[10px] leading-relaxed">Database of GRP resin compatibility.</p>
+                      </div>
+                   </div>
+                )}
+
+                {activeModule === 'terminal' && (
+                   <div className="text-center py-8">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse mx-auto mb-2"></div>
+                      <p className="text-[10px] text-gray-600">Awaiting Input...</p>
+                   </div>
+                )}
+             </div>
           </div>
 
-          {/* Main Terminal Window */}
-          <div className="lg:col-span-8">
-            <div className="bg-black rounded-lg shadow-2xl border border-gray-800 flex flex-col h-[650px] overflow-hidden font-mono relative">
-              {/* CRT Overlay Effects */}
-              <div className="scanline"></div>
-              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle,rgba(0,173,181,0.03)_0%,rgba(0,0,0,0.2)_100%)]"></div>
+          {/* Main Content Area */}
+          <div className="lg:col-span-9 h-full relative">
+             {/* Background Effects */}
+             <div className="scanline absolute inset-0 pointer-events-none z-20"></div>
+             <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(0,173,181,0.03)_0%,rgba(0,0,0,0.2)_100%)] pointer-events-none z-0"></div>
 
-              {/* Terminal Header */}
-              <div className="bg-gray-900 p-3 flex items-center justify-between border-b border-gray-800 relative z-20">
-                <div className="flex items-center space-x-2">
-                   <div className="flex space-x-1.5 opacity-50 grayscale hover:grayscale-0 transition-all">
-                     <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                     <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                   </div>
-                   <div className="ml-4 text-xs text-gray-500 flex items-center font-bold tracking-wider">
-                     <Terminal size={12} className="mr-2 text-emphz-teal" />
-                     EMPHZ-AI@GEMINI-NODE-2.5:~
-                   </div>
-                </div>
-                <div className="flex items-center gap-2">
-                   <span className="text-[9px] text-gray-600 font-bold">LATENCY: 12ms</span>
-                   <div className="text-[10px] font-bold text-green-500 tracking-wider animate-pulse bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20">ONLINE</div>
-                </div>
-              </div>
-
-              <div 
-                className="flex-1 overflow-y-auto p-6 space-y-6 bg-black text-sm relative z-10 crt-flicker scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent" 
-                role="log" 
-                aria-live="polite"
-              >
-                {messages.map((msg, idx) => (
-                  <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[85%] ${
-                      msg.role === 'user' 
-                        ? 'text-right' 
-                        : 'text-left'
-                    }`}>
-                      <span className={`text-[10px] uppercase font-bold mb-1 block tracking-widest ${msg.role === 'user' ? 'text-emphz-teal' : 'text-green-500'}`}>
-                        {msg.role === 'user' ? 'USER_INPUT' : 'SYSTEM_RESPONSE'}
-                      </span>
-                      <div className={`inline-block p-4 rounded-lg text-xs leading-relaxed border shadow-lg ${
-                         msg.role === 'user'
-                         ? 'bg-emphz-teal/5 border-emphz-teal/30 text-gray-300'
-                         : 'bg-gray-900/80 border-gray-700 text-green-400 font-medium'
-                      }`}>
-                         {msg.role === 'model' && idx === 0 ? (
-                           <TypewriterText text={msg.text} />
-                         ) : (
-                           msg.text
-                         )}
-                      </div>
-                    </div>
+             {/* View Switching */}
+             {activeModule === 'terminal' && (
+                <div className="bg-black rounded-xl shadow-2xl border border-gray-800 flex flex-col h-full overflow-hidden relative z-10">
+                  <div className="bg-gray-900/50 p-3 flex items-center justify-between border-b border-gray-800 backdrop-blur-sm">
+                     <div className="flex items-center text-xs font-mono font-bold text-gray-400">
+                        <Terminal size={12} className="mr-2 text-emphz-teal" /> TERMINAL_SESSION_01
+                     </div>
                   </div>
-                ))}
-                {isLoading && (
-                  <div className="flex justify-start">
-                    <div>
-                        <span className="text-[10px] uppercase font-bold mb-1 block text-green-500 tracking-widest">SYSTEM</span>
-                        <div className="bg-gray-900 border border-gray-800 p-3 rounded-md flex items-center text-green-500 text-xs shadow-[0_0_15px_rgba(34,197,94,0.1)]">
-                           <Loader2 className="animate-spin h-3 w-3 mr-2" />
-                           <span className="animate-pulse">PROCESSING_QUERY...</span>
+                  
+                  <div className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-thin scrollbar-thumb-gray-800 crt-flicker">
+                     {messages.map((msg, idx) => (
+                        <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                           <div className={`max-w-[85%] ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
+                              <span className={`text-[10px] uppercase font-bold mb-1 block tracking-widest ${msg.role === 'user' ? 'text-emphz-teal' : 'text-green-500'}`}>
+                                 {msg.role === 'user' ? 'USER_INPUT' : 'SYS_RESPONSE'}
+                              </span>
+                              <div className={`inline-block p-4 rounded-lg text-xs leading-relaxed border shadow-lg ${
+                                 msg.role === 'user'
+                                 ? 'bg-emphz-teal/5 border-emphz-teal/30 text-gray-300'
+                                 : 'bg-gray-900/80 border-gray-700 text-green-400 font-medium'
+                              }`}>
+                                 {msg.role === 'model' && idx === 0 ? <TypewriterText text={msg.text} /> : msg.text}
+                              </div>
+                           </div>
                         </div>
-                    </div>
+                     ))}
+                     {isLoading && (
+                        <div className="flex justify-start">
+                           <div className="bg-gray-900 border border-gray-800 p-3 rounded-md flex items-center text-green-500 text-xs shadow-[0_0_15px_rgba(34,197,94,0.1)]">
+                              <Loader2 className="animate-spin h-3 w-3 mr-2" />
+                              <span className="animate-pulse">PROCESSING...</span>
+                           </div>
+                        </div>
+                     )}
+                     <div ref={messagesEndRef} />
                   </div>
-                )}
-                <div ref={messagesEndRef} />
-              </div>
 
-              <div className="p-4 bg-gray-900 border-t border-gray-800 relative z-20">
-                <div className="relative flex items-center bg-black border border-gray-700 rounded-md px-3 py-1 focus-within:border-emphz-teal focus-within:shadow-[0_0_10px_rgba(0,173,181,0.2)] transition-all">
-                  <span className="text-green-500 font-bold mr-2 text-sm animate-pulse">$</span>
-                  <input
-                    id="chat-input"
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Enter command or query (e.g., 'What is the fire rating of GRP?')"
-                    className="flex-1 bg-transparent border-none focus:ring-0 text-white placeholder-gray-600 outline-none text-sm h-10 font-mono"
-                    autoComplete="off"
-                  />
-                  <button 
-                    onClick={handleSend}
-                    disabled={isLoading || !input.trim()}
-                    aria-label="Execute"
-                    className="text-gray-500 hover:text-emphz-teal disabled:opacity-30 transition-colors p-2"
-                  >
-                    <Send size={16} />
-                  </button>
+                  <div className="p-4 bg-gray-900/80 border-t border-gray-800 backdrop-blur-sm">
+                     <div className="relative flex items-center bg-black border border-gray-700 rounded-md px-3 focus-within:border-emphz-teal transition-all">
+                        <span className="text-green-500 font-bold mr-2 text-sm animate-pulse">$</span>
+                        <input
+                           type="text"
+                           value={input}
+                           onChange={(e) => setInput(e.target.value)}
+                           onKeyDown={handleKeyDown}
+                           placeholder="Enter command or query..."
+                           className="flex-1 bg-transparent border-none focus:ring-0 text-white placeholder-gray-600 outline-none text-sm h-12 font-mono"
+                           autoComplete="off"
+                        />
+                        <button 
+                           onClick={handleSend}
+                           disabled={isLoading || !input.trim()}
+                           className="text-gray-500 hover:text-emphz-teal disabled:opacity-30 transition-colors p-2"
+                        >
+                           <Send size={16} />
+                        </button>
+                     </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            
-            <div className="mt-4 flex justify-between text-[10px] text-gray-600 font-mono uppercase">
-               <span>Secure_Connection: TLS 1.3</span>
-               <span>Emphz Engineering Knowledge Base</span>
-            </div>
+             )}
+
+             {activeModule === 'tools' && (
+                <div className="h-full z-10 relative animate-fade-in">
+                   <ThermalCalculator />
+                </div>
+             )}
+
+             {activeModule === 'library' && (
+                <div className="bg-black rounded-xl shadow-2xl border border-gray-800 flex flex-col h-full relative z-10 animate-fade-in p-8 flex items-center justify-center text-center">
+                   <div className="w-20 h-20 bg-gray-900 rounded-full flex items-center justify-center mb-6 border border-gray-800">
+                      <Server className="text-gray-500" size={32} />
+                   </div>
+                   <h3 className="text-white font-bold text-xl mb-2">Secure Asset Library</h3>
+                   <p className="text-gray-500 text-sm max-w-md mb-8">
+                      Select a category from the sidebar to access restricted engineering documents, CAD files, and certification reports.
+                   </p>
+                   <button 
+                      onClick={() => handleDownloadClick({ title: 'Full Technical Catalog 2025', type: 'ZIP' })}
+                      className="bg-emphz-teal text-emphz-navy font-bold px-6 py-3 rounded-lg text-xs uppercase tracking-widest hover:bg-white transition-colors"
+                   >
+                      Download Full Catalog
+                   </button>
+                </div>
+             )}
+
           </div>
         </div>
       </div>
+      
       <GatedDownloadModal 
         isOpen={isDownloadModalOpen}
         onClose={() => setIsDownloadModalOpen(false)}

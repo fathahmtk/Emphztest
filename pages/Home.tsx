@@ -4,48 +4,57 @@ import { ArrowRight, Droplet, Zap, Box, Layers, Maximize, FileText, Sun, Train, 
 import { INDUSTRIES, MOCK_PRODUCTS, MOCK_BLOG_POSTS } from '../constants';
 import ScrollReveal from '../components/ScrollReveal';
 
+const HERO_IMAGES = [
+  {
+      src: "https://images.unsplash.com/photo-1588525287394-135b3d7c95e4?auto=format&fit=crop&w=1200&q=80",
+      alt: "High-performance Emphz GRP Security Guard Villa cabin at an industrial facility, showcasing its sleek design."
+  },
+  {
+      src: "https://images.unsplash.com/photo-1560942484-91e34a02d8a4?auto=format&fit=crop&w=1200&q=80",
+      alt: "Durable protective GRP Instrument Sunshade canopy protecting sensitive field transmitters from solar radiation."
+  },
+  {
+      src: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1200&q=80",
+      alt: "The futuristic Emphz Xpod X7, a monocoque GRP smart living pod, perfect for modern resorts."
+  },
+  {
+      src: "https://images.unsplash.com/photo-1581092921462-6870002878b6?auto=format&fit=crop&w=1200&q=80",
+      alt: "Inside an advanced GRP composite manufacturing facility with hot press molding machinery for Emphz products."
+  },
+  {
+      src: "https://images.unsplash.com/photo-1632516421426-529075e7a934?auto=format&fit=crop&w=1200&q=80",
+      alt: "Large modular GRP panel water tank installation for hygienic potable water storage, a key Emphz solution."
+  },
+  {
+      src: "https://images.unsplash.com/photo-1621947081720-86970823b77a?auto=format&fit=crop&w=1200&q=80",
+      alt: "The robust E-Series IP66 Coastal GRP Electrical Enclosure installed in an industrial plant, showcasing its durability."
+  },
+  {
+      src: "https://images.unsplash.com/photo-1617999192569-c6e7d0573934?auto=format&fit=crop&w=1200&q=80",
+      alt: "A modular GRP utility kiosk by Emphz, designed for modern urban electrical substations."
+  }
+];
+
+const FEATURED_CATEGORIES = [
+  "Electrical Enclosures",
+  "Modular Kiosks",
+  "Smart Living Pods",
+  "Fire Safety",
+  "Structural Profiles",
+  "Automobile Components"
+];
+
+const INDUSTRY_IMAGES = [
+  { title: "Solar & Renewables", image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=600&q=80", desc: "UV-stable combiner boxes for harsh solar parks." },
+  { title: "Rail & Metro", image: "https://images.unsplash.com/photo-1474487548417-781cb714c2f3?auto=format&fit=crop&w=600&q=80", desc: "Fire-retardant trackside signaling cabinets." },
+  { title: "Telecom / 5G", image: "https://images.unsplash.com/photo-1587575494201-11fe74d90d38?auto=format&fit=crop&w=600&q=80", desc: "Radio-transparent shrouds for rooftop antennae." },
+  { title: "Water Treatment", image: "https://images.unsplash.com/photo-1523365063870-827e85c138f2?auto=format&fit=crop&w=600&q=80", desc: "Corrosion-proof walkways for pump stations." },
+  { title: "Smart City", image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=600&q=80", desc: "Vandal-resistant modular utility kiosks." },
+  { title: "Oil & Gas", image: "https://images.unsplash.com/photo-1516937941348-c09e554b96d8?auto=format&fit=crop&w=600&q=80", desc: "Anti-static explosion-proof junction boxes." },
+];
+
 const Home: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  
-  const HERO_IMAGES = [
-    {
-        src: "https://lh3.googleusercontent.com/pw/AP1GczMAwEyda-VatlopWLADNQaXs2ac5qXUBGyj127pjaQNQX1ovYq7FZLeSHxttDZHdHTitg8V4nvvU5F0Ad4SypnZnvXC0wKmqomtms1jkFrTREFrcXNhwBxdoojhP2ciD6fBA2dhWu5mtxELeCChbHPerw=w1563-h879-s-no-gm?authuser=0",
-        alt: "High-performance Emphz GRP Security Guard Villa cabin at an industrial facility, showcasing its sleek design."
-    },
-    {
-        src: "https://lh3.googleusercontent.com/pw/AP1GczPDRXHhmo1DelLxi0HtftJnSmJ5IkdKr2Ul0o4WqNdZC0aJLGTf3RDD6NY95soy12tjT-9X5MXLRdCBt8plfP21vC68xJgU31pGM52ih8yBsDP2UzyWWShp8haDaNLGCv-EGnHQMuwNSVEJe7G288whig=w1563-h879-s-no-gm?authuser=0",
-        alt: "Durable protective GRP Instrument Sunshade canopy protecting sensitive field transmitters from solar radiation."
-    },
-    {
-        src: "https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0",
-        alt: "The futuristic Emphz Xpod X7, a monocoque GRP smart living pod, perfect for modern resorts."
-    },
-    {
-        src: "https://lh3.googleusercontent.com/pw/AP1GczNrU-k7hPLmr-DvpT_gbosZGrakzMIcqO2aFfnm9CxOaGu1urrgRkK_tdxRE5BL7yO4ncuoj20Ih9R9APtPjrpBjwBT9kMrwTWy_rU-TTp0g685rQRi7b2Gpm_8yO6_6nzE-xok9zOiNC7Yf6mIKxD44w=w1319-h879-s-no-gm?authuser=0",
-        alt: "Inside an advanced GRP composite manufacturing facility with hot press molding machinery for Emphz products."
-    },
-    {
-        src: "https://lh3.googleusercontent.com/pw/AP1GczOYyrN7zzWAF72LarCKhxba48Z63JkRPQa84TPIyRzuZwyGt-CbVJd4tzh2kNF93HhECGlR7d4lJzH5XFeWiqwiwWJy3yuaqr4v3VJXs3CJHYNEgmroDLxP0U89hb-D5PJ0wB1CNPL56fN7KgdXmzWs7w=w1319-h879-s-no-gm?authuser=0",
-        alt: "Large modular GRP panel water tank installation for hygienic potable water storage, a key Emphz solution."
-    },
-    {
-        src: "https://lh3.googleusercontent.com/pw/AP1GczO_yHvrVqeSyQptetDgD2xpolaXq9oXImcceikitbuNMjlzS3w1JQVVNKdnZ5FGwuJHtUNCvJtJmk1Z28icLadmXjgCqOeyX8x6QuEgEpIlE42BGv5ncFbvY0DrMNUFXlpYmrZ7LkkYTDGBNR7zpuN1vQ=w1319-h879-s-no-gm?authuser=0",
-        alt: "The robust E-Series IP66 Coastal GRP Electrical Enclosure installed in an industrial plant, showcasing its durability."
-    },
-    {
-        src: "https://lh3.googleusercontent.com/pw/AP1GczMvuz7tjgxC5-JF9dQctIIAuS8YxbnxwOh-BxiCmu2-fRi94SQUgqdsyZ8QcYCx_WhpUYQe-RJjo9kUnlKWHJYyHFiq7le1FfH98Qvn_LBr4-BYmSe-LfgpUg-WAI7KRzJg2kp_-VQNZK7FQcCRyd07dw=w1563-h879-s-no-gm?authuser=0",
-        alt: "A modular GRP utility kiosk by Emphz, designed for modern urban electrical substations."
-    }
-  ];
-
-  const FEATURED_CATEGORIES = [
-    "Electrical Enclosures",
-    "Modular Kiosks",
-    "Smart Living Pods",
-    "Fire Safety",
-    "Structural Profiles",
-    "Automobile Components"
-  ];
 
   useEffect(() => {
     const imageInterval = setInterval(() => {
@@ -54,16 +63,7 @@ const Home: React.FC = () => {
     return () => {
       clearInterval(imageInterval);
     };
-  }, [HERO_IMAGES.length]);
-
-  const INDUSTRY_IMAGES = [
-    { title: "Solar & Renewables", image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=600&q=80", desc: "UV-stable combiner boxes for harsh solar parks." },
-    { title: "Rail & Metro", image: "https://images.unsplash.com/photo-1474487548417-781cb714c2f3?auto=format&fit=crop&w=600&q=80", desc: "Fire-retardant trackside signaling cabinets." },
-    { title: "Telecom / 5G", image: "https://images.unsplash.com/photo-1587575494201-11fe74d90d38?auto=format&fit=crop&w=600&q=80", desc: "Radio-transparent shrouds for rooftop antennae." },
-    { title: "Water Treatment", image: "https://images.unsplash.com/photo-1523365063870-827e85c138f2?auto=format&fit=crop&w=600&q=80", desc: "Corrosion-proof walkways for pump stations." },
-    { title: "Smart City", image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=600&q=80", desc: "Vandal-resistant modular utility kiosks." },
-    { title: "Oil & Gas", image: "https://images.unsplash.com/photo-1516937941348-c09e554b96d8?auto=format&fit=crop&w=600&q=80", desc: "Anti-static explosion-proof junction boxes." },
-  ];
+  }, []);
 
   return (
     <div className="flex flex-col bg-white text-emphz-navy overflow-x-hidden motion-safe:scroll-smooth">
@@ -83,7 +83,7 @@ const Home: React.FC = () => {
            ))}
            <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-[#0B1120]/40 to-transparent"></div>
            <div className="absolute inset-0 bg-gradient-to-l from-[#0B1120] via-transparent to-transparent opacity-50"></div>
-           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay"></div>
+           <div className="absolute inset-0 bg-carbon-fibre opacity-10 mix-blend-overlay"></div>
         </div>
 
         <div className="relative z-10 w-full max-w-7xl mx-auto text-left p-6 md:p-8 lg:p-12">
@@ -97,7 +97,7 @@ const Home: React.FC = () => {
                     className="animate-fade-up"
                     style={{ animationDelay: `${300 + index * 80}ms` }}
                   >
-                    <span className="block bg-white/10 backdrop-blur-md border border-white/10 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider font-mono shadow-lg [text-shadow:0_1px_2px_rgba(0,0,0,0.5)]">
+                    <span className="block bg-black/30 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider font-mono shadow-lg">
                       {category}
                     </span>
                   </div>
@@ -147,11 +147,11 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      <section className="py-20 bg-gray-50 border-b border-gray-200">
+      <section className="py-16 md:py-24 bg-gray-50 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6">
            <div className="flex flex-col md:flex-row items-center justify-between gap-10">
               <div className="flex-1 text-center md:text-left">
-                 <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-[0.2em] uppercase mb-3 font-display">Certified Excellence</h2>
+                 <h2 className="text-xs md:text-sm font-bold text-emphz-teal-dark tracking-[0.2em] uppercase mb-3 font-display">Certified Excellence</h2>
                  <p className="text-emphz-navy font-bold text-2xl md:text-3xl leading-tight">Meeting Global Standards <br/>for Safety & Quality.</p>
               </div>
               <div className="flex flex-wrap gap-8 md:gap-12 justify-center md:justify-end">
@@ -180,7 +180,7 @@ const Home: React.FC = () => {
 
         <div className="w-full max-w-7xl mx-auto px-6 md:px-12 relative z-10">
           <div className="mb-16 md:mb-24 text-center">
-             <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-[0.2em] uppercase mb-4 font-display">The Emphz Advantage</h2>
+             <h2 className="text-xs md:text-sm font-bold text-emphz-teal-dark tracking-[0.2em] uppercase mb-4 font-display">The Emphz Advantage</h2>
              <h3 className="text-4xl md:text-6xl font-black text-emphz-navy font-display tracking-tight leading-none">Why Engineers <br/>Choose GRP.</h3>
           </div>
 
@@ -194,11 +194,11 @@ const Home: React.FC = () => {
                   </div>
                   
                   <h4 className="text-2xl font-black mb-4 text-emphz-navy font-display">Corrosion Immunity</h4>
-                  <p className="text-slate-600 leading-relaxed text-sm font-medium font-sans mb-6 flex-grow">
+                  <p className="text-slate-700 leading-relaxed text-sm font-medium font-sans mb-6 flex-grow">
                      Engineered specifically for high-salinity coastal environments. Our GRP composites are chemically inert, offering a 25+ year lifespan where traditional steel enclosures fail within months.
                   </p>
                   
-                  <div className="border-t border-gray-100 pt-6">
+                  <div className="border-t border-gray-100 pt-6 mt-auto">
                     <span className="text-xs font-bold text-emphz-teal-text uppercase tracking-wider flex items-center">
                       Learn More <ArrowRight size={14} className="ml-2 group-hover:translate-x-2 transition-transform"/>
                     </span>
@@ -208,7 +208,7 @@ const Home: React.FC = () => {
 
              <ScrollReveal delay={200}>
                <div className="bg-emphz-navy p-8 md:p-12 rounded-3xl relative overflow-hidden group hover:-translate-y-3 transition-transform duration-500 shadow-2xl shadow-emphz-navy/30 h-full flex flex-col text-white">
-                  <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+                  <div className="absolute inset-0 bg-carbon-fibre opacity-10"></div>
                   <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-yellow-500/20 rounded-full blur-2xl group-hover:bg-yellow-500/30 transition-colors"></div>
                   
                   <div className="w-16 h-16 bg-white/10 backdrop-blur-md text-yellow-400 rounded-2xl flex items-center justify-center mb-8 border border-white/10 group-hover:scale-110 transition-transform duration-500 relative z-10">
@@ -220,7 +220,7 @@ const Home: React.FC = () => {
                      Naturally non-conductive and electrically insulating material. It completely eliminates shock hazards for personnel and often removes the need for expensive additional earthing systems.
                   </p>
                   
-                   <div className="border-t border-white/10 pt-6">
+                   <div className="border-t border-white/10 pt-6 mt-auto">
                     <span className="text-xs font-bold text-yellow-400 uppercase tracking-wider flex items-center">
                       View Certifications <ArrowRight size={14} className="ml-2 group-hover:translate-x-2 transition-transform"/>
                     </span>
@@ -237,11 +237,11 @@ const Home: React.FC = () => {
                   </div>
                   
                   <h4 className="text-2xl font-black mb-4 text-emphz-navy font-display">Modular Design</h4>
-                  <p className="text-slate-600 leading-relaxed text-sm font-medium font-sans mb-6 flex-grow">
+                  <p className="text-slate-700 leading-relaxed text-sm font-medium font-sans mb-6 flex-grow">
                      Smart flat-pack capability allows for rapid deployment in difficult terrain. Our precision modular connections ensure IP66/67 ratings are rigorously maintained after assembly.
                   </p>
                   
-                  <div className="border-t border-gray-100 pt-6">
+                  <div className="border-t border-gray-100 pt-6 mt-auto">
                     <span className="text-xs font-bold text-blue-600 uppercase tracking-wider flex items-center">
                       See Specs <ArrowRight size={14} className="ml-2 group-hover:translate-x-2 transition-transform"/>
                     </span>
@@ -252,11 +252,11 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      <section className="py-20 md:py-24 bg-gray-50 border-t border-gray-200">
+      <section className="py-16 md:py-24 bg-gray-50 border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
              <div>
-                <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-[0.2em] uppercase mb-3 font-display">The Collection</h2>
+                <h2 className="text-xs md:text-sm font-bold text-emphz-teal-dark tracking-[0.2em] uppercase mb-3 font-display">The Collection</h2>
                 <h3 className="text-3xl md:text-4xl font-black text-emphz-navy font-display tracking-tight">Featured Products</h3>
              </div>
              <Link to="/products" className="group mt-4 md:mt-0 text-emphz-navy font-bold text-sm border-b-2 border-emphz-teal pb-1 hover:text-emphz-teal-text transition-colors flex items-center font-display tracking-wide">
@@ -289,8 +289,8 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      <section className="py-20 md:py-32 bg-emphz-navy relative overflow-hidden">
-         <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+      <section className="py-20 md:py-28 bg-emphz-navy relative overflow-hidden">
+         <div className="absolute inset-0 opacity-5 bg-cubes"></div>
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="text-center mb-16">
                  <h2 className="text-xs md:text-sm font-bold text-emphz-teal tracking-[0.2em] uppercase mb-4 font-display">Applications</h2>
@@ -313,11 +313,11 @@ const Home: React.FC = () => {
       </section>
       
       {/* Latest Insights Section */}
-      <section className="py-20 md:py-24 bg-gray-50 border-y border-gray-200">
+      <section className="py-16 md:py-24 bg-gray-50 border-y border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
              <div>
-                <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-[0.2em] uppercase mb-3 font-display">Latest Insights</h2>
+                <h2 className="text-xs md:text-sm font-bold text-emphz-teal-dark tracking-[0.2em] uppercase mb-3 font-display">Latest Insights</h2>
                 <h3 className="text-3xl md:text-4xl font-black text-emphz-navy font-display tracking-tight">From the Engineering Blog</h3>
              </div>
              <Link to="/blog" className="group mt-4 md:mt-0 text-emphz-navy font-bold text-sm border-b-2 border-emphz-teal pb-1 hover:text-emphz-teal-text transition-colors flex items-center font-display tracking-wide">
@@ -326,18 +326,18 @@ const Home: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {MOCK_BLOG_POSTS.slice(0, 3).map(post => (
-              <Link to={`/blog/${post.slug}`} key={post.slug} className="group bg-white rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-gray-200/80 hover:-translate-y-2 transition-all duration-500 border border-gray-100">
-                <div className="relative h-60 overflow-hidden">
+              <Link to={`/blog/${post.slug}`} key={post.slug} className="group bg-white rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-gray-200/80 hover:-translate-y-2 transition-all duration-500 border border-gray-100 flex flex-col">
+                <div className="relative h-60 overflow-hidden flex-shrink-0">
                   <img src={post.imageUrl} alt={post.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"/>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   <div className="absolute top-4 right-4 bg-white/90 backdrop-blur text-emphz-navy text-[9px] font-bold px-3 py-1.5 rounded-full shadow-sm font-display tracking-wider uppercase">
                     {post.category}
                   </div>
                 </div>
-                <div className="p-6">
+                <div className="p-6 flex flex-col flex-grow">
                   <p className="text-xs text-gray-400 font-mono mb-2">{post.date}</p>
                   <h4 className="text-lg font-bold text-emphz-navy group-hover:text-emphz-teal transition-colors mb-3 font-display leading-tight">{post.title}</h4>
-                  <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed font-sans">{post.summary}</p>
+                  <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed font-sans flex-grow">{post.summary}</p>
                 </div>
               </Link>
             ))}
@@ -350,7 +350,7 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-24">
             <div className="lg:w-1/2">
-              <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-[0.2em] uppercase mb-4 font-display">Who We Are</h2>
+              <h2 className="text-xs md:text-sm font-bold text-emphz-teal-dark tracking-[0.2em] uppercase mb-4 font-display">Who We Are</h2>
               <h3 className="text-4xl md:text-6xl font-black text-emphz-navy mb-8 leading-none font-display tracking-tight">Built to Last. <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-emphz-teal to-cyan-500">Engineered to Protect.</span></h3>
               <p className="text-lg text-slate-600 leading-relaxed mb-8 font-sans font-light">
                 Our mission is simple: to provide the most durable, corrosion-resistant infrastructure solutions for India's demanding environments. By leveraging advanced Glass Reinforced Plastic technology, we eliminate maintenance costs and extend asset lifecycles by decades.
@@ -383,7 +383,7 @@ const Home: React.FC = () => {
 
       <section className="py-20 md:py-32 relative overflow-hidden bg-white">
          <div className="absolute inset-0 bg-emphz-navy transform -skew-y-3 origin-bottom-left scale-110 translate-y-20 z-0"></div>
-         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 z-0 mix-blend-overlay pointer-events-none"></div>
+         <div className="absolute inset-0 bg-carbon-fibre opacity-10 z-0 mix-blend-overlay pointer-events-none"></div>
          
          <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
            <h2 className="text-4xl md:text-7xl font-black text-white mb-8 font-display tracking-tighter drop-shadow-lg">READY TO UPGRADE?</h2>

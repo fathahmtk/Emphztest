@@ -1,20 +1,36 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Emphz GRP Solutions - Web Application
 
-# Run and deploy your AI Studio app
+This is the official web application for Emphz, a leading manufacturer of GRP/FRP enclosures and modular structures.
 
-This contains everything you need to run your app locally.
+## Project Setup
 
-View your app in AI Studio: https://ai.studio/apps/drive/1Wp_IV2aazW0PMhQj5e7AZ7ubV4GQg9IO
+This project is built with React, TypeScript, and Vite, and styled with Tailwind CSS.
 
-## Run Locally
+### Prerequisites
 
-**Prerequisites:**  Node.js
+- Node.js (v18 or later)
+- npm (or yarn/pnpm)
 
+### Installation
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+1.  Clone the repository.
+2.  Install the dependencies:
+    ```bash
+    npm install
+    ```
+
+### Running the Development Server
+
+To start the local development server, run:
+```bash
+npm run dev
+```
+The application will be available at `http://localhost:5173` (or the next available port).
+
+## Build for Production
+
+To create a production-ready build of the application, run:
+```bash
+npm run build
+```
+The optimized static files will be generated in the `dist/` directory. You can preview the production build locally with `npm run preview`.

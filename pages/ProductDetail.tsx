@@ -480,7 +480,7 @@ const ProductDetail: React.FC = () => {
             <div className="lg:col-span-2">
                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-10">
                  {product.specs.slice(0,4).map((s, i) => (
-                   <div key={i} className="bg-gray-50 border border-gray-100 p-5 rounded-2xl text-center hover:bg-white hover:shadow-lg transition-all duration-300">
+                   <div key={i} className="bg-white border border-gray-100 p-5 rounded-2xl text-center hover:bg-gray-50 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
                      <div className="text-[9px] text-slate-500 uppercase font-bold mb-2 font-display tracking-widest">{s.label}</div>
                      <div className="text-sm font-bold text-emphz-navy font-mono break-words">{s.value}</div>
                    </div>
@@ -684,17 +684,17 @@ const ProductDetail: React.FC = () => {
                 <h3 className="text-2xl font-bold text-emphz-navy mb-10 font-display">Alternative Configurations</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {relatedProducts.map(rp => (
-                         <Link key={rp.id} to={`/products/${rp.id}`} className="group bg-white border border-gray-100 rounded-3xl overflow-hidden hover:border-emphz-teal/50 transition-all duration-300 hover:shadow-2xl hover:shadow-gray-200/50 hover:-translate-y-1">
-                            <div className="relative h-56 overflow-hidden">
+                         <Link key={rp.id} to={`/products/${rp.id}`} className="group bg-white border border-gray-100 rounded-3xl overflow-hidden hover:border-emphz-teal/50 transition-all duration-300 hover:shadow-2xl hover:shadow-gray-200/50 hover:-translate-y-1 flex flex-col h-full">
+                            <div className="relative h-56 overflow-hidden flex-shrink-0">
                                 <img src={rp.imageUrl} alt={rp.name} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
                                 <div className="absolute bottom-4 left-4">
                                      <div className="text-[9px] font-bold text-emphz-navy bg-white/90 backdrop-blur px-2 py-1 rounded-full uppercase tracking-wider shadow-sm font-display">{rp.category}</div>
                                 </div>
                             </div>
-                            <div className="p-6">
+                            <div className="p-6 flex flex-col flex-grow">
                                 <h4 className="font-bold text-emphz-navy text-lg group-hover:text-emphz-teal transition-colors mb-3 font-display">{rp.name}</h4>
-                                <p className="text-gray-500 text-xs line-clamp-2 leading-relaxed font-sans">{rp.shortDescription}</p>
+                                <p className="text-gray-500 text-xs line-clamp-2 leading-relaxed font-sans flex-grow">{rp.shortDescription}</p>
                             </div>
                          </Link>
                     ))}

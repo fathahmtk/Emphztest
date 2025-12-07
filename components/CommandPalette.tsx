@@ -21,7 +21,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose }) => {
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
-  const listRef = useRef<HTMLUListElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   // Focus input when opened
@@ -75,7 +75,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose }) => {
 
     const actions: SearchResult[] = [
       { id: 'act-rfq', type: 'ACTION' as const, title: 'Start a Quote', subtitle: 'Go to RFQ Cart', path: '/rfq', icon: <Calculator size={16}/> },
-      { id: 'act-tech', type: 'ACTION' as const, title: 'Technical Assistant', subtitle: 'Ask AI Engineer', path: '/technical', icon: <Hash size={16}/> },
+      { id: 'act-tech', type: 'ACTION' as const, title: 'Technical Center', subtitle: 'Engineering Specs', path: '/technical', icon: <Hash size={16}/> },
     ].filter(item => item.title.toLowerCase().includes(q));
 
     return [...actions, ...pages, ...products, ...studies];
@@ -89,11 +89,9 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose }) => {
       if (e.key === 'ArrowDown') {
         e.preventDefault();
         setSelectedIndex(prev => (prev + 1) % results.length);
-        scrollSelectedIntoView((selectedIndex + 1) % results.length);
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         setSelectedIndex(prev => (prev - 1 + results.length) % results.length);
-        scrollSelectedIntoView((selectedIndex - 1 + results.length) % results.length);
       } else if (e.key === 'Enter') {
         e.preventDefault();
         if (results[selectedIndex]) {
@@ -108,15 +106,17 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose }) => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, results, selectedIndex]);
-
-  const scrollSelectedIntoView = (index: number) => {
-    if (listRef.current) {
-      const element = listRef.current.children[index] as HTMLElement;
-      if (element) {
-        element.scrollIntoView({ block: 'nearest' });
+  
+  // Effect to scroll selected item into view
+  useEffect(() => {
+    if (isOpen && listRef.current && results.length > 0) {
+      const selectedItem = listRef.current.querySelector(`[data-index="${selectedIndex}"]`) as HTMLElement;
+      if (selectedItem) {
+        selectedItem.scrollIntoView({ block: 'nearest' });
       }
     }
-  };
+  }, [selectedIndex, isOpen, results.length]);
+
 
   const handleSelect = (item: SearchResult) => {
     navigate(item.path);
@@ -166,19 +166,19 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose }) => {
           ) : (
             <ul className="space-y-1">
               {results.map((item, index) => (
-                <li key={item.id}>
+                <li key={item.id} data-index={index}>
                   <button
                     onClick={() => handleSelect(item)}
                     onMouseEnter={() => setSelectedIndex(index)}
                     className={`w-full flex items-center justify-between px-4 py-3 rounded-lg group transition-all duration-200 ${
                       index === selectedIndex 
-                        ? 'bg-emphz-orange/10 border border-emphz-orange/20' 
-                        : 'border border-transparent hover:bg-white/5'
+                        ? 'bg-emphz-teal/10' 
+                        : 'hover:bg-white/5'
                     }`}
                   >
                     <div className="flex items-center gap-4">
                        <div className={`p-2 rounded-md ${
-                          index === selectedIndex ? 'bg-emphz-orange text-white' : 'bg-white/5 text-gray-400'
+                          index === selectedIndex ? 'bg-emphz-teal text-white' : 'bg-white/5 text-gray-400'
                        } transition-colors`}>
                           {item.icon}
                        </div>
@@ -195,7 +195,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose }) => {
                     </div>
                     
                     {index === selectedIndex && (
-                      <CornerDownLeft className="text-emphz-orange w-4 h-4 animate-pulse" />
+                      <CornerDownLeft className="text-emphz-teal w-4 h-4 animate-pulse" />
                     )}
                   </button>
                 </li>

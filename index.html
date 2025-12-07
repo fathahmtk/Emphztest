@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#00ADB5" />
+    <meta name="theme-color" content="#0B1120" />
     
     <!-- Core SEO -->
     <title>EMPHZ – GRP/FRP Enclosures, Portable Toilets, Kiosks & Pods | Composite Engineering</title>
@@ -14,7 +14,7 @@
     <!-- OpenGraph (Facebook, LinkedIn, etc.) -->
     <meta property="og:title" content="EMPHZ – GRP/FRP Enclosures, Portable Toilets, Kiosks & Pods | Composite Engineering" />
     <meta property="og:description" content="EMPHZ specializes in high-durability GRP/FRP enclosures, portable toilets, security cabins, food kiosks, sleeping pods, villa pods, and bus shelters for industrial and public-sector applications." />
-    <meta property="og:image" content="https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1200&q=80" />
     <meta property="og:url" content="https://emphz.noordigital.business/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="EMPHZ" />
@@ -23,202 +23,73 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="EMPHZ – GRP/FRP Enclosures, Portable Toilets, Kiosks & Pods | Composite Engineering" />
     <meta name="twitter:description" content="EMPHZ specializes in high-durability GRP/FRP enclosures, portable toilets, security cabins, food kiosks, sleeping pods, villa pods, and bus shelters for industrial and public-sector applications." />
-    <meta name="twitter:image" content="https://lh3.googleusercontent.com/pw/AP1GczO1hJQxalyxfSiUQD0Co6FyBl4at4jQbtoB5T0iOeOeUi112a4SbR1tk_s2zWjJvOeAIVTf-yU1vM_e-rFFCArb6KZpbArxSR3skWuBDM9tznEyxLQ59jc-h5zaCkL-UVeoUwYtDr7Oo6R8654X6D4Htw=w1563-h879-s-no-gm?authuser=0" />
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1200&q=80" />
 
     <!-- Generated Favicon (Emphz 'E') - Updated to Teal -->
     <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%230B1120"/><path d="M30 20 H70 M30 50 H60 M30 80 H70" stroke="white" stroke-width="12" stroke-linecap="round"/><path d="M45 20 L55 80" stroke="%2300ADB5" stroke-width="8" opacity="0.9"/></svg>' />
 
-    <script>
-      // Suppress the "Tailwind CSS should not be used in production" warning
-      const originalWarn = console.warn;
-      console.warn = (...args) => {
-        if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) return;
-        originalWarn.apply(console, args);
-      };
-    </script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Updated Fonts: Inter (UI), Montserrat (Display), JetBrains Mono (Tech) -->
+    <!-- Font Preconnects & Loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              emphz: {
-                navy: '#0B1120',  // Deep Carbon (Primary Dark)
-                beige: '#F1F5F9', // Slate 100 (Secondary BG)
-                teal: '#00ADB5',  // Tech Teal (Primary Accent)
-                'teal-text': '#008C94', // Accessible Teal for Text
-                orange: '#F97316', // Vibrant Orange (Accent 2)
-                cream: '#FFFFFF', // Pure White
-                slate: '#475569', // Slate 600 (Secondary Text)
-                dark: '#020617'   // Rich Black (Footer)
-              }
-            },
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              display: ['Montserrat', 'sans-serif'],
-              mono: ['JetBrains Mono', 'monospace'], // Technical Data Font
-            },
-            animation: {
-              'float': 'float 6s ease-in-out infinite',
-              'fade-up': 'fadeUp 0.8s ease-out forwards',
-              'fade-in': 'fadeIn 0.5s ease-out forwards',
-              'scroll': 'scroll 20s linear infinite',
-              'slide-up-fade': 'slideUpFade 0.3s ease-out forwards',
-              'ken-burns': 'kenBurns 25s ease-out infinite alternate',
-            },
-            keyframes: {
-              float: {
-                '0%, 100%': { transform: 'translateY(0)' },
-                '50%': { transform: 'translateY(-20px)' },
-              },
-              fadeUp: {
-                '0%': { opacity: '0', transform: 'translateY(20px)' },
-                '100%': { opacity: '1', transform: 'translateY(0)' },
-              },
-              fadeIn: {
-                '0%': { opacity: '0', transform: 'translateY(10px)' },
-                '100%': { opacity: '1', transform: 'translateY(0)' },
-              },
-              scroll: {
-                '0%': { transform: 'translateX(0)' },
-                '100%': { transform: 'translateX(-50%)' },
-              },
-              slideUpFade: {
-                '0%': { opacity: '0', transform: 'translateY(20px)' },
-                '100%': { opacity: '1', transform: 'translateY(0)' },
-              },
-              kenBurns: {
-                '0%': { transform: 'scale(1)' },
-                '100%': { transform: 'scale(1.1)' },
-              }
-            }
-          }
-        }
-      }
-    </script>
-    <style>
-      body {
-        font-family: 'Inter', sans-serif;
-        background-color: #FFFFFF;
-        color: #0B1120;
-        overflow-x: hidden;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      
-      h1, h2, h3, h4, h5, h6 {
-        font-family: 'Montserrat', sans-serif;
-      }
-
-      /* Global Focus Styles */
-      :focus-visible {
-        outline: 2px solid #00ADB5; 
-        outline-offset: 2px;
-        box-shadow: 0 0 0 4px rgba(0, 173, 181, 0.2);
-      }
-      
-      /* Selection Color */
-      ::selection {
-        background-color: #00ADB5;
-        color: white;
-      }
-
-      /* Premium Glassmorphism */
-      .glass-panel {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.6);
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
-      }
-
-      /* Technical Grid Background Pattern */
-      .bg-tech-grid {
-        background-image: 
-          linear-gradient(to right, rgba(0, 173, 181, 0.03) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(0, 173, 181, 0.03) 1px, transparent 1px);
-        background-size: 40px 40px;
-      }
-      
-      .glass-card-hover {
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      .glass-card-hover:hover {
-        background: rgba(255, 255, 255, 0.95);
-        border: 1px solid rgba(0, 173, 181, 0.3); 
-        transform: translateY(-4px);
-        box-shadow: 0 20px 40px -5px rgba(0, 173, 181, 0.1);
-      }
-
-      /* Skip Link */
-      .skip-link {
-        position: absolute;
-        top: -40px;
-        left: 0;
-        background: #00ADB5;
-        color: #0B1120;
-        padding: 8px;
-        z-index: 100;
-        transition: top 0.2s;
-        font-weight: 600;
-        border-bottom-right-radius: 8px;
-        font-family: 'JetBrains Mono', monospace;
-      }
-      .skip-link:focus {
-        top: 0;
-      }
-
-      /* Custom Scrollbar - Engineering Style */
-      ::-webkit-scrollbar {
-        width: 10px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #F1F5F9;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #00ADB5; /* Teal Thumb */
-        border-radius: 2px;
-        border: 2px solid #F1F5F9;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #008C94;
-      }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
-    "three": "https://aistudiocdn.com/three@^0.181.2",
-    "three/": "https://aistudiocdn.com/three@^0.181.2/"
-  }
-}
-</script>
+    
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Organization",
+        "@type": "WebSite",
         "name": "EMPHZ",
         "url": "https://emphz.noordigital.business/",
-        "logo": "https://emphz.noordigital.business/logo.png",
-        "description": "Manufacturer of GRP/FRP enclosures, portable toilets, kiosks, pods, and prefab composite structures.",
-        "address": {
-          "@type": "PostalAddress",
-          "addressCountry": "IN",
-          "addressRegion": "Kerala"
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://emphz.noordigital.business/#/search?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
         },
-        "sameAs": [
-          "https://www.linkedin.com/company/emphz",
-          "https://twitter.com/emphz"
-        ]
+        "publisher": {
+           "@type": "Organization",
+           "name": "EMPHZ",
+           "url": "https://emphz.noordigital.business/",
+           "logo": {
+             "@type": "ImageObject",
+             "url": "https://emphz.noordigital.business/logo.png"
+           },
+           "description": "Manufacturer of GRP/FRP enclosures, portable toilets, kiosks, pods, and prefab composite structures.",
+           "address": {
+             "@type": "PostalAddress",
+             "addressCountry": "IN",
+             "addressRegion": "Kerala"
+           },
+           "contactPoint": {
+             "@type": "ContactPoint",
+             "telephone": "+91-9037-874-080",
+             "contactType": "sales",
+             "areaServed": ["IN", "AE", "SA", "OM"],
+             "availableLanguage": ["en", "ml", "hi"]
+           },
+           "sameAs": [
+             "https://www.linkedin.com/company/emphz",
+             "https://twitter.com/emphz"
+           ]
+        }
       }
     </script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.10.1",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0",
+    "three": "https://aistudiocdn.com/three@^0.181.2",
+    "three/": "https://aistudiocdn.com/three@^0.181.2/",
+    "vite": "https://aistudiocdn.com/vite@^7.2.6",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
+  }
+}
+</script>
 </head>
   <body>
     <div id="root"></div>

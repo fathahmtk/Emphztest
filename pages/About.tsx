@@ -96,7 +96,7 @@ const About: React.FC = () => {
   return (
     <div className="bg-white text-emphz-navy">
       {/* Hero Section */}
-      <section className="bg-emphz-navy text-white py-16 md:py-24 relative overflow-hidden">
+      <section className="bg-emphz-navy text-white py-20 md:py-28 relative overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{backgroundImage: "url('https://images.unsplash.com/photo-1581092921462-6870002878b6?q=80&w=2670&auto=format&fit=crop')"}}></div>
         <div className="absolute inset-0 bg-gradient-to-r from-emphz-navy via-emphz-navy/70 to-transparent"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -108,10 +108,10 @@ const About: React.FC = () => {
       </section>
 
       {/* Mission & Vision Section */}
-      <section className="py-16 md:py-20 bg-gray-50">
+      <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           <div className="pr-0 md:pr-8">
-            <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-widest uppercase mb-3 md:mb-4 font-display">Our Mission</h2>
+            <h2 className="text-xs md:text-sm font-bold text-emphz-teal-dark tracking-widest uppercase mb-3 md:mb-4 font-display">Our Mission</h2>
             <h3 className="text-3xl md:text-4xl font-bold text-emphz-navy mb-4 md:mb-6 font-display">To Replace Obsolete Materials.</h3>
             <p className="text-gray-600 leading-relaxed text-sm md:text-base font-sans">
               Our mission is to systematically replace traditional materials like steel, concrete, and wood with superior, high-performance GRP solutions in critical infrastructure. We aim to eradicate the costs and dangers associated with corrosion and degradation, ensuring longevity and safety for a modern India.
@@ -137,9 +137,9 @@ const About: React.FC = () => {
       </section>
       
       {/* Our Values Section */}
-       <section className="py-16 md:py-20 bg-white">
+       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-widest uppercase mb-3 md:mb-4 font-display">Our Core Values</h2>
+            <h2 className="text-xs md:text-sm font-bold text-emphz-teal-dark tracking-widest uppercase mb-3 md:mb-4 font-display">Our Core Values</h2>
             <h3 className="text-3xl md:text-4xl font-bold text-emphz-navy mb-8 md:mb-12 font-display">The Principles That Guide Us.</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                 {values.map((value, i) => (
@@ -165,7 +165,7 @@ const About: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
                <div className="lg:w-1/2">
-                   <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-widest uppercase mb-3 md:mb-4 font-display">How We Build</h2>
+                   <h2 className="text-xs md:text-sm font-bold text-emphz-teal-dark tracking-widest uppercase mb-3 md:mb-4 font-display">How We Build</h2>
                    <h3 className="text-3xl md:text-4xl font-bold text-emphz-navy mb-4 md:mb-6 font-display">Manufacturing Excellence.</h3>
                    <p className="text-base md:text-lg text-gray-600 mb-6 font-light font-sans">
                       At our Mysore facility, we employ multiple advanced composite manufacturing techniques to ensure every product meets specific structural and aesthetic requirements.
@@ -228,11 +228,11 @@ const About: React.FC = () => {
       </section>
 
       {/* NEW: Quality Assurance Section */}
-      <section className="py-16 md:py-20 bg-white border-t border-gray-200">
+      <section className="py-16 md:py-24 bg-white border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
                 <div className="md:w-1/3 text-center md:text-left">
-                    <h2 className="text-xs md:text-sm font-bold text-emphz-teal-text tracking-widest uppercase mb-3 md:mb-4 font-display">Strict Standards</h2>
+                    <h2 className="text-xs md:text-sm font-bold text-emphz-teal-dark tracking-widest uppercase mb-3 md:mb-4 font-display">Strict Standards</h2>
                     <h3 className="text-3xl font-bold text-emphz-navy mb-3 md:mb-4 font-display">In-House QA Lab</h3>
                     <p className="text-gray-600 text-sm md:text-base font-sans">
                         We don't just manufacture; we test. Our Mysore facility includes a dedicated Quality Assurance lab where batches are rigorously tested against international standards.
@@ -260,7 +260,7 @@ const About: React.FC = () => {
       </section>
 
       {/* NEW: Sustainability Section */}
-       <section className="py-16 md:py-20 bg-green-50">
+       <section className="py-16 md:py-24 bg-green-50">
         <div className="max-w-5xl mx-auto px-4 text-center">
             <Leaf className="w-10 h-10 md:w-12 md:h-12 text-green-600 mx-auto mb-3 md:mb-4" />
             <h2 className="text-3xl font-bold text-emphz-navy mb-3 md:mb-4 font-display">Sustainable Infrastructure</h2>
@@ -271,7 +271,7 @@ const About: React.FC = () => {
                <Recycle className="mr-2 w-4 h-4" /> 100% Recyclable via Cement Kiln Processing
             </div>
         </div>
-      </section>
+       </section>
 
       {/* CEO Message Section */}
       <section className="py-16 md:py-24 bg-white relative overflow-hidden">
@@ -283,7 +283,7 @@ const About: React.FC = () => {
               <div className="absolute inset-0 bg-emphz-teal/20 rounded-2xl transform translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500"></div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                  <img 
-                   src="https://lh3.googleusercontent.com/pw/AP1GczPXd3SB3ha5w7wQYPCYln2z7mHwS2GWu0AiuUXj7QzLOpT54vA9BriS2YorAIZu9Qm0ppfMXMU6tBiJ4dyG4yhafK5leMobYiQCD8pWPWynVssz2_ueIQwbCl2XYIagOoycgZH5wk512mzKaUCSYsAXtQ=w1280-h720-s-no-gm?authuser=0" 
+                   src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" 
                    alt="Muhammed Rashik P - Managing Director" 
                    className="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-105"
                  />

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MessageSquare, X, Send, User } from 'lucide-react';
-import { Chat } from "@google/genai";
 import { createSupportChat } from '../services/geminiService';
 
 interface ChatMessage {
@@ -18,8 +17,8 @@ const LiveChatWidget: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   
-  // Ref to hold the chat session instance across renders
-  const chatSession = useRef<Chat | null>(null);
+  // Ref to hold the chat session instance
+  const chatSession = useRef<any>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -30,10 +29,7 @@ const LiveChatWidget: React.FC = () => {
       inputRef.current?.focus();
       // Initialize chat session if not already done
       if (!chatSession.current) {
-        const session = createSupportChat();
-        if (session) {
-          chatSession.current = session;
-        }
+        chatSession.current = createSupportChat();
       }
     }
   }, [isOpen]);
@@ -51,13 +47,12 @@ const LiveChatWidget: React.FC = () => {
 
     try {
       if (chatSession.current) {
-        // Real API Call
         const result = await chatSession.current.sendMessage({ message: userText });
-        const responseText = result.text || "I'm sorry, I didn't catch that. Could you rephrase?";
+        const responseText = result.text || "I'm sorry, I didn't catch that.";
         
         setMessages(prev => [...prev, { sender: 'agent', text: responseText }]);
       } else {
-        // Fallback simulation if API key is missing or init failed
+        // Fallback
         await new Promise(resolve => setTimeout(resolve, 1500));
         setMessages(prev => [...prev, { 
           sender: 'agent', 
@@ -81,7 +76,7 @@ const LiveChatWidget: React.FC = () => {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 left-6 z-40 bg-emphz-teal text-white w-14 h-14 md:w-16 md:h-16 rounded-full shadow-lg hover:scale-110 transition-transform flex items-center justify-center group animate-fade-up ring-4 ring-white/10"
+          className="fixed bottom-6 right-6 z-40 bg-emphz-teal text-white w-14 h-14 md:w-16 md:h-16 rounded-full shadow-lg hover:scale-110 transition-transform flex items-center justify-center group animate-fade-up ring-4 ring-white/10"
           aria-label="Open live chat"
         >
           <MessageSquare size={28} className="md:w-8 md:h-8" />
@@ -95,7 +90,7 @@ const LiveChatWidget: React.FC = () => {
       {/* Chat Window */}
       {isOpen && (
         <div
-          className="fixed bottom-6 left-6 z-50 w-[calc(100vw-3rem)] max-w-xs md:max-w-sm h-[60vh] md:h-[70vh] max-h-[600px] flex flex-col bg-[#0B1120] rounded-2xl shadow-2xl border border-white/10 animate-slide-up-fade overflow-hidden font-sans"
+          className="fixed bottom-6 right-6 z-50 w-[calc(100vw-3rem)] max-w-xs md:max-w-sm h-[60vh] md:h-[70vh] max-h-[600px] flex flex-col bg-[#0B1120] rounded-2xl shadow-2xl border border-white/10 animate-slide-up-fade overflow-hidden font-sans"
           role="dialog"
           aria-modal="true"
           aria-labelledby="chat-heading"
@@ -181,7 +176,7 @@ const LiveChatWidget: React.FC = () => {
               </button>
             </div>
             <div className="text-[9px] text-gray-600 text-center mt-2 font-mono">
-              Powered by Emphz AI Engine
+              Secure Support Channel
             </div>
           </form>
         </div>
