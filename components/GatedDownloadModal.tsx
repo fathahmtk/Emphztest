@@ -7,6 +7,20 @@ interface GatedDownloadModalProps {
   fileToDownload: { title: string; type: string } | null;
 }
 
+// Cookie Helpers (Inline to keep component self-contained)
+const setCookie = (name: string, value: string, days: number) => {
+  const d = new Date();
+  d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+  const expires = "expires=" + d.toUTCString();
+  document.cookie = name + "=" + value + ";" + expires + ";path=/";
+};
+
+const getCookie = (name: string): string | null => {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  if (match) return match[2];
+  return null;
+};
+
 const GatedDownloadModal: React.FC<GatedDownloadModalProps> = ({ isOpen, onClose, fileToDownload }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -19,7 +33,25 @@ const GatedDownloadModal: React.FC<GatedDownloadModalProps> = ({ isOpen, onClose
       document.body.style.overflow = 'hidden';
       // Reset state when opening
       setIsSuccess(false);
-      setFormData({ name: '', company: '', email: '' });
+      
+      // Auto-fill from cookie if available
+      const savedUser = getCookie('emphz_user_info');
+      if (savedUser) {
+        try {
+           const parsed = JSON.parse(decodeURIComponent(savedUser));
+           setFormData({ 
+             name: parsed.name || '', 
+             company: parsed.company || '', 
+             email: parsed.email || '' 
+           });
+        } catch(e) {
+           // Fallback to empty if cookie is corrupt
+           setFormData({ name: '', company: '', email: '' });
+        }
+      } else {
+         setFormData({ name: '', company: '', email: '' });
+      }
+
       setTimeout(() => firstInputRef.current?.focus(), 100);
     } else {
       document.body.style.overflow = 'auto';
@@ -38,6 +70,13 @@ const GatedDownloadModal: React.FC<GatedDownloadModalProps> = ({ isOpen, onClose
   // Effect to trigger download on success
   useEffect(() => {
     if (isSuccess && fileToDownload) {
+      // Persist user details to cookie on success (valid for 1 year)
+      setCookie('emphz_user_info', encodeURIComponent(JSON.stringify({
+        name: formData.name,
+        company: formData.company,
+        email: formData.email
+      })), 365);
+
       // Simulate file download
       const fileContent = `This is a placeholder for the document: ${fileToDownload.title}.\n\nForm Data Submitted:\nName: ${formData.name}\nCompany: ${formData.company}\nEmail: ${formData.email}`;
       const blob = new Blob([fileContent], { type: 'text/plain' });

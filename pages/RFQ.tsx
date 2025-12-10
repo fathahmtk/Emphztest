@@ -3,6 +3,20 @@ import { Trash2, Send, CheckCircle, MapPin, AlertCircle, Briefcase, Clock, Shiel
 import { useRFQ } from '../contexts/RFQContext';
 import { Link } from 'react-router-dom';
 
+// Cookie Helpers
+const setCookie = (name: string, value: string, days: number) => {
+  const d = new Date();
+  d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+  const expires = "expires=" + d.toUTCString();
+  document.cookie = name + "=" + value + ";" + expires + ";path=/";
+};
+
+const getCookie = (name: string): string | null => {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  if (match) return match[2];
+  return null;
+};
+
 const RFQ: React.FC = () => {
   const { items, removeItem, clearCart } = useRFQ();
   const [submitted, setSubmitted] = useState(false);
@@ -17,6 +31,25 @@ const RFQ: React.FC = () => {
     urgency: 'Standard',
     message: ''
   });
+
+  // Load user details from cookie on mount
+  useEffect(() => {
+    const savedUser = getCookie('emphz_user_info');
+    if (savedUser) {
+      try {
+        const parsed = JSON.parse(decodeURIComponent(savedUser));
+        setFormData(prev => ({
+          ...prev,
+          name: parsed.name || '',
+          company: parsed.company || '',
+          email: parsed.email || '',
+          phone: parsed.phone || '' // Also try to load phone if saved
+        }));
+      } catch (e) {
+        console.error('Failed to parse user cookie', e);
+      }
+    }
+  }, []);
 
   // Calculate Lead Score dynamically
   useEffect(() => {
@@ -35,6 +68,15 @@ const RFQ: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Save user details to cookie for future use (Lead Gen Optimization)
+    setCookie('emphz_user_info', encodeURIComponent(JSON.stringify({
+      name: formData.name,
+      company: formData.company,
+      email: formData.email,
+      phone: formData.phone
+    })), 365); // Remember for 1 year
+
     setTimeout(() => {
       setSubmitted(true);
       clearCart();
@@ -250,6 +292,7 @@ const RFQ: React.FC = () => {
                         name="name" 
                         placeholder="Full Name *" 
                         required 
+                        value={formData.name}
                         onChange={handleChange}
                         className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-teal outline-none"
                      />
@@ -258,6 +301,7 @@ const RFQ: React.FC = () => {
                         name="company" 
                         placeholder="Company Name *" 
                         required 
+                        value={formData.company}
                         onChange={handleChange}
                         className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-teal outline-none"
                      />
@@ -268,6 +312,7 @@ const RFQ: React.FC = () => {
                         name="email" 
                         placeholder="Work Email *" 
                         required 
+                        value={formData.email}
                         onChange={handleChange}
                         className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-teal outline-none"
                      />
@@ -276,6 +321,7 @@ const RFQ: React.FC = () => {
                         name="phone" 
                         placeholder="Phone Number *" 
                         required 
+                        value={formData.phone}
                         onChange={handleChange}
                         className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-teal outline-none"
                      />
@@ -288,6 +334,7 @@ const RFQ: React.FC = () => {
                    <textarea 
                       name="message" 
                       rows={3}
+                      value={formData.message}
                       onChange={handleChange}
                       placeholder="Enter specific dimensional constraints, IP rating requirements, or custom color codes..."
                       className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emphz-teal outline-none"

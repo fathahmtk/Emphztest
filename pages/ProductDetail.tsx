@@ -138,6 +138,7 @@ const ProductDetail: React.FC = () => {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [fileToDownload, setFileToDownload] = useState<{ title: string; type: string } | null>(null);
+  const [isAdded, setIsAdded] = useState(false);
 
   // Zoom & Pan State
   const [zoomLevel, setZoomLevel] = useState(1);
@@ -184,9 +185,6 @@ const ProductDetail: React.FC = () => {
            "availability": "https://schema.org/InStock",
            "itemCondition": "https://schema.org/NewCondition"
         },
-        // In a real application, you could add reviews here if available
-        // "review": [],
-        // "aggregateRating": {}
       };
 
       script.textContent = JSON.stringify(schema);
@@ -308,7 +306,9 @@ const ProductDetail: React.FC = () => {
       productName: product.name,
       quantity
     });
-    alert(`${quantity} unit(s) added to RFQ Cart`);
+    // Trigger visual feedback instead of blocking alert
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
   };
 
   const handleDownloadClick = (file: { title: string; type: string }) => {
@@ -658,9 +658,20 @@ const ProductDetail: React.FC = () => {
 
                   <button 
                     onClick={handleAddToRFQ}
-                    className="w-full bg-emphz-navy text-white font-black py-4 rounded-xl hover:bg-emphz-teal transition-all shadow-xl shadow-emphz-navy/20 hover:shadow-emphz-teal/40 text-xs uppercase tracking-widest font-display transform hover:-translate-y-1"
+                    disabled={isAdded}
+                    className={`w-full font-black py-4 rounded-xl transition-all shadow-xl text-xs uppercase tracking-widest font-display transform flex items-center justify-center gap-2 ${
+                        isAdded 
+                          ? 'bg-green-500 text-white shadow-green-500/20 scale-100' 
+                          : 'bg-emphz-navy text-white hover:bg-emphz-teal hover:shadow-emphz-teal/40 hover:-translate-y-1'
+                    }`}
                   >
-                    ADD TO QUOTE LIST
+                    {isAdded ? (
+                        <>
+                            <CheckCircle size={18} /> ADDED TO MANIFEST
+                        </>
+                    ) : (
+                        'ADD TO QUOTE LIST'
+                    )}
                   </button>
 
                    <button 
@@ -712,9 +723,14 @@ const ProductDetail: React.FC = () => {
            </div>
            <button 
              onClick={handleAddToRFQ}
-             className="bg-emphz-navy text-white font-bold px-8 py-3.5 rounded-xl text-xs hover:bg-emphz-teal transition-colors font-display uppercase tracking-widest shadow-lg"
+             disabled={isAdded}
+             className={`font-bold px-8 py-3.5 rounded-xl text-xs transition-colors font-display uppercase tracking-widest shadow-lg ${
+                isAdded 
+                ? 'bg-green-500 text-white' 
+                : 'bg-emphz-navy text-white hover:bg-emphz-teal'
+             }`}
            >
-             ADD TO QUOTE
+             {isAdded ? 'ADDED' : 'ADD TO QUOTE'}
            </button>
         </div>
       </div>
