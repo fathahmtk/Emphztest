@@ -1,16 +1,19 @@
-
-import React, { useRef, useState } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Stage, PerspectiveCamera, Html, useCursor } from '@react-three/drei';
-import { Circle, Info } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Stage, PerspectiveCamera, Html } from '@react-three/drei';
+import { Box as BoxIcon, ImageIcon } from 'lucide-react';
 import { Product3DAnnotation } from '../types';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
+import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 
 interface ThreeProductViewerProps {
   productType: 'ENCLOSURE' | 'KIOSK' | 'CABIN' | 'SMART_CABIN' | 'AUTOMOBILE' | 'DEFAULT';
   annotations?: Product3DAnnotation[];
+  modelUrl?: string;
 }
 
-// --- PROCEDURAL ASSETS ---
+// --- PROCEDURAL ASSETS (Fallback) ---
 
 const EnclosureMesh = (props: any) => {
   return (
@@ -150,25 +153,78 @@ const Annotation: React.FC<AnnotationProps> = ({ data, isOpen, onToggle }) => {
   );
 };
 
+// --- ROBUST LOADER COMPONENT (IMPERATIVE) ---
+
+const RobustModelLoader = ({ url, fallback }: { url: string, fallback: React.ReactNode }) => {
+  const [gltf, setGltf] = useState<GLTF | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    // DIAGNOSIS FIX: Use Google CDN for Draco to ensure reliability and avoid local 404s
+    const draco = new DRACOLoader();
+    draco.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+    const loader = new GLTFLoader();
+    loader.setDRACOLoader(draco);
+
+    // DIAGNOSIS FIX: Explicit logging of progress and errors
+    console.log(`[Viewer] Attempting to load: ${url}`);
+    
+    loader.load(
+      url,
+      (data) => {
+        console.log('[Viewer] Model loaded successfully');
+        setGltf(data);
+      },
+      (progress) => {
+        const percent = (progress.loaded / progress.total * 100).toFixed(0);
+        if (Number(percent) % 20 === 0) console.log(`[Viewer] Loading: ${percent}%`);
+      },
+      (err) => {
+        console.error("[Viewer] Critical Load Error:", err);
+        setError(err instanceof Error ? err : new Error('Unknown loader error'));
+      }
+    );
+    
+    return () => { draco.dispose(); }
+  }, [url]);
+
+  if (error) {
+    // DIAGNOSIS FIX: Fallback to procedural geometry on error
+    return <>{fallback}</>;
+  }
+  
+  if (!gltf) return null; // Let the parent Suspense or a spinner handle the 'loading' state visibly if needed
+
+  return <primitive object={gltf.scene} />;
+}
+
 // --- SCENE COMPONENT ---
 
-const ModelStage: React.FC<{ type: string; annotations?: Product3DAnnotation[] }> = ({ type, annotations }) => {
+const ModelStage: React.FC<{ type: string; annotations?: Product3DAnnotation[]; modelUrl?: string }> = ({ type, annotations, modelUrl }) => {
   const [openAnnotation, setOpenAnnotation] = useState<string | null>(null);
 
   const toggleAnnotation = (id: string) => {
     setOpenAnnotation(prev => prev === id ? null : id);
   };
 
-  let Model = EnclosureMesh;
-  if (type === 'KIOSK') Model = KioskMesh;
-  if (type === 'CABIN') Model = CabinMesh;
-  if (type === 'SMART_CABIN') Model = SmartCabinMesh;
-  if (type === 'AUTOMOBILE') Model = AutoPartMesh;
+  // Determine Procedural Fallback Mesh
+  let FallbackModel = EnclosureMesh;
+  if (type === 'KIOSK') FallbackModel = KioskMesh;
+  if (type === 'CABIN') FallbackModel = CabinMesh;
+  if (type === 'SMART_CABIN') FallbackModel = SmartCabinMesh;
+  if (type === 'AUTOMOBILE') FallbackModel = AutoPartMesh;
 
   return (
     <>
       <Stage intensity={0.5} environment="city" adjustCamera={1.2} shadows="contact">
-        <Model />
+        {modelUrl ? (
+          <RobustModelLoader 
+            url={modelUrl} 
+            fallback={<FallbackModel />} 
+          />
+        ) : (
+          <FallbackModel />
+        )}
       </Stage>
       {annotations?.map(ann => (
         <Annotation 
@@ -182,7 +238,7 @@ const ModelStage: React.FC<{ type: string; annotations?: Product3DAnnotation[] }
   );
 };
 
-const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType, annotations }) => {
+const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType, annotations, modelUrl }) => {
   const [autoRotate, setAutoRotate] = useState(true);
 
   return (
@@ -195,7 +251,7 @@ const ThreeProductViewer: React.FC<ThreeProductViewerProps> = ({ productType, an
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
         
         {/* Environment */}
-        <ModelStage type={productType} annotations={annotations} />
+        <ModelStage type={productType} annotations={annotations} modelUrl={modelUrl} />
         
         {/* Controls */}
         <OrbitControls 

@@ -307,7 +307,8 @@ const ProductDetail: React.FC = () => {
       id: product.id,
       name: product.name,
       quantity,
-      image: product.imageUrl
+      image: product.imageUrl,
+      modelUrl: product.modelUrl
     });
     // Trigger visual feedback instead of blocking alert
     setIsAdded(true);
@@ -450,7 +451,11 @@ const ProductDetail: React.FC = () => {
                     </div>
                  </div>
                }>
-                  <ThreeProductViewer productType={get3DType()} annotations={product.annotations} />
+                  <ThreeProductViewer 
+                    productType={get3DType()} 
+                    annotations={product.annotations}
+                    modelUrl={product.modelUrl} 
+                  />
                </Suspense>
                <div className="absolute inset-0 bg-gradient-to-t from-[#050A14] via-transparent to-transparent pointer-events-none"></div>
             </div>

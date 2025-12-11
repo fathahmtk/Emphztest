@@ -1,8 +1,33 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Loader2, BookOpen, PenTool, FileText, Download, ChevronRight, Terminal, Cpu, Calculator, Thermometer, Activity, Server, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { Send, Loader2, BookOpen, PenTool, FileText, Download, ChevronRight, Terminal, Cpu, Calculator, Thermometer, Activity, Server, AlertTriangle, CheckCircle2, FlaskConical, Search, X } from 'lucide-react';
 import { askTechnicalAssistant } from '../services/geminiService';
 import { ChatMessage } from '../types';
 import GatedDownloadModal from '../components/GatedDownloadModal';
+
+// --- DATA ---
+
+const CHEMICAL_DB = [
+  { name: 'Acetic Acid', conc: '10%', temp: '80°C', resin: 'Isophthalic', rating: 'Recommended' },
+  { name: 'Acetic Acid', conc: '50%', temp: '60°C', resin: 'Vinyl Ester', rating: 'Caution' },
+  { name: 'Acetone', conc: '100%', temp: '-', resin: 'None', rating: 'Avoid' },
+  { name: 'Aluminum Chloride', conc: 'Sat.', temp: '100°C', resin: 'Vinyl Ester', rating: 'Recommended' },
+  { name: 'Ammonium Hydroxide', conc: '20%', temp: '40°C', resin: 'Synthetic Veil + VE', rating: 'Caution' },
+  { name: 'Benzene', conc: 'Pure', temp: '-', resin: 'None', rating: 'Avoid' },
+  { name: 'Calcium Chloride', conc: 'Sat.', temp: '95°C', resin: 'Isophthalic', rating: 'Recommended' },
+  { name: 'Chlorine Water', conc: 'Sat.', temp: '80°C', resin: 'Vinyl Ester', rating: 'Recommended' },
+  { name: 'Diesel Fuel', conc: '100%', temp: '60°C', resin: 'Isophthalic', rating: 'Recommended' },
+  { name: 'Ethanol', conc: '50%', temp: '40°C', resin: 'Isophthalic', rating: 'Recommended' },
+  { name: 'Hydrochloric Acid', conc: '10%', temp: '80°C', resin: 'Isophthalic', rating: 'Recommended' },
+  { name: 'Hydrochloric Acid', conc: '37%', temp: '90°C', resin: 'Vinyl Ester', rating: 'Recommended' },
+  { name: 'Nitric Acid', conc: '20%', temp: '50°C', resin: 'Vinyl Ester', rating: 'Caution' },
+  { name: 'Phosphoric Acid', conc: '80%', temp: '100°C', resin: 'Vinyl Ester', rating: 'Recommended' },
+  { name: 'Sea Water', conc: '100%', temp: '80°C', resin: 'Isophthalic', rating: 'Recommended' },
+  { name: 'Sodium Hydroxide', conc: '10%', temp: '60°C', resin: 'Synthetic Veil + VE', rating: 'Caution' },
+  { name: 'Sodium Hypochlorite', conc: '15%', temp: '50°C', resin: 'Vinyl Ester', rating: 'Recommended' },
+  { name: 'Sulphuric Acid', conc: '25%', temp: '80°C', resin: 'Isophthalic', rating: 'Recommended' },
+  { name: 'Sulphuric Acid', conc: '75%', temp: '60°C', resin: 'Vinyl Ester', rating: 'Caution' },
+  { name: 'Water (Potable)', conc: '100%', temp: '60°C', resin: 'Isophthalic (WRAS)', rating: 'Recommended' },
+];
 
 // --- SUB-COMPONENTS ---
 
@@ -190,10 +215,104 @@ const ThermalCalculator: React.FC = () => {
   );
 };
 
+// 3. Chemical Resistance Finder (NEW)
+const ChemicalFinder: React.FC = () => {
+  const [query, setQuery] = useState('');
+  
+  const filtered = CHEMICAL_DB.filter(c => 
+    c.name.toLowerCase().includes(query.toLowerCase()) || 
+    c.resin.toLowerCase().includes(query.toLowerCase())
+  );
+
+  return (
+    <div className="bg-[#0B1120] border border-gray-800 rounded-xl p-6 md:p-8 font-mono h-full flex flex-col">
+       <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-800">
+          <div className="flex items-center gap-3">
+             <div className="p-2 bg-purple-500/10 rounded-lg text-purple-500">
+               <FlaskConical size={20} />
+             </div>
+             <div>
+               <h3 className="text-white font-bold text-lg leading-none">Chemical Compatibility</h3>
+               <span className="text-xs text-gray-500">Resin Selection Matrix (ASTM C581)</span>
+             </div>
+          </div>
+       </div>
+
+       <div className="mb-6 relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
+          <input 
+            type="text" 
+            placeholder="Search chemical (e.g. Acid, Chlorine, Diesel)..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="w-full bg-black border border-gray-700 rounded-lg py-3 pl-10 pr-4 text-sm text-white focus:border-emphz-teal focus:ring-1 focus:ring-emphz-teal outline-none"
+          />
+          {query && (
+            <button onClick={() => setQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white">
+              <X size={14} />
+            </button>
+          )}
+       </div>
+
+       <div className="flex-grow overflow-hidden rounded-xl border border-gray-800 bg-black/20">
+          <div className="overflow-y-auto h-full scrollbar-thin scrollbar-thumb-gray-700">
+             <table className="w-full text-left text-xs">
+                <thead className="bg-gray-900/50 sticky top-0 text-gray-400 font-bold uppercase tracking-wider backdrop-blur-md">
+                   <tr>
+                      <th className="p-4 border-b border-gray-800">Medium</th>
+                      <th className="p-4 border-b border-gray-800">Conc.</th>
+                      <th className="p-4 border-b border-gray-800">Max Temp</th>
+                      <th className="p-4 border-b border-gray-800">Resin Rec.</th>
+                      <th className="p-4 border-b border-gray-800 text-right">Status</th>
+                   </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-800/50">
+                   {filtered.length > 0 ? (
+                     filtered.map((item, i) => (
+                        <tr key={i} className="hover:bg-white/5 transition-colors group">
+                           <td className="p-4 font-bold text-white">{item.name}</td>
+                           <td className="p-4 text-gray-400">{item.conc}</td>
+                           <td className="p-4 text-gray-400">{item.temp}</td>
+                           <td className="p-4 text-emphz-teal">{item.resin}</td>
+                           <td className="p-4 text-right">
+                              <span className={`inline-flex items-center px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide border ${
+                                 item.rating === 'Recommended' ? 'bg-green-500/10 text-green-500 border-green-500/20' :
+                                 item.rating === 'Caution' ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20' :
+                                 'bg-red-500/10 text-red-500 border-red-500/20'
+                              }`}>
+                                 {item.rating === 'Recommended' && <CheckCircle2 size={10} className="mr-1" />}
+                                 {item.rating === 'Caution' && <AlertTriangle size={10} className="mr-1" />}
+                                 {item.rating === 'Avoid' && <X size={10} className="mr-1" />}
+                                 {item.rating}
+                              </span>
+                           </td>
+                        </tr>
+                     ))
+                   ) : (
+                     <tr>
+                        <td colSpan={5} className="p-8 text-center text-gray-500 italic">
+                           No chemicals found matching "{query}". <br/>
+                           <span className="text-[10px] not-italic text-emphz-teal cursor-pointer hover:underline" onClick={() => setQuery('')}>Clear search</span> or contact engineering for lab testing.
+                        </td>
+                     </tr>
+                   )}
+                </tbody>
+             </table>
+          </div>
+       </div>
+       
+       <div className="mt-4 text-[10px] text-gray-600 flex justify-between items-center">
+          <span>SOURCE: ASTM C581-15 Standard Practice for Chemical Resistance</span>
+          <span>{filtered.length} RECORDS</span>
+       </div>
+    </div>
+  );
+};
+
 // --- MAIN PAGE ---
 
 const TechnicalCenter: React.FC = () => {
-  const [activeModule, setActiveModule] = useState<'terminal' | 'tools' | 'library'>('terminal');
+  const [activeModule, setActiveModule] = useState<'terminal' | 'thermal' | 'chemical' | 'library'>('terminal');
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([
     { role: 'model', text: "System initialized. Emphz Technical Database v1.0 online. \nType a query or select a module from the sidebar." }
@@ -312,12 +431,20 @@ const TechnicalCenter: React.FC = () => {
                 >
                    <Terminal size={16} /> KNOWLEDGE_BASE
                 </button>
+                <div className="pt-2 pb-1 px-4 text-[9px] font-bold text-gray-600 uppercase tracking-widest">Calculators</div>
                 <button 
-                  onClick={() => setActiveModule('tools')}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-bold transition-all ${activeModule === 'tools' ? 'bg-emphz-teal text-emphz-navy shadow-lg shadow-emphz-teal/20' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
+                  onClick={() => setActiveModule('thermal')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-bold transition-all ${activeModule === 'thermal' ? 'bg-emphz-teal text-emphz-navy shadow-lg shadow-emphz-teal/20' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
                 >
-                   <Calculator size={16} /> ENGINEERING_TOOLS
+                   <Thermometer size={16} /> THERMAL_LOAD
                 </button>
+                <button 
+                  onClick={() => setActiveModule('chemical')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-bold transition-all ${activeModule === 'chemical' ? 'bg-emphz-teal text-emphz-navy shadow-lg shadow-emphz-teal/20' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
+                >
+                   <FlaskConical size={16} /> CHEM_RESIST
+                </button>
+                <div className="pt-2 pb-1 px-4 text-[9px] font-bold text-gray-600 uppercase tracking-widest">Resources</div>
                 <button 
                   onClick={() => setActiveModule('library')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-bold transition-all ${activeModule === 'library' ? 'bg-emphz-teal text-emphz-navy shadow-lg shadow-emphz-teal/20' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
@@ -329,7 +456,7 @@ const TechnicalCenter: React.FC = () => {
              {/* Dynamic Sidebar Content */}
              <div className="flex-grow bg-[#0B1120] rounded-xl border border-gray-800 p-4 overflow-y-auto">
                 <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4 border-b border-gray-800 pb-2">
-                   {activeModule === 'terminal' ? 'Recent Queries' : activeModule === 'tools' ? 'Active Utility' : 'Index'}
+                   {activeModule === 'terminal' ? 'Recent Queries' : 'Module Info'}
                 </h3>
                 
                 {activeModule === 'library' && (
@@ -346,16 +473,20 @@ const TechnicalCenter: React.FC = () => {
                    </div>
                 )}
 
-                {activeModule === 'tools' && (
+                {(activeModule === 'thermal' || activeModule === 'chemical') && (
                    <div className="text-xs text-gray-500 space-y-4">
-                      <div className="p-3 bg-white/5 rounded border border-white/5 border-l-2 border-l-emphz-teal">
-                         <div className="font-bold text-white mb-1">Thermal Calc</div>
-                         <p className="text-[10px] leading-relaxed">Calculate heat rise in enclosures based on IEC 60890.</p>
-                      </div>
-                      <div className="p-3 opacity-50 cursor-not-allowed">
-                         <div className="font-bold text-gray-400 mb-1">Chemical Resist.</div>
-                         <p className="text-[10px] leading-relaxed">Database of GRP resin compatibility.</p>
-                      </div>
+                      {activeModule === 'thermal' && (
+                        <div className="p-3 bg-white/5 rounded border border-white/5 border-l-2 border-l-orange-500">
+                           <div className="font-bold text-white mb-1">Thermal Calc</div>
+                           <p className="text-[10px] leading-relaxed">Calculate heat rise in enclosures based on IEC 60890.</p>
+                        </div>
+                      )}
+                      {activeModule === 'chemical' && (
+                        <div className="p-3 bg-white/5 rounded border border-white/5 border-l-2 border-l-purple-500">
+                           <div className="font-bold text-white mb-1">Chem. Matrix</div>
+                           <p className="text-[10px] leading-relaxed">Database of GRP resin compatibility for 20+ common industrial reagents.</p>
+                        </div>
+                      )}
                    </div>
                 )}
 
@@ -435,9 +566,15 @@ const TechnicalCenter: React.FC = () => {
                 </div>
              )}
 
-             {activeModule === 'tools' && (
+             {activeModule === 'thermal' && (
                 <div className="h-full z-10 relative animate-fade-in">
                    <ThermalCalculator />
+                </div>
+             )}
+
+             {activeModule === 'chemical' && (
+                <div className="h-full z-10 relative animate-fade-in">
+                   <ChemicalFinder />
                 </div>
              )}
 

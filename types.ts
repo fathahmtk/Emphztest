@@ -39,6 +39,7 @@ export interface Product {
   downloads: { title: string; type: 'PDF' | 'CAD' }[];
   accessories?: string[];
   annotations?: Product3DAnnotation[];
+  modelUrl?: string;
 }
 
 export interface CaseStudy {

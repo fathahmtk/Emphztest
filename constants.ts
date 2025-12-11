@@ -1,4 +1,3 @@
-
 import { Product, ProductCategory, CaseStudy, BlogPost } from './types';
 
 export const NAV_LINKS = [
@@ -75,6 +74,8 @@ export const MOCK_PRODUCTS: Product[] = [
     shortDescription: 'Futuristic GRP monocoque living pod with integrated voice automation and panoramic smart glass.',
     fullDescription: 'The Xpod X7 redefines modular luxury. Built on a high-strength GRP monocoque chassis, this plug-and-play living unit is designed for rapid deployment in resorts, rooftops, and remote locations. It features floor-to-ceiling smart privacy glass, voice-controlled lighting and curtains, and a complete suite of integrated entertainment systems. The seamless white GRP shell reflects solar heat, keeping the interior cool even in tropical climates.',
     imageUrl: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80',
+    // Added for GLB Testing as per diagnosis action plan
+    modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
     gallery: [
       'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80',
       'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
