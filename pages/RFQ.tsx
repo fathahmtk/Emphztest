@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Trash2, Send, CheckCircle, MapPin, AlertCircle, Briefcase, Clock, ShieldCheck, Zap, Globe, Cpu } from 'lucide-react';
-import { useRFQ } from '../contexts/RFQContext';
+import { useRFQStore } from '../stores/rfqStore';
 import { Link } from 'react-router-dom';
 
 // Cookie Helpers
@@ -18,7 +18,11 @@ const getCookie = (name: string): string | null => {
 };
 
 const RFQ: React.FC = () => {
-  const { items, removeItem, clearCart } = useRFQ();
+  // Using Zustand Store
+  const items = useRFQStore((state) => state.items);
+  const removeItem = useRFQStore((state) => state.removeItem);
+  const clearCart = useRFQStore((state) => state.clear);
+
   const [submitted, setSubmitted] = useState(false);
   const [leadScore, setLeadScore] = useState(0);
   const [formData, setFormData] = useState({
@@ -160,15 +164,15 @@ const RFQ: React.FC = () => {
                   items.map((item, i) => (
                      <div key={i} className="bg-white/5 border border-white/10 p-4 rounded-xl flex items-center justify-between group hover:bg-white/10 transition-colors">
                         <div>
-                           <div className="text-white font-bold font-display text-sm">{item.productName}</div>
-                           <div className="text-[10px] text-gray-500 font-mono mt-1">ID: {item.productId}</div>
+                           <div className="text-white font-bold font-display text-sm">{item.name}</div>
+                           <div className="text-[10px] text-gray-500 font-mono mt-1">ID: {item.id}</div>
                         </div>
                         <div className="flex items-center gap-4">
                            <div className="bg-black/40 px-3 py-1 rounded text-xs font-mono text-emphz-teal border border-white/5">
                               x{item.quantity}
                            </div>
                            <button 
-                             onClick={() => removeItem(item.productId)}
+                             onClick={() => removeItem(item.id)}
                              className="text-gray-600 hover:text-red-400 transition-colors"
                              aria-label="Remove item"
                            >

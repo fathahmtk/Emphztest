@@ -19,6 +19,13 @@ export interface ProductSpec {
   value: string;
 }
 
+export interface Product3DAnnotation {
+  id: string;
+  position: [number, number, number];
+  title: string;
+  description: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -31,6 +38,7 @@ export interface Product {
   gallery?: string[];
   downloads: { title: string; type: 'PDF' | 'CAD' }[];
   accessories?: string[];
+  annotations?: Product3DAnnotation[];
 }
 
 export interface CaseStudy {
@@ -46,9 +54,11 @@ export interface CaseStudy {
 }
 
 export interface RFQItem {
-  productId: string;
+  id: string;
+  name: string;
   quantity: number;
-  productName: string;
+  image?: string;
+  modelUrl?: string;
 }
 
 export interface ChatMessage {

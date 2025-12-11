@@ -1,3 +1,4 @@
+
 import { Product, ProductCategory, CaseStudy, BlogPost } from './types';
 
 export const NAV_LINKS = [
@@ -93,7 +94,12 @@ export const MOCK_PRODUCTS: Product[] = [
       { title: 'Site Prep Guide', type: 'PDF' },
       { title: 'Electrical Schematics', type: 'CAD' }
     ],
-    accessories: ['Solar Roof Package', 'Bio-Digester Tank', 'External Decking Module', 'Star-Gazing Skylight']
+    accessories: ['Solar Roof Package', 'Bio-Digester Tank', 'External Decking Module', 'Star-Gazing Skylight'],
+    annotations: [
+      { id: 'glass', position: [0, 1.5, 1.1], title: 'Smart Glass', description: 'Switchable opacity for instant privacy.' },
+      { id: 'shell', position: [1.5, 2, 0], title: 'Monocoque GRP', description: 'Seamless composite shell for zero leaks.' },
+      { id: 'deck', position: [0, -0.1, 1.5], title: 'WPC Decking', description: 'Rot-proof composite decking integrated into chassis.' }
+    ]
   },
   {
     id: 'emp-pt-exec',
@@ -147,7 +153,11 @@ export const MOCK_PRODUCTS: Product[] = [
       { title: 'Kiosk Brochure', type: 'PDF' },
       { title: 'Structural Specs', type: 'PDF' }
     ],
-    accessories: ['Exhaust Fan Unit', 'LED Lighting Pack', 'Fire Extinguisher Mount', 'Anti-Vandal Lock']
+    accessories: ['Exhaust Fan Unit', 'LED Lighting Pack', 'Fire Extinguisher Mount', 'Anti-Vandal Lock'],
+    annotations: [
+      { id: 'roof', position: [0, 2.9, 0], title: 'Conical Roof', description: 'Self-cleaning design with overhang for rain protection.' },
+      { id: 'base', position: [0, -0.1, 0], title: 'Reinforced Plinth', description: 'Heavy-duty steel-reinforced composite base.' }
+    ]
   },
   {
     id: 'emp-cab-v1',
@@ -267,7 +277,11 @@ export const MOCK_PRODUCTS: Product[] = [
       { title: 'Installation Guide', type: 'PDF' },
       { title: 'CAD Drawing (DWG)', type: 'CAD' }
     ],
-    accessories: ['Pole Mounting Kit (SS304)', 'Wall Brackets', 'Internal Mounting Plate', 'Padlock Hasp']
+    accessories: ['Pole Mounting Kit (SS304)', 'Wall Brackets', 'Internal Mounting Plate', 'Padlock Hasp'],
+    annotations: [
+      { id: 'door', position: [0, 1.5, 0.6], title: 'Double Seal Door', description: 'EPDM gasket ensures IP66 weatherproof rating.' },
+      { id: 'body', position: [0, 1.5, -0.5], title: 'SMC Body', description: 'Hot press molded GRP with IK10 impact strength.' }
+    ]
   },
   {
     id: 'emp-tray-hd',

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Check, FileText, Plus, Minus, ArrowLeft, Package, Settings, Download, Box, Image as ImageIcon, Camera, ArrowRight, Loader2, Share2, CheckCircle, ChevronLeft, ChevronRight, Maximize, X, ZoomIn, ZoomOut, RotateCcw, Linkedin, Twitter, Mail, Link as LinkIcon, Copy, MessageCircle, Flame, Layers, ShieldCheck, Award } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../constants';
-import { useRFQ } from '../contexts/RFQContext';
+import { useRFQStore } from '../stores/rfqStore';
 import { ProductCategory } from '../types';
 import GatedDownloadModal from '../components/GatedDownloadModal';
 
@@ -129,7 +129,9 @@ const H1_MAP: Record<ProductCategory, string> = {
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const product = MOCK_PRODUCTS.find(p => p.id === id);
-  const { addItem } = useRFQ();
+  // Using Zustand Store
+  const addItem = useRFQStore((state) => state.addItem);
+  
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<'desc' | 'specs' | 'downloads'>('desc');
   const [viewMode, setViewMode] = useState<'3D' | 'IMAGE'>('IMAGE');
@@ -302,9 +304,10 @@ const ProductDetail: React.FC = () => {
 
   const handleAddToRFQ = () => {
     addItem({
-      productId: product.id,
-      productName: product.name,
-      quantity
+      id: product.id,
+      name: product.name,
+      quantity,
+      image: product.imageUrl
     });
     // Trigger visual feedback instead of blocking alert
     setIsAdded(true);
@@ -429,25 +432,25 @@ const ProductDetail: React.FC = () => {
               </div>
             </>
           ) : (
-            <div className="w-full h-full absolute inset-0 z-10 animate-fade-in">
+            <div className="w-full h-full absolute inset-0 z-10 animate-fade-in bg-[#0B1120]">
                <Suspense fallback={
-                 <div className="w-full h-full flex flex-col items-center justify-center bg-[#050A14] relative overflow-hidden">
-                    {/* Technical Grid Background */}
+                 <div className="w-full h-full flex flex-col items-center justify-center relative overflow-hidden">
                     <div className="absolute inset-0 opacity-20" style={{
-                       backgroundImage: 'linear-gradient(rgba(0,173,181,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(0,173,181,0.3) 1px, transparent 1px)',
+                       backgroundImage: 'linear-gradient(rgba(0,173,181,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,173,181,0.1) 1px, transparent 1px)',
                        backgroundSize: '40px 40px'
                     }}></div>
                     
                     <div className="relative z-10 flex flex-col items-center">
                         <div className="relative mb-8">
-                           <div className="absolute inset-0 bg-emphz-teal/20 blur-2xl rounded-full"></div>
-                           <Box className="w-16 h-16 text-emphz-teal animate-bounce relative z-10" strokeWidth={1} />
+                           <div className="absolute inset-0 bg-emphz-teal/10 blur-3xl rounded-full"></div>
+                           <Loader2 className="w-12 h-12 text-emphz-teal animate-spin relative z-10" />
                         </div>
-                        <span className="text-emphz-teal font-bold text-xs tracking-[0.4em] font-display animate-pulse">INITIALIZING ENGINE</span>
+                        <span className="text-white font-bold text-xs tracking-[0.3em] font-display animate-pulse">CONNECTING 3D ENGINE...</span>
+                        <span className="text-gray-500 font-mono text-[10px] mt-2">Loading Geometry & Textures</span>
                     </div>
                  </div>
                }>
-                  <ThreeProductViewer productType={get3DType()} />
+                  <ThreeProductViewer productType={get3DType()} annotations={product.annotations} />
                </Suspense>
                <div className="absolute inset-0 bg-gradient-to-t from-[#050A14] via-transparent to-transparent pointer-events-none"></div>
             </div>

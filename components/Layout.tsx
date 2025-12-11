@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ShoppingCart, Phone, Mail, MapPin, ChevronRight, MessageCircle, FileText, Search } from 'lucide-react';
 import { NAV_LINKS, MOCK_PRODUCTS, MOCK_BLOG_POSTS } from '../constants';
-import { useRFQ } from '../contexts/RFQContext';
+import { useRFQStore } from '../stores/rfqStore';
 import LiveChatWidget from './LiveChatWidget';
 import Logo from './Logo';
 import CommandPalette from './CommandPalette';
@@ -93,7 +93,9 @@ export function Layout({ children }: LayoutProps) {
   // Initialize based on window width to avoid FOUC/Layout shifts
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   const location = useLocation();
-  const { items } = useRFQ();
+  
+  // Zustand Store
+  const items = useRFQStore((state) => state.items);
 
   const { pathname } = location;
 
