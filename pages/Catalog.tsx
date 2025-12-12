@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Filter, Download, Scale, X, Check, ChevronRight, ChevronDown, SlidersHorizontal, Grid, List, ArrowRight, ArrowUpDown, LayoutGrid, ShieldCheck, Ruler, Layers } from 'lucide-react';
+import { Filter, Download, Scale, X, Check, ChevronRight, ChevronDown, SlidersHorizontal, Grid, List, ArrowRight, ArrowUpDown, LayoutGrid, ShieldCheck, Ruler, Layers, AlertCircle, Trash2 } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../constants';
 import { ProductCategory, Product } from '../types';
 
@@ -8,7 +8,8 @@ import { ProductCategory, Product } from '../types';
 const CompareModal: React.FC<{
   productIds: string[];
   onClose: () => void;
-}> = ({ productIds, onClose }) => {
+  onRemove: (id: string) => void;
+}> = ({ productIds, onClose, onRemove }) => {
   const productsToCompare = MOCK_PRODUCTS.filter(p => productIds.includes(p.id));
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -22,6 +23,13 @@ const CompareModal: React.FC<{
     closeButtonRef.current?.focus();
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
+
+  // Auto-close if items drop below 2
+  useEffect(() => {
+    if (productIds.length < 2) {
+      onClose();
+    }
+  }, [productIds, onClose]);
 
   const allSpecLabels = [...new Set(productsToCompare.flatMap(p => p.specs.map(s => s.label)))];
 
@@ -61,10 +69,17 @@ const CompareModal: React.FC<{
                Product
             </div>
             {productsToCompare.map(product => (
-              <div key={product.id} className="text-center sticky top-0 bg-white py-4 z-10 border-b-2 border-emphz-teal/20 shadow-sm">
-                <div className="relative inline-block group">
-                  <img src={product.imageUrl} alt={product.name} loading="lazy" decoding="async" className="w-28 h-28 object-cover mx-auto rounded-xl mb-3 border border-gray-200 shadow-md group-hover:scale-105 transition-transform"/>
-                  <div className="absolute top-2 right-2 bg-emphz-navy text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm font-mono tracking-tighter">{product.id.split('-')[2] || 'V1'}</div>
+              <div key={product.id} className="text-center sticky top-0 bg-white py-4 z-10 border-b-2 border-emphz-teal/20 shadow-sm relative group">
+                <button 
+                  onClick={() => onRemove(product.id)}
+                  className="absolute top-2 right-2 bg-gray-100 text-gray-400 hover:bg-red-50 hover:text-red-500 p-1.5 rounded-full transition-colors z-20 opacity-0 group-hover:opacity-100"
+                  title="Remove from comparison"
+                >
+                  <X size={14} />
+                </button>
+                <div className="relative inline-block">
+                  <img src={product.imageUrl} alt={product.name} loading="lazy" decoding="async" className="w-28 h-28 object-cover mx-auto rounded-xl mb-3 border border-gray-200 shadow-md transition-transform" />
+                  <div className="absolute top-2 right-2 bg-emphz-navy text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm font-mono tracking-tighter pointer-events-none">{product.id.split('-')[2] || 'V1'}</div>
                 </div>
                 <h3 className="font-bold text-emphz-navy text-sm px-2 leading-tight min-h-[2.5em] flex items-center justify-center font-display mt-2">{product.name}</h3>
               </div>
@@ -81,13 +96,13 @@ const CompareModal: React.FC<{
             <div className="col-span-full h-4"></div>
 
             {/* Spec Rows */}
-            {allSpecLabels.map(label => (
+            {allSpecLabels.map((label, idx) => (
               <React.Fragment key={label}>
-                <div className="font-bold text-gray-400 py-3 text-xs uppercase tracking-wider flex items-center font-display">{label}</div>
+                <div className={`font-bold text-gray-400 py-3 text-xs uppercase tracking-wider flex items-center font-display ${idx % 2 === 0 ? '' : 'bg-gray-50/50 -mx-2 px-2 rounded-l-lg'}`}>{label}</div>
                 {productsToCompare.map(product => {
                   const spec = product.specs.find(s => s.label === label);
                   return (
-                    <div key={`${product.id}-${label}`} className="text-center py-3 text-slate-700 text-xs bg-gray-50 rounded-lg my-1 flex items-center justify-center border border-gray-100 font-mono hover:bg-white hover:shadow-sm transition-all">
+                    <div key={`${product.id}-${label}`} className={`text-center py-3 text-slate-700 text-xs flex items-center justify-center border-b border-dashed border-gray-100 font-mono hover:bg-emphz-teal/5 transition-colors ${idx % 2 === 0 ? '' : 'bg-gray-50/50 rounded-r-lg'}`}>
                       {spec?.value || <span className="text-gray-300">-</span>}
                     </div>
                   );
@@ -653,14 +668,26 @@ const Catalog: React.FC = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <button onClick={() => setCompareList([])} className="text-gray-400 hover:text-white text-[10px] uppercase font-bold tracking-widest px-3 py-2 rounded hover:bg-white/10 transition-colors">Clear</button>
-                {compareList.length >= 2 && (
-                    <button 
+                
+                <div className="relative group/btn">
+                  <button 
                     onClick={() => setIsCompareModalOpen(true)}
-                    className="bg-emphz-teal text-emphz-navy px-6 py-3 rounded-xl font-bold hover:bg-[#00C4CC] transition-colors text-xs shadow-lg shadow-emphz-teal/20 font-display tracking-widest uppercase"
-                    >
-                    COMPARE
-                    </button>
-                )}
+                    disabled={compareList.length < 2}
+                    className={`px-6 py-3 rounded-xl font-bold text-xs shadow-lg font-display tracking-widest uppercase transition-all flex items-center gap-2 ${
+                      compareList.length >= 2
+                        ? 'bg-emphz-teal text-emphz-navy hover:bg-[#00C4CC] shadow-emphz-teal/20' 
+                        : 'bg-white/10 text-gray-500 cursor-not-allowed border border-white/5'
+                    }`}
+                  >
+                    COMPARE SELECTED ({compareList.length})
+                  </button>
+                  {compareList.length < 2 && (
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-max bg-black text-white text-[10px] px-3 py-1.5 rounded-lg opacity-0 group-hover/btn:opacity-100 transition-opacity pointer-events-none flex items-center shadow-xl border border-white/10">
+                      <AlertCircle size={10} className="mr-1.5 text-emphz-teal" /> Select at least 2 items
+                      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-black rotate-45 border-r border-b border-white/10"></div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -694,7 +721,8 @@ const Catalog: React.FC = () => {
       {isCompareModalOpen && (
         <CompareModal 
           productIds={compareList} 
-          onClose={() => setIsCompareModalOpen(false)} 
+          onClose={() => setIsCompareModalOpen(false)}
+          onRemove={toggleCompare}
         />
       )}
     </>

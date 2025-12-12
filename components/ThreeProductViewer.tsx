@@ -7,6 +7,23 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 
+// Fix for missing R3F types in JSX.IntrinsicElements
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      group: any;
+      mesh: any;
+      boxGeometry: any;
+      meshStandardMaterial: any;
+      meshPhysicalMaterial: any;
+      coneGeometry: any;
+      ambientLight: any;
+      spotLight: any;
+      primitive: any;
+    }
+  }
+}
+
 interface ThreeProductViewerProps {
   productType: 'ENCLOSURE' | 'KIOSK' | 'CABIN' | 'SMART_CABIN' | 'AUTOMOBILE' | 'DEFAULT';
   annotations?: Product3DAnnotation[];
